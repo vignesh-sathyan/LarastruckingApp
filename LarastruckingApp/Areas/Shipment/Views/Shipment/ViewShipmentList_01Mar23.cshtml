@@ -1,0 +1,319 @@
+﻿@using LarastruckingApp.Entities.Permission
+@{
+    ViewBag.Title = "Shipment Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    PermissionsDto permissions = IsPermited.HasPermission();
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 mt-2">
+        <div class="white-bg customFormWrap">
+
+            <div class="col-md-12 divSearchBox">
+                @*@Html.ActionLink("Create Shipment", "Index", "Shipment", null, new { @class = "btn green-Btn" })*@
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group row">
+                            <label for="dtStartedDate" class="col-sm-4 col-form-label">Start Date</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       required="required"
+                                       placeholder="MM-DD-YYYY"
+                                       name="dtStartedDate"
+                                       onkeypress="return onlyAlphanumeric(event)"
+                                       id="dtStartedDate"
+                                       autocomplete="off"
+                                       class="form-control jqueryui-marker-datepicker">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group  row">
+                            <label for="dtEndDate" class="col-sm-4 col-form-label">End Date</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       required="required"
+                                       placeholder="MM-DD-YYYY"
+                                       name="dtEndDate"
+                                       onkeypress="return onlyAlphanumeric(event)"
+                                       id="dtEndDate"
+                                       autocomplete="off"
+                                       class="form-control jqueryui-marker-datepicker">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group row">
+                            <label for="ddlCustomer" class="col-sm-4 col-form-label">Customer</label>
+                            <div class="col-sm-8">
+                                <select id="ddlCustomer" class="form-control">
+                                    <option>SEARCH CUSTOMER</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group row">
+                            <label for="ddlFreightType" class="col-sm-4 col-form-label">Freight Type</label>
+                            <div class="col-sm-8">
+                                <select id="ddlFreightType" class="form-control">
+                                    <option>SELECT FREIGHT TYPE</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" id="btnViewShipment" class="btn green-Btn pullr"><img src="~/Assets/images/search.png" />Search</button>
+                </div>
+
+            </div>
+            
+            @*<hr class="hr_add" />*@
+            <div class="customTableWrapper">
+                <div class="row">
+                    <div></div>
+                    <div class="col-md-12 py-2 d-flex justify-content-start mb_40 pl-16" style="justify-content:    end !important;right: 345px;padding-right: 0;padding-top: 0 !important;">
+                        @if (permissions.IsInsert)
+                        {
+                            <!-- <a id="loginLink" class="btn green-Btn" href="window.open('@Url.Action("Index", "Shipment")')" style="display: flex;align-items: center;justify-content: space-between;padding: 2px 8px 2px 4px;"> -->
+                            <a id="loginLink" class="btn green-Btn" href='#' onclick="window.open('@Url.Action("Index", "Shipment")')" style="display: flex;align-items: center;justify-content: space-between;padding: 2px 8px 2px 4px;">
+                                <img alt="Log in" src="@Url.Content("~/Assets/images/add-icon.png")" style="width:20px;margin-right:5px;">
+                                <label style="margin-bottom:-2px;">Create Shipment</label>
+
+                            </a>
+                            <label>&nbsp;</label><label>&nbsp;</label>
+                            <a id="loginLink" class="btn green-Btn" href="@Url.Action("ViewAllShipment", "Shipment")" style="display: flex;align-items: center;justify-content: space-between;padding: 2px 8px 2px 8px;">
+                                <img alt="Log in" src="@Url.Content("~/Assets/images/archives.png")" style="height: 20px; margin-right: 5px;">
+                                <label style="margin-bottom:-2px;">Shipment Archive</label>
+
+                            </a>
+
+
+                        }
+                    </div>
+                    <div></div>
+            </div>
+                <table class="table-bordered table-striped cf w-100 dataTable no-footer dtr-inline" id="tblShipmentDetails">
+                    <thead>
+                        <tr><td colspan="11"><b>REQUESTED SHIPMENTS</b></td></tr>
+                        <tr>
+                            <th hidden="hidden">ShipmentId</th>
+                            <th>Customer Name</th>
+                            <th>Pickup</th>
+                            <th>Pickup Date</th>
+                            <th>Delivery</th>
+                            <th>Delivery Date</th>
+                            <th>AWB / PO / ORD</th>
+                            <th>Quantity</th>
+                            <th>Created By</th>
+                            <th>Ready</th>
+                            <th>Comments</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 mt-2">
+        <div class="white-bg customFormWrap  table-spacing">
+
+            <div class="col-md-12 divSearchBox">
+                @*@Html.ActionLink("Create Shipment", "Index", "Shipment", null, new { @class = "btn green-Btn" })*@
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group row">
+                            <label for="dtStartedDate2" class="col-sm-4 col-form-label">Start Date</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       required="required"
+                                       placeholder="MM-DD-YYYY"
+                                       name="dtStartedDate"
+                                       onkeypress="return onlyAlphanumeric(event)"
+                                       id="dtStartedDate"
+                                       autocomplete="off"
+                                       class="form-control jqueryui-marker-datepicker">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group  row">
+                            <label for="dtEndDate2" class="col-sm-4 col-form-label">End Date</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       required="required"
+                                       placeholder="MM-DD-YYYY"
+                                       name="dtEndDate"
+                                       onkeypress="return onlyAlphanumeric(event)"
+                                       id="dtEndDate"
+                                       autocomplete="off"
+                                       class="form-control jqueryui-marker-datepicker">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group row">
+                            <label for="ddlCustomer2" class="col-sm-4 col-form-label">Customer</label>
+                            <div class="col-sm-8">
+                                <select id="ddlCustomer2" class="form-control">
+                                    <option>SEARCH CUSTOMER</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group row">
+                            <label for="ddlFreightType" class="col-sm-4 col-form-label">Freight Type</label>
+                            <div class="col-sm-8">
+                                <select id="ddlFreightType2" class="form-control">
+                                    <option>SELECT FREIGHT TYPE</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <div class="col-md-12 text-right py-2">
+
+                        <button type="button" id="btnViewShipment2" class="btn green-Btn pullr">Search</button>
+
+                    </div>
+                </div>
+            </div>
+            @*<hr class="hr_add" />*@
+            <div class="customTableWrapper table-spacing">
+
+                <table class="table-bordered table-striped cf w-100 dataTable no-footer dtr-inline" id="tblShipmentDetails2">
+                    <thead>
+                        <tr><td colspan="12"><b>SHIPMENTS IN PROGRESS</b></td></tr>
+                        <tr>
+                            <th hidden="hidden">ShipmentId</th>
+                            <th>STATUS</th>
+                            <th>Pickup Date</th>
+                            <th>Pickup</th>
+                            <th>Delivery Date</th>
+                            <th>Delivery</th>
+                            <th>Customer Name</th>
+                            <th>AWB / PO / ORD</th>
+                            @*<th>Cust. PO</th>*@
+                            <th>Quantity</th>
+
+                            <th>Commodity</th>
+                            <th>TEMP(F)</th>
+                            <th>DRIVER</th>
+                            <th>Equipment</th>
+                            <th>Comments</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" role="dialog" id="shipmentModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header popup">
+                <h6 class="modal-title">Copy Shipment</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <div class="white-bg customFormWrap">
+                        <input type="hidden" id="ShipmentId" value="" />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group required row">
+                                    <label class="col-sm-4 col-form-label" for="ddlCustomerCopy">Customer</label>
+                                    <div class="col-sm-8">
+                                        <select id="ddlCustomerCopy"
+                                                class="form-control">
+                                            <option>SEARCH CUSTOMER</option>
+                                        </select>
+
+                                        <input type="hidden" id="hdnShipmentId" name="hdnShipmentId" value="0" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label" for="txtAirWayBill">Air Waybill</label>
+                                        <div class="col-sm-8">
+                                            <input type="text"
+                                                   name="txtAirWayBill"
+                                                   onkeypress="return onlyAlphanumeric(event)"
+                                                   id="txtAirWayBill"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="12">
+                                    <div class="form-group row required">
+                                        <label class="col-sm-4 col-form-label" for="ddlPickupDate">Est. Pickup Arrival</label>
+                                        <div class="col-sm-8">
+                                            <input type="text"
+                                                   autocomplete="off"
+                                                   data-required="required"
+                                                   placeholder="MM-DD-YYYY"
+                                                   onkeypress="return onlyNumericOrcolon(event)"
+                                                   id="ddlPickupDate"
+                                                   class="form-control dtTimer" />
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-12">
+                                    <div class="form-group row required">
+                                        <label class="col-sm-4 col-form-label" for="ddlDeliveryDate">Est. Delivery Arrival</label>
+                                        <div class="col-sm-8">
+
+                                            <input type="text"
+                                                   autocomplete="off"
+                                                   data-required="required"
+                                                   placeholder="MM-DD-YYYY"
+                                                   onkeypress="return onlyNumericOrcolon(event)"
+                                                   id="ddlDeliveryDate"
+                                                   class="form-control dtTimer" />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 text-right" style="flex: unset; width: auto;">
+                                <button type="button" id="btnCopy" class="btn green-Btn">Copy Shipment</button>
+                            </div>
+                            <div class="col-md-12 text-right" style="flex: unset; width: auto;">
+                                <button type="button" id="btnCancel" class="btn green-Btn">Cancel</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@Scripts.Render("~/bundles/viewShipment")

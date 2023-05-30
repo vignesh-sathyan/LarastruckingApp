@@ -1,0 +1,628 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{75C2A08A-F534-4463-8023-FA53D19E2266}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LarastruckingApp.Repository</RootNamespace>
+    <AssemblyName>LarastruckingApp.Repository</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\LarastruckingApp\CodeAnalysisRuleSet.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.1.0\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EF\ExecuteSQLStoredProceduce.cs" />
+    <Compile Include="EF\FreightPricingMapping.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\fun_GetShipmentQuantity_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\GetDriverDeliveryLocation_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\GetDriverFumigationLocation_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\GetDriverFumigationPickupLocation_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\GetFumigationDeliveryLocation_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\GetFumigationLocation_22Feb_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\GetFumigationLocation_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\GetFumigationPickUpLocation_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\GetShipmentDeliveryLocation_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\GetShipmentPickupLocation_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\GetTrailerRentalDetial_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\LarastruckingModel.Context.cs">
+      <DependentUpon>LarastruckingModel.Context.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="EF\LarastruckingModel.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="EF\LarastruckingModel.Designer.cs">
+      <DependentUpon>LarastruckingModel.edmx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="EF\shipmentStatus_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblAccessorialFeesType.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblAccidentDocument.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblAccidentReport.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblAccidentReportDocument.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblAddress.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblAddressType.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblAssessorialPrice.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblBaseAddress.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblBaseAddressBackup.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblBaseAddresstest.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblBaseFreightDetail.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblCity.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblCommodity.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblCountry.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblCustomerBaseFreightDetail.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblCustomerContact.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblCustomerRegistration.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblCustomerRegistrationBackup.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblDamagedImage.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblDelivery.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblDocumentType.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblDoorType.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblDriver.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblDriverDocument.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblDriverGpsTrakingHistory.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblEquipmentDetail.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblEquipmentDocument.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblEquipmentDoorType.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblEquipmentFreight.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblEquipmentStatu.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblEquipmentType.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblFeedback.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblFreightType.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblFumigation.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblFumigationAccessorialPrice.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblFumigationComment.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblFumigationDamagedImage.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblFumigationEquipmentNDriver.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblFumigationEventHistory.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblFumigationPreTripCheckUp.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblFumigationProofOfTemperatureImage.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblFumigationRout.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblFumigationStatusHistory.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblFumigationType.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblFumigationWaitingNotification.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblLanguage.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblLeave.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblLeaveStatu.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblLog.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblMailHistory.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblPackage.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblPackageType.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblPage.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblPageAction.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblPageAuthorization.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblPreTripCheckUp.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblPricingMethod.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblProofOfTemperatureImage.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblQuote.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblQuoteAccessorialPrice.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblQuoteRouteStop.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblRelationship.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblRole.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblShipment.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblShipmentAccessorialPrice.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblShipmentCommment.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblShipmentEquipmentNdriver.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblShipmentEventHistory.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblShipmentFreightDetail.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblShipmentRefNo.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblShipmentRoutesStop.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblShipmentStatu.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblShipmentStatus1.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblShipmentStatusHistory.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblShipmentSubStatu.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblShipmentTrackingHistory.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblState.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblTemperature.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblTermAndCondition.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblTimeCard.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblTimeCardCalculation.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblTimeCardLoan.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblTimeCardlog.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblTrailerRental.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblTrailerRentalDetail.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblTransportVehical.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblUploadShipmentSample.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblUser.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblUserRole.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblVendorNconsignee.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblWatingNotification.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_AuthenticateUser_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_CustomerFumigationTrackDetails_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_CustomerModule_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_CustomerStatusTrack_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_CustomerTrackDetails_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_DriverDashboard123_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_DriverDashboard_Test_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_DriverInformation_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_DriverModulePreTrip_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_FumigationCustomerModule_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_FumigationDetails_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_GetCompletedNcancelFumList_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_getDriverDetails_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_GetFreightType_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_GetFumigationById_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_GetFumigationList_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_GetFumigationWaitingTimeDetails_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\USP_GetLaborReport_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_GetOrderTakenFumigationList_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_GetOtherFumList_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_GetPageAuthorizations_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_GetPricingMethod_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_GetShipmentList_New_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_GetShipmentList_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_GetShipmentList_Test_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_GetShipment_NotOrderTaken_List_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_GetShipment_NotOrderTaken_List_Updated_18Dec_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_GetShipment_OrderTaken_List_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_GetTimeCardCalculation_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_GetWaitingTimeDetails_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\USP_GetWeeklyReport_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_LeaveManage_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_LoginUser_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_ManageCustomer_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\USP_TimeCardCalculator_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_UserDto_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_User_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\view_DriverDashboard.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\View_DriverShipmentDetail.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\view_GetAllShipment.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\view_GetOrderNotTakenShipment.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\View_GetOrderNotTakenShipment_Updated_18Dec.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\view_GetOrderTakenShipment.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\view_ShipmentQuantity.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\view_tblShipmentFreightDetail.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="IRepository\IAccidentReportRepository.cs" />
+    <Compile Include="IRepository\IAddressRepository.cs" />
+    <Compile Include="IRepository\ITimeCardRepository.cs" />
+    <Compile Include="IRepository\ICustomerModuleRepository.cs" />
+    <Compile Include="IRepository\ICustomerRepository.cs" />
+    <Compile Include="IRepository\IDriverModuleRepository.cs" />
+    <Compile Include="IRepository\IDriverRepository.cs" />
+    <Compile Include="IRepository\IEquipmentRepository.cs" />
+    <Compile Include="IRepository\IForgotPasswordRepository.cs" />
+    <Compile Include="IRepository\IFumigationRepository.cs" />
+    <Compile Include="IRepository\IGpsTrackingRepository.cs" />
+    <Compile Include="IRepository\ILeaveRepository.cs" />
+    <Compile Include="IRepository\ILoggerRepository.cs" />
+    <Compile Include="IRepository\IMailHistoryRepository.cs" />
+    <Compile Include="IRepository\IPageAuthorizationRepository.cs" />
+    <Compile Include="IRepository\IQuoteRepository.cs" />
+    <Compile Include="IRepository\IRepository.cs" />
+    <Compile Include="IRepository\IRoleRepository.cs" />
+    <Compile Include="IRepository\IShipmentEventHistoryRepository.cs" />
+    <Compile Include="IRepository\IShipmentRepository.cs" />
+    <Compile Include="IRepository\ITrailerRentalRepository.cs" />
+    <Compile Include="IRepository\IUploadShipmentRepository.cs" />
+    <Compile Include="IRepository\IUserRepository.cs" />
+    <Compile Include="IRepository\IUserRoleRepository.cs" />
+    <Compile Include="IRepository\IVendorRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\AccidentReportRepository.cs" />
+    <Compile Include="Repository\AddressRepository.cs" />
+    <Compile Include="Repository\QuartixTokens.cs" />
+    <Compile Include="Repository\TimeCard\TimeCardRepository.cs" />
+    <Compile Include="Repository\CustomerModule\CustomerModuleRepository.cs" />
+    <Compile Include="Repository\CustomerRepository.cs" />
+    <Compile Include="Repository\DriverModule\DriverModuleRepository.cs" />
+    <Compile Include="Repository\DriverRepository.cs" />
+    <Compile Include="Repository\EquipmentRepository.cs" />
+    <Compile Include="Repository\ForgotPasswordRepository.cs" />
+    <Compile Include="Repository\FumigationRepository.cs" />
+    <Compile Include="Repository\GlobalWaitingTimeRepository.cs" />
+    <Compile Include="Repository\GpsTrackerRepository.cs" />
+    <Compile Include="Repository\LeaveRepository.cs" />
+    <Compile Include="Repository\MailHistoryRepository.cs" />
+    <Compile Include="Repository\QuoteRepository.cs" />
+    <Compile Include="Repository\LoggerRepository.cs" />
+    <Compile Include="Repository\PageAuthorizationRepository.cs" />
+    <Compile Include="Repository\Reports\DailyReports\DailyReportRepository.cs" />
+    <Compile Include="Repository\Reports\DailyReports\IDailyReportRepository.cs" />
+    <Compile Include="Repository\RoleRepository.cs" />
+    <Compile Include="Repository\ShipmentEventHistoryRepository.cs" />
+    <Compile Include="Repository\ShipmentRepository.cs" />
+    <Compile Include="Repository\SqlUtil.cs" />
+    <Compile Include="Repository\TrailerRentalRepository.cs" />
+    <Compile Include="Repository\UserRepository.cs" />
+    <Compile Include="Repository\UserRoleRepository.cs" />
+    <Compile Include="Repository\VendorRepository.cs" />
+    <Compile Include="UploadShipmentRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="EF\LarastruckingModel.edmx.diagram">
+      <DependentUpon>LarastruckingModel.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LarastruckingApp.Entities\LarastruckingApp.DTO.csproj">
+      <Project>{B4C68573-F80A-49C3-BB97-38954EA69879}</Project>
+      <Name>LarastruckingApp.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LarastruckingApp.Resource\LarastruckingApp.Resource.csproj">
+      <Project>{C7148821-96C6-462D-B2FC-4767821B1A12}</Project>
+      <Name>LarastruckingApp.Resource</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="EF\LarastruckingModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>LarastruckingModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="EF\LarastruckingModel.Context.tt">
+      <DependentUpon>LarastruckingModel.edmx</DependentUpon>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>LarastruckingModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="EF\LarastruckingModel.tt">
+      <DependentUpon>LarastruckingModel.edmx</DependentUpon>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>LarastruckingModel.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

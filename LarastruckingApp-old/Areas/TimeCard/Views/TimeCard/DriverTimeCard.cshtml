@@ -1,0 +1,621 @@
+﻿@using LarastruckingApp.Entities.Permission
+@using LarastruckingApp.Infrastructure
+@{
+    ViewBag.Title = "DriverTimeCard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    MemberProfile memberProfile = new MemberProfile();
+    PermissionsDto permissions = IsPermited.HasPermission();
+}
+
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @*<title>qrcode-reader usage example</title>*@
+    <link href="~/Assets/QRcode/css/qrcode-reader.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <form>
+        <div class="card-body">
+            <div class="white-bg customFormWrap">
+                <br />
+                <br />
+                <input id="single2" type="text" size="50" style="display:none;">
+                @{ if (memberProfile.UserRole.Trim().ToLower() == "Driver".Trim().ToLower() || memberProfile.UserRole.Trim().ToLower() == "Mechanics".Trim().ToLower())
+                    {
+
+                        <button type="button" id="openreader-single"
+                                data-qrr-target="#single2"
+                                data-qrr-multiple="true"
+                                data-qrr-repeat-timeout="0"
+                                data-qrr-line-color="#00FF00"
+                                data-qrr-audio-feedback="true"
+                                @*onclick="MarkTimeCard(true, '111111')"*@
+                                class="btnDriverSumbit">
+
+                            IN
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="button"
+                                onclick="UserTimeCard(true)"
+                                class="btnDriverSumbit">
+
+                            IN
+                        </button>
+                    }
+                }
+                <br />
+                <br />
+                @{ if (memberProfile.UserRole.Trim().ToLower() == "Driver".Trim().ToLower() || memberProfile.UserRole.Trim().ToLower() == "Mechanics".Trim().ToLower())
+                    {
+                        <button type="button" id="openreader-single2"
+                                data-qrr-target="#single2"
+                                data-qrr-multiple="true"
+                                data-qrr-repeat-timeout="0"
+                                data-qrr-line-color="#FF0000"
+                                data-qrr-audio-feedback="true"
+                                @*onclick="MarkTimeCard(false, '111111')"*@
+                                class="btnDriverSumbit">
+                            OUT
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="button"
+                                onclick="UserTimeCard(false)"
+                                class="btnDriverSumbit btnTimeCardOut">
+                            OUT
+                        </button>
+                    }
+                }
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <h5 id="lblIn"> </h5>
+
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            <h5 id="lblOut"></h5>
+
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group ">
+                            <h5 id="lblTotalHrs"></h5>
+
+                        </div>
+                    </div>
+                </div>
+                <br />
+                @{ if (memberProfile.UserRole.Trim().ToLower() != "Driver".Trim().ToLower() || memberProfile.UserRole.Trim().ToLower() != "Mechanics".Trim().ToLower())
+                    {
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    <label id="LBLIP"></label>
+                                    @*<h5> Lara's IP: <span id="laraIp"></span> </h5>
+                                        <h5> User IP: <span id="publicIp"></span> </h5>*@
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                @*<div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group ">
+                                <h5> Current Latitude: <span id="CurrentLatitude"></span> </h5>
+                                <h5> Current Longitude: <span id="CurrentLongitude"></span> </h5>
+                                <h5> Distance From Laras: <span id="CurrentDistance"></span> </h5>
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+    </form>
+</body>
+</html>
+
+@*//<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>*@
+<script src="~/Assets/QRcode/js/qrcode-reader.js"></script>
+<script>
+    var laraLatitude = "25.837598";
+    var laraLongitude = "-80.333542";
+    //var laraLatitude = "28.6282231";//"26.43699738287";
+    //var laraLongitude = "77.389849"; //"77.389849";
+    var latitude;//= "25.837722080783767";
+    var longitude;// = "-80.33381994821163";
+
+    $(function () {
+
+        fn_GetLatLong();
+        // overriding path of JS script and audio
+        $.qrCodeReader.jsQRpath = baseUrl + "/Assets/QRcode/js/jsQR/jsQR.js";
+        $.qrCodeReader.beepPath = baseUrl + "/Assets/QRcode/audio/beep.mp3";
+
+        $(".qrcode-reader").qrCodeReader();
+        // read or follow qrcode depending on the content of the target input
+        $("#openreader-single").qrCodeReader({
+            callback: function (code) {
+                if (code) {
+                    var qr = code;
+                    MarkTimeCard(true, qr);
+                }
+            }
+        })
+
+        // read or follow qrcode depending on the content of the target input
+        $("#openreader-single2").qrCodeReader({
+            multiple: true, skipDuplicates: false, callback: function (code) {
+
+                if (code) {
+                    var qr = code;
+                    MarkTimeCard(false, qr);
+
+
+                }
+            }
+        })
+
+        GetDriverTimeCardDetail();
+    });
+
+
+    //#region get GPS Tracker
+    var fn_GetLatLong = function () {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                debugger
+                latitude = position.coords.latitude;
+                longitude = position.coords.longitude;
+                //$("#CurrentLatitude").text(latitude)
+                //$("#CurrentLongitude").text(longitude)
+                //$("#CurrentDistance").text((calcCrow(laraLatitude, laraLongitude, latitude, longitude).toFixed(4) * 1000).toFixed(2) + " Meter");
+            });
+        } else {
+            console.log("Browser doesn't support geolocation!");
+        }
+    }
+    //#endregion
+
+    function MarkTimeCard(isCheckIn, qrCodeNo) {
+        debugger
+        var distance = calcCrow(laraLatitude, laraLongitude, latitude, longitude)
+
+        var values = {};
+        values.QRCodeNo = qrCodeNo.toString();
+        values.IsCheckIn = isCheckIn;
+        values.Latitude = latitude;
+        values.Longitude = longitude;
+        values.IsSuccess = (distance * 1000) < 100 ? true : false;
+        $.ajax({
+            url: baseUrl + '/TimeCard/TimeCard/DriverTimeCard',
+            data: JSON.stringify(values),
+            type: "POST",
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function (result) {
+                var data = result.Result;
+                var driverTimeCardDetail = GetDriverTimeCardDetail();
+                //if (driverTimeCardDetail != null && driverTimeCardDetail != undefined) {
+
+                if (data == 1) {
+
+                    if (isCheckIn == true) {
+                        $.confirm({
+                            title: 'Confirmation!',
+                            content: '<b>Check-in Successfully at ' + ConvertDate(driverTimeCardDetail.InDateTime, true) + '</b> ',
+                            type: 'green',
+                            typeAnimated: true,
+                            buttons: {
+                                OK: {
+                                    btnClass: 'btn-blue',
+                                    action: function () {
+                                        location.reload()
+                                    }
+                                },
+                            }
+                        })
+                    }
+                    else {
+                        $.confirm({
+                            title: 'Confirmation!',
+                            content: '<b>Check-out Successfully at ' + ConvertDate(driverTimeCardDetail.OutDateTime, true) + '</b> ',
+                            type: 'green',
+                            typeAnimated: true,
+                            buttons: {
+                                OK: {
+                                    btnClass: 'btn-blue',
+                                    action: function () {
+                                        location.reload()
+                                    }
+                                },
+                            }
+                        })
+                    }
+
+
+                }
+                else if (data == 3) {
+                    $.confirm({
+                        title: 'Confirmation!',
+                        content: '<b>You are already Check-in at ' + ConvertDate(driverTimeCardDetail.InDateTime, true) + '</b> ',
+                        type: 'blue',
+                        typeAnimated: true,
+                        buttons: {
+                            OK: {
+                                btnClass: 'btn-blue',
+                                action: function () {
+                                    location.reload()
+                                }
+                            },
+                        }
+                    })
+                }
+                else if (data == 4) {
+                    $.confirm({
+                        title: 'Confirmation!',
+                        content: '<b>You are already Check-out at ' + ConvertDate(driverTimeCardDetail.OutDateTime, true) + '</b> ',
+                        type: 'blue',
+                        typeAnimated: true,
+                        buttons: {
+                            OK: {
+                                btnClass: 'btn-blue',
+                                action: function () {
+                                    location.reload()
+                                }
+                            },
+                        }
+                    })
+                }
+                else if (data == 0) {
+                    $.confirm({
+                        title: 'Alert!',
+                        content: '<b>Invalid QR code.</b> ',
+                        type: 'red',
+                        typeAnimated: true,
+                        buttons: {
+                            OK: {
+                                btnClass: 'btn-blue',
+                                action: function () {
+                                    location.reload()
+                                }
+                            },
+                        }
+                    })
+                }
+                else if (data == 5) {
+                    $.confirm({
+                        title: 'Alert!',
+                        content: "<b>You are not in Lara's premises.</b> ",
+                        type: 'red',
+                        typeAnimated: true,
+                        buttons: {
+                            OK: {
+                                btnClass: 'btn-blue',
+                                action: function () {
+                                    location.reload()
+                                }
+                            },
+                        }
+                    })
+
+                }
+                //else if (data == 6) {
+                //    $.confirm({
+                //        title: 'Alert!',
+                //        content: "<b>You can not check-in now.<br/> Your scheduled check-in time is " + ConvertDate(result.ScheduledCheckIn, true) + "</b> ",
+                //        type: 'red',
+                //        typeAnimated: true,
+                //        buttons: {
+                //            OK: {
+                //                btnClass: 'btn-blue',
+                //                action: function () {
+                //                    location.reload()
+                //                }
+                //            },
+                //        }
+                //    })
+                //}
+                //}
+                //else {
+                //    $.confirm({
+                //        title: 'Alert!',
+                //        content: '<b>Please Check-in first.</b> ',
+                //        type: 'red',
+                //        typeAnimated: true,
+                //        buttons: {
+                //            OK: {
+                //                btnClass: 'btn-blue',
+                //                action: function () {
+                //                    location.reload()
+                //                }
+                //            },
+                //        }
+                //    })
+                //}
+            }
+        });
+    }
+
+
+    function UserTimeCard(isCheckIn) {
+        debugger
+        var publicIp = GetUserIP();
+        var values = {};
+        values.IsCheckIn = isCheckIn;
+        values.Latitude = latitude;
+        values.Longitude = longitude;
+        values.IsSuccess = false;// (distance * 1000) < 100 ? true : false;
+        values.PublicIp = publicIp;
+        $.ajax({
+            url: baseUrl + '/TimeCard/TimeCard/UserTimeCard',
+            data: JSON.stringify(values),
+            type: "POST",
+            async: true,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function (result) {
+                debugger
+                var data = result.Result;
+                var driverTimeCardDetail = GetDriverTimeCardDetail();
+                //if (driverTimeCardDetail != null && driverTimeCardDetail != undefined) {
+                //$("#laraIp").text(result.PublicIp)
+                //$("#publicIp").text(result.LaraIp)
+                // $("#LBLIP").html("Lara IP :" + result.LaraIp + "<br/>User IP :" + result.PublicIp)
+
+                if (data == 1) {
+
+                    if (isCheckIn == true) {
+                        $.confirm({
+                            title: 'Confirmation!',
+                            content: '<b>Check-in Successfully at ' + ConvertDate(driverTimeCardDetail.InDateTime, true) + '</b> ',
+                            type: 'green',
+                            typeAnimated: true,
+                            buttons: {
+                                OK: {
+                                    btnClass: 'btn-blue',
+                                    action: function () {
+                                        location.reload()
+                                    }
+                                },
+                            }
+                        })
+                    }
+                    else {
+                        $.confirm({
+                            title: 'Confirmation!',
+                            content: '<b>Check-out Successfully at ' + ConvertDate(driverTimeCardDetail.OutDateTime, true) + '</b> ',
+                            type: 'green',
+                            typeAnimated: true,
+                            buttons: {
+                                OK: {
+                                    btnClass: 'btn-blue',
+                                    action: function () {
+                                        location.reload()
+                                    }
+                                },
+                            }
+                        })
+                    }
+
+
+                }
+                else if (data == 3) {
+                    $.confirm({
+                        title: 'Confirmation!',
+                        content: '<b>You are already Check-in at ' + ConvertDate(driverTimeCardDetail.InDateTime, true) + '</b> ',
+                        type: 'blue',
+                        typeAnimated: true,
+                        buttons: {
+                            OK: {
+                                btnClass: 'btn-blue',
+                                action: function () {
+                                    location.reload()
+                                }
+                            },
+                        }
+                    })
+                }
+                else if (data == 4) {
+                    $.confirm({
+                        title: 'Confirmation!',
+                        content: '<b>You are already Check-out at ' + ConvertDate(driverTimeCardDetail.OutDateTime, true) + '</b> ',
+                        type: 'blue',
+                        typeAnimated: true,
+                        buttons: {
+                            OK: {
+                                btnClass: 'btn-blue',
+                                action: function () {
+                                    location.reload()
+                                }
+                            },
+                        }
+                    })
+                }
+                else if (data == 0) {
+                    $.confirm({
+                        title: 'Alert!',
+                        content: '<b>Invalid QR code.</b> ',
+                        type: 'red',
+                        typeAnimated: true,
+                        buttons: {
+                            OK: {
+                                btnClass: 'btn-blue',
+                                action: function () {
+                                    location.reload()
+                                }
+                            },
+                        }
+                    })
+                }
+                else if (data == 5) {
+                    $.confirm({
+                        title: 'Alert!',
+                        content: "<b>You are not in Lara's premises.</b> ",
+                        type: 'red',
+                        typeAnimated: true,
+                        buttons: {
+                            OK: {
+                                btnClass: 'btn-blue',
+                                action: function () {
+                                    location.reload()
+                                }
+                            },
+                        }
+                    })
+                }
+
+            }
+        });
+    }
+
+    function GetUserIP() {
+        var ret_ip;
+        $.ajaxSetup({ async: false });
+        $.get('https://api.ipify.org?format=json', function (r) {
+            ret_ip = r.ip;
+        });
+        return ret_ip;
+    }
+    function getIP() {
+        debugger
+        $.getJSON("https://api.ipify.org?format=json",
+            function (data) {
+                debugger
+                return data.ip;
+                // Setting text of element P with id gfg
+                // $("#gfg").html(data.ip);
+            })
+    }
+    function GetDriverTimeCardDetail() {
+        var result;
+        $.ajax({
+            url: baseUrl + '/TimeCard/TimeCard/GetDriverTimeCardDetail',
+            data: {},
+            type: "POST",
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function (data) {
+
+                result = data;
+
+                if (result != null) {
+                    if (result.InDateTime != null && result.OutDateTime == null) {
+                        $("#lblIn").html(" IN : " + ConvertDate(result.InDateTime, true) + "");
+                    }
+                    if (result.InDateTime != null && result.OutDateTime != null) {
+                        $("#lblIn").html(" IN &nbsp;&nbsp;&nbsp; : " + ConvertDate(result.InDateTime, true) + "");
+                        $("#lblOut").html("OUT : " + ConvertDate(result.OutDateTime, true) + "");
+
+                        var inDate = ConvertDate(result.InDateTime, true);
+
+                        var inHrs = '00';
+                        var inMin = '00';
+                        if (inDate != undefined) {
+                            inHrs = dateFormat(inDate, "HH");
+                            inMin = dateFormat(inDate, "MM");
+                        }
+
+
+                        var outHrs = '00';
+                        var outMin = '00';
+                        var outDate = ConvertDate(result.OutDateTime, true);
+                        var diffHrs = '00';
+                        var diffMins = '00';
+                        if (outDate != undefined) {
+                            outHrs = dateFormat(outDate, "HH");
+                            outMin = dateFormat(outDate, "MM");
+
+                            inDate = new Date(inDate);
+                            outDate = new Date(outDate);
+
+                            var diffMs = (outDate - inDate); // milliseconds between now & Christmas\
+
+                            var diffDays = Math.floor(diffMs / 86400000); // days
+                            diffHrs = Math.floor((diffMs) / 3600000); // hours
+                            diffHrs = diffHrs < 10 ? ('0' + diffHrs) : diffHrs;
+
+                            diffMins = Math.round(((diffMs) % 3600000) / 60000); // minutes
+                            diffMins = diffMins < 10 ? ('0' + diffMins) : diffMins;
+                        }
+
+
+
+                        $("#lblTotalHrs").html("TOTAL TIME : " + diffHrs + ":" + diffMins + "");
+                    }
+                }
+
+            }
+        });
+        return result;
+    }
+
+
+
+    //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
+    function calcCrow1(lat1, lon1, lat2, lon2) {
+        debugger
+        var R = 6371; // km
+        var dLat = toRad(lat2 - lat1);
+        var dLon = toRad(lon2 - (lon1));
+        var lat1 = toRad(lat1);
+        var lat2 = toRad(lat2);
+
+        var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        var d = R * c;
+        return d;
+    }
+
+
+    function calcCrow(lat1, lon1, lat2, lon2, unit) {
+        unit = "K";
+        if ((lat1 == lat2) && (lon1 == lon2)) {
+            return 0;
+        }
+        else {
+            var radlat1 = Math.PI * lat1 / 180;
+            var radlat2 = Math.PI * lat2 / 180;
+            var theta = lon1 - lon2;
+            var radtheta = Math.PI * theta / 180;
+            var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+            if (dist > 1) {
+                dist = 1;
+            }
+            dist = Math.acos(dist);
+            dist = dist * 180 / Math.PI;
+            dist = dist * 60 * 1.1515;
+            if (unit == "K") { dist = dist * 1.609344 }
+            if (unit == "N") { dist = dist * 0.8684 }
+            return dist;
+        }
+    }
+    // Converts numeric degrees to radians
+    function toRad(Value) {
+        return Value * Math.PI / 180;
+    }
+</script>

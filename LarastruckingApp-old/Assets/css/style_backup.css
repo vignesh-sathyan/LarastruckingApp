@@ -1,0 +1,580 @@
+*{
+    outline: none;
+    
+}
+html {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    list-style: none;
+    outline: none;
+}
+
+body {
+    color: #000;
+    background: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+body.bodyBg {
+    background: #f7f7f7;
+}
+
+button {
+    background: transparent;
+    border: 0;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.md-form {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.md-form,
+.modal-dialog.cascading-modal .modal-header .social-buttons {
+    margin-top: 1rem;
+}
+
+.overLay {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.7);
+    top: 0;
+    left: 0;
+    z-index: 100;
+    display: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+    margin: 0;
+}
+.padd-R-70{
+    padding-right: 70px !important;
+}
+
+/* DASHBOARD CSS START =================================================================*/
+
+/* Top Bar css start*/
+
+.topBar {
+    background: #fff;
+    position: fixed;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    width: calc(100% - 200px);
+    padding: 10px 20px;
+    margin-left: 200px;
+    display: flex;
+    justify-content: space-between;
+    -webkit-box-shadow: 0px 1px 14px 0px rgba(207, 207, 207, 1);
+    -moz-box-shadow: 0px 1px 14px 0px rgba(207, 207, 207, 1);
+    box-shadow: 0px 1px 14px 0px rgba(207, 207, 207, 1);
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+}
+
+.innerTopBar {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.topBar #menuBtn {
+    background: transparent;
+    border: 0;
+    font-size: 21px;
+    padding: 0;
+}
+
+.top-right-panel ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.top-right-panel ul>li {
+    float: left;
+}
+
+.top-right-panel ul>li>a {
+    color: #5b627c;
+    font-size: 16px;
+    border-right: 1px solid #5d627c;
+    margin-right: 25px;
+}
+
+.top-right-panel ul>li:last-child>a {
+    margin-right: 0;
+    border-right: 0;
+    padding-right: 0;
+}
+
+.top-right-panel ul>li:hover>a {
+    color: #000;
+}
+
+.profile img {
+    width: 50%;
+}
+
+/* Top Bar css end*/
+
+/* leftAsideBar */
+
+.leftAsideBar {
+    position: fixed;
+    top: 0;
+    z-index: 3;
+    background:#85ae3c;
+    width: 200px;
+    padding: 0;
+    height: 100vh;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    /* -webkit-box-shadow: 13px -9px 11px -10px rgba(0, 0, 0, 0.39);
+    box-shadow: 13px -9px 11px -10px rgba(0, 0, 0, 0.39); */
+}
+a.logo > img {
+    width: auto;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+}
+.removeBoby a.logo > img {
+    width: 86%;
+}
+.menuHeading>h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    text-transform: uppercase;
+    display: block;
+    margin: 15px 0 20px;
+}
+
+.brd {
+    border-bottom: 1px dashed #1072c3;
+}
+
+body.removeBoby .leftAsideBar {
+    overflow: hidden;
+    width: 50px;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+}
+
+body.removeBoby .leftAsideBar .profile>h5,
+body.removeBoby .leftAsideBar .profile>a {
+    display: none;
+}
+
+body.removeBoby .leftAsideBar .profile>img {
+    width: 70%;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+}
+
+body.removeBoby .topBar {
+    width: calc(100% - 50px);
+    margin-left: 50px;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+}
+
+body.removeBoby .rightBody {
+    width: calc(100% - 50px);
+    margin-left: 50px;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+}
+
+body.removeBoby .leftAsideBar .sidenavBar {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+
+body.removeBoby .leftAsideBar .sidenavBar span.leftIc {
+    margin-right: 20px;
+}
+
+a.logo {
+    display: block;
+    text-align: center;
+    background: #fff;
+    padding: 5px 0;
+    border-right: 1px solid #f5f3f3;
+}
+body.removeBoby a.logo {
+    padding: 13px 0;
+}
+
+.sidenavBar {
+    margin: 10px 0 0;
+    display: block;
+}
+
+.sidenavBar>ul {
+    margin: 0;
+    padding: 0;
+}
+
+.sidenavBar>ul>li>a {
+    display: block;
+    color: #fff;
+    padding: 0px;
+    font-size: 14px;
+    padding:10px;
+    white-space: nowrap;
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: all 0.3s ease-in-out;
+}
+
+ .sidenavBar>ul>li>a.active span.leftIc,
+.sidenavBar>ul>li>a:hover span.leftIc {
+    color: #000;
+} 
+
+.sidenavBar>ul>li>a>i {
+    float: right;
+    padding: 2px 5px;
+    font-size: 1.1rem;
+}
+
+.sidenavBar>ul>li:hover>a {
+    color: #000;
+    text-decoration: none;
+    background: #f7f7f7;
+}
+.dataTables_filter input[type=search].form-control{
+    border: 0;
+    border-bottom: 1px solid #ccc;
+}
+.dataTables_filter input[type=search].form-control:focus,
+.dataTables_filter input[type=search].form-control:active{
+    outline: 0;
+    box-shadow: unset;
+}
+span.leftIc {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    border-radius: 100%;
+    display: inline-block;
+    padding: 4px 0;
+    color: #fff;
+    margin-right: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+.rightBody {
+    display: block;
+    padding: 60px 15px 15px 20px;
+    width: calc(100% - 200px);
+    margin-left: 200px;
+    min-height: 100vh;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+}
+
+.rightHeading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1.mainHeading {
+    font-size: 1.75rem;
+    font-weight: 200;
+    color: #353434;
+    margin-bottom: 30px;
+}
+
+.rightTopBtn {
+    display: flex;
+}
+
+.topActionBtn {
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 0.875;
+    padding: 7px 10px;
+    background: #062563;
+}
+
+.topActionBtn:hover {
+    color: #fff;
+}
+
+.btn.outline-Btn {
+    color: #035eaa;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    padding: 4px 15px;
+    background: #ffffff;
+    border: 1px solid #035eaa;
+}
+
+.btn.outline-Btn:hover {
+    color: #fff;
+    background: #035eaa;
+}
+
+.btn.green-Btn {
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    padding: 4px 15px;
+    background: #7ca337;
+}
+
+.btn.green-Btn:hover {
+    color: #fff;
+    background: #6a961e;
+}
+
+.btn.bule-sm-Btn {
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 0.875;
+    padding: 7px 15px;
+    background: #062563;
+    border: 1px solid #062563;
+}
+
+.btn.blue-sm-Btn:hover {
+    color: #fff;
+    background: #062563;
+}
+
+/* Tab css start=============== */
+.tabContainerWrapper .card-header{
+    background-color: #035eaa;
+    border-bottom: 0;
+}
+.tabContainerWrapper .card-header h5 > a{
+    color: #fff
+}
+.nav-tabs {
+    display:none;
+}
+.topTabPanel .nav-tabs {
+    display: flex;
+    justify-content: center;
+    border: 1px solid #035eaa;
+    width:460px;
+    padding:3px 2px 4px;
+    margin: 0 auto 20px;
+}
+.topTabPanel .nav-tabs .nav-link{
+    border: 0;
+}
+.topTabPanel .nav-tabs .nav-item.show .nav-link, .topTabPanel .nav-tabs .nav-link.active {
+    color: #fff;
+    background-color: #035eaa;
+    border-color: #dee2e6 #dee2e6 #fff;
+    border-radius: 0;
+}
+.topTabPanel .nav-tabs .nav-link{
+    color: #8d8d8d;
+    text-transform: uppercase;
+}
+.tabContainerWrapper .card{
+    box-shadow:none;
+    background: transparent;
+}
+.tabContainerWrapper .card-body{
+    padding: 0;
+}
+.white-bg{
+    background: #fff;
+    display: block;
+    padding: 10px;
+    height: 100%;
+}
+.customFormWrap .form-control{
+    height: calc(1.5em + 0.25rem + 2px);
+    padding: 0.075rem 0.25rem;
+    font-size: 0.8rem;
+}
+.customFormWrap .col-form-label {
+    padding-top: calc(0.075rem + 1px);
+    white-space: nowrap;
+}
+.customFormWrap .form-group {
+    margin-bottom:0;
+}
+.dateToWrapper {
+    display: flex;
+}
+.dateToWrapper > label{
+    margin-right: 15px;
+}
+button.search-ic {
+    position: absolute;
+    right: 43px;
+    top: 0px;
+    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    padding: 2px 8px;
+}
+button.plus-ic {
+    position: absolute;
+    right: 18px;
+    top: 1px;
+}
+h2.cardHeading {
+    font-size: 16px;
+    border-bottom: 1px solid #f5f5f5;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+.paymentheader > h2 {
+    font-size: 16px;
+    background: #035eaa;
+    color: #fff;
+    padding: 10px;
+    text-transform: capitalize;
+}
+.paymentInfo {
+    background: #fff;
+    padding: 10px;
+}
+.radioBtnWrapper {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    align-items: center;
+    font-weight: 600;
+    font-size: 14px;
+}
+.priceInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.priceInfo > label{
+    font-size: 14px;
+    font-weight: 400;
+}
+.priceDetailWrapper{
+    margin-top: 10px;
+}
+.priceInfo > span{
+    font-size: 14px;
+    font-weight: 400;
+}
+.customFormWrap {
+    background: #fff;
+    height: 100%;
+}
+@media(min-width:768px) {
+    .nav-tabs {
+        display: flex;
+    }
+    
+    .card {
+        border: none;
+    }
+
+    .card .card-header {
+        display:none;
+    }  
+
+    .card .collapse{
+        display:block;
+    }
+}
+
+@media(max-width:767px){
+    .tab-content > .tab-pane {
+        display: block !important;
+        opacity: 1;
+    }
+}
+/* Tab css end=============== */
+
+
+/* Table css start =====================*/
+@media only screen and (max-width: 800px) {
+    
+    /* Force table to not be like tables anymore */
+	#no-more-tables table, 
+	#no-more-tables thead, 
+	#no-more-tables tbody, 
+	#no-more-tables th, 
+	#no-more-tables td, 
+	#no-more-tables tr { 
+		display: block; 
+	}
+ 
+	/* Hide table headers (but not display: none;, for accessibility) */
+	#no-more-tables thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+ 
+	#no-more-tables tr { border: 1px solid #ccc; }
+ 
+	#no-more-tables td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 50%; 
+		white-space: normal;
+		text-align:left;
+	}
+ 
+	#no-more-tables td:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+		text-align:left;
+		font-weight: bold;
+	}
+ 
+	/*
+	Label the data
+	*/
+	#no-more-tables td:before { content: attr(data-title); }
+}
+
+/* Table css start =====================*/
+
+/* DASHBOARD CSS END ========================================*/
+
+
+
+
+
+
+
+
+
+

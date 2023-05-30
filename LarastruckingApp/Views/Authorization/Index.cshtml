@@ -1,0 +1,161 @@
+﻿@model LarastruckingApp.ViewModel.PageAutharizationViewModel
+@{
+    ViewBag.Title = "Manage Page Authorization";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card-body">
+    <div class="white-bg customFormWrap">
+        <h2 class="cardHeading"> ASSIGN PERMISSION TO ROLE</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label for="VehicleType" class="col-sm-4 col-form-label">Role</label>
+                    <div class="col-sm-8">
+                        @using (Html.BeginForm("SearchData", "Authorization", FormMethod.Post, new { id = "SeachForm", name = "SeachForm" }))
+                        {
+                            @Html.DropDownListFor(M => M.RoleId, new SelectList(Model.listRole, "RoleID", "RoleName", "--Select Role--"), new { @class = "form-control", onchange = "SelectedIndexChanged()", @style = "width:200px;" })
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                @using (Html.BeginForm("Index", "Authorization", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken();
+                    <table id="UserDatatable" class="table-bordered table-striped cf w-100">
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>View</th>
+                                <th>Create </th>
+                                <th>Update</th>
+                                <th>Delete</th>
+                                <th>Pricing Method</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.listPageAuthorization.Count > 0)
+                            {
+                                for (int i = 0; i < Model.listPageAuthorization.Count; i++)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.HiddenFor(m => m.listPageAuthorization[i].PageId)
+                                            @Html.HiddenFor(m => m.listPageAuthorization[i].RoleId)
+
+                                            @Html.Hidden("ObjPagesAuthorization[" + i + "].PageId", Model.listPageAuthorization[i].PageId)
+                                            @Html.Label("ObjPagesAuthorization[" + i + "].PageName", Model.listPageAuthorization[i].PageName)
+                                        </td>
+                                        <td>
+                                            @Html.CheckBoxFor(it => Model.listPageAuthorization[i].CanView)
+                                        </td>
+                                        <td>
+                                            @Html.CheckBoxFor(it => Model.listPageAuthorization[i].CanInsert)
+
+                                        </td>
+                                        <td>
+                                            @Html.CheckBoxFor(it => Model.listPageAuthorization[i].CanUpdate)
+                                        </td>
+                                        <td>
+                                            @Html.CheckBoxFor(it => Model.listPageAuthorization[i].CanDelete)
+                                        </td>
+                                        <td>
+                                            @{
+                                                if (Model.listPageAuthorization[i].PageName == "Shipment Dashboard" || Model.listPageAuthorization[i].PageName == "Fumigation")
+                                                {
+                                                    @Html.CheckBoxFor(it => Model.listPageAuthorization[i].IsPricingMethod)
+                                                }
+
+                                            }
+
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12 text-right mb-2" style="display: flex;justify-content: flex-end;">
+                            <button type="button" id="btnSave" class="btn green-Btn" style="height: 24px;">
+                                <i class="fa fa-check" aria-hidden="true" style="margin-right: 5px;"></i>
+
+                                <label style="margin-bottom:0;">SAVE</label>
+                            </button>
+                            @*<button type="submit" id="btnSave" class="btn green-Btn">Save</button>*@
+                        </div>
+                    </div>
+
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function SelectedIndexChanged() {
+        document.SeachForm.submit();
+    }
+</script>
+
+<script>
+    var isNeedToloaded = true;
+    function goodbye(e) {
+        if (isNeedToloaded) {
+
+            if (!e) e = window.event;
+            //e.cancelBubble is supported by IE - this will kill the bubbling process.
+            e.cancelBubble = true;
+            e.returnValue = 'You sure you want to leave?'; //This is displayed on the dialog
+
+            //e.stopPropagation works in Firefox.
+            if (e.stopPropagation) {
+                e.stopPropagation();
+                e.preventDefault();
+            }
+
+        }
+    }
+    window.onbeforeunload = goodbye;
+
+
+    $(document).ready(function () {
+        initDatatable();
+
+        var customer = $('#RoleId :selected').text();
+        if (customer == "--Select Role--") {
+            $(".clsedit").hide();
+        }
+        else {
+            $(".clsedit").show();
+        }
+
+        $("#btnSearch").click(function () {
+            $(".clsedit").show();
+        });
+    });
+    $("#btnSave").click(function () {
+        isNeedToloaded = false;
+        $("form").submit()
+
+    });
+    var initDatatable = function () {
+        $("#UserDatatable").DataTable({
+            responsive: false,
+            destroy: true,
+            paging: false,
+            select: true,
+            bSort: true,
+            processing: true,
+            bFilter: false, // Toggle search textbox
+            bInfo: false, // Toggle showing entries message below table
+            bLengthChange: false, // Toggle show entries dropdown
+        });
+    }
+</script>

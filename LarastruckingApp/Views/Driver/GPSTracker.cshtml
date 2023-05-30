@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewBag.Title = "GPSTracker";
+    Layout = null;
+}
+
+<h2 style="background-color: Yellow;color: Blue; text-align: center; font-style: oblique">GPS Tracker</h2>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="~/Assets/js/bootbox.min.js"></script>
+
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+@*<script src="bootbox.min.js"></script>*@
+
+<style>
+    #dvMap {
+        height: 50%;
+    }
+</style>
+
+<script type="text/javascript">
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (p) {
+            var LatLng = new google.maps.LatLng(p.coords.latitude, p.coords.longitude);
+            var mapOptions = {
+                center: LatLng,
+                zoom: 13,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+            var marker = new google.maps.Marker({
+                position: LatLng,
+                map: map,
+                title: "<div style='font-size:large; font-family: Arial Black; background-color:yellow; color:blue; text-align: center'>Your Current Location Coordinates:<br />Latitude: " + p.coords.latitude + "<br />Longitude: " + p.coords.longitude
+            });
+            google.maps.event.addListener(marker, "click", function (e) {
+                //Using InfoWindow....
+                var infoWindow = new google.maps.InfoWindow();
+                infoWindow.setContent(marker.title);
+                infoWindow.open(map, marker);
+                //Using BootBox....
+                var msg = marker.title;
+                bootbox.alert(msg);
+            });
+        });
+    } else {
+        alert('Geo Location feature is not supported in this browser.');
+    }
+
+
+    //navigator.geolocation.getCurrentPosition(function (p) {
+    //    var LatLng = new google.maps.LatLng(p.coords.latitude, p.coords.longitude);
+    //    var mapOptions = {
+    //        center: LatLng,
+    //        zoom: 13,
+    //        mapTypeId: google.maps.MapTypeId.ROADMAP
+    //    }; 
+
+        //var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+        //var marker = new google.maps.Marker({
+        //    position: LatLng,
+        //    map: map,
+        //    title: "<div style='font-size:large; font-family: Arial Black; background-color:yellow; color:blue; text-align: center'>Your Current Location Coordinates:<br />Latitude: " + p.coords.latitude + "<br />Longitude: " + p.coords.longitude
+        //}); 
+
+
+        //google.maps.event.addListener(marker, "click", function (e) {
+        //    //Using InfoWindow....  
+        //    var infoWindow = new google.maps.InfoWindow();
+        //    infoWindow.setContent(marker.title);
+        //    infoWindow.open(map, marker);
+        //}); 
+
+        //google.maps.event.addListener(marker, "click", function (e) {
+        //    //Using BootBox....  
+        //    var msg = marker.title;
+        //    bootbox.alert(msg);
+        //}); 
+
+        //if (navigator.geolocation) {
+        //    //If Valid Geo Location there....  
+        //} 
+        //else {
+        //    bootbox.alert('Geo Location feature is not supported in this browser.');
+        //} 
+
+</script>
+
+<div id="dvMap">
+</div>
+
+<footer>
+    <p style="background-color: Yellow; font-weight: bold; color:blue; text-align: center; font-style: oblique">© @DateTime.Now.ToLocalTime()</p> @*Add Date Time*@
+</footer>
+

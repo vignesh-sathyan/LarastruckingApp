@@ -1,0 +1,503 @@
+﻿@model LarastruckingApp.Entities.ShipmentEmailDTO
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            font-family: calibri;
+        }
+
+        .setPadding td, .setPadding th {
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- aks remove -->
+    <table style="width:100%;">
+        @*/*margin:auto;width:75%;*/*@
+
+        <tr>
+            <td>
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:60%;vertical-align:top;padding-top:10px;">
+                            <table style="width:100%">
+                                <tr><td><h2 style="margin:0px;">Lara's Trucking & Logistics</h2></td></tr>
+                                <tr><td style="color:#a4a6b9;">dispatch@larastrucking.com</td></tr>
+                                <tr><td style="color:#a4a6b9;">https://larastrucking.com</td></tr>
+                            </table>
+
+
+                        </td>
+                        <td style="width:40%;vertical-align:top;padding-top:10px;">
+                            <table style="width:100%;text-align:right;">
+                                <tr><td> <img src="@Model.LogoURL" style="width:260px; height:80px" /></td></tr>
+
+                                <tr><td style="font-size:25px;color:#375b93;text-align:right;padding-right:10px;">Shipment Tracking</td></tr>
+
+                                <tr><td style="font-size:20px;text-align:right;padding-right:10px;">@Model.AWBPoOrderNO</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center;display: flex;justify-content: center;align-items: center;">
+                @{
+                    bool isValid = false;
+                    foreach (var status in Model.ShipmentStatusHistory)
+                    {
+                        if (isValid == false)
+                        {
+                            <img style="width:auto;" src="@status.ImageUrl" />
+                            isValid = true;
+                        }
+                        else
+                        {
+
+                            <img style="margin-bottom:0px;" src="@Model.StatusDotPath" />
+
+                            <img style="width:auto;" src="@status.ImageUrl" />
+                        }
+
+
+                    }
+                    foreach (var status in Model.ShipmentStatusList)
+                    {
+                        if (isValid == true)
+                        {
+
+                            <img style="margin-bottom:0px;" src="@Model.StatusGrayDotPath" />
+                        }
+
+                        <img style="width:auto;" src="@status.GrayImageURL" />
+                        isValid = true;
+
+
+                    }
+                }
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <table style="width: 100%;">
+
+                    <tr>
+                        <td style="width: 40%;">
+                            <table style="font-weight:bold; width: 100%; color:#375b93">
+                                <tr style="font-size:16px;">
+                                    <td>
+                                        Estimated Pickup
+
+                                    </td>
+                                </tr>
+                                <tr style="font-size:18px;text-transform: uppercase;">
+                                    <td>@string.Format("{0:dddd | MMMM dd, yyyy}", Model.OrderTaken)</td>
+                                </tr>
+
+                            </table>
+                        </td>
+                        <td style="width:20%;">
+                            <table style="width:100%;text-align:center;">
+                                <tr>
+                                    <td></td>
+
+                                </tr>
+                            </table>
+                        </td>
+                        <td style="width:40%;">
+                            <table style="font-weight:bold; width: 100%;text-align: right;color:#375b93;">
+                                <tr style="font-size:16px;">
+                                    <td>
+                                        Estimated Delivery
+                                    </td>
+                                </tr>
+                                <tr style="font-size:18px; text-transform: uppercase;">
+                                    <td>@string.Format("{0:dddd | MMMM dd, yyyy}", Model.ESTDateTime)</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr><td style="height:10px;"></td></tr>
+        <tr>
+            <td style="border:1px solid;padding:10px;">
+                <table style="width:100%;font-size:14px;">
+                    <tr>
+                        <td colspan="2" style="background: #375b93;padding-top:4px; padding-bottom:4px; color: #fff;">
+                            &nbsp; Shipment Detail
+                        </td>
+                    </tr>
+                    <tr style="text-align:center;color:#375b93;margin-top:10px; font-size:20px; font-weight:bold">
+                        @*<td colspan="2">Customer: @Model.CustomerName | Consignee: @Model.Consignee | Service Type: Shipment</td>*@
+                        <td colspan="2">
+                            Customer: @Model.CustomerName.ToUpper()@if (Model.Consignee != null && Model.Consignee != "")
+                            {<label>| Consignee: @Model.Consignee.ToUpper()</label>} | Service Type: Shipment
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+
+                            @{
+                                var i = 1;
+                                foreach (var routs in Model.ShipmentFreightDetail)
+                                {
+                                    if (i % 2 == 1)
+                                    {<br />
+                                     <table>
+                                         @if (Model.ShipmentFreightDetail.Count > 1)
+                                         {
+                                             <tr><td colspan="2"><b> Stop @i </b></td></tr>
+                                             <tr><td colspan="2"> &nbsp;</td></tr>
+                                         }
+                                         <tr>
+                                             <td><b>Pickup Location</b></td>
+                                             <td>@routs.PickupLocation</td>
+                                         </tr>
+                                         <tr>
+                                             <td><b>Delivery Location</b></td>
+                                             <td>@routs.DeliveryLocation</td>
+                                         </tr>
+                                         <tr>
+                                             <td><b>Reference No.</b></td>
+                                             <td>@Model.AWBPoOrderNO</td>
+                                         </tr>
+                                         <tr>
+                                             <td><b>Freight Type</b></td>
+                                             <td>@routs.FreightType</td>
+                                         </tr>
+                                         <tr>
+                                             <td><b>Commodity</b></td>
+                                             <td>@routs.Commodity</td>
+                                         </tr>
+                                         <tr>
+                                             <td><b>No.of Pallets</b></td>
+                                             <td>@routs.QutWgtVlm</td>
+                                         </tr>
+                                         <tr>
+                                             <td><b>No.of Box</b></td>
+                                             <td>@routs.NoOfBox</td>
+                                         </tr>
+                                         <tr>
+                                             <td><b>Weight</b></td>
+                                             <td>@routs.WeightWithUnit</td>
+                                         </tr>
+                                         @*<tr>
+            <td><b>Driver</b></td>
+            <td>@routs.Drivers</td>
+        </tr>
+        <tr>
+            <td><b>Equipment</b></td>
+            <td>@routs.Equipments</td>
+        </tr>
+        <tr>
+            <td><b>Loading Temp</b></td>
+            <td>@routs.LoadingTemp F</td>
+        </tr>
+        <tr>
+            <td><b>Delivery Temp</b></td>
+            <td>@if (routs.DeliveryTemp != "")
+            {@routs.DeliveryTemp <label>F</label>}</td>
+        </tr>
+        <tr>
+            <td><b>Damage Detail</b></td>
+            <td>@routs.LoadingDamageDetail</td>
+        </tr>*@
+
+                                         <tr>
+                                             <td colspan="2" style="height:10px;"></td>
+                                         </tr>
+
+                                     </table>
+                                    }
+
+                                    i = i + 1;
+                                }
+
+                            }
+
+                        </td>
+
+                        <td style="vertical-align:top;">
+
+
+
+                            @{
+                                var j = 1;
+                                foreach (var routs in Model.ShipmentFreightDetail)
+                                {
+                                    if (j % 2 == 0)
+                                    {<br />
+                                        <table>
+
+
+                                            <tr><td colspan="2"><b>Stop @j</b></td></tr>
+                                            <tr><td colspan="2"> &nbsp;</td></tr>
+                                            <tr>
+                                                <td><b>Pickup Location</b></td>
+                                                <td>@routs.PickupLocation</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Delivery Location</b></td>
+                                                <td>@routs.DeliveryLocation</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Reference No.</b></td>
+                                                <td>@Model.AWBPoOrderNO</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Freight Type</b></td>
+                                                <td>@routs.FreightType</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Commodity</b></td>
+                                                <td>@routs.Commodity</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>No.of Pallets</b></td>
+                                                <td>@routs.QutWgtVlm</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>No.of Box</b></td>
+                                                <td>@routs.NoOfBox</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Weight</b></td>
+                                                <td>@routs.WeightWithUnit</td>
+                                            </tr>
+                                            @*<tr>
+                                                    <td><b>Driver</b></td>
+                                                    <td>@routs.Drivers</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Equipment</b></td>
+                                                    <td>@routs.Equipments</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Loading Temp</b></td>
+                                                    <td>@routs.LoadingTemp F</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Delivery Temp</b></td>
+                                                    <td>@if (routs.DeliveryTemp != "") {@routs.DeliveryTemp <label>F</label> }</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Damage Detail</b></td>
+                                                    <td>@routs.LoadingDamageDetail</td>
+                                                </tr>*@
+                                            <tr>
+                                                <td colspan="2" style="height:10px;"></td>
+                                            </tr>
+
+
+
+                                        </table>
+                                    }
+
+
+                                    j = j + 1;
+
+                                }
+                            }
+
+                        </td>
+
+
+                    </tr>
+
+                </table>
+
+            </td>
+
+        </tr>
+        <tr><td style="height:10px;"></td></tr>
+        <tr>
+            <td style="border:1px solid;padding:10px;">
+                <table style="width:100%;font-size:14px;">
+                    <tr>
+                        <td colspan="4" style="background: #375b93;padding-top:4px; padding-bottom:4px; color: #fff;">
+                            &nbsp; Shipment History
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table style="width: 100%;text-align: left;">
+                                <tr>
+                                    <th style="width:25%;text-align:left;">Date & Time</th>
+                                    <th style="width:75%;text-align:left;">Status</th>
+
+                                </tr>
+                                @{
+                                    foreach (var statusHistory in Model.ShipmentStatusHistory.OrderByDescending(x => x.ShipmentStatusHistoryId).ToList())
+                                    {
+                                        <tr>
+                                            <td style="width:25%; text-align:left;">
+                                                @string.Format("{0:MM/dd/yyyy HH:mm}", statusHistory.DateTime) HRS
+                                            </td>
+                                            @if (statusHistory.StatusId == 2)
+                                            {
+                                                var driver = string.Empty;
+                                                if (!string.IsNullOrEmpty(Model.Drivers))
+                                                {
+                                                    driver = "| " + @Model.Drivers;
+                                                }
+                                                var equipment = string.Empty;
+                                                if (!string.IsNullOrEmpty(Model.Equipments))
+                                                {
+                                                    equipment = "| " + @Model.Equipments;
+                                                }
+
+
+                                                <td style="width:75%; text-align:left;text-transform: uppercase;">@statusHistory.Status  @driver @equipment</td>
+                                            }
+                                            else if (statusHistory.StatusId == 5)
+                                            {
+                                                var loadingTemp = string.Empty;
+
+                                                if (!string.IsNullOrEmpty(Model.LoadingTemp))
+                                                {
+                                                    loadingTemp = "| " + @Model.LoadingTemp;
+                                                }
+
+                                                <td style="width:75%; text-align:left;">@statusHistory.Status  @loadingTemp</td>
+                                            }
+                                            else if (statusHistory.StatusId == 3)
+                                            {
+                                                var loadingDamageDetail = string.Empty;
+
+                                                if (!string.IsNullOrEmpty(Model.LoadingDamageDetail))
+                                                {
+                                                    loadingDamageDetail = "| " + @Model.LoadingDamageDetail;
+                                                }
+                                                <td style="width:75%; text-align:left;">@statusHistory.Status - @statusHistory.SubStatus  @loadingDamageDetail </td>
+                                            }
+                                            else
+                                            {
+                                                if (!string.IsNullOrEmpty(statusHistory.SubStatus))
+                                                {
+                                                    <td style="width:75%; text-align:left;">@statusHistory.Status - @statusHistory.SubStatus </td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="width:75%; text-align:left;">@statusHistory.Status</td>
+                                                }
+                                            }
+
+                                        </tr>
+                                    }
+                                }
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+
+        </tr>
+        <tr><td style="height:10px;"></td></tr>
+        @if (Model.ShipmentRoutesStop.Count > 0)
+        {
+
+            <tr>
+                <td style="border:1px solid;padding:10px;">
+                    <table style="width:100%;font-size:14px;">
+                        <tr>
+                            <td colspan="4" style="background: #375b93;padding-top:4px; padding-bottom:4px; color: #fff;">
+                                &nbsp; Proof of Delivery
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table style="width: 100%;text-align: left;">
+                                    <tr>
+                                        <th style="width:25%;text-align:left;">Receiver Name</th>
+                                        <th style="width:25%;text-align:left;">Signature</th>
+                                        <th style="width:50%;text-align:left;">Date & Time</th>
+                                    </tr>
+                                    @{
+                                        foreach (var route in Model.ShipmentRoutesStop)
+                                        {
+                                            <tr>
+                                                <td style="width:25%; text-align:left;">
+                                                    @route.ReceiverName
+                                                </td>
+                                                <td><img src="@route.DigitalSignaturePath" height="40" style="margin:0;height:40px;width:auto; border:0; padding:0; display:block;" /></td>
+                                                @*<td><img src=@route.DigitalSignaturePath height="40" style="margin:0; border:0; padding:0; display:block;" /></td>*@
+                                                <td style="width:25%; text-align:left;"> @string.Format("{0:MM/dd/yyyy HH:mm}", route.SignatureDateTime) HRS </td>
+                                            </tr>
+                                        }
+                                    }
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+
+                </td>
+
+            </tr>
+            <tr><td style="height:10px;"></td></tr>
+        }
+        @if (Model.AccessorialPrice.Count > 0)
+        {
+            <tr>
+                <td style="border:1px solid;padding:10px;">
+                    <table style="width:100%;font-size:14px;">
+                        <tr>
+                            <td colspan="4" style="background: #375b93;padding-top:4px; padding-bottom:4px; color: #fff;">
+                                &nbsp; Accessorial Charges
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+
+                                <table style="width:100%">
+                                    <tr>
+                                        <th style="width:25%;text-align:left;">Fee Type</th>
+                                        <th style="width:75%;text-align:left;">Amount</th>
+                                    </tr>
+                                    @{
+                                        foreach (var accessorial in Model.AccessorialPrice)
+                                        {
+                                            <tr>
+                                                <td style="width: 25%;text-transform: uppercase;">@accessorial.FeeType</td>
+                                                <td style="width:75%">$ @accessorial.Amount</td>
+                                            </tr>
+                                        }
+                                    }
+
+
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+
+                </td>
+
+            </tr>
+        }
+
+
+
+    </table>
+
+</body>
+
+</html>
+
+

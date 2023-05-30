@@ -1,0 +1,1565 @@
+﻿$(document).ready(function () {
+
+    $(".divSearchBox").hide();
+    GetOrderTakenShipmentList();
+    //setTimeout(function () { GetOtherStatusShipmentList(); }, 1000);
+    GetOtherStatusShipmentList();
+    //bindCustomerDropdown();
+    //bindCustomerDropdown2();
+    btnViewShipment();
+    btnViewShipment2();
+    startEndDate();
+    //GetFreightType();
+    $('#tblShipmentDetails input').unbind();
+});
+
+
+
+//#region change color on hover
+$("table").on("mouseover", 'tr', function () {
+
+    $(this).find(".far").css('color', 'white');
+    $(this).find(".fa-map-marked-alt").css('color', 'white');
+   //$(this).find(".fa-bell").css('color', 'white');
+    
+});
+
+$("table").on("mouseout", 'tr', function () {
+
+    $(this).find(".far").css('color', '#007bff');
+    $(this).find(".fa-download").css('color', '#007bff');
+    $(this).find(".fa-map-marked-alt").css('color', '#007bff');
+    $(this).find(".fa-trash-alt").css('color', 'red');
+    //$(this).find(".fa-bell").css('color', 'red');
+});
+
+$('#tblShipmentDetails').on('dblclick', 'tbody tr', function () {
+    var table = $('#tblShipmentDetails').DataTable();
+    var data_row = table.row($(this).closest('tr')).data();
+    window.location.href = baseUrl + '/Shipment/Shipment/Index/' + data_row.ShipmentId;
+});
+//#endregion
+
+$('#tblShipmentDetails input').keyup(function (e) {
+    if (e.keyCode == 13) /* if enter is pressed */ {
+        table.search($(this).val()).draw();
+    }
+});
+$.fn.dataTable.ext.errMode = function (settings, helpPage, message) {
+    //GetOrderTakenShipmentList(); 
+    //GetOtherStatusShipmentList();
+};
+
+var d = new Date();
+var month = d.getMonth() + 1;
+var day = d.getDate();
+
+var datetime = (month < 10 ? '0' : '') + month + '/' +
+    (day < 10 ? '0' : '') + day + '/' +
+    d.getFullYear() + "  " +
+    (d.getHours() < 10 ? '0' : '') + d.getHours() + ":" +
+    (d.getMinutes() < 10 ? '0' : '') + d.getMinutes() + ":" +
+    (d.getSeconds() < 10 ? '0' : '') + d.getSeconds();
+
+//#region Bind shipment
+function GetOrderTakenShipmentList() {
+    var values = {};
+    values.StartDate = $("#dtStartedDate").val();
+    values.EndDate = $("#dtEndDate").val();
+    values.CustomerId = $("#ddlCustomer").val();
+    values.IsOrderTaken = true;
+    values.FreightTypeId = $("#ddlFreightType").val();
+    $('#tblShipmentDetails').DataTable({
+        //"bInfo": false,
+        dom: 'Blfrtip',
+        serverSide: true,
+        buttons: [
+            {
+                extend: 'print',
+                title: "",
+                text:'<img src="../../Assets/images/printer.png" style="height:18px;margin-right: 5px;width:16px;"/> <label style="margin-bottom:-2px;"> Print</label>',
+                messageBottom: datetime,
+                exportOptions: {
+                   // columns: ':visible',
+                    stripHtml: false,
+                    columns: [1, 2, 3, 4, 5, 6, 7, 8]
+                },
+                customize: function (win) {
+                    var last = null;
+                    var current = null;
+                    var bod = [];
+
+
+                    var css = '@page { size: landscape; }',
+                        head = win.document.head || win.document.getElementsByTagName('head')[0],
+                        style = win.document.createElement('style');
+
+                    style.type = 'text/css';
+                    style.media = 'print';
+
+                    if (style.styleSheet) {
+                        style.styleSheet.cssText = css;
+                    }
+                    else {
+                        style.appendChild(win.document.createTextNode(css));
+                    }
+
+                    head.appendChild(style);
+                    $(win.document.body)
+                        .css('font-size', '10pt')
+                        .prepend(
+                            "<table id='9'><tr><td width='80%' ><b>REQUESTED SHIPMENTS</b></td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
+                        );
+
+
+                }
+
+            },
+
+        ],
+
+        select: 'single',
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+        filter: true,
+        responsive: true,
+        processing: true,
+        serverSide: true,
+        searching: true,
+        bDestroy: true,
+        stateSave: true,
+        "language": {
+            processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
+        },
+        "ajax": {
+            "url": baseUrl + "/Shipment/Shipment/ViewShipment",
+            "type": "POST",
+            "data": values,
+            //"async": false,
+            "datatype": "json",
+        },
+        "columns": [
+            { "data": "ShipmentId", "name": "ShipmentId", "autoWidth": true, },
+            { "data": "CustomerName", "name": "CustomerName", "autoWidth": true },
+            { "data": "PickUpLocation", "name": "PickUpLocation", "autoWidth": true },
+            { "data": "PickupDate", "name": "PickupDate", "autoWidth": "8%" },
+            { "data": "DeliveryLocation", "name": "DeliveryLocation", "autoWidth": true },
+            { "data": "DeliveryDate", "name": "DeliveryDate", "autoWidth": true },
+            { "data": "AirWayBill", "name": "AirWayBill", "width": "7%" },
+            { "data": "Quantity", "name": "Quantity", "autoWidth": true },
+            { "data": "CreatedByName", "name": "CreatedByName", "autoWidth": true },
+            { "data": "IsReady", "name": "Ready", "autoWidth": true },
+            { "name": "Action", "autoWidth": true },
+        ],
+        "order": [[0, "asc"]],
+        columnDefs: [
+
+
+
+            {
+                "targets": 2,
+                "autoWidth": true,
+                "render": function (data, type, row, meta) {
+                    console.log("row :",row);
+                    if (row.PickupLocation != null && row.PickupLocation != '') {
+                        var pickupList = row.PickupLocation.split('$');
+
+                        var pickupdata = "";
+                        if (pickupList.length > 0) {
+                            for (var i = 0; i < pickupList.length; i++) {
+                                pickupdata += '<label data-toggle="tooltip" data-placement="top" title="' + GetCAddress(pickupList[i]) + '">' + GetCompany(pickupList[i]) + '</label><br/>'
+                            }
+                            pickupdata = pickupdata.trim("<br/>");
+                            return pickupdata;
+                        }
+
+                    }
+                    else {
+
+                        return 'NA'
+                    }
+
+                },
+            },
+            {
+                "targets": 3,
+                "orderable": false,
+                "width": "8%",
+                "render": function (data, type, row, meta) {
+                    var pickupDate = "";
+                    if (row.PickupDate != null && row.PickupDate != '') {
+
+                        var pickupDateList = row.PickupDate.split('|');
+                        if (pickupDateList.length > 0) {
+                            for (var i = 0; i < pickupDateList.length; i++) {
+
+                                pickupDate += '<label>' + ConvertSqlDateTimeNew(pickupDateList[i], true) + '</label><br/>'
+                            }
+
+                        }
+                    }
+                    return pickupDate;
+                }
+            },
+
+
+            {
+                "targets": 4,
+                "autoWidth": true,
+                "render": function (data, type, row, meta) {
+
+                    if (row.DeliveryLocation != null && row.DeliveryLocation != '') {
+                        var deliveryLocaton = row.DeliveryLocation.split("$");
+                        var deliveryData = "";
+                        if (deliveryLocaton.length > 0) {
+                            for (var i = 0; i < deliveryLocaton.length; i++) {
+                                deliveryData += '<label data-toggle="tooltip" data-placement="top" title="' + GetCAddress(deliveryLocaton[i]) + '">' + GetCompany(deliveryLocaton[i]) + '</label><br/>'
+                            }
+                            deliveryData = deliveryData.trim("<br/>");
+                            return deliveryData;
+                        }
+
+                    } else {
+                        return 'NA'
+
+                    }
+                }
+            },
+
+            {
+                "targets": 5,
+                "orderable": false,
+                "width": "8%",
+                "render": function (data, type, row, meta) {
+                    var deliveryDate = "";
+                    if (row.DeliveryDate != null && row.DeliveryDate != '') {
+
+
+
+                        var deliveryDateList = row.DeliveryDate.split('|');
+                        if (deliveryDateList.length > 0) {
+                            for (var i = 0; i < deliveryDateList.length; i++) {
+                                deliveryDate += '<label>' + ConvertSqlDateTimeNew(deliveryDateList[i], true) + '</label><br/>'
+                            }
+                        }
+                    }
+
+                    return deliveryDate;
+                }
+            },
+
+            /*Dart changes for AirwayBill*/
+            {
+                "targets": 6,
+                "orderable": false,
+                "render": function (data, type, row, meta) {
+                    //console.log("row.AirWayBills: " + row.AirWayBills);
+                    if (row.AirWayBill != null && row.AirWayBill != '' && row.AirWayBill != undefined) {
+                        //console.log("row.AirWayBills:  " + row.AirWayBill);
+                        var quantity = row.AirWayBill.replaceAll('|', '<br/>');
+                        return '<label>' + quantity.replace(/,\s*$/, ""); + '</label>';
+                    }
+                  
+                    else {
+                        return '<label>NA</label>';
+                    }
+
+
+                }
+            },
+
+            {
+                "targets": 7,
+                "orderable": false,
+                "render": function (data, type, row, meta) {
+                    if (row.Quantity != null && row.Quantity != '' && row.Quantity != undefined) {
+                        var quantity = row.Quantity.replaceAll('|', '<br/>');
+                        return '<label>' + quantity.replace(/,\s*$/, ""); + '</label>';
+                    }
+                    else {
+
+                        return '<label>NA</label>';
+                    }
+
+
+                }
+            },
+            {
+                "targets": 9,
+                "orderable": false,
+                "className": "text-center",
+                "render": function (data, type, row, meta) {
+                    if (row.IsReady) {
+                        return '<input sy type="checkbox" checked="' + row.IsReady + '" onchange="ShipmenetIsReady(' + row.ShipmentId + ',this)" >';
+                    }
+                    else {
+
+                        return '<input type="checkbox" onchange="ShipmenetIsReady(' + row.ShipmentId + ',this)" >';
+                    }
+
+
+                }
+            },
+            {
+                "targets": 10,
+                "orderable": false,
+                "render": function (data, type, row, meta) {
+
+
+
+                    var btnEdit = '<a href="' + baseUrl + '/Shipment/Shipment/Index/' + row.ShipmentId + '" data-toggle="tooltip" title="Edit" class="edit_icon">' +
+                        '<i class="far fa-edit"></i>' +
+                        '</a>';
+                    var btnDelete = ' | <a href="javascript: void(0)" class="delete_icon" data-toggle="tooltip" title="Delete" onclick="javascript:DeleteShipment(' + row.ShipmentId + ');" >' +
+                        '<i class="far fa-trash-alt"></i>' +
+                        '</a>';
+                    var btnCopy = ' | <a href="javascript: void(0)" class="edit_icon" data-toggle="tooltip" title="Copy Shipment" onclick="javascript:CopyShipment(' + row.ShipmentId + ');" >' +
+                        '<i class="far fa-clone"></i>' +
+                        '</a>';
+                    var btnPreview = '<a href="' + baseUrl + '/Shipment/Shipment/ViewShipmentNotification/' + row.ShipmentId + '" title="Preview Quote" target="_blank" id="btnPreview">' +
+                        '<i class="far fa-eye"></i>' +
+                        '</a> |';
+                    btnEdit = (isUpdate == true) ? btnEdit : "";
+                    btnDelete = (isDelete == true) ? btnDelete : "";
+                    btnCopy = (isUpdate == true) ? btnCopy : "";
+                    btnPreview = (isView == true) ? btnPreview : "";
+                    return '<div class="action-ic"> ' + btnPreview + ' ' + btnEdit + ' ' + btnCopy + ' ' + btnDelete + '</div>'
+
+                }
+            },
+            {
+                "targets": 0,
+                "visible": false,
+            }
+        ]
+    });
+
+    //var oTable1 = $('#tblShipmentDetails').DataTable();
+
+    //$("input[input='search']").keyup(function () {
+
+    //    oTable1.search(this.value);
+    //    oTable1.draw();
+    //});
+
+    var search_thread_tblShipmentDetails = null;
+    $("#tblShipmentDetails_filter input")
+        .unbind()
+        .bind("input", function (e) {
+            clearTimeout(search_thread_tblShipmentDetails);
+            search_thread_tblShipmentDetails = setTimeout(function () {
+                var dtable = $("#tblShipmentDetails").dataTable().api();
+                var elem = $("#tblShipmentDetails_filter input");
+                return dtable.search($(elem).val()).draw();
+            }, 700);
+        });
+
+}
+
+//#endregion
+
+function GetCompany(fullAddress) {
+
+    var fullAddress = fullAddress;
+    var lastIndex = fullAddress.lastIndexOf("||")
+    var companyName = fullAddress.substring(0, lastIndex);
+    var address = fullAddress.substring(lastIndex + 2);
+    if (lastIndex > 0) {
+        return companyName;
+    }
+    else {
+        return fullAddress;
+    }
+
+}
+
+function GetCAddress(fullAddress) {
+    var fullAddress = fullAddress;
+    var lastIndex = fullAddress.lastIndexOf("||")
+    var companyName = fullAddress.substring(0, lastIndex);
+    var address = fullAddress.substring(lastIndex + 2);
+    if (lastIndex > 0) {
+        return address;
+    }
+    else {
+        return fullAddress;
+    }
+
+}
+
+function ClearCopyShipment() {
+    var $select = $('#ddlCustomerCopy').selectize();
+    $select[0].selectize.destroy();
+    var ddlCustomer = "<option selected='selected' value=" + 0 + ">SEARCH CUSTOMER</option>";
+    $("#ddlCustomerCopy").empty();
+    $("#ddlCustomerCopy").append(ddlCustomer);
+    $(".ddlCustomerCopy").text("SEARCH CUSTOMER");
+
+
+    $("#ddlPickupDate").val("");
+    $("#ddlDeliveryDate").val("");
+    $("#txtAirWayBill").val("");
+    $("#hdnShipmentId").val(0);
+}
+
+function ValidateCopyShipment() {
+
+    var isValid = true;
+    var message = "";
+    var customerId = $("#ddlCustomerCopy").val();
+    if (customerId > 0) {
+        isValid = true;
+    }
+    else {
+        AlertPopup("Please select a customer.");
+
+        isValid = false;
+    }
+
+    var pickupDate = $("#ddlPickupDate").val();
+    var deliveryDate = $("#ddlDeliveryDate").val();
+
+    var todayDate = new Date();
+    var month = todayDate.getMonth() + 1;
+    var day = todayDate.getDate() - 1;
+
+    var yesterday = "";
+    yesterday = (month < 10 ? '0' : '') + month + '-' +
+        (day < 10 ? '0' : '') + day + '-' +
+        todayDate.getFullYear();
+
+    //yesterday = new Date(Date.parse(todayDate));
+
+    if (isValid && pickupDate != "" && pickupDate < yesterday) {
+        AlertPopup("Please review your Pickup Est. Arrival. It should be greater than, or equal to, yesterday's date.");
+        isValid = false;
+
+    }
+
+
+    if (isValid && pickupDate != "" && deliveryDate != "") {
+        if (new Date(pickupDate) <= new Date(deliveryDate)) {
+
+        }
+        else {
+            //$("#dtArrivalDate").val("");
+            AlertPopup("Please review your Delivery Est. Arrival. It should be greater than your Pickup Est. Arrival.");
+            isValid = false;
+
+        }
+
+    }
+
+    return isValid;
+}
+
+
+
+function CopyShipment(ShipmentId) {
+    $.confirm({
+        title: 'Confirmation!',
+        content: '<b>Are you sure you want to copy this shipment?</b> ',
+        type: 'blue',
+        typeAnimated: true,
+        buttons: {
+            Copy: {
+                btnClass: 'btn-blue',
+                action: function () {
+
+                    // bindCustomerDropdownCopy();
+                    ClearCopyShipment();
+                    $.ajax({
+                        url: baseUrl + 'Shipment/Shipment/GetCopyShipmentDetailById',
+                        data: { "shipmentId": ShipmentId },
+                        type: "Post",
+                        // async: true,
+                        //contentType: "application/json; charset=utf-8",
+                        //dataType: "json",
+                        success: function (data) {
+                            if (data != null) {
+                                //ClearCopyShipment();
+                                //$('#shipmentModal').modal('toggle');
+
+                                var ddlCustomer = "<option selected='selected' value=" + data.CustomerId + ">" + data.CustomerName + "</option>";
+                                $("#ddlCustomerCopy").empty();
+                                $("#ddlCustomerCopy").append(ddlCustomer);
+                                $(".ddlCustomerCopy").text(data.CustomerName);
+
+                                $("#ddlPickupDate").val(ConvertDate(data.EstPickupArriaval, true));
+                                $("#ddlDeliveryDate").val(ConvertDate(data.EstDeliveryArrival, true));
+                                //("#txtAirWayBill").val(data.AWB);
+                                $("#hdnShipmentId").val(data.ShipmentId);
+
+                                bindCustomerDropdownCopy();
+                            }
+                            $("#shipmentModal").modal("show");
+                            $('#shipmentModal').draggable();
+
+                        },
+                        error: function () {
+
+                            alert();
+                        }
+
+
+                    });
+
+                }
+            },
+            cancel: {
+
+                // btnClass: 'btn-red',
+            }
+        }
+    })
+}
+
+$("#btnCopy").click(function () {
+
+    if (ValidateCopyShipment()) {
+
+        var values = {};
+        values.CustomerId = $("#ddlCustomerCopy").val();
+        values.EstPickupArriaval = $("#ddlPickupDate").val();
+        values.EstDeliveryArrival = $("#ddlDeliveryDate").val();
+        values.AWB = $("#txtAirWayBill").val();
+        values.ShipmentId = $("#hdnShipmentId").val();
+
+        $.ajax({
+            url: baseUrl + 'Shipment/Shipment/SaveCopyShipmentDetail',
+            data: JSON.stringify(values),
+            type: "Post",
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data != null) {
+                    if (data == true) {
+                        $.alert({
+                            title: 'Success ',
+                            content: '<b>Shipment successfully copied.</b>',
+                            type: 'green',
+                            typeAnimated: true,
+                        });
+                    }
+                    else {
+
+                    }
+                    $('#shipmentModal').modal('toggle');
+                }
+                $('#tblShipmentDetails').DataTable().clear().destroy();
+                $('#tblShipmentDetails2').DataTable().clear().destroy();
+                GetOrderTakenShipmentList();
+                GetOtherStatusShipmentList();
+            }
+        });
+
+
+    }
+})
+
+//#region function for apply selectize on customer dropdown
+var bindCustomerDropdownCopy = function () {
+
+    var $select = $('#ddlCustomerCopy').selectize();
+    $select[0].selectize.destroy();
+
+    $('#ddlCustomerCopy').selectize({
+        //createOnBlur: true,
+        sortField: 'text',
+        maxItems: 1,
+        valueField: 'id',
+        labelField: 'text',
+        searchField: 'text',
+        plugins: ['restore_on_backspace'],
+        //highlight: true,
+        closeAfterSelect: false,
+        selectOnTab: true,
+        allowEmptyOption: true,
+        options: [],
+        //onType: function (value) {
+        //    searchBoxHasValue = true;
+        //    if (value == null || value == undefined || value == '') {
+        //        searchBoxHasValue = false;
+        //        var $options = $('.option', this.$dropdown);
+        //        this.setActiveOption($($options[0]));
+        //    }
+
+        //},
+        load: function (query, callback) {
+            if (!query.length) return callback();
+            $.ajax({
+                url: baseUrl + "Customer/GetAllCustomer/?searchText=" + query,
+                type: 'GET',
+                dataType: 'json',
+                //beforeSend: function (xhr, settings) {
+                //},
+                error: function () {
+                    callback();
+                },
+                success: function (response) {
+
+                    var customers = [];
+                    $.each(response, function (index, value) {
+                        item = {}
+                        item.id = value.CustomerID;
+                        item.text = value.CustomerName;
+                        item.email = value.Email;
+                        item.phone = value.Phone;
+                        item.IsWaitingTimeRequired = value.IsWaitingTimeRequired;
+                        customers.push(item);
+                    });
+
+                    callback(customers);
+                },
+                //complete: function () {
+                //}
+            });
+        },
+        render: {
+            item: function (item, escape) {
+                return '<div>' +
+                    ('<span class="name ddlCustomer" date-IsWaitingTimeRequired=' + item.IsWaitingTimeRequired + '>' + escape(item.text) + '</span>') +
+                    '</div>';
+            },
+            option: function (item, escape) {
+                var label = item.text;
+                return '<div style="padding: 2px 5px">' +
+                    '<span style="display: block;">' + escape(label) + '</span>' +
+                    '</div>';
+            }
+        },
+        //create: function (input, callback) {
+
+        //    $('#ddlCustomer').html("");
+        //    $('#ddlCustomer').append($("<option selected='selected'></option>").val(input).html(input))
+        //},
+        onFocus: function () {
+
+            var value = this.getValue();
+            this.clear(true);
+            this.unlock();
+        }
+        //onChange: function () {
+        //    var IsWaitingTimeRequired = $(".ddlCustomer").attr("date-IsWaitingTimeRequired");
+        //    if (JSON.parse(IsWaitingTimeRequired) == true) {
+        //        $('#chkDeliveryWaitingTime').prop('checked', true);
+        //        $('#chkPickUpWaitingTime').prop('checked', true);
+        //        $(".divWaitingTime").show();
+        //    }
+        //    else {
+        //        $('#chkDeliveryWaitingTime').prop('checked', false);
+        //        $('#chkPickUpWaitingTime').prop('checked', false);
+        //        $(".divWaitingTime").hide();
+        //    }
+        //}
+    });
+}
+//#endregion
+
+function replaceBR(string) {
+
+    var str = string.replace("<br/>", "");
+    return str;
+}
+//#region function to remove .00 from quantity
+
+
+function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+/* Define functin to find and replace specified term with replacement string */
+function replaceAll(str, term, replacement) {
+    return str.replace(new RegExp(escapeRegExp(term), 'g'), replacement);
+}
+
+//#endregion
+
+$('#tblShipmentDetails2').on('dblclick', 'tbody tr', function () {
+    var table = $('#tblShipmentDetails2').DataTable();
+    var data_row = table.row($(this).closest('tr')).data();
+    window.location.href = baseUrl + '/Shipment/Shipment/Index/' + data_row.ShipmentId;
+});
+
+//#region bind other status
+function GetOtherStatusShipmentList() {
+
+    var values = {};
+    values.StartDate = $("#dtStartedDate").val();
+    values.EndDate = $("#dtEndDate").val();
+    values.CustomerId = $("#ddlCustomer").val();
+    values.IsOrderTaken = false;
+    values.FreightTypeId = $("#ddlFreightType").val();
+    values.StatusId = $("#ddlStatus").val();
+    $('#tblShipmentDetails2').DataTable({
+        // "bInfo": false,
+        serverSide: true,
+        dom: 'Blfrtip',
+        buttons: [
+            {
+                extend: 'print',
+                //className:'btn btn-primary btn-sm',
+                //orientation: 'landscape',
+                //pageSize: 'LEGAL',
+                text: '<img src="../../Assets/images/printer.png" style="height:18px;margin-right: 5px;width:16px;"> <label style="margin-bottom:-2px;">Print</label>',
+                title: "",
+                messageBottom: datetime,
+                exportOptions: {
+                    columns: ':visible',
+                    stripHtml: false,
+                    columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12]
+                },
+                customize: function (win) {
+                    
+                    //$(win.document.body).find('table')
+                    //.widths = ['8%', '8%', '8%', '8%', '8%', '8%', '12%', '8%', '8%', '8%', '8%', '8%'];
+                    //win.content[0].table.widths = ['8%', '8%', '8%', '8%', '8%', '8%', '12%', '8%', '8%', '8%', '8%', '8%'];
+                    var last = null;
+                    var current = null;
+                    var bod = [];
+
+                    var css = '@page { size: landscape; }',
+                        head = win.document.head || win.document.getElementsByTagName('head')[0],
+                        style = win.document.createElement('style');
+
+                    style.type = 'text/css';
+                    style.media = 'print';
+
+                    if (style.styleSheet) {
+                        style.styleSheet.cssText = css;
+                    }
+                    else {
+                        style.appendChild(win.document.createTextNode(css));
+                    }
+                  
+            
+
+                    head.appendChild(style);
+                    $(win.document.body)
+                        .css('font-size', '10pt')
+                        .prepend(
+                            "<table id='checkheader'><tr><td width='80%' ><b>SHIPMENTS IN PROGRESS</b></td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
+                        );
+                },
+                //customize: function (doc) {
+                //    doc.styles['td:nth-child(7)'] = {
+                //        'width': '100px',
+                //        'max-width': '100px'
+                //    }
+                //}
+                //messageTop: function () {
+
+
+                //        return '<b style="color:red;">Hello How are you?</b>';
+
+                //},
+                //messageBottom: null
+            },
+
+        ],
+
+        select: 'single',
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+        responsive: true,
+        filter: true,
+        processing: true,
+        serverSide: true,
+        searching: true,
+        bDestroy: true,
+        stateSave: true,
+        "language": {
+            processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
+        },
+        "ajax": {
+            "url": baseUrl + "/Shipment/Shipment/ViewShipment",
+            "type": "POST",
+            "data": values,
+            //"async": false,
+            "datatype": "json",
+        },
+        "columns": [
+            { "data": "ShipmentId", "name": "ShipmentId", "autoWidth": true },
+            { "data": "StatusName", "name": "StatusName", "autoWidth": true },
+            { "data": "PickupDate", "name": "PickupDate", "autoWidth": true },
+            { "data": "PickupLocation", "name": "PickupLocation", "autoWidth": true },
+            { "data": "DeliveryDate", "name": "DeliveryDate", "autoWidth": true },
+            { "data": "DeliveryLocation", "name": "DeliveryLocation", "autoWidth": true },
+            { "data": "CustomerName", "name": "CustomerName", "autoWidth": true } ,                           
+            { "data": "AirWayBill", "name": "AirWayBill", "autoWidth": true  },
+            { "data": "Quantity", "name": "Quantity", "autoWidth": true },
+            //{ "data": "CustomerPO", "name": "CustomerPO", "autoWidth": true },
+           
+            { "data": "Commodity", "name": "Commodity", "autoWidth": true },
+            { "data": "Temperature", "name": "Temperature", "autoWidth": true },
+            { "data": "Driver", "name": "Driver", "autoWidth": true },
+            { "data": "Equipment", "name": "Equipment", "autoWidth": true },
+            { "name": "Action", "width":"10%" },
+        ],
+        "order": [[0, "desc"]],
+        columnDefs: [
+            {
+                "targets": 1,
+                "orderable": false,
+                "render": function (data, type, row, meta) {
+                    return StatusCheckForShipment(row.StatusName)
+                }
+            },
+            {
+                "targets": 2,
+                "orderable": false,
+                "width": "8%",
+                "render": function (data, type, row, meta) {
+                    var pickupDate = "";
+                    if (row.PickupDate != null && row.PickupDate != '') {
+
+
+                        var pickupDateList = row.PickupDate.split('|');
+                        if (pickupDateList.length > 0) {
+                            for (var i = 0; i < pickupDateList.length; i++) {
+
+                                pickupDate += '<label>' + ConvertSqlDateTimeNew(pickupDateList[i], true) + '</label><br/>'
+                            }
+
+                        }
+                    }
+                    return pickupDate;
+                }
+            },
+            {
+                "targets": 3,
+                "autoWidth": true,
+                "render": function (data, type, row, meta) {
+                    if (row.PickupLocation != null && row.PickupLocation != '') {
+                        var pickupList = row.PickupLocation.split('$');
+
+                        var pickupdata = "";
+                        if (pickupList.length > 0) {
+                            for (var i = 0; i < pickupList.length; i++) {
+                                pickupdata += '<label data-toggle="tooltip" data-placement="top" title="' + GetCAddress(pickupList[i]) + '">' + GetCompany(pickupList[i]) + '</label><br/>'
+                            }
+                            pickupdata = pickupdata.trim("<br/>");
+                            return pickupdata;
+                        }
+
+                    }
+                    else {
+
+                        return 'NA'
+                    }
+
+
+                },
+            },
+            {
+                "targets": 4,
+                "orderable": false,
+                "width": "8%",
+                "render": function (data, type, row, meta) {
+                    var deliveryDate = "";
+                    if (row.DeliveryDate != null && row.DeliveryDate != '') {
+                        var deliveryDateList = row.DeliveryDate.split('|');
+                        if (deliveryDateList.length > 0) {
+                            for (var i = 0; i < deliveryDateList.length; i++) {
+                                deliveryDate += '<label>' + ConvertSqlDateTimeNew(deliveryDateList[i], true) + '</label><br/>'
+                            }
+                        }
+                    }
+                    return deliveryDate;
+                }
+            },
+            {
+                "targets": 5,
+                "autoWidth": true,
+                "render": function (data, type, row, meta) {
+
+                    if (row.DeliveryLocation != null && row.DeliveryLocation != '') {
+                        var deliveryLocaton = row.DeliveryLocation.split("$");
+                        var deliveryData = "";
+                        if (deliveryLocaton.length > 0) {
+                            for (var i = 0; i < deliveryLocaton.length; i++) {
+                                deliveryData += '<label data-toggle="tooltip" data-placement="top" title="' + GetCAddress(deliveryLocaton[i]) + '">' + GetCompany(deliveryLocaton[i]) + '</label><br/>'
+                            }
+                            deliveryData = deliveryData.trim("<br/>");
+                            return deliveryData;
+                        }
+
+                    } else {
+                        return 'NA'
+
+                    }
+                }
+            },
+          
+
+            {
+                "targets": 8,
+                "orderable": false,
+                "render": function (data, type, row, meta) {
+                    if (row.Quantity != null && row.Quantity != '' && row.Quantity != undefined) {
+                        var quantity = row.Quantity.replaceAll('|', '<br/>');
+                        return '<label>' + quantity.replace(/,\s*$/, ""); + '</label>';
+                    }
+                    else {
+
+                        return '<label>NA</label>';
+                    }
+
+                }
+            },
+            {
+                "targets": 9,
+                "orderable": false,
+                "render": function (data, type, row, meta) {
+                    return SameDatas(row.Commodity);
+
+                }
+            },
+            {
+                "targets": 10,
+                "orderable": false,
+                "render": function (data, type, row, meta) {
+                    return SameDatas(row.Temperature);
+
+                }
+            },
+            {
+                "targets": 13,
+                "orderable": false,
+                "render": function (data, type, row, meta) {
+                    var btnEdit = '<a href="' + baseUrl + '/Shipment/Shipment/Index/' + row.ShipmentId + '" data-toggle="tooltip" title="Edit" class="edit_icon">' +
+                        '<i class="far fa-edit"></i>' +
+                        '</a>';
+                    var btnMap = '| <a href="javascript: void(0)" class="Map_icon" data-toggle="tooltip" id="redirectButton" title="Map" onclick="javascript:fn_RedirectToGpsTracker(' + row.ShipmentId + ');" >' +
+                        '<i class="fas fa-map-marked-alt"></i>' +
+                        '</a>';
+                    var btnDelete = ' | <a href="javascript: void(0)" class="delete_icon" data-toggle="tooltip" title="Delete" onclick="javascript:DeleteShipment(' + row.ShipmentId + ');" >' +
+                        '<i class="far fa-trash-alt"></i>' +
+                        '</a>';
+                    var btnCopy = ' | <a href="javascript: void(0)" class="edit_icon" data-toggle="tooltip" title="Copy Shipment" onclick="javascript:CopyShipment(' + row.ShipmentId + ');" >' +
+                        '<i class="far fa-clone"></i>' +
+                        '</a>';
+                    var btnPreview = '<a href="' + baseUrl + '/Shipment/Shipment/ViewShipmentNotification/' + row.ShipmentId + '" title="Shipment Preview" target="_blank" id="btnPreview">' +
+                        '<i class="far fa-eye"></i>' +
+                        '</a> |';
+                    var needApprovment = '<a href="' + baseUrl + '/Shipment/Shipment/Index/' + row.ShipmentId + '" title="Notification" style="color:red;" class="delete_icon" target="_blank" id="btnPreview">' +
+                        '<i class="fa fa-bell" aria-hidden="true"></i>' +
+                        '</a> |';
+                    var noNeedApprovment = '<a href="' + baseUrl + '/Shipment/Shipment/Index/' + row.ShipmentId + '" title="Notification"  target="_blank" id="btnPreview">' +
+                        '<i class="fa fa-bell" aria-hidden="true"></i>' +
+                        '</a> |';
+                    btnEdit = (isUpdate == true) ? btnEdit : "";
+                    btnDelete = (isDelete == true) ? btnDelete : "";
+                    btnCopy = (isUpdate == true) ? btnCopy : "";
+                    btnPreview = (isView == true) ? btnPreview : "";
+                    var displayBell = row.ApproveStatus == 1 ? noNeedApprovment : needApprovment;
+                    return '<div class="action-ic">' + btnPreview + ' ' + displayBell +' '+ btnEdit + ' ' + btnCopy + ' ' + btnDelete + ' ' + btnMap + '</div>'
+                }
+            },
+            {
+                "targets": 0,
+                "visible": false,
+            }
+        ]
+    });
+
+    var search_thread_tblShipmentDetails2 = null;
+    $("#tblShipmentDetails2_filter input")
+        .unbind()
+        .bind("input", function (e) {
+            clearTimeout(search_thread_tblShipmentDetails2);
+            search_thread_tblShipmentDetails2 = setTimeout(function () {
+                var dtable = $("#tblShipmentDetails2").dataTable().api();
+                var elem = $("#tblShipmentDetails2_filter input");
+                return dtable.search($(elem).val()).draw();
+            }, 700);
+        });
+
+}
+//#region bind other status
+
+
+//#region same data
+function SameDatas(fieldData) {
+    var isSame = false;
+    if (fieldData != null && fieldData != '') {
+        var fieldList = fieldData.split('$');
+        if (fieldList.length > 0) {
+            var count = 0;
+            for (var i = 0; i < fieldList.length; i++) {
+                if (fieldList[i] == fieldList[0]) {
+                    count = count + 1;
+                }
+            }
+            if (count == fieldList.length) {
+                isSame = true;
+            }
+            if (isSame) {
+                return '<label>' +fieldList[0]+ '</label>'
+            }
+            else {
+                var fields = "";
+                for (var i = 0; i < fieldList.length; i++) {
+                    fields += '<label>' + fieldList[i] + '</label><br/>'
+                }
+                return fields;
+            }
+        }
+    }
+    else {
+        return '<label></label>'
+    }
+
+}
+//#endregion
+
+//#region Bind shipment
+function GetOtherStatusShipmentList1() {
+
+    var values = {};
+    values.StartDate = $("#dtStartedDate2").val();
+    values.EndDate = $("#dtEndDate2").val();
+    values.CustomerId = $("#ddlCustomer2").val();
+    values.IsOrderTaken = false;
+    values.FreightTypeId = $("#ddlFreightType2").val();
+    $('#tblShipmentDetails2').DataTable({
+        // "bInfo": false,
+        select: 'single',
+        filter: true,
+        responsive: true,
+        processing: true,
+        serverSide: true,
+        searching: true,
+        bDestroy: true,
+        stateSave: true,
+        "language": {
+            processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
+        },
+        "ajax": {
+            "url": baseUrl + "/Shipment/Shipment/ViewShipment",
+            "type": "POST",
+            "data": values,
+            //"async": false,
+            "datatype": "json",
+        },
+        "columns": [
+            { "data": "ShipmentId", "name": "ShipmentId", "autoWidth": true },
+            { "data": "Status", "name": "Status", "autoWidth": true },
+            { "data": "CustomerName", "name": "CustomerName", "autoWidth": true },
+            { "data": "PickUpLocation", "name": "PickUpLocation", "autoWidth": true },
+            { "data": "", "name": "", "autoWidth": true },
+            { "data": "DeliveryLocation", "name": "DeliveryLocation", "autoWidth": true },
+            { "data": "", "name": "", "autoWidth": true },
+            { "data": "AirWayBillNo", "name": "AirWayBillNo", "width": "12%" },
+            { "data": "CustomerPO", "name": "CustomerPO", "autoWidth": true },
+            { "data": "DriverName", "name": "DriverName", "autoWidth": true },
+            { "data": "EquipmentNo", "name": "EquipmentNo", "autoWidth": true },
+            { "data": "QutVolWgt", "name": "QutVolWgt", "autoWidth": true },
+            { "name": "Action", "autoWidth": true },
+        ],
+        "order": [[0, "desc"]],
+        columnDefs: [
+            {
+                "targets": 1,
+                "orderable": true,
+                "render": function (data, type, row, meta) {
+                    return StatusCheckForShipment(row.Status)
+                }
+            },
+            {
+                "targets": 2,
+                "orderable": true,
+
+            },
+            {
+                "targets": 4,
+                "orderable": false,
+                "width": "10%",
+                "render": function (data, type, row, meta) {
+
+                    var pickupDate = "";
+                    if (row.PickUpDateList.length > 0) {
+                        for (var i = 0; i < row.PickUpDateList.length; i++) {
+                            pickupDate += '<label>' + ConvertDate(row.PickUpDateList[i], true) + '</label><br/>'
+                        }
+                    }
+
+                    return pickupDate;
+                }
+            },
+            {
+                "targets": 6,
+                "orderable": false,
+                "width": "10%",
+                "render": function (data, type, row, meta) {
+                    var deliveryDate = "";
+                    if (row.DeliveryDateList.length > 0) {
+                        for (var i = 0; i < row.DeliveryDateList.length; i++) {
+                            deliveryDate += '<label>' + ConvertDate(row.DeliveryDateList[i], true) + '</label><br/>'
+                        }
+                    }
+
+                    return deliveryDate;
+                }
+            },
+
+            {
+                "targets": 5,
+                "autoWidth": true,
+                "render": function (data, type, row, meta) {
+
+                    if (row.DeliveryLocation != null && row.DeliveryLocation != '') {
+                        var deliveryLocaton = row.DeliveryLocation.split("|");
+                        var deliveryData = "";
+                        if (deliveryLocaton.length > 0) {
+                            for (var i = 0; i < deliveryLocaton.length; i++) {
+                                deliveryData += '<label data-toggle="tooltip" data-placement="top" title="' + GetAddress(deliveryLocaton[i]) + '">' + GetCompanyName(deliveryLocaton[i]) + '</label><br/>'
+                            }
+                            deliveryData = deliveryData.trim("<br/>");
+                            return deliveryData;
+                        }
+
+                        //return '<label data-toggle="tooltip" data-placement="top" title="' + GetAddress(row.DeliveryLocation) + '">' + GetCompanyName(row.DeliveryLocation) + '</label>'
+                    } else {
+                        return 'NA'
+
+                    }
+                }
+            },
+
+            {
+                "targets": 3,
+                "autoWidth": true,
+                "render": function (data, type, row, meta) {
+
+                    if (row.PickUpLocation != null && row.PickUpLocation != '') {
+                        var pickuplocaton = row.PickUpLocation.split("|");
+                        var pickupdata = "";
+                        if (pickuplocaton.length > 0) {
+                            for (var i = 0; i < pickuplocaton.length; i++) {
+                                pickupdata += '<label data-toggle="tooltip" data-placement="top" title="' + GetAddress(pickuplocaton[i]) + '">' + GetCompanyName(pickuplocaton[i]) + '</label><br/>'
+                            }
+                            pickupdata = pickupdata.trim("<br/>");
+                            return pickupdata;
+                        }
+                    } else {
+                        return 'NA'
+
+                    }
+                }
+            },
+            {
+                "targets": 7,
+                "orderable": true,
+
+            },
+            {
+                "targets": 8,
+                "orderable": true,
+
+            },
+
+            {
+                "targets": 9,
+                "autoWidth": true,
+                "orderable": true,
+                "render": function (data, type, row, meta) {
+
+                    if (row.DriverName != null && row.DriverName != '') {
+
+                        return '<label data-toggle="tooltip" data-placement="top" title="' + row.DriverName + '">' + SplitString(row.DriverName, 15, true) + '</label>'
+                    } else {
+                        return 'NA'
+
+                    }
+                }
+            },
+            {
+                "targets": 10,
+                "autoWidth": true,
+                "orderable": true,
+                "render": function (data, type, row, meta) {
+
+                    if (row.EquipmentNo != null && row.EquipmentNo != '') {
+
+
+                        return '<label href="javascript: void(0)" data-toggle="tooltip" data-placement="top" title="' + row.EquipmentNo + '">' + SplitString(row.EquipmentNo, 10, true) + '</label>'
+                    } else {
+                        return 'NA'
+
+                    }
+                }
+            },
+            {
+                "targets": 11,
+                "orderable": false,
+                "render": function (data, type, row, meta) {
+                    var Qty = "";
+                    if (row.Quantity > 0) {
+                        if (row.PartialPallete > 0) {
+                            Qty = row.Quantity + "/" + row.PartialPallete + " Pallets, "
+                        }
+                        else {
+                            Qty = row.Quantity + " Pallets, "
+                        }
+
+                    }
+                    if (row.NoOfBox > 0) {
+                        if (row.PartilalBox > 0) {
+                            Qty += row.NoOfBox + "/" + row.PartilalBox + " Boxes, ";
+                        }
+                        else {
+                            Qty += row.NoOfBox + " Boxes, ";
+                        }
+
+                    }
+
+                    if (row.Weights != "" || row.Weights != "") {
+                        Qty += row.Weights + ", ";
+                    }
+
+                    if (row.TrailerCount > 0) {
+                        Qty += row.TrailerCount + " Trailer";
+                    }
+                    Qty = Qty.replace(/(^\s*,)|(,\s*$)/g, '');
+                    return '<label>' + row.QutVolWgt + '</label>';
+
+                }
+            },
+            {
+                "targets": 12,
+                "orderable": false,
+                "render": function (data, type, row, meta) {
+                    var btnEdit = '<a href="' + baseUrl + '/Shipment/Shipment/Index/' + row.ShipmentId + '" data-toggle="tooltip" title="Edit" class="edit_icon">' +
+                        '<i class="far fa-edit"></i>' +
+                        '</a>';
+                    var btnMap = '| <a href="javascript: void(0)" class="Map_icon" data-toggle="tooltip" id="redirectButton" title="Map" onclick="javascript:fn_RedirectToGpsTracker(' + row.ShipmentId + ');" >' +
+                        '<i class="fas fa-map-marked-alt"></i>' +
+                        '</a>';
+                    var btnDelete = ' | <a href="javascript: void(0)" class="delete_icon" data-toggle="tooltip" title="Delete" onclick="javascript:DeleteShipment(' + row.ShipmentId + ');" >' +
+                        '<i class="far fa-trash-alt"></i>' +
+                        '</a>';
+                    var btnCopy = ' | <a href="javascript: void(0)" class="edit_icon" data-toggle="tooltip" title="Copy Shipment" onclick="javascript:CopyShipment(' + row.ShipmentId + ');" >' +
+                        '<i class="far fa-clone"></i>' +
+                        '</a>';
+                    var btnPreview = '<a href="' + baseUrl + '/Shipment/Shipment/ViewShipmentNotification/' + row.ShipmentId + '" title="Preview Quote" target="_blank" id="btnPreview">' +
+                        '<i class="far fa-eye"></i>' +
+                        '</a> |';
+                    btnEdit = (isUpdate == true) ? btnEdit : "";
+                    btnDelete = (isDelete == true) ? btnDelete : "";
+                    btnCopy = (isUpdate == true) ? btnCopy : "";
+                    btnPreview = (isView == true) ? btnPreview : "";
+                    return '<div class="action-ic">' + btnPreview + ' ' + btnEdit + ' ' + btnCopy + ' ' + btnDelete + ' ' + btnMap + '</div>'
+                }
+            },
+            {
+                "targets": 0,
+                "visible": false,
+            }
+        ]
+    });
+
+    //var oTable2 = $('#tblShipmentDetails2').DataTable();
+
+    //$("input[input='search']").keyup(function () {
+
+    //    oTable2.search(this.value);
+    //    oTable2.draw();
+    //});
+    var search_thread_tblShipmentDetails2 = null;
+    $("#tblShipmentDetails2_filter input")
+        .unbind()
+        .bind("input", function (e) {
+            clearTimeout(search_thread_tblShipmentDetails2);
+            search_thread_tblShipmentDetails2 = setTimeout(function () {
+                var dtable = $("#tblShipmentDetails2").dataTable().api();
+                var elem = $("#tblShipmentDetails2_filter input");
+                return dtable.search($(elem).val()).draw();
+            }, 700);
+        });
+
+
+}
+//#endregion
+
+//#region Redirect to Gps Tracker
+var fn_RedirectToGpsTracker = function (ShipmentId) {
+    window.open(baseUrl + '/GpsTracker/GpsTracker/Index/' + ShipmentId + ' ');
+}
+//#endregion
+
+function SplitString(text, count, insertDots) {
+    return text.slice(0, count) + (((text.length > count) && insertDots) ? "..." : "");
+}
+
+//#region Detail  Data Delete
+function DeleteShipment(listId) {
+
+    $.confirm({
+        title: 'Confirmation!',
+        content: '<b>Are you sure you want to delete?</b> ',
+        type: 'red',
+        typeAnimated: true,
+        buttons: {
+            delete: {
+                btnClass: 'btn-blue',
+                action: function () {
+                    $.ajax({
+                        url: baseUrl + '/Shipment/Shipment/DeleteShipment',
+                        data: { 'shipmentId': listId },
+                        type: "GET",
+                        success: function (data) {
+
+                            if (data.IsSuccess == true) {
+                                $.alert({
+                                    title: 'Success!',
+                                    content: "<b>" + data.Message + "</b>",
+                                    type: 'green',
+                                    typeAnimated: true,
+                                    buttons: {
+                                        Ok: {
+                                            btnClass: 'btn-green',
+                                            action: function () {
+                                       
+                                                $('#tblShipmentDetails').DataTable().clear().destroy();
+                                                $('#tblShipmentDetails2').DataTable().clear().destroy();
+                                                GetOrderTakenShipmentList();
+                                                GetOtherStatusShipmentList();
+                                            }
+                                        },
+                                    }
+                                });
+
+                            }
+                            else {
+                                AlertPopup(data.Message)
+                            }
+
+                        }
+                    });
+                }
+            },
+            cancel: {
+
+                // btnClass: 'btn-red',
+            }
+        }
+    })
+
+}
+//#endregion
+
+//#region function for apply selectize on customer dropdown
+var bindCustomerDropdown = function () {
+    $('#ddlCustomer').selectize({
+        createOnBlur: false,
+        maxItems: 1,
+        valueField: 'id',
+        labelField: 'text',
+        searchField: 'text',
+        plugins: ['restore_on_backspace'],
+        load: function (query, callback) {
+            if (!query.length) return callback();
+            $.ajax({
+                url: baseUrl + "Customer/GetAllCustomer/?searchText=" + query,
+                type: 'GET',
+                dataType: 'json',
+                beforeSend: function (xhr, settings) {
+                },
+                error: function () {
+                    callback();
+                },
+                success: function (response) {
+
+                    var customers = [];
+                    $.each(response, function (index, value) {
+                        item = {}
+                        item.id = value.CustomerID;
+                        item.text = value.CustomerName;
+                        item.email = value.Email;
+                        item.phone = value.Phone;
+                        customers.push(item);
+                    });
+
+                    callback(customers);
+                },
+                complete: function () {
+                }
+            });
+        },
+        render: {
+            item: function (item, escape) {
+                return '<div>' +
+                    ('<span class="name ddlCustomer">' + escape(item.text) + '</span>') +
+                    '</div>';
+            },
+            option: function (item, escape) {
+                var label = item.text;
+                return '<div>' +
+                    '<span style="display: block;">' + escape(label) + '</span>' +
+                    '</div>';
+            }
+        },
+        create: function (input, callback) {
+            $('#ddlCustomer').html("");
+            $('#ddlCustomer').append($("<option selected='selected'></option>").val(input).html(input))
+        },
+        onFocus: function () {
+
+            var value = this.getValue();
+            this.clear(true);
+            this.unlock();
+        }
+    });
+}
+//#endregion
+
+//#region function for apply selectize on customer dropdown
+
+var bindCustomerDropdown2 = function () {
+    $('#ddlCustomer2').selectize({
+        createOnBlur: false,
+        maxItems: 1,
+        valueField: 'id',
+        labelField: 'text',
+        searchField: 'text',
+        plugins: ['restore_on_backspace'],
+        load: function (query, callback) {
+            if (!query.length) return callback();
+            $.ajax({
+                url: baseUrl + "Customer/GetAllCustomer/?searchText=" + query,
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+                beforeSend: function (xhr, settings) {
+                },
+                error: function () {
+                    callback();
+                },
+                success: function (response) {
+
+                    var customers = [];
+                    $.each(response, function (index, value) {
+                        item = {}
+                        item.id = value.CustomerID;
+                        item.text = value.CustomerName;
+                        item.email = value.Email;
+                        item.phone = value.Phone;
+                        customers.push(item);
+                    });
+
+                    callback(customers);
+                },
+                complete: function () {
+                }
+            });
+        },
+        render: {
+            item: function (item, escape) {
+                return '<div>' +
+                    ('<span class="name ddlCustomer">' + escape(item.text) + '</span>') +
+                    '</div>';
+            },
+            option: function (item, escape) {
+                var label = item.text;
+                return '<div>' +
+                    '<span style="display: block;">' + escape(label) + '</span>' +
+                    '</div>';
+            }
+        },
+        create: function (input, callback) {
+            $('#ddlCustomer2').html("");
+            $('#ddlCustomer2').append($("<option selected='selected'></option>").val(input).html(input))
+        },
+        onFocus: function () {
+
+            var value = this.getValue();
+            this.clear(true);
+            this.unlock();
+        }
+    });
+}
+//#endregion
+
+btnViewShipment = function () {
+    $("#btnViewShipment").on("click", function () {
+        GetOrderTakenShipmentList();
+    })
+}
+
+btnViewShipment2 = function () {
+    
+    $("#btnViewShipment2").on("click", function () {   
+        GetOtherStatusShipmentList();
+    })
+}
+
+//#region DATE
+var startEndDate = function () {
+
+    var options = {
+        format: 'm-d-Y',
+        formatTime: 'H:i',
+        formatDate: 'm-d-Y',
+        startDate: new Date(),
+        minDate: false,
+        minTime: true,
+        roundTime: 'round',// ceil, floor, round
+        step: 30,
+        timepicker: false
+    }
+
+    jQuery('.jqueryui-marker-datepicker').datetimepicker(options);
+}
+//#endregion
+
+//#region bind freight type dropdownlist
+function GetFreightType() {
+    $.ajax({
+        url: baseUrl + 'Shipment/Shipment/BindFreightType',
+        data: {},
+        type: "Post",
+        async: false,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            var ddlValue = "";
+            $("#ddlFreightType").empty();
+            $("#ddlFreightType2").empty();
+            ddlValue += '<option value="0">SELECT FREIGHT TYPE</option>'
+            for (var i = 0; i < data.length; i++) {
+                ddlValue += '<option value="' + data[i].FreightTypeId + '">' + data[i].FreightTypeName + '</option>';
+            }
+            $("#ddlFreightType").append(ddlValue);
+            $("#ddlFreightType2").append(ddlValue);
+        }
+    });
+
+}
+//#endregion
+
+//#region Shipmenet Is Ready
+function ShipmenetIsReady(shipmentId, event) {
+    
+    var isReady = $(event).is(":checked");
+    var model = {};
+    model.shipmentId = JSON.parse(shipmentId);
+    model.ready = JSON.parse(isReady);    
+    $.ajax({
+        url: baseUrl + 'Shipment/Shipment/ShipmentIsReady',
+        type: "POST",
+        data: JSON.stringify(model),        
+        async: false,       
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            if (data && isReady) {
+                SuccessPopup("Shipment is now ready state.")
+            }
+            else {
+                SuccessPopup("Shipment is now not ready state.")
+            }
+        }
+    });
+
+}
+//#endregion

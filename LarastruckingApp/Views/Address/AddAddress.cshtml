@@ -1,0 +1,23 @@
+﻿@model LarastruckingApp.ViewModel.AddressViewModel
+@{
+    ViewBag.Title = "AddAddress";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{ Html.RenderPartial("_prAddAddress");}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 mt-2">
+        <div class="white-bg customFormWrap">
+            <div class="customTableWrapper table-spacing">
+                <div id="divAddressList">
+                    @{Html.RenderAction("GetAddressList", "Address");}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

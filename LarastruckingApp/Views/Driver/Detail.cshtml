@@ -1,0 +1,447 @@
+﻿@model LarastruckingApp.ViewModel.PreTrip.PreTripViewModel
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row phoneSpace">
+
+    <input type="hidden" id="hdOpenedShipment" name="hdShipmentId" value=@ViewBag.OpenedShipment>
+    <input type="hidden" id="hdfDriverLanguage" value="@Model.DriverLanguage" name="hdfDriverLanguage" />
+    <div class="col-lg-12 col-md-12 mt-2">
+        <div class="white-bg customFormWrap">
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="txtAwbPoOrd">AWB/PO/ORD</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="txtAwbPoOrd" class="form-control" readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="ddlShipmentStatus">Status</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" id="ddlShipmentStatus" value="ShipmentStatus" onfocusout="fn_GetdriverStatus(this)">
+                                <option> Select Status</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 btnswapdisabled" id="subStatusDiv">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="ddlShipmentSubStatus">Sub-Status</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" id="ddlShipmentSubStatus">
+                                <option value="">Select Sub-Status</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 btnswapdisabled" id="txtOtherReasonDiv">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label" for="txtOtherReason">Description</label>
+                        <div class="col-sm-9">
+                            <input type="text"
+                                   id="txtOtherReason"
+                                   disabled="disabled"
+                                   name="txtOtherReason"
+                                   onkeypress="return onlyAlphanumeric(event)"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="customTableWrapper" id="divRouteDetail">
+                <strong> <span><h6>Shipment Details</h6></span></strong>
+                <div id="">
+                    <table id="tblShipmentRoute" class="table-bordered dataTable table-striped cf w-100">
+                        <thead>
+                            <tr>
+                                <th width="5%"> </th>
+                                @*<th width="5%">Sr No </th>*@
+                                <th> Pickup Location </th>
+                                <th> Pickup Date Time</th>
+                                <th> Delivery Location </th>
+                                <th> Delivery Date Time </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.ShipmentsDetail.Count > 0)
+                            {
+                                foreach (var item in Model.ShipmentsDetail)
+                                {
+                                    <tr class="tblChange-bgcolor">
+                                        <td> <input type="radio" name="radioShipmentRouteId" DriverId="@item.DriverId" EqipmentNo="@item.EquipmentNo" CustomerId="@item.CustomerId" PickupLocationId="@item.PickupLocationId" DeliveryLocationId="@item.DeliveryLocationId" id="radioShipmentRouteId" value="@item.ShippingRoutesId" onchange="CheckRouteStops(@item.ShippingRoutesId,this)" /> </td>
+                                        @*<td> @item.RouteOrder </td>*@
+                                        <td><a href="#" class="chng-color-Pickup notranslate"><label id="pickupAddress" onclick="fn_getDirection('@item.PickupAddress')"> @item.PickupAddress</label></a> </td>
+                                        <td> @string.Format("{0:MM/dd/yyyy HH:mm}", item.PickupDateTime)</td>
+                                        <td><a href="#" class="chng-color-Deli notranslate"><label id="DeliveryAddress" onclick="fn_getDirection('@item.DeliveryAddress')">  @item.DeliveryAddress </label></a></td>
+                                        <td> @string.Format("{0:MM/dd/yyyy HH:mm}", item.DeliveryDateTime) </td>
+                                    </tr>
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            @*<hr class="hr_add" />*@
+            <div id="dvShipmentFreigtDetails">
+                <strong> <span> <h6> Freight Details </h6> </span></strong>
+                <div class="customTableWrapper">
+                    <div id="tblFreightDetailsTable">
+
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="hdShipmentId" name="hdShipmentId" value="0">
+            @*<hr />*@
+
+            <form action="" method="post" enctype="multipart/form-data" class="webSpacing">
+
+
+
+                <!--Row 8: Status-->
+
+
+                <div class="row">
+                    <div class="col-md-3 btnswapdisabled" id="PickupArrivalDiv">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label" for="txtActualPickupArrived">Pickup Arrival</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       id="txtActualPickupArrived"
+                                       required="required"
+                                       disabled="disabled"
+                                       placeholder="mm-dd-yyyy"
+                                       name="txtActualPickupArrived"
+                                       onclick="Actualbinddate(this); fn_alertforSubmit();"
+                                       onfocusout="fn_GetGPSTracker('Arrived at ', 1, 0), fn_GetWaitingTime('txtActualPickupArrived','','','')"
+                                       class="form-control calenderDisableRemove" />
+                                <i class="fa fa-calendar Calender" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- loading temp-->
+                <div class="row btnswapdisabled" id="divProofOfTemp">
+
+
+                    <div class="col-sm-3">
+                        <div class="form-group required row">
+                            <label class="col-sm-4 col-form-label" for="txtActualTemp">Loading Temp</label>
+                            <div class="col-sm-5">
+                                <input type="text" id="txtActualTemp" class="form-control" onkeypress="return onlyAlphanumeric(event);">
+                            </div>
+                            <div class="col-sm-3">
+                                <select id="ddlTemperatureUnit" class="form-control">
+                                    <option selected="selected" value="F">F</option>
+                                    <option value="C">C</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-9">
+                        <div class="form-group row margin8">
+                            <label class="col-sm-2  col-form-label" for="txtProofOfTemperature">Proof of Temperature</label>
+                            <div class="col-sm-4 ">
+                                <label for="fuProofOfTemperature" id="lblfuProofOfTemperature" class="btnDriverSumbit">
+                                    TAKE PICTURE
+                                </label>
+                                <input type="file" data-required="required" id="fuProofOfTemperature" class="fileUploader btnswapdisabled" accept="image/*" capture>
+
+                            </div>
+                            <div class="col-sm-6 margin8">
+                                @*<button type="button" id="btnProofOfTemp" class="btnProofOfTemp fuUpload"> Upload </button>*@
+                                <button type="button" id="btnProofOfTemp" class="btnProofOfTemp btnDriverSumbit">UPLOAD</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+                <!--Driver Actual Departure From Pickup Point-->
+                <div class="row">
+                    <!--Driver Actual Departure From Pickup Point-->
+                    <div class="col-md-3 btnswapdisabled" id="PickupDepartDiv">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label" for="txtActualPickupDepart">Pickup Depart</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       id="txtActualPickupDepart"
+                                       required="required"
+                                       disabled="disabled"
+                                       placeholder="mm-dd-yyyy"
+                                       name="txtActualPickupDepart"
+                                       onclick=" fn_ToCheckPickupArrivalTextbox();"
+                                       onfocusout="fn_GetGPSTracker('Departed from ',1,0), fn_GetWaitingTime('txtActualPickupArrived','txtActualPickupDepart','','')"
+                                       class="form-control calenderDisableRemove" />
+                                <i class="fa fa-calendar Calender" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--Driver Actual Arrival At Delivery Point-->
+                    <div class="col-md-3 btnswapdisabled" id="DelArrivalDiv">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label" for="txtActualDeliveryArrived">Del. Arrival</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       id="txtActualDeliveryArrived"
+                                       required="required"
+                                       disabled="disabled"
+                                       placeholder="mm-dd-yyyy"
+                                       name="txtActualDeliveryArrived"
+                                       onkeypress="return onlyAlphanumeric(event)"
+                                       onclick="fn_CheckPickupArrivalAndPickupDepart();"
+                                       onfocusout="fn_GetGPSTracker('Arrived at',0,1), fn_GetWaitingTime('txtActualPickupArrived','txtActualPickupDepart','txtActualDeliveryArrived','')"
+                                       class="form-control calenderDisableRemove" />
+                                <i class="fa fa-calendar Calender"></i>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!--Row 5: Status -->
+                <div class="btnswapdisabled" id="divDamage">
+
+                    <!--Row 9: Damage-->
+                    <div class="row" id="divDamageFiles">
+                        <div class="col-md-5">
+                            <div class="form-group  row">
+                                <label class="col-sm-3 col-form-label" for="txtDamagedFileName">Damaged Description</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="txtDamagedFileName" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-7">
+                            <div class="form-group  row">
+                                <label class="col-sm-2 col-form-label" for="">Damage File</label>
+                                <div class="col-sm-5">
+                                    <label for="fuDamageFiles" id="lblfuDamageFiles" class="btnDriverSumbit">
+                                        TAKE PICTURE
+                                    </label>
+                                    <input type="file" data-required="required" id="fuDamageFiles" class="fileUploaderDamaged btnswapdisabled" multiple accept="image/*" capture />
+                                </div>
+                                <div class="col-sm-5 margin8">
+                                    @*<button type="button" class="btnDamageFile fuUpload"> Upload </button>*@
+                                    <button type="button" id="btnDamageFile" class="btnDamageFile btnDriverSumbit">UPLOAD</button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-6 btnswapdisabled" id="ReceiverNameDiv">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="txtReceiverName">Receiver Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" id="txtReceiverName" class="form-control" disabled="disabled">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 btnswapdisabled" id="SignatureDiv">
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <button type="button" id="SignatureButton" class="btnDriverSumbit" name="SignatureButton" onclick="fn_ShowSignPadDetail();">SIGNATURE</button>
+                            </div>
+                            <div class="col-md-6" id="page" style="margin-bottom: -28px;">
+                                <img src="" id="txtSign" class="img-fluid" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <!--Driver Actual Departure From Delivery Point-->
+                    <div class="col-md-3 btnswapdisabled" id="DelDepartDiv">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label" for="txtActualDeliveryDepart">Del. Depart</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       id="txtActualDeliveryDepart"
+                                       required="required"
+                                       disabled="disabled"
+                                       placeholder="mm-dd-yyyy"
+                                       name="txtActualDeliveryDepart"
+                                       onkeypress="return onlyAlphanumeric(event)"
+                                       onclick="fn_CheckPickupArrivalPickupDepartDelArrival();"
+                                       onfocusout="fn_GetGPSTracker('Departed from', 0,1), fn_GetWaitingTime('txtActualPickupArrived','txtActualPickupDepart', 'txtActualDeliveryArrived','txtActualDeliveryDepart')"
+                                       class="form-control calenderDisableRemove" />
+                                <i class="fa fa-calendar Calender" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" hidden="hidden">
+                        <div class="form-group form-row">
+                            <label class="col-sm-1 col-form-label" for="txtComments">Comments</label>
+                            <div class="col-sm-2">
+                                <input type="text" id="txtComments" class="form-control" disabled="disabled">
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <!--Row 6: Submit Button -->
+                @*<hr>*@
+                <div class="row">
+                    <div class="col-md-6 btnswapdisabled divDamageFile">
+                        <legnd><strong>Damaged Files</strong></legnd>
+                        <table id="tblDamagedFiles" class="table-bordered dataTable table-striped cf w-100 tblcolourChange">
+                            <thead>
+                                <tr>
+                                    <th> Description </th>
+                                    <th>Date & Time </th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6 btnswapdisabled divProofOfTemps">
+                        <legnd><strong>Proof Of Temperature Files</strong></legnd>
+                        <table id="tblProofOfTemp" class="table-bordered dataTable table-striped cf w-100 tblcolourChange">
+                            <thead>
+                                <tr>
+                                    <th>Temp (F) </th>
+                                    <th>Location</th>
+                                    <th>Date & Time </th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <legnd><strong>Shipment Comments</strong></legnd>
+                        <table id="tblShipmentComments" class="cf w-100"></table>
+                        <textarea id="txtShipmentComments" class="form-control" cols="20" rows="1"></textarea>
+                    </div>
+
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 text-right mb-8">
+                        @*<input type="button" id="btnSave" value="Submit" class="btn green-Btn" />*@
+                        @*<input type="button" id="btnSave" value="SUBMIT" class="btn green-Btn" />*@
+                        @*@Html.ActionLink("Cancel", "Dashboard", "Driver", null, new { @class = "btn outline-Btn" })*@
+                        <div class="flexbtn">
+                            <div id="divSwapSubmit" class="onoffswitch mx-1 divSwap">
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+
+                                <label class="onoffswitch-label" for="myonoffswitch">
+                                    <span class="subtext">SUBMIT</span>
+                                    <span class="onoffswitch-inner"> </span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                            </div>
+                            <div id="swapTryAgain1" class="btnswapdisabled">
+                                <div id="divSwapTryAgain" class="onoffswitch2 mx-1 margin8 divSwap" onchange="btnSave()">
+                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox2" id="myonoffswitch2" checked>
+
+                                    <label class="onoffswitch-label2" for="myonoffswitch2">
+                                        <span class="subtext">TRY AGAIN</span>
+                                        <span class="onoffswitch-inner2"> </span>
+                                        <span class="onoffswitch-switch2"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div id="divSwapSuccess" class="mx-1 margin8 btnswapdisabled">
+                                <button type="button" id="" class="btn outline-success"><i class="fa fa-check-circle fa-lg" aria-hidden="true"></i> &nbsp;SUCCESS</button>
+                            </div>
+
+                            <div id="divCancel" class="mx-1">
+                                @Html.ActionLink("Cancel", "Dashboard", "Driver", null, new { @class = "btn outline-Btncstm" })
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal" role="dialog" id="divPopUpSign">
+    <div class="modal-dialog modal-lg" role="popup">
+        <div class="modal-content">
+            @{ Html.RenderPartial("_prSignaturePad");}
+        </div>
+    </div>
+</div>
+
+<div class="modal" role="dialog" id="divPopUpCamera">
+    <div class="modal-dialog modal-lg" role="popup">
+        <div class="modal-content">
+            @{ Html.RenderPartial("_prWebCamera");}
+        </div>
+
+    </div>
+</div>
+
+@*Document Viewer*@
+<div class="modal" role="dialog" id="modalDocument">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header popup">
+                <h6 class="modal-title">Document viewer</h6>
+                <div color="white" class="col-md-6">
+                    <h6>
+
+                        <button type="button" class="edit_icon btnPrintPdf">
+                            <i class="fa fa-print"></i>
+                        </button>
+                    </h6>
+                </div>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="divViewer">
+                            Preview file here
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@*<script src="~/CustomScript/driverModule/preTripShipmentDetail.js"></script>*@
+@Scripts.Render("~/bundles/driverShipmentDetail")

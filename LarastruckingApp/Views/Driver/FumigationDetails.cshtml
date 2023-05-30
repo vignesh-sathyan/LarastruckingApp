@@ -1,0 +1,655 @@
+﻿
+@{
+    ViewBag.Title = "FumigationDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 mt-2">
+        <div class="white-bg customFormWrap">
+
+            <div class="row">
+
+                <div class="col-md-3">
+                    <div class="form-group row">
+                        <input type="hidden" id="hdFumigationId" />
+                        <input type="hidden" id="hdfDriverLanguage" value="@Model.DriverLanguage" name="hdfDriverLanguage" />
+                        <label class="col-sm-4 col-form-label" for="txtAwbContNo">AWB/Cont. No.</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="txtAwbContNo" class="form-control" readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="ddlShipmentStatus">Status</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" id="ddlShipmentStatus" value="ShipmentStatus" onfocusout="fn_GetdriverStatus(this , 'txtPickupLocation' , 'txtDeliveryLocation')">
+                                <option> Select Status</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3" id="subStatusDiv">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="ddlShipmentSubStatus">Sub-Status</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" id="ddlShipmentSubStatus">
+                                <option value="">Select Sub-Status</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3" id="txtOtherReasonDiv">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label" for="txtOtherReason">Description</label>
+                        <div class="col-sm-9">
+                            <input type="text"
+                                   id="txtOtherReason"
+                                   disabled="disabled"
+                                   name="txtOtherReason"
+                                   onkeypress="return onlyAlphanumeric(event)"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div>
+                <strong> <span><h6>Fumigation Route Details</h6></span></strong>
+                <div class="customTableWrapper">
+                    <div id="">
+                        <table id="tblFumigationRoute" class="table-bordered dataTable table-striped cf w-100">
+                            <thead>
+                                <tr>
+                                    <th align="center" width="5%"> </th>
+                                    <th align="center" width="5%">Sr No </th>
+                                    <th width="35%"> Pickup Location </th>
+                                    <th width="10%"> Pickup Date Time</th>
+                                    <th width="35%"> Delivery Location </th>
+                                    <th width="10%"> Delivery Date Time </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.FumigationDetail.Count > 0)
+                                {
+                                    int i = 0;
+                                    foreach (var item in Model.FumigationDetail)
+                                    {
+                                        i++;
+                                        string pickupLocation = null;
+                                        string deliveryLocation = null;
+                                        object pickupFumiDateTime = null;
+                                        object deliveryFumiDateTime = null;
+                                        if (item.IsPickUp == true)
+                                        {
+                                            pickupLocation = item.PickupAddress;
+                                            deliveryLocation = item.FumigationAddress;
+                                            pickupFumiDateTime = Convert.ToDateTime(item.PickupDateTime).ToString("0:MM/dd/yyyy HH:mm");
+                                            deliveryFumiDateTime = Convert.ToDateTime(item.FumigationDateTime).ToString("0:MM/dd/yyyy HH:mm");
+
+                                        }
+                                        else
+                                        {
+                                            pickupLocation = item.FumigationAddress;
+                                            deliveryLocation = item.DeliveryAddress;
+                                            pickupFumiDateTime = Convert.ToDateTime(item.FumigationDateTime).ToString("0:MM/dd/yyyy HH:mm");
+                                            deliveryFumiDateTime = Convert.ToDateTime(item.DeliveryDateTime).ToString("0:MM/dd/yyyy HH:mm");
+                                        }
+
+                                        <tr class="tblChange-bgcolor">
+                                            <td> <input type="radio" data-ispickup="@item.IsPickUp" name="radioFumigationRouteId" DriverId="@item.DriverId" EqipmentNo="@item.EquipmentNo" CustomerId="@item.CustomerId" PickupLocationId="@item.PickUpLocation" DeliveryLocationId="@item.DeliveryLocation" FumigationLocationId="@item.FumigationSite" id="radioFumigationRouteId" value="@item.FumigationRoutsId" onchange="CheckRouteStops(@item.FumigationRoutsId,this)" /> </td>
+                                            <td> @i </td>
+                                            <td><a href="#" class="chng-color-Pickup notranslate"><label id="pickupAddress" onclick="fn_getDirection('@item.PickupAddress')"> @pickupLocation</label></a> </td>
+                                            <td> @string.Format("{0:MM/dd/yyyy HH:mm}", item.PickupDateTime)</td>
+                                            <td><a href="#" class="chng-color-Deli notranslate"><label id="DeliveryAddress" onclick="fn_getDirection('@item.DeliveryAddress')">  @deliveryLocation </label></a></td>
+                                            <td> @string.Format("{0:MM/dd/yyyy HH:mm}", item.DeliveryDateTime) </td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="dvFumigationFreigtDetails">
+                    <strong> <span> <h6> Fumigation Freight Details </h6> </span></strong>
+                    <div class="customTableWrapper">
+                        <div id="tblFumiFreightDetailsTable">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <form action="" method="post" enctype="multipart/form-data" class="webSpacing">
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <!-- Status-->
+
+                        <div class="row">
+
+
+                            <!--Driver Actual Arrival At Pickup Point-->
+                            <div class="col-md-3 isPickup" id="PickupArrivalDiv">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="txtActualPickupArrived">Pickup Arrival</label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtActualPickupArrived"
+                                               required="required"
+                                               disabled="disabled"
+                                               placeholder="mm-dd-yyyy"
+                                               name="txtActualPickupArrived"
+                                               @*onclick="Actualbinddate(this); fn_alertforSubmit();"*@
+                                               onclick="PickupBindDate(this)"
+                                               onfocusout="fn_GetGPSTracker('Arrived at ','txtPickupLocation',''), fn_GetFumigationWaitingTime('txtActualPickupArrived','txtEstimatedPickupArrival','','','','')"
+                                               class="form-control calenderDisableRemove" />
+                                        <i class="fa fa-calendar Calender" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Driver Actual Fum In -->
+                            <div class="col-md-3 isDelivery" id="FumReleaseDiv">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="txtActualFumigationRelease">Fum. Release</label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtActualFumigationRelease"
+                                               required="required"
+                                               placeholder="mm-dd-yyyy"
+                                               name="txtActualFumigationRelease"
+                                               onclick="DeliveryBindDate(this)" ;
+                                               onfocusout="fn_GetGPSTracker('Fum. Release at','txtFumigationLocation','')"
+                                               @*onfocusout="fn_GetGPSTracker('Departed from ','txtPickupLocation',''), fn_GetFumigationWaitingTime('txtActualPickupArrived','txtEstimatedPickupArrival','txtActualPickupDepart','','','')"*@
+                                               class="form-control calenderDisableRemove" />
+                                        <i class="fa fa-calendar Calender" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Driver Actual Arrival At Delivery Point-->
+
+                            <div class="col-md-3 isDelivery" id="FumDepartDiv">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="txtActualFumigationDepart">Fum. Depart</label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtActualFumigationDepart"
+                                               required="required"
+                                               disabled="disabled"
+                                               placeholder="mm-dd-yyyy"
+                                               name="txtActualFumigationDepart"
+                                               onkeypress="return onlyAlphanumeric(event)"
+                                               @*onclick="Actualbinddate(this); fn_alertforStatusSubmit();"*@
+                                               onclick="DeliveryBindDate(this)" ;
+                                               onfocusout="fn_GetGPSTracker('Fum. Departed from','','txtFumigationLocation')"
+                                               class="form-control calenderDisableRemove" />
+                                        <i class="fa fa-calendar Calender" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 isDelivery" id="DelArrivalDiv">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="txtActualDeliveryArrived">Del. Arrival</label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtActualDeliveryArrived"
+                                               required="required"
+                                               disabled="disabled"
+                                               placeholder="mm-dd-yyyy"
+                                               name="txtActualDeliveryArrived"
+                                               onkeypress="return onlyAlphanumeric(event)"
+                                               onclick="DeliveryBindDate(this)"
+                                               onfocusout="fn_GetGPSTracker('Arrived at','','txtDeliveryLocation'), fn_GetFumigationWaitingTime('txtActualPickupArrived','txtEstimatedPickupArrival','txtActualPickupDepart','txtActualDeliveryArrived','txtEstimatedDeliveryArrival','')"
+                                               class="form-control calenderDisableRemove" />
+                                        <i class="fa fa-calendar Calender"></i>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Row 4: Temperature -->
+                            @*<div class="col-md-3" id="divTempReq">
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label" for="txtTempReq">Temp Req.</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="txtTempReq" class="form-control" readonly="readonly">
+                                        </div>
+                                    </div>
+                                </div>*@
+                            @*id="divProofOfTemp"*@
+                            <div class="col-md-3 isPickup" id="LoadingTempDiv">
+                                <div class="form-group required row">
+                                    <label class="col-sm-4 col-form-label" for="txtActualTemp">Loading Temp</label>
+                                    <div class="col-sm-5">
+                                        <input type="text" data-required="required" id="txtActualTemp" class="form-control" onkeypress="return onlyAlphanumeric(event);">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <select id="ddlTemperatureUnit" class="form-control">
+                                            <option selected="selected" value="F">F</option>
+                                            <option value="C">C</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            @*<div class="col-md-3 isDelivery" id="DeliveryTempDiv">
+                                    <div class="form-group required row">
+                                        <label class="col-sm-4 col-form-label" for="txtDeliveryTemp">Delivery Temp</label>
+                                        <div class="col-sm-5">
+                                            <input type="text" data-required="required" id="txtDeliveryTemp" class="form-control" onkeypress="return onlyNumeric(event);">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <select id="ddlTemperatureUnit" class="form-control">
+                                                <option selected="selected" value="F">F</option>
+                                                <option value="C">C</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>*@
+                            <div class="col-md-6" id="divProofOfTemp">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-12 col-form-label" for="txtProofOfTemperature">Proof of Temperature</label>
+                                    <div class="col-sm-5 col-6">
+                                        <label for="fuProofOfTemperature" id="lblfuProofOfTemperature" class="btnDriverSumbit">
+                                            TAKE PICTURE
+                                        </label>
+                                        <input type="file" data-required="required" id="fuProofOfTemperature" class="fileUploader btnswapdisabled" accept="image/*" capture>
+                                    </div>
+                                    <div class="col-sm-5 col-6 margin8">
+                                        @*<button type="button" id="btnProofOfTemp" class="btnProofOfTemp fuUpload float-right"> Upload </button>*@
+                                        <button type="button" id="btnProofOfTemp" class="btnProofOfTemp btnDriverSumbit">UPLOAD</button>
+                                    </div>
+                                    @*<div class="col-sm-2">
+                                            <div class="proof-camera-fluid " id='camcam'>
+                                                <a class='btn btn-block btn-primary text-white open-cam' id='open' onclick="fn_ShowCameraPopup(true);"> Open cam</a>
+                                            </div>
+                                        </div>*@
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" id="divDamageFiles">
+                    <!--Row 9: Damage-->
+
+                    <div class="col-md-6">
+                        <div class="form-group  row">
+                            <label class="col-sm-3 col-form-label" for="txtDamagedFileName">Damaged Description</label>
+                            <div class="col-sm-9">
+                                <input type="text" data-required="required" id="txtDamagedFileName" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group  row">
+                            <label class="col-sm-2 col-12 col-form-label" for="">Damage File</label>
+                            <div class="col-sm-5 col-6">
+                                <label for="fuDamageFiles" id="lblfuDamageFiles" class="btnDriverSumbit">
+                                    TAKE PICTURE
+                                </label>
+                                <input type="file" data-required="required" id="fuDamageFiles" class="fileUploaderDamaged btnswapdisabled" multiple accept="image/*" capture />
+                            </div>
+                            <div class="col-sm-4 margin8">
+                                @*<button type="button" class="btnDamageFile fuUpload"> Upload </button>*@
+                                <button type="button" id="btnDamageFile" class="btnDamageFile btnDriverSumbit">UPLOAD</button>
+                            </div>
+                            @*<div class="col-sm-5 col-6">
+                                    <button type="button" class="btnDamageFile fuUpload float-right"> Upload </button>
+                                </div>*@
+                            @*<div class="col-sm-2">
+                                    <div class="camera-fluid" id='camcam'>
+                                        <a class='btn btn-block btn-primary text-white open-cam' id='DamageOpen' onclick="fn_ShowCameraPopup(false);"> Open cam</a>
+                                    </div>
+                                </div>*@
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <!--Driver Actual Loading Start Time-->
+                    <div class="col-md-3 isPickup" id="LoadingStartDiv">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label" for="txtActualLoadingStartTime">Loading Start</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       id="txtActualLoadingStartTime"
+                                       required="required"
+                                       placeholder="mm-dd-yyyy"
+                                       name="txtActualLoadingStartTime"
+                                       onclick="PickupBindDate(this)"
+                                       onfocusout="fn_GetGPSTracker('Loading Started at ','txtPickupLocation','')"
+                                       @*onfocusout="fn_GetGPSTracker('Departed from ','txtPickupLocation',''), fn_GetFumigationWaitingTime('txtActualPickupArrived','txtEstimatedPickupArrival','txtActualPickupDepart','','','')"*@
+                                       class="form-control calenderDisableRemove" />
+                                <i class="fa fa-calendar Calender" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Driver Actual Loading Finish Time-->
+                    <div class="col-md-3 isPickup" id="LoadingFinishDiv">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label" for="txtActualLoadingFinishTime">Loading Finish</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       id="txtActualLoadingFinishTime"
+                                       required="required"
+                                       @*disabled="disabled"*@
+                                       placeholder="mm-dd-yyyy"
+                                       name="txtActualLoadingFinishTime"
+                                       onclick="PickupBindDate(this)"
+                                       onfocusout="fn_GetGPSTracker('Loading Finished at ','txtPickupLocation','')"
+                                       @*onfocusout="fn_GetGPSTracker('Departed from ','txtPickupLocation',''), fn_GetFumigationWaitingTime('txtActualPickupArrived','txtEstimatedPickupArrival','txtActualPickupDepart','','','')"*@
+                                       class="form-control calenderDisableRemove" />
+                                <i class="fa fa-calendar Calender" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Driver Actual Departure From Pickup Point-->
+                    <div class="col-md-3 isPickup" id="PickUpDepartDiv">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label" for="txtActualPickupDepart">Pickup Depart</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       id="txtActualPickupDepart"
+                                       required="required"
+                                       disabled="disabled"
+                                       placeholder="mm-dd-yyyy"
+                                       name="txtActualPickupDepart"
+                                       @*onclick="Actualbinddate(this); fn_alertforStatusSubmit();"*@
+                                       onclick="PickupBindDate(this)"
+                                       onfocusout="fn_GetGPSTracker('Departed from ','txtPickupLocation',''), fn_GetFumigationWaitingTime('txtActualPickupArrived','txtEstimatedPickupArrival','txtActualPickupDepart','','','')"
+                                       class="form-control calenderDisableRemove" />
+                                <i class="fa fa-calendar Calender" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Driver Actual Fum In -->
+                    <div class="col-md-3 isPickup" id="FumInDiv">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label" for="txtActualFumIn">Fum. In</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       id="txtActualFumIn"
+                                       required="required"
+                                       placeholder="mm-dd-yyyy"
+                                       name="txtActualFumIn"
+                                       onclick="PickupBindDate(this)"
+                                       onfocusout="fn_GetGPSTracker('Fum. In at','txtFumigationLocation','')"
+                                       @*onfocusout="fn_GetGPSTracker('Departed from ','txtPickupLocation',''), fn_GetFumigationWaitingTime('txtActualPickupArrived','txtEstimatedPickupArrival','txtActualPickupDepart','','','')"*@
+                                       class="form-control calenderDisableRemove" />
+                                <i class="fa fa-calendar Calender" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" id="ReceiverNameDiv">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="txtReceiverName">Receiver Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" id="txtReceiverName" class="form-control" disabled="disabled">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 btnswapdisabled" id="SignatureDiv">
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                @*<button type="button" id="SignatureButton" class="form-control signatureBtn" name="SignatureButton" onclick="fn_ShowSignPadDetail();">Signature</button>*@
+                                <button type="button" id="SignatureButton" class="btnDriverSumbit" name="SignatureButton" onclick="fn_ShowSignPadDetail();">Signature</button>
+                            </div>
+                            <div class="col-md-6" id="page" style="margin-bottom: -28px;">
+                                <img src="" id="txtSign" class="img-fluid" />
+                            </div>
+                        </div>
+                    </div>
+
+                    @*<div class="col-md-6 mb-0 isDelivery" id="ReceiverNameAndSignDiv">
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label" for="txtReceiverName">Receiver Name</label>
+                                <div class="col-sm-4">
+                                    <input type="text" id="txtReceiverName" class="form-control" disabled="disabled">
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="button" id="SignatureButton" class="form-control signatureBtn" name="SignatureButton" onclick="fn_ShowSignPadDetail();">Signature</button>
+                                </div>
+                                <div class="col-md-4" id="page">
+                                    <img src="" id="txtSign" class="img-fluid" />
+                                </div>
+
+                            </div>
+                        </div>*@
+
+                    <div class="col-md-3 mb-0 isDelivery" id="DelDepartDiv">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label" for="txtActualDeliveryDepart">Del. Depart</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       id="txtActualDeliveryDepart"
+                                       required="required"
+                                       disabled="disabled"
+                                       placeholder="mm-dd-yyyy"
+                                       name="txtActualDeliveryDepart"
+                                       onkeypress="return onlyAlphanumeric(event)"
+                                       @*onclick="Actualbinddate(this); fn_alertforStatusSubmit();"*@
+                                       onclick="DeliveryBindDate(this)"
+                                       onfocusout="fn_GetGPSTracker('Departed from','','txtDeliveryLocation') , fn_GetFumigationWaitingTime('txtActualPickupArrived', 'txtEstimatedPickupArrival', 'txtActualPickupDepart', 'txtActualDeliveryArrived','txtEstimatedDeliveryArrival','txtActualDeliveryDepart')"
+                                       class="form-control calenderDisableRemove" />
+                                <i class="fa fa-calendar Calender" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 divDamageDoc">
+                        <legnd><strong>Damaged Files</strong></legnd>
+                        <table id="tblDamagedFiles" class="table-bordered dataTable table-striped cf w-100 tblcolourChange">
+                            <thead>
+                                <tr>
+                                    <th> Description </th>
+                                    @*<th>File Name </th>*@
+                                    <th>Date & Time </th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6 divProofOfTemper">
+                        <legnd><strong>Proof Of Temperature Files</strong></legnd>
+                        <table id="tblProofOfTemp" class="table-bordered dataTable table-striped cf w-100 tblcolourChange">
+                            <thead>
+                                <tr>
+                                    <th>Temp(F) </th>
+                                    @*<th>File Name </th>*@
+                                    <th>Date & Time </th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <legnd><strong>Fumigation Comments</strong></legnd>
+                        <table id="tblFumigationComments" class="cf w-100"></table>
+                        <textarea id="txtFumigationComments" class="form-control" cols="20" rows="1"></textarea>
+                    </div>
+
+
+                </div>
+
+                <!--Submit Button -->
+                <div class="row">
+                    <div class="col-md-12 text-right mb-8">
+                        @*<input type="button" id="btnSave" value="Submit" class="btn green-Btn" />*@
+                        @*<input type="button" id="btnSave" value="SUBMIT" class="btn green-Btn" />*@
+                        @*@Html.ActionLink("Cancel", "Dashboard", "Driver", null, new { @class = "btn outline-Btn" })*@
+                        <div class="flexbtn">
+                            <div id="divSwapSubmit" class="onoffswitch mx-1 divSwap">
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+
+                                <label class="onoffswitch-label" for="myonoffswitch">
+                                    <span class="subtext">SUBMIT</span>
+                                    <span class="onoffswitch-inner"> </span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                            </div>
+                            <div id="swapTryAgain1" class="btnswapdisabled">
+                                <div id="divSwapTryAgain" class="onoffswitch2 mx-1 margin8 divSwap" onchange="btnSave()">
+                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox2" id="myonoffswitch2" checked>
+
+                                    <label class="onoffswitch-label2" for="myonoffswitch2">
+                                        <span class="subtext">TRY AGAIN</span>
+                                        <span class="onoffswitch-inner2"> </span>
+                                        <span class="onoffswitch-switch2"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div id="divSwapSuccess" class="mx-1 margin8 btnswapdisabled">
+                                <button type="button" id="" class="btn outline-success"><i class="fa fa-check-circle fa-lg" aria-hidden="true"></i> &nbsp;SUCCESS</button>
+                            </div>
+
+                            <div id="divCancel" class="mx-1">
+                                @Html.ActionLink("Cancel", "Dashboard", "Driver", null, new { @class = "btn outline-Btncstm" })
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+        <!--Row 3: Pickup/Delivery/ Phone Location -->
+        <div class="row">
+            <!--Row 3i: Pickup-->
+            <div class="col-md-6 mb-0">
+                <div class="row setSpace">
+                    <!--Pickup Location-->
+                    <div class="col-md-12" hidden="hidden">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="txtPickupLocation">Pickup Location</label>
+                            <div class="col-sm-10">
+                                <input type="text" id="txtPickupLocation" class="form-control" readonly="readonly" onclick="fn_GetGPSTracker('txtPickupLocation')">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" hidden="hidden">
+                        <label class="col-sm-4 col-form-label" for="txtEstimatedPickupArrival">Arrival</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="txtEstimatedPickupArrival" class="form-control" readonly="readonly" onclick="fn_GetFumigationWaitingTime('txtEstimatedPickupArrival')">
+                        </div>
+                    </div>
+
+                    <!--Fum. Location-->
+                    <div class="col-md-12" hidden="hidden">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="txtFumigationLocation">Fum. Location</label>
+                            <div class="col-sm-10">
+                                <input type="text" id="txtFumigationLocation" class="form-control" readonly="readonly">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--Delivery Location-->
+                    <div class="col-md-12" hidden="hidden">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="txtDeliveryLocation">Del. Location</label>
+                            <div class="col-sm-10">
+                                <input type="text" id="txtDeliveryLocation" class="form-control" readonly="readonly" onclick="fn_GetGPSTracker('txtDeliveryLocation')">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" hidden="hidden">
+                        <label class="col-sm-4 col-form-label" for="txtEstimatedDeliveryArrival">Arrival</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="txtEstimatedDeliveryArrival" class="form-control" readonly="readonly" onclick="fn_GetFumigationWaitingTime('txtEstimatedDeliveryArrival')">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+</div>
+
+
+<div class="modal" role="dialog" id="divPopUpSign">
+    <div class="modal-dialog modal-lg" role="popup">
+        <div class="modal-content">
+            @{ Html.RenderPartial("_prSignaturePad");}
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" role="dialog" id="divPopUpCamera">
+    <div class="modal-dialog modal-lg" role="popup">
+        <div class="modal-content">
+
+            @{ Html.RenderPartial("_prWebCamera");}
+        </div>
+
+    </div>
+</div>
+
+
+@*Document Viewer*@
+<div class="modal" role="dialog" id="modalDocument">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header popup">
+                <h6 class="modal-title">Document viewer</h6>
+                <div color="white" class="col-md-6">
+                    <h6>
+                        <button type="button" class="edit_icon btnPrintPdf">
+                            <i class="fa fa-print"></i>
+                        </button>
+                    </h6>
+                </div>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="divViewer">
+                            Preview file here
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/driverFumigationDetail")
+@*<script src="~/CustomScript/driverModule/DriverFumigationDetails.js"></script>*@

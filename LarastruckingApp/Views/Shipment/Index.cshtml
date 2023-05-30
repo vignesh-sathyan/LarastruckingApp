@@ -1,0 +1,509 @@
+﻿
+@{
+   
+        ViewBag.Title = "Create Shipment";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    
+}
+
+<h2>Index</h2>
+<body>
+    <div class="tabContainerWrapper">
+        <div id="content" class="tab-content" role="tablist">
+            <div id="pane-A" class="card tab-pane fade show active" role="tabpanel" aria-labelledby="tab-A">
+                <div class="card-header" role="tab" id="heading-A">
+                    <h5 class="mb-0">
+                        <!-- Note: `data-parent` removed from here -->
+                        <a data-toggle="collapse" href="#collapse-A" aria-expanded="true" aria-controls="collapse-A">
+                            Create Shipment
+                        </a>
+                    </h5>
+                </div>
+
+                <!-- Note: New place of `data-parent` -->
+                <div id="collapse-A" class="collapse show" data-parent="#content" role="tabpanel" aria-labelledby="heading-A">
+                    <div class="card-body">
+                        <div class="white-bg customFormWrap">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label for="" class="col-sm-3 col-form-label">Customer</label>
+                                        <div class="col-sm-9">
+                                            <select id="inputState" class="form-control">
+                                                <option selected>Choose...</option>
+                                                <option>...</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label for="inputPassword" class="col-sm-3 col-form-label">Customer</label>
+                                        <div class="col-sm-5">
+                                            <select id="inputState" class="form-control">
+                                                <option selected>Immediate Action Required </option>
+                                                <option>...</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <select id="inputState" class="form-control">
+                                                <option selected>Documents not ready</option>
+                                                <option>...</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label for="" class="col-sm-3 col-form-label">Requested By</label>
+                                        <div class="col-sm-9">
+                                            <select id="inputState" class="form-control">
+                                                <option selected>Choose...</option>
+                                                <option>...</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label for="" class="col-sm-3 col-form-label">Reason</label>
+                                        <div class="col-sm-9">
+                                            <select id="inputState" class="form-control">
+                                                <option selected>Choose...</option>
+                                                <option>...</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mt-2">
+                                <div class="white-bg customFormWrap">
+                                    <h2 class="cardHeading">Pickup Location</h2>
+
+                                    <div class="form-group row">
+                                        <label for="" class="col-sm-3 col-form-label">Recent</label>
+                                        <div class="col-sm-9">
+                                            <select id="inputState" class="form-control">
+                                                <option selected>Choose...</option>
+                                                <option>...</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="" class="col-sm-3 col-form-label">Directory</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control padd-R-70" id="inputPassword3" placeholder="">
+                                            <button type="button" class="search-ic">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                            <button type="button" class="plus-ic">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="" class="col-sm-3 col-form-label">Form</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="inputPassword3" placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="" class="col-sm-3 col-form-label">Arival</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" id="inputPassword3" placeholder="">
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <div class="dateToWrapper">
+                                                <label>To</label>
+                                                <input type="text" class="form-control" id="inputPassword3" placeholder="">
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-2">
+                                <div class="white-bg customFormWrap">
+                                    <h2 class="cardHeading">Delivery Location</h2>
+
+                                    <div class="form-group row">
+                                        <label for="" class="col-sm-3 col-form-label">Recent</label>
+                                        <div class="col-sm-9">
+                                            <select id="inputState" class="form-control">
+                                                <option selected>Choose...</option>
+                                                <option>...</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="" class="col-sm-3 col-form-label">Directory</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control padd-R-70" id="inputPassword3" placeholder="">
+                                            <button type="button" class="search-ic">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                            <button type="button" class="plus-ic">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="" class="col-sm-3 col-form-label">Form</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="inputPassword3" placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="" class="col-sm-3 col-form-label">Arival</label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" id="inputPassword3" placeholder="">
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <div class="dateToWrapper">
+                                                <label>To</label>
+                                                <input type="text" class="form-control" id="inputPassword3" placeholder="">
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mt-2">
+                                <div class="white-bg customFormWrap">
+                                    <h2 class="cardHeading">Customer Instruction</h2>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-2">
+                                <div class="white-bg customFormWrap">
+                                    <h2 class="cardHeading">Delivery Location </h2>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="" class="col-sm-5 col-form-label">Ref#</label>
+                                                <div class="col-sm-7">
+                                                    <input type="text" class="form-control" id="" placeholder="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="" class="col-sm-5 col-form-label">P.O.</label>
+                                                <div class="col-sm-7">
+                                                    <input type="text" class="form-control" id="" placeholder="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="" class="col-sm-5 col-form-label">Vehicle</label>
+                                                <div class="col-sm-7">
+                                                    <input type="text" class="form-control" id="" placeholder="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="" class="col-sm-5 col-form-label">Dim.</label>
+                                                <div class="col-sm-7">
+                                                    <input type="text" class="form-control" id="" placeholder="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="" class="col-sm-5 col-form-label">Assigned To</label>
+                                                <div class="col-sm-7">
+                                                    <input type="text" class="form-control" id="" placeholder="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="" class="col-sm-5 col-form-label">Dist.</label>
+                                                <div class="col-sm-7">
+                                                    <input type="text" class="form-control" id="" placeholder="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-9 col-md-12 mt-2">
+                                <div class="white-bg customFormWrap">
+                                    <div class="customTableWrapper">
+                                        <div id="no-more-tables">
+                                            <table class="table-bordered table-striped table-condensed cf w-100">
+                                                <thead class="cf">
+                                                    <tr>
+                                                        <th>No</th>
+                                                        <th>Package Type</th>
+                                                        <th class="numeric">Quantity</th>
+                                                        <th class="numeric">Weight</th>
+                                                        <th class="numeric">H.W.L</th>
+                                                        <th class="numeric">Freight Type</th>
+                                                        <th class="numeric">Hazard</th>
+                                                        <th class="numeric">Fee</th>
+                                                        <th class="numeric">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td data-title="Code">1</td>
+                                                        <td data-title="Company">Box</td>
+                                                        <td data-title="Price" class="numeric">50</td>
+                                                        <td data-title="Change" class="numeric">1000 LB</td>
+                                                        <td data-title="Change %" class="numeric">20” 30” 50”</td>
+                                                        <td data-title="Open" class="numeric">Perishable</td>
+                                                        <td data-title="High" class="numeric">No</td>
+                                                        <td data-title="Low" class="numeric">50.00</td>
+                                                        <td data-title="Volume" class="numeric">
+                                                            <div class="action-ic">
+                                                                <button type="button">
+                                                                    <i class="far fa-file-alt"></i>
+                                                                </button>
+                                                                <button type="button">
+                                                                    <i class="far fa-edit"></i>
+                                                                </button>
+                                                                <button type="button">
+                                                                    <i class="far fa-trash-alt"></i>
+                                                                </button>
+                                                            </div>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td data-title="Code">2</td>
+                                                        <td data-title="Company">Box</td>
+                                                        <td data-title="Price" class="numeric">50</td>
+                                                        <td data-title="Change" class="numeric">1000 LB</td>
+                                                        <td data-title="Change %" class="numeric">20” 30” 50”</td>
+                                                        <td data-title="Open" class="numeric">Perishable</td>
+                                                        <td data-title="High" class="numeric">No</td>
+                                                        <td data-title="Low" class="numeric">50.00</td>
+                                                        <td data-title="Volume" class="numeric">
+                                                            <div class="action-ic">
+                                                                <button type="button">
+                                                                    <i class="far fa-file-alt"></i>
+                                                                </button>
+                                                                <button type="button">
+                                                                    <i class="far fa-edit"></i>
+                                                                </button>
+                                                                <button type="button">
+                                                                    <i class="far fa-trash-alt"></i>
+                                                                </button>
+                                                            </div>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td data-title="Code">3</td>
+                                                        <td data-title="Company">Box</td>
+                                                        <td data-title="Price" class="numeric">50</td>
+                                                        <td data-title="Change" class="numeric">1000 LB</td>
+                                                        <td data-title="Change %" class="numeric">20” 30” 50”</td>
+                                                        <td data-title="Open" class="numeric">Perishable</td>
+                                                        <td data-title="High" class="numeric">No</td>
+                                                        <td data-title="Low" class="numeric">50.00</td>
+                                                        <td data-title="Volume" class="numeric">
+                                                            <div class="action-ic">
+                                                                <button type="button">
+                                                                    <i class="far fa-file-alt"></i>
+                                                                </button>
+                                                                <button type="button">
+                                                                    <i class="far fa-edit"></i>
+                                                                </button>
+                                                                <button type="button">
+                                                                    <i class="far fa-trash-alt"></i>
+                                                                </button>
+                                                            </div>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td data-title="Code">4</td>
+                                                        <td data-title="Company">Box</td>
+                                                        <td data-title="Price" class="numeric">50</td>
+                                                        <td data-title="Change" class="numeric">1000 LB</td>
+                                                        <td data-title="Change %" class="numeric">20” 30” 50”</td>
+                                                        <td data-title="Open" class="numeric">Perishable</td>
+                                                        <td data-title="High" class="numeric">No</td>
+                                                        <td data-title="Low" class="numeric">50.00</td>
+                                                        <td data-title="Volume" class="numeric">
+                                                            <div class="action-ic">
+                                                                <button type="button">
+                                                                    <i class="far fa-file-alt"></i>
+                                                                </button>
+                                                                <button type="button">
+                                                                    <i class="far fa-edit"></i>
+                                                                </button>
+                                                                <button type="button">
+                                                                    <i class="far fa-trash-alt"></i>
+                                                                </button>
+                                                            </div>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td data-title="Code">5</td>
+                                                        <td data-title="Company">Box</td>
+                                                        <td data-title="Price" class="numeric">50</td>
+                                                        <td data-title="Change" class="numeric">1000 LB</td>
+                                                        <td data-title="Change %" class="numeric">20” 30” 50”</td>
+                                                        <td data-title="Open" class="numeric">Perishable</td>
+                                                        <td data-title="High" class="numeric">No</td>
+                                                        <td data-title="Low" class="numeric">50.00</td>
+                                                        <td data-title="Volume" class="numeric">
+                                                            <div class="action-ic">
+                                                                <button type="button">
+                                                                    <i class="far fa-file-alt"></i>
+                                                                </button>
+                                                                <button type="button">
+                                                                    <i class="far fa-edit"></i>
+                                                                </button>
+                                                                <button type="button">
+                                                                    <i class="far fa-trash-alt"></i>
+                                                                </button>
+                                                            </div>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td data-title="Code">6</td>
+                                                        <td data-title="Company">Box</td>
+                                                        <td data-title="Price" class="numeric">50</td>
+                                                        <td data-title="Change" class="numeric">1000 LB</td>
+                                                        <td data-title="Change %" class="numeric">20” 30” 50”</td>
+                                                        <td data-title="Open" class="numeric">Perishable</td>
+                                                        <td data-title="High" class="numeric">No</td>
+                                                        <td data-title="Low" class="numeric">50.00</td>
+                                                        <td data-title="Volume" class="numeric">
+                                                            <div class="action-ic">
+                                                                <button type="button">
+                                                                    <i class="far fa-file-alt"></i>
+                                                                </button>
+                                                                <button type="button">
+                                                                    <i class="far fa-edit"></i>
+                                                                </button>
+                                                                <button type="button">
+                                                                    <i class="far fa-trash-alt"></i>
+                                                                </button>
+                                                            </div>
+
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-12 mt-2">
+                                <div class="customFormWrap">
+                                    <div class="paymentheader">
+                                        <h2>Payment Information</h2>
+                                    </div>
+                                    <div class="paymentInfo">
+                                        <div class="radioBtnWrapper">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
+                                                <label class="custom-control-label" for="customRadio1">Distance wise</label>
+                                            </div>
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
+                                                <label class="custom-control-label" for="customRadio2">Flat Rate</label>
+                                            </div>
+                                        </div>
+                                        <div class="priceDetailWrapper">
+                                            <div class="priceInfo">
+                                                <label>Gross Total</label>
+                                                <span>2100.00</span>
+                                            </div>
+                                            <div class="priceInfo">
+                                                <label>Misc. Fee </label>
+                                                <span>100.00</span>
+                                            </div>
+                                            <div class="priceInfo">
+                                                <label>
+                                                    Adjustment
+                                                </label>
+                                                <span>-50.00</span>
+                                            </div>
+                                            <div class="priceInfo">
+                                                <label class="text-uppercase font-weight-bold">
+                                                    Total Cost
+                                                </label>
+                                                <span class="font-weight-bold">2150.00</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12 text-right mb-2">
+                                <button type="button" class="btn outline-Btn">Cancel</button>
+                                <button type="button" class="btn outline-Btn">Copy</button>
+                                <button type="button" class="btn outline-Btn">Schedule</button>
+                                <button type="button" class="btn green-Btn">Submit</button>
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="pane-B" class="card tab-pane fade" role="tabpanel" aria-labelledby="tab-B">
+                <div class="card-header" role="tab" id="heading-B">
+                    <h5 class="mb-0">
+                        <a class="collapsed" data-toggle="collapse" href="#collapse-B" aria-expanded="false" aria-controls="collapse-B">
+                            View Shipment
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapse-B" class="collapse" data-parent="#content" role="tabpanel" aria-labelledby="heading-B">
+                    <div class="card-body">
+                        [Tab content B]
+                    </div>
+                </div>
+            </div>
+
+            <div id="pane-C" class="card tab-pane fade" role="tabpanel" aria-labelledby="tab-C">
+                <div class="card-header" role="tab" id="heading-C">
+                    <h5 class="mb-0">
+                        <a class="collapsed" data-toggle="collapse" href="#collapse-C" aria-expanded="false" aria-controls="collapse-C">
+                            Upload Shipment
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapse-C" class="collapse" role="tabpanel" data-parent="#content" aria-labelledby="heading-C">
+                    <div class="card-body">
+                        [Tab content C]
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

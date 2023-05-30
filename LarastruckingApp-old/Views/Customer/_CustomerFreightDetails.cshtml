@@ -1,0 +1,70 @@
+﻿@model LarastruckingApp.ViewModel.Customer.CustomerQuotesViewModel
+
+
+<table id="tblFreightDetails" class="table-bordered dataTable table-striped cf w-100 dataTable  activateDatatable">
+    <thead>
+        <tr>
+            <th width="5%"> </th>
+            <th width="5%"> No </th>
+            <th> Commodity </th>
+            <th> Freight </th>
+            <th> Pricing </th>
+            <th> Qty./WT. </th>
+            @*<th>Action</th>*@
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model.ShipmentFreightList.Count > 0)
+        {
+            var loopCount = 0;
+            foreach (var item in Model.ShipmentFreightList)
+            {
+                loopCount += 1;
+                string lblquntity = string.Empty;
+
+                if (!string.IsNullOrEmpty(@item.QuantityNweight))
+                {
+                    lblquntity += @item.QuantityNweight + ", ";
+                }
+                if (!string.IsNullOrEmpty(@item.NoOfBox))
+                {
+                    lblquntity += @item.NoOfBox + ", ";
+                }
+
+                if (!string.IsNullOrEmpty(@item.WeightUnit))
+                {
+                    lblquntity += @item.WeightUnit ;
+                }
+                lblquntity = lblquntity.Trim().TrimEnd(',');
+
+
+
+                <tr>
+
+                    <td><input type="radio" name="radiofreightId" id="radiofreightId" onchange="GetTemperatureREQ(this)" value=@item.ShipmentBaseFreightDetailId /></td>
+
+                    <td><label name='lblSrNo'>@loopCount</label></td>
+
+                    <td>
+                        <label class='lblTemperatureRequired' name='lblTemperatureRequired' style='display:none'>@item.TemperatureRequired</label>
+                        <label name='lblCommodityText'>@item.Commodity</label>
+                    </td>
+
+                    <td><label name='lblFreightTypeName'>@item.FreightTypeName</label></td>
+
+                    <td><label name='lblPricingMethodName'>@item.PricingMethodName</label></td>
+
+                    <td>
+                        <label name='lblQuantityNweight'>
+                            @lblquntity
+                        </label>
+                    </td>
+                    @*<td><button type='button' class='edit_icon' onclick='updateFreightDetails(@item.ShipmentRouteStopeId)'> <i class='far fa-edit'></i> </button></td>*@
+
+                </tr>
+
+            }
+        }
+    </tbody>
+</table>

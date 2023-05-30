@@ -1,0 +1,397 @@
+﻿@model LarastruckingApp.Entities.QuotesDto.GetQuoteDTO
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    @*<title></title>*@
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            font-family: calibri;
+        }
+        .setPadding td, .setPadding th {
+            padding-top: 2px;
+            padding-bottom: 2px;
+        }
+        #divTermNCondition li {
+            line-height: 100%
+        }
+        @@media print {
+            @@page {
+                size: auto; /* auto is the initial value */
+                margin: 0mm; /* this affects the margin in the printer settings */
+            }
+            /*body {
+                transform: scale(.9);
+            }
+
+            table {
+                page-break-inside: avoid;
+            }*/
+            body {
+                margin: 1cm;
+            }
+
+            /*.green-Btn {
+                display: none;
+            }*/
+        }
+    </style>
+</head>
+<body>
+    <div id="QuotePreveiw">
+        <!-- aks remove -->
+        <table style="width:100%;">
+            @*/*margin:auto;width:75%;*/*@
+
+            <tr>
+                <td>
+                    <table style="width:100%">
+                        <tr>
+                            <td style="width:60%;vertical-align:top;padding-top:10px;">
+                                <table style="width:100%">
+                                    <tr><td><h3 style="margin:0px;">Lara's Trucking & Logistics</h3></td></tr>
+                                    <tr><td style="color:#a4a6b9;">dispatch@larastrucking.com</td></tr>
+                                    <tr><td style="color:#a4a6b9;">https://larastrucking.com</td></tr>
+                                </table>
+                                
+                            </td>
+                            <td style="width:40%;vertical-align:top;padding-top:10px;">
+                                <table style="width:100%;text-align:right">
+                                    <tr><td> <img src="@Model.LogoUrl" style="width:202px; height:61px" /></td></tr>
+                                    <tr><td style="font-size:24px;color:#36588d;text-align:right;padding-right:10px;">Quote</td></tr>
+                                    </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table style="width:100%;">
+                        <tr style="width:100%;">
+                            <td style="width:30%;vertical-align:top;">
+                                <table class="setPadding" style="width:100%;">
+                                    <tr>
+                                        <td style="background:#375b93;color:#fff;width:100%;font-size:14px;">
+                                            &nbsp;Customer
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+
+                            <td style="width:70%;font-size:20px;color:black;text-align:right;padding-right:10px;">@Model.QuotesName.ToUpper()</td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left:10px; text-transform: uppercase; width:30%;">
+                                <table style="width:100%;font-size:14px;">
+                                    <tr style="padding-right:25px;display:flex;width:100%;height:16px;">
+                                        <td style="width:100%;text-align:left; font-family:Calibri;">
+                                            @Model.CustomerName
+                                        </td>
+                                    </tr>
+                                    <tr style="padding-right:25px; width:100%;display:flex;height:32px;">
+                                        <td style="width:100%;text-align:left;font-family:Calibri;">
+                                            @Html.Raw(Model.CustomerAddress.ToUpper())
+                                        </td>
+                                    </tr>
+
+                                    <tr style="padding-right:25px;width:100%;display:flex;height:16px;">
+                                        <td style="width:100%;text-align:left;font-family:Calibri;">
+                                            @Model.Phone
+                                        </td>
+                                    </tr>
+                                    <tr style="padding-right:25px;width:100%;display:flex;height:16px;">
+                                        <td style="width:100%;text-align:left; text-transform: uppercase;font-family:Calibri;">
+                                            @Model.Email
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="text-align:right;padding-right:10px;  width:70%; float:right">
+                                <table style="width:100%;font-size:14px;">
+                                    <tr style="height:16px;width:100%;">
+                                        <td style="width:60%;text-align:right;"><label style="margin-left:1%">Date Created:</label></td>
+                                        <td style="width:40%; text-align:right;text-transform: uppercase;">@string.Format("{0:MMMM dd, yyyy}", Model.QuoteDate).ToUpper()</td>
+                                    </tr>
+                                    <tr style="height:16px;width:100%;">
+                                        <td style="width:60%;text-align:right;"><label style="margin-left:1%">Valid Through:</label></td>
+                                        <td style="width:40%;text-align:right;text-transform: uppercase;">@string.Format("{0:MMMM dd, yyyy}", Model.ValidUptoDate).ToUpper()</td>
+                                    </tr>
+                                </table>             
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            @if (Model.RouteStops != null)
+            {
+                foreach (var routes in Model.RouteStops)
+                {
+                    <tr>
+                        <td style="border:1px solid;padding:10px;">
+                            <table class="setPadding" style="width:100%;font-size:12px;">
+                                <tr>
+                                    <td colspan="4" style="background: #375b93;color: #fff;">
+                                        &nbsp; Route @routes.RouteNo Details
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:5%; vertical-align:top">
+                                        <b>Pickup Location:</b>
+                                    </td>
+                                    <td style="width:20%;">@Html.Raw(routes.PickupLocation)</td>
+                                    <td style="width:5%;vertical-align:top"><b>Delivery Location:</b></td>
+                                    <td style="width:20%;">
+                                        @Html.Raw(routes.DeliveryLocation)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td style="width:4%;">
+                                        <b>Date:</b>
+                                    </td>
+                                    <td style="width:20%;text-transform: uppercase;">
+                                        @string.Format("{0:MMMM dd, yyyy}", routes.PickDateTime).ToUpper()
+                                    </td>
+                                    <td style="width:4%;"><b>Date:</b></td>
+                                    <td style="width:20%;text-transform: uppercase;">
+                                        @string.Format("{0:MMMM dd, yyyy}", routes.DeliveryDateTime).ToUpper()
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:4%;">
+                                        <b>Time:</b>
+                                    </td>
+                                    <td style="width:20%;">
+                                        @string.Format("{0: HH:mm}", routes.PickDateTime)
+                                    </td>
+                                    <td style="width:4%;"><b>Time:</b></td>
+                                    <td style="width:20%;">
+                                        @string.Format("{0: HH:mm}", routes.DeliveryDateTime)
+                                    </td>
+                                </tr>
+                            </table>
+                            <!-- Shipment Detail -->
+                            @if (Model.ShipmentDetail != null && Model.ShipmentDetail.Where(x => x.RouteNo == routes.RouteNo).Count() > 0)
+                            {<table> <tr><td style="height:10px;"></td></tr></table>
+                                <table cellspacing="0" class="setPadding" style="width:100%;text-align:center; font-size:12px;">
+                                    <thead style="background:#375b93;color:#ffffff;">
+
+                                        <tr>
+                                            <th style="padding-left:5px;">SINo.</th>
+                                            <th style="padding-left:5px;">Commodity</th>
+                                            <th style="padding-left:5px;">Freight</th>
+                                            <th style="padding-left:5px;">Pricing Method</th>
+                                            <th style="padding-left:5px;">Min. Fee</th>
+                                            <th style="padding-left:5px;">Add. Unit Price</th>
+                                            <th style="padding-left:5px;">Up To</th>
+                                            <th style="padding-left:5px;">Pallet</th>
+                                            <th style="padding-left:5px;">Box</th>
+                                            <th style="padding-left:5px;">Weight (Lbs/Kg)</th>
+                                            <th style="padding-right:10px;text-align:right;">Amount</th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            var srno = 1;
+                                            foreach (var shipment in Model.ShipmentDetail)
+                                            {
+                                                if (shipment.RouteNo == routes.RouteNo)
+                                                {
+                                                    <tr>
+                                                        <td> @srno</td>
+                                                        <td> @shipment.Commodity</td>
+                                                        <td> @shipment.FreightType</td>
+                                                        <td>@shipment.PricingMethod</td>
+                                                        <td>$@shipment.MinFee</td>
+                                                        <td>$@shipment.UnitPrice</td>
+                                                        <td> @shipment.UpTo</td>
+                                                        <td>@shipment.TotalPallet</td>
+                                                        <td>@shipment.TotalBox</td>
+                                                        <td>@shipment.TotalWeight</td>
+                                                        <td style="padding-right:10px;text-align:right;">$@shipment.TotalPrice</td>
+                                                    </tr>
+                                                    srno += 1;
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            @if (Model.AccessorialPrice != null && Model.AccessorialPrice.Where(x => x.RouteNo == routes.RouteNo).Count() > 0)
+                            {
+                                <table> <tr><td style="height:10px;"></td></tr></table>
+                                <table cellspacing="0" class="setPadding" style="width:100%; text-align:left; font-size:12px;">
+                                    <thead style="background:#375b93;color:#ffffff;">
+
+                                        <tr>
+                                            <th>&nbsp; Accessorial Charges</th>
+                                            <th style="text-align:right;">Pricing</th>
+                                            <th style="text-align:right;">Unit</th>
+                                            <th style="padding-right:10px;text-align:right;">Total Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="text-transform: uppercase;">
+                                        @foreach (var accessorialcharges in Model.AccessorialPrice.Where(x => x.FeeType == "fixed fee"))
+                                        {
+
+                                            if (accessorialcharges.RouteNo == routes.RouteNo)
+                                            {
+                                                <tr>
+                                                    <td>@accessorialcharges.AccessorialFeeType <span>(@accessorialcharges.FeeType)</span></td>
+
+                                                    <td style="text-align:right;">
+                                                        @if (accessorialcharges.Amount > 0)
+                                                        {@accessorialcharges.Amount}
+                                                    </td>
+                                                    <td style="text-align:right;"></td>
+                                                    @if (accessorialcharges.Amount > 0)
+                                                    {
+                                                        <td style="padding-right:10px;text-align:right;">
+                                                            $
+                                                            @if (accessorialcharges.Amount > 0)
+                                                            {@accessorialcharges.Amount}
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="padding-right:10px;text-align:right;"></td>
+                                                    }
+                                                </tr>
+                                            }
+
+                                        }
+
+
+                                        @foreach (var accessorialcharges in Model.AccessorialPrice.Where(x => x.FeeType == "per unit"))
+                                        {
+                                            if (accessorialcharges.RouteNo == routes.RouteNo)
+                                            {
+                                                <tr>
+                                                    <td>
+
+                                                        @*@if (accessorialcharges.AccessorialFeeType == "Waiting Time")
+                                                            {
+                                                                @accessorialcharges.AccessorialFeeType <span>(@accessorialcharges.FeeType / <label>Confirmand price after services completed.</label>)</span>
+                                                            }
+                                                            else
+                                                            {*@
+                                                        @accessorialcharges.AccessorialFeeType <span>(@accessorialcharges.FeeType)</span>
+                                                        @*}*@
+
+
+                                                    </td>
+                                                    <td style="text-align:right;">
+
+                                                        @if (accessorialcharges.AmtPerUnit > 0)
+                                                        {@accessorialcharges.AmtPerUnit}
+
+                                                    </td>
+                                                    <td style="text-align:right;">
+
+                                                        @if (accessorialcharges.Unit > 0)
+                                                        {@accessorialcharges.Unit}
+
+                                                    </td>
+                                                    @if (accessorialcharges.Amount > 0)
+                                                    {
+                                                        <td style="padding-right:10px;text-align:right;">
+                                                            $
+                                                            @if (accessorialcharges.Amount > 0)
+                                                            {@accessorialcharges.Amount}
+
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="padding-right:10px;text-align:right;"></td>
+                                                    }
+                                                </tr>
+
+                                            }
+
+                                        }
+
+                                        @foreach (var accessorialcharges in Model.AccessorialPrice.Where(x => x.FeeType == "other"))
+                                        {
+                                            if (accessorialcharges.RouteNo == routes.RouteNo)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @accessorialcharges.AccessorialFeeType  <span>(@accessorialcharges.FeeType)</span>
+
+                                                    </td>
+                                                    <td style="text-align:right;">
+
+                                                        @if (accessorialcharges.Amount > 0)
+                                                        {@accessorialcharges.Amount}
+
+                                                    </td>
+                                                    <td style="text-align:right;"></td>
+                                                    @if (accessorialcharges.Amount > 0)
+                                                    {
+                                                        <td style="padding-right:10px;text-align:right;">
+                                                            $
+                                                            @if (accessorialcharges.Amount > 0)
+                                                            {@accessorialcharges.Amount}
+
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="padding-right:10px;text-align:right;"></td>
+                                                    }
+                                                </tr>
+
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                        </td>
+
+                    </tr>
+                    <tr><td style="height:10px;"></td></tr>
+                }
+            }
+                                          
+            <tr>
+                <td style="text-align:right;">
+                    <table style="width:100%;justify-content:flex-end;display:flex;">
+                        <tr>
+                            <td style="width:30%;padding-right:10px;text-align:right;"><b>Total Price:&nbsp; &nbsp; $@Model.FinalTotalAmountWithoutAcc</b></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table class="setPadding" style="width:100%;">
+                        <tr>
+                            <td style="background:#375b93;color:#fff;font-size:12px;">
+                                &nbsp;Service Terms and Conditions
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div id="divTermNCondition" style="background:#f5f5f5; color:gray; font-weight:500;font-size:9px">
+                                    @Html.Raw(Model.TermAndCondition)
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+   
+</body>
+
+    </html>
+
+

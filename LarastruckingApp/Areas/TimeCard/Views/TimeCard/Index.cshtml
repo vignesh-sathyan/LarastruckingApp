@@ -1,0 +1,179 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm("Index", "TimeCard/TimeCard", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @*<div class="card-body">
+        <div class="white-bg customFormWrap">
+            <h2 class="cardHeading">Time Card</h2>
+            @Html.AntiForgeryToken()
+            <div class="row">
+                <div class="col-md-12">
+                   
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group required row">
+                        <label class="col-sm-4 col-form-label" for="ddlDriver">Driver</label>
+                        <div class="col-sm-8">
+                            <select id="ddlDriver"
+                                    class="form-control">
+                                <option>SEARCH Driver</option>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group  row">
+                        <label class="col-sm-4 col-form-label" for="ddlEquipment">Equipment</label>
+                        <div class="col-sm-8">
+                            <select id="ddlEquipment"
+                                    class="form-control">
+                                <option>SEARCH Equipment</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-3">
+                    <div class="form-group  row">
+                        <label class="col-sm-4 col-form-label" for="dtScanDateTime">Date Time</label>
+                        <div class="col-sm-8">
+                            <input type="text" autocomplete="off" placeholder="MM-DD-YYYY" id="dtScanDateTime" onkeypress="return onlyNumericOrcolon(event)" class="form-control dtTimer" maxlength="16">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group  row">
+
+                        <div class="col-sm-4">
+                            <label class="col-sm-5 col-form-label" for="rdoCheckIn">In</label>
+                            <input id="rdoCheckIn" name="Check" value="1" checked="checked" type="radio" />
+                        </div>
+                        <div class="col-sm-4">
+                            <label class="col-sm-6 col-form-label" for="rdoCheckout">Out</label>
+                            <input id="rdoCheckout" name="Check" value="0" type="radio" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 text-right mb-2">
+
+                    <button type="button" id="btnSave" class="btn green-Btn">Add Time</button>
+
+                </div>
+            </div>
+        </div>
+    </div>*@
+    <h3>TIME CARD CALCULATOR-WEEK 1</h3>
+    <table id="timeCard" class="table table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>In</th>
+                <th></th>
+                <th>Out</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Monday</td>
+                <td>
+                    <div class="timeWrapper d-inline-flex align-items-center"><input type="text" class="form-control" value="00" /><span>:</span><input type="text" class="form-control" value="00" /><button type="button" class="btn selected">AM</button><button type="button" class="btn">PM</button></div>
+                </td>
+                <td>To</td>
+                <td>
+                    <div class="timeWrapper d-inline-flex align-items-center"><input type="text" class="form-control" value="00" /><span>:</span><input type="text" class="form-control" value="00" /><button type="button" class="btn">AM</button><button type="button" class="btn">PM</button></div>
+                </td>
+                <td>00:00</td>
+            </tr>
+            <tr>
+                <td>Tuesday</td>
+                <td>
+                    <div class="timeWrapper d-inline-flex align-items-center"><input type="text" class="form-control" value="00" /><span>:</span><input type="text" class="form-control" value="00" /><button type="button" class="btn">AM</button><button type="button" class="btn">PM</button></div>
+                </td>
+                <td>To</td>
+                <td>
+                    <div class="timeWrapper d-inline-flex align-items-center"><input type="text" class="form-control" value="00" /><span>:</span><input type="text" class="form-control" value="00" /><button type="button" class="btn">AM</button><button type="button" class="btn">PM</button></div>
+                </td>
+                <td>00:00</td>
+            </tr>
+            <tr>
+                <td>Wednesday</td>
+                <td>
+                    <div class="timeWrapper d-inline-flex align-items-center"><input type="text" class="form-control" value="00" /><span>:</span><input type="text" class="form-control" value="00" /><button type="button" class="btn selected">AM</button><button type="button" class="btn">PM</button></div>
+                </td>
+                <td>To</td>
+                <td>
+                    <div class="timeWrapper d-inline-flex align-items-center"><input type="text" class="form-control" value="00" /><span>:</span><input type="text" class="form-control" value="00" /><button type="button" class="btn">AM</button><button type="button" class="btn">PM</button></div>
+                </td>
+                <td>00:00</td>
+            </tr>
+            <tr>
+                <td>Thursday</td>
+                <td>
+                    <div class="timeWrapper d-inline-flex align-items-center"><input type="text" class="form-control" value="00" /><span>:</span><input type="text" class="form-control" value="00" /><button type="button" class="btn">AM</button><button type="button" class="btn">PM</button></div>
+                </td>
+                <td>To</td>
+                <td>
+                    <div class="timeWrapper d-inline-flex align-items-center"><input type="text" class="form-control" value="00" /><span>:</span><input type="text" class="form-control" value="00" /><button type="button" class="btn">AM</button><button type="button" class="btn">PM</button></div>
+                </td>
+                <td>00:00</td>
+            </tr>
+            <tr>
+                <td>Friday</td>
+                <td>
+                    <div class="timeWrapper d-inline-flex align-items-center"><input type="text" class="form-control" value="00" /><span>:</span><input type="text" class="form-control" value="00" /><button type="button" class="btn selected">AM</button><button type="button" class="btn">PM</button></div>
+                </td>
+                <td>To</td>
+                <td>
+                    <div class="timeWrapper d-inline-flex align-items-center"><input type="text" class="form-control" value="00" /><span>:</span><input type="text" class="form-control" value="00" /><button type="button" class="btn">AM</button><button type="button" class="btn">PM</button></div>
+                </td>
+                <td>00:00</td>
+            </tr>
+            <tr>
+                <td>Saturday</td>
+                <td>
+                    <div class="timeWrapper d-inline-flex align-items-center"><input type="text" class="form-control" value="00" /><span>:</span><input type="text" class="form-control" value="00" /><button type="button" class="btn">AM</button><button type="button" class="btn">PM</button></div>
+                </td>
+                <td>To</td>
+                <td>
+                    <div class="timeWrapper d-inline-flex align-items-center"><input type="text" class="form-control" value="00" /><span>:</span><input type="text" class="form-control" value="00" /><button type="button" class="btn">AM</button><button type="button" class="btn">PM</button></div>
+                </td>
+                <td>00:00</td>
+            </tr>
+            <tr>
+                <td>Sunday</td>
+                <td>
+                    <div class="timeWrapper d-inline-flex align-items-center"><input type="text" class="form-control" value="00" /><span>:</span><input type="text" class="form-control" value="00" /><button type="button" class="btn selected">AM</button><button type="button" class="btn">PM</button></div>
+                </td>
+                <td>To</td>
+                <td>
+                    <div class="timeWrapper d-inline-flex align-items-center"><input type="text" class="form-control" value="00" /><span>:</span><input type="text" class="form-control" value="00" /><button type="button" class="btn">AM</button><button type="button" class="btn">PM</button></div>
+                </td>
+                <td>00:00</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>Grand Total</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>00:00</td>
+            </tr>
+            
+        </tfoot>
+    </table>
+}
+<script src="~/CustomScript/TimeCard/TimeCard.js"></script>

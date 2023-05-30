@@ -1,0 +1,179 @@
+﻿@using LarastruckingApp.Entities.Permission
+@using LarastruckingApp.Infrastructure
+@{
+    /**/
+
+    ViewBag.Title = "ViewDriver";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    MemberProfile memberProfile = new MemberProfile();
+    PermissionsDto permissions = IsPermited.HasPermission();
+}
+<div class="row">
+    <div class="col-lg-12 col-md-12 mt-2">
+        <div class="white-bg customFormWrap">
+            <div class="col-md-12 py-2 d-flex justify-content-start mb_40 pl-add">
+                @{
+                    if (permissions.IsInsert)
+                    {
+                        @Html.ActionLink("Add Driver", "Index", "Driver", null, new { @class = "btn green-Btn" })
+                    }
+                }
+
+            </div>
+            <div class="customTableWrapper table-spacing">
+                <div id="">
+                    <table class="table-bordered table-striped cf w-100" id="tblDriverDetails">
+                        <thead>
+                            <tr>
+                                <th hidden="hidden">DriverId</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Account Status</th>
+                                <th>Leave</th>
+                                <th>Leave Status</th>
+                                <th>TWIC</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" role="dialog" id="modalTimeCard">
+
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" id="modalTimeCard1">
+            <div class="modal-header popup">
+                <h6 class="modal-title"> TIMECARD CALCULATOR</h6>
+                <div id="LarasPrintLogo" style="display:none"><img src='https://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px' /></div>
+                @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+            </div>
+            <div class="modal-body">
+                <div class="white-bg customFormWrap">
+                    @{ Html.RenderPartial("_prTimeCard");}
+
+                    <div class="hr-rate p-3">
+                        @{ if (memberProfile.UserRole.Trim().ToLower() == "Management".ToLower())
+                            {
+
+                                <div class="row">
+                                    <div class="col-md-3 mb-2">
+                                        <span class="btn btn-secondary w-100">HOURLY RATE</span>
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <div class="input-icon">
+                                            <input type="text" id="txtHourlyRate" onfocusout="CalculateTotalPrice()" onkeypress="return onlyNumeric(event)" class="form-control" placeholder="0.00" />
+                                            <span class="inpt-dollar">$</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 mb-2">
+                                        <span class="btn btn-secondary w-100">LOAN</span>
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <div class="input-icon">
+                                            <input type="text" id="txtLoan" onfocusout="CalculateTotalPrice()" onkeypress="return onlyNumeric(event)" class="form-control" placeholder="0.00" />
+                                            <span class="inpt-dollar">$</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 mb-2">
+                                        <span class="btn btn-secondary w-100">TOTAL PAY</span>
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <div class="input-icon">
+                                            <input type="text" id="txtTotalPay" onfocusout="CalculateTotalPrice()" onkeypress="return onlyNumeric(event)" class="form-control" placeholder="0.00" />
+                                            <span class="inpt-dollar">$</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <span class="btn btn-secondary w-100">DEDUCTIONS </span>
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <div class="input-icon">
+                                            <input type="text" id="txtDeductions" onfocusout="CalculateTotalPrice()" onkeypress="return onlyNumeric(event)" class="form-control" placeholder="0.00" />
+                                            <span class="inpt-dollar">$</span>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="width: 100%;margin-left: 0;">
+                                        <div class="col-md-3 mb-2">
+                                            <span class="btn btn-secondary w-100">REIMBURSEMENTS </span>
+                                        </div>
+                                        <div class="col-md-3 mb-2">
+                                            <div class="input-icon">
+                                                <input type="text" id="txtReimbursements" onfocusout="CalculateTotalPrice()" onkeypress="return onlyNumeric(event)" class="form-control" placeholder="0.00" />
+                                                <span class="inpt-dollar">$</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 mb-2">
+                                            <span class="btn btn-secondary w-100">REMAINING  </span>
+                                        </div>
+                                        <div class="col-md-3 mb-2">
+                                            <div class="input-icon">
+                                                <input type="text" id="txtRemaining" readonly="readonly" class="form-control" placeholder="0" />
+                                                <span class="inpt-dollar">$</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 mb-2">
+                                        @*<button id="btnCaculate" class="btn green-Btn w-100">Calculate</button>*@
+                                        <button id="btnCaculate" onclick="btnCaculate()" class="btn green-Btn w-100">Save</button>
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <button id="btnClear" onclick="btnClear()" class="btn green-Btn w-100">Clear All</button>
+                                    </div>
+
+                                  
+
+                                </div>
+                            }
+                        }
+                        @{ if (memberProfile.UserRole.Trim().ToLower() == "Management".ToLower() || memberProfile.UserRole.Trim().ToLower() == "Dispatcher".ToLower())
+                            {
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <a href="#!" onclick="PrintDiv()" id="hrfPrint" class="btn green-Btn w-100">PRINT</a>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <a href="#!" id="hrfEmail" onclick="ShowEmailPopup()" class="btn green-Btn w-100">EMAIL</a>
+                                    </div>
+                                    @{ if (memberProfile.UserRole.Trim().ToLower() == "Management".ToLower())
+                                        {
+                                            <div class="col-md-6 mb-2">
+                                                <div class="input-icon">
+                                                    <input type="text" id="txtDescription" onfocusout="description()" onkeypress="return onlyAlphanumeric(event)" class="form-control" placeholder="Description" />
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            }
+                        }
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12 text-right mb-2">
+                            <button type="reset" id="btnClose" onclick="closePopup()" class="btn outline-Btn" data-dismiss="modal">CLOSE</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@Html.Partial("_prTimeCardPrintNEmail");
+@Scripts.Render("~/bundles/viewDriver")
+
+@*<script src="~/CustomScript/ViewDriver.js"></script>
+    <script src="~/CustomScript/TimeCard/MainTimeCard.js"></script>*@

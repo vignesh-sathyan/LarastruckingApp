@@ -1,0 +1,191 @@
+﻿@using LarastruckingApp.Entities.Permission
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    PermissionsDto permissions = IsPermited.HasPermission();
+}
+
+<form id="formVendor" method="post">
+    <div class="card-body">
+        <div class="white-bg customFormWrap">
+            <h2 class="cardHeading">
+                Vendor/Consignee
+            </h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group required row">
+                        <input type="hidden" id="hdnVendorNconsigneeId" value="0" />
+                        <label class="col-sm-4 col-form-label" for="txtVendorNconsigneeName">Vendor/Consignee Name</label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   id="txtVendorNconsigneeName"
+                                   class="form-control"
+                                   required="required"
+                                   maxlength=100
+                                   onkeypress="return onlyAlphanumeric(event)" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <input type="hidden" id="hdnVendorNconsigneeId" value="0" />
+                        <label class="col-sm-4 col-form-label" for="txtVendorNconsigneeName">Is Consignee</label>
+                        <div class="col-sm-8">
+                            <input type="checkbox"
+                                   id="chkIsConsignee"                          
+                                   />
+                                   
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-sm-12 mb-2">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group required row">
+                                <label class="col-sm-4 col-form-label" for="txtAddress"> Address</label>
+                                <div class="col-sm-8">
+                                    <input type="text"
+                                           id="txtAddress"
+                                           class="form-control"
+                                           required="required"
+                                           maxlength=100
+                                           onkeypress="return onlyAlphanumeric(event)" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group required row">
+                                <label class="col-sm-4 col-form-label" for="txtCity"> City </label>
+                                <div class="col-sm-8">
+                                    <input type="text"
+                                           id="txtCity"
+                                           class="form-control"
+                                           maxlength=100
+                                           required="required"
+                                           onkeypress="return onlyAlphabets(event)" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group required row">
+                                <label class="col-sm-4 col-form-label" for="ddlState"> State </label>
+                                <div class="col-sm-8">
+                                    @Html.DropDownList("State", ViewBag.State as SelectList, "Please select state", new { @id = "ddlState", @class = "form-control", required = "required" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group required row">
+                                <label class="col-sm-4 col-form-label" for="txtZipCode"> Zip Code </label>
+                                <div class="col-sm-8">
+
+                                    <input type="text"
+                                           id="txtZipCode"
+                                           class="form-control"
+                                           maxlength=5
+                                           required="required"
+                                           onkeypress="return onlyNumeric(event)" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label" for="ddlCountry">Country</label>
+                                <div class="col-sm-8">
+                                    <div class="dropdown">
+                                        <select class="form-control" id="ddlCountry">
+                                            @{
+                                                foreach (var data in ViewBag.Country)
+                                                {
+                                                    <option value="@data.ID">@data.Name</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group required row">
+                                <label class="col-sm-4 col-form-label" for="txtPone"> Phone </label>
+                                <div class="col-sm-8">
+                                    <input type="text"
+                                           id="txtPone"
+                                           class="form-control"
+                                           required="required"
+                                           phone="phone"
+                                           maxlength=100
+                                           onkeypress="return onlyNumeric(event)" />
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group  row">
+                                <label class="col-sm-4 col-form-label" for="txtFax"> Fax </label>
+                                <div class="col-sm-8">
+                                    <input type="text"
+                                           id="txtFax"
+                                           class="form-control"
+                                           maxlength=10
+                                           onkeypress="return onlyNumeric(event)" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group required row">
+                                <label class="col-sm-4 col-form-label" for="txtEmail"> Email </label>
+                                <div class="col-sm-8">
+                                    <input type="text"
+                                           id="txtEmail"
+                                           class="form-control noSpace"
+                                           required="required"
+                                           email="email"
+                                           maxlength=100
+                                           onkeypress="return onlyAlphanumeric(event)" />
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <hr>
+            <div class="row">
+                <div class="col-md-12 text-right mb-2">
+                    @if (permissions.IsInsert || permissions.IsUpdate)
+                    {
+                        <input type="button" id="btnSave" value="SAVE" class="btn green-Btn" />
+                    }
+                    else
+                    {
+                        <span class="text-danger">You don't have permission to add</span>
+                    }
+                        <input type="button" id="btnClear" value="CANCEL" class="btn green-Btn" />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script src="~/CustomScript/vendor/vendor.js"></script>
+<div class="row">
+    <div class="col-lg-12 col-md-12 mt-2">
+        <div class="white-bg customFormWrap">
+            <div class="customTableWrapper">
+                <div id="divVendorList">
+                    @{Html.RenderAction("GetVendorList", "Vendor");}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

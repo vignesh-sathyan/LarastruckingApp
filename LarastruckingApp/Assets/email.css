@@ -1,0 +1,38 @@
+﻿#div1 {
+    border-radius: 0px;
+    min-width: 130px;
+    height: 40px;
+    line-height: 40px;
+    position: relative;
+    padding-left: 30px;
+    text-align: left;
+    color: #fff;
+    padding-right: 9px;
+    box-sizing: border-box;
+    margin-right: -5px;
+    white-space: nowrap;
+}
+
+#div2 {
+    content: '';
+    position: absolute;
+    height: 0px;
+    width: 0px;
+    top: 0px;
+    left: 0px;
+    border-width: 20px;
+    border-color: transparent transparent transparent #fff;
+    border-style: solid;
+}
+
+#div3 {
+    content: '';
+    position: absolute;
+    height: 0px;
+    width: 0px;
+    top: 0px;
+    right: -40px;
+    border-width: 20px;
+   
+    border-style: solid;
+}

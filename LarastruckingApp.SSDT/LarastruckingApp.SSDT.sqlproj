@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>LarastruckingApp.SSDT</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{805fe8ca-2c70-4326-b973-b5524f350868}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql140DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>LarastruckingApp.SSDT</RootNamespace>
+    <AssemblyName>LarastruckingApp.SSDT</AssemblyName>
+    <ModelCollation>1033,CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="dbo\User Defined Types\" />
+    <Folder Include="dbo\Functions\" />
+    <Folder Include="dbo\Views\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\tblUserRole.sql" />
+    <Build Include="dbo\Tables\tblAccidentDocument.sql" />
+    <Build Include="dbo\Tables\tblAccidentReport.sql" />
+    <Build Include="dbo\Tables\tblAccidentReportDocument.sql" />
+    <Build Include="dbo\Tables\tblAddress.sql" />
+    <Build Include="dbo\Tables\tblAddressType.sql" />
+    <Build Include="dbo\Tables\tblAssessorialPrice.sql" />
+    <Build Include="dbo\Tables\tblBaseFreightDetails.sql" />
+    <Build Include="dbo\Tables\tblCity.sql" />
+    <Build Include="dbo\Tables\tblCommodity.sql" />
+    <Build Include="dbo\Tables\tblCountry.sql" />
+    <Build Include="dbo\Tables\tblCustomerBaseFreightDetails.sql" />
+    <Build Include="dbo\Tables\tblCustomerRegistration.sql" />
+    <Build Include="dbo\Tables\tblDelivery.sql" />
+    <Build Include="dbo\Tables\tblDocumentType.sql" />
+    <Build Include="dbo\Tables\tblDriver.sql" />
+    <Build Include="dbo\Tables\tblDriverDocument.sql" />
+    <Build Include="dbo\Tables\tblEquipmentDetail.sql" />
+    <Build Include="dbo\Tables\tblEquipmentDocument.sql" />
+    <Build Include="dbo\Tables\tblEquipmentStatus.sql" />
+    <Build Include="dbo\Tables\tblEquipmentType.sql" />
+    <Build Include="dbo\Tables\tblFeedback.sql" />
+    <Build Include="dbo\Tables\tblFreightType.sql" />
+    <Build Include="dbo\Tables\tblLog.sql" />
+    <Build Include="dbo\Tables\tblPackage.sql" />
+    <Build Include="dbo\Tables\tblPackageType.sql" />
+    <Build Include="dbo\Tables\tblPageAuthorization.sql" />
+    <Build Include="dbo\Tables\tblPages.sql" />
+    <Build Include="dbo\Tables\tblPreTripCheckUp.sql" />
+    <Build Include="dbo\Tables\tblPricingMethod.sql" />
+    <Build Include="dbo\Tables\tblQuoteRouteStops.sql" />
+    <Build Include="dbo\Tables\tblQuotes.sql" />
+    <Build Include="dbo\Tables\tblRole.sql" />
+    <Build Include="dbo\Tables\tblShipment.sql" />
+    <Build Include="dbo\Tables\tblShipmentStatus.sql" />
+    <Build Include="dbo\Tables\tblState.sql" />
+    <Build Include="dbo\Tables\tblTemperature.sql" />
+    <Build Include="dbo\Tables\tblTransportVehical.sql" />
+    <Build Include="dbo\Tables\tblUser.sql" />
+    <Build Include="dbo\Stored Procedures\usp_AuthenticateUser.sql" />
+    <Build Include="dbo\Stored Procedures\usp_CreateUserRegistrationAndRole.sql" />
+    <Build Include="dbo\Stored Procedures\usp_DriverInformation.sql" />
+    <Build Include="dbo\Stored Procedures\usp_DriverModulePreTrip.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetPageAuthorizations.sql" />
+    <Build Include="dbo\Stored Procedures\usp_InsertUpdatePageAuthorization.sql" />
+    <Build Include="dbo\Stored Procedures\usp_LoginUser.sql" />
+    <Build Include="dbo\Stored Procedures\usp_User.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UserDto.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UserRegistration.sql" />
+    <Build Include="dbo\Stored Procedures\usp_CreateQuote.sql" />
+    <Build Include="dbo\User Defined Types\dtUserRoles.sql" />
+    <Build Include="dbo\User Defined Types\UT_QuoteRouteStops.sql" />
+    <Build Include="dbo\Tables\tblRelationships.sql" />
+    <Build Include="dbo\Tables\tblLeaveStatus.sql" />
+    <Build Include="dbo\Tables\tblLeave.sql" />
+    <Build Include="dbo\Tables\tblCustomerContact.sql" />
+    <Build Include="dbo\Tables\tblBaseAddress.sql" />
+    <Build Include="dbo\Stored Procedures\usp_ManageCustomer.sql" />
+    <Build Include="dbo\Stored Procedures\usp_LeaveManage.sql" />
+    <Build Include="dbo\User Defined Types\UT_CustomerBaseFreightDetails.sql" />
+    <Build Include="dbo\User Defined Types\UT_AccessorialCharges.sql" />
+    <Build Include="dbo\Tables\tblShipmentSubStatus.sql" />
+    <Build Include="dbo\Tables\tblEquipmentFreight.sql" />
+    <Build Include="dbo\Tables\tblEquipmentDoorType.sql" />
+    <Build Include="dbo\Tables\tblDoorType.sql" />
+    <Build Include="dbo\Stored Procedures\usp_EditQuote.sql" />
+    <Build Include="dbo\Tables\tblShipmentRoutesStop.sql" />
+    <Build Include="dbo\Functions\ufnGetPreTripStatus.sql" />
+    <Build Include="dbo\Tables\tblAccessorialFeesTypes.sql" />
+    <Build Include="dbo\Stored Procedures\usp_CustomerModule.sql" />
+    <Build Include="dbo\Tables\tblShipmentEquipmentNdriver.sql" />
+    <Build Include="dbo\Tables\tblShipmentAccessorialPrice.sql" />
+    <Build Include="dbo\Stored Procedures\usp_CreateShipment.sql" />
+    <Build Include="dbo\User Defined Types\UT_ShipmentRouteStop.sql" />
+    <Build Include="dbo\Tables\tblShipmentStatusHistory.sql" />
+    <Build Include="dbo\Tables\tblShipmentFreightDetail.sql" />
+    <Build Include="dbo\Tables\tblProofOfTemperatureImages.sql" />
+    <Build Include="dbo\Tables\tblDamagedImages.sql" />
+    <Build Include="dbo\Functions\usp_GetFreightTotal.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetPricingMethod.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetFreightType.sql" />
+    <Build Include="dbo\User Defined Types\UT_ShipmentFreightDetails.sql" />
+    <Build Include="dbo\User Defined Types\UT_ShipmentEquipmentNdriver.sql" />
+    <Build Include="dbo\User Defined Types\UT_ShipmentAccessorialPrice.sql" />
+    <Build Include="dbo\Tables\tblPageActions.sql" />
+    <Build Include="dbo\Stored Procedures\usp_CustomerTrackDetails.sql" />
+    <Build Include="dbo\Stored Procedures\usp_CustomerDashoard.sql" />
+    <Build Include="dbo\Tables\tblQuoteAccessorialPrice_1.sql" />
+    <Build Include="dbo\Functions\shipmentStatus_1.sql" />
+    <Build Include="dbo\Stored Procedures\usp_DriverDashboard123_1.sql" />
+    <Build Include="dbo\Stored Procedures\usp_DriverDashboard_1.sql" />
+    <Build Include="dbo\Stored Procedures\usp_CustomerStatusTrack_2.sql" />
+    <Build Include="dbo\User Defined Types\UT_QuoteAccessorialPrice_1.sql" />
+    <Build Include="dbo\Tables\tblUploadShipmentSample.sql" />
+    <Build Include="dbo\Tables\tblMailHistory.sql" />
+    <Build Include="dbo\Tables\tblVendorNconsignee.sql" />
+    <Build Include="dbo\Tables\tblDriverGpsTrakingHistory.sql" />
+    <Build Include="dbo\Views\view_DriverDashboard.sql" />
+    <Build Include="dbo\Stored Procedures\usp_DriverDashboard_Test.sql" />
+    <Build Include="dbo\Tables\FreightPricingMapping.sql" />
+    <Build Include="dbo\User Defined Types\UT_CustomerBaseFreightDetails1.sql" />
+    <Build Include="dbo\Tables\tblFumigationTypes.sql" />
+    <Build Include="dbo\Stored Procedures\usp_DailyReportDashboard.sql" />
+    <Build Include="dbo\Tables\tblShipmentRefNo_1.sql" />
+    <Build Include="dbo\Tables\tblFumigationRouts_1.sql" />
+    <Build Include="dbo\Tables\tblFumigationEquipmentNDriver_1.sql" />
+    <Build Include="dbo\Tables\tblFumigation_1.sql" />
+    <Build Include="dbo\Stored Procedures\usp_CreateFumigation_1.sql" />
+    <Build Include="dbo\Tables\tblFumigationAccessorialPrice.sql" />
+    <Build Include="dbo\Stored Procedures\usp_DailyReportDashboard_Test.sql" />
+    <Build Include="dbo\User Defined Types\UT_FumigationRoutes.sql" />
+    <Build Include="dbo\User Defined Types\UT_FumigationAccessorialPrice.sql" />
+    <Build Include="dbo\Tables\tblFumigationProofOfTemperatureImages.sql" />
+    <Build Include="dbo\Tables\tblFumigationDamagedImages.sql" />
+    <Build Include="dbo\Functions\ufnGetFumigationPreTripStatus.sql" />
+    <Build Include="dbo\Functions\GetFumigationLocation.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetFumigationList.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetFumigationById.sql" />
+    <Build Include="dbo\User Defined Types\UT_FumigationEquipmentNDriver.sql" />
+    <Build Include="dbo\Tables\tblFumigationPreTripCheckUp.sql" />
+    <Build Include="dbo\Stored Procedures\usp_FumigationDetails.sql" />
+    <Build Include="dbo\Stored Procedures\usp_DriverDashboard_1732020.sql" />
+    <Build Include="dbo\Tables\tblTermAndCondition.sql" />
+    <Build Include="dbo\Tables\tblFumigationStatusHistory.sql" />
+    <Build Include="dbo\Stored Procedures\usp_FumigationCustomerModule.sql" />
+    <Build Include="dbo\Stored Procedures\usp_CustomerFumigationTrackDetails.sql" />
+    <Build Include="dbo\Tables\tblTrailerRentalDetail.sql" />
+    <Build Include="dbo\Tables\tblTrailerRental.sql" />
+    <Build Include="dbo\Stored Procedures\usp_CustomerOldShipmentDashoard.sql" />
+    <Build Include="dbo\Functions\GetTrailerRentalDetial.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetTrailerRentalList.sql" />
+    <Build Include="dbo\Tables\tblWatingNotification.sql" />
+    <Build Include="dbo\Functions\getDateDiff.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetWaitingTimeDetails_1.sql" />
+    <Build Include="dbo\User Defined Types\UT_ShipmentRouteStop1.sql" />
+    <Build Include="dbo\Tables\tblFumigationWaitingNotification.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetFumigationWaitingTimeDetails.sql" />
+    <Build Include="dbo\Stored Procedures\usp_getDriverDetails.sql" />
+    <Build Include="dbo\Functions\GetShipmentPickupLocation.sql" />
+    <Build Include="dbo\Functions\GetShipmentDeliveryLocation.sql" />
+    <Build Include="dbo\Functions\GetFumigationPickUpLocation.sql" />
+    <Build Include="dbo\Functions\GetFumigationDeliveryLocation.sql" />
+    <Build Include="dbo\Functions\GetDriverFumigationPickupLocation.sql" />
+    <Build Include="dbo\Functions\GetDriverFumigationLocation.sql" />
+    <Build Include="dbo\Functions\GetDriverDeliveryLocation.sql" />
+    <Build Include="dbo\Functions\fun_GetShipmentQuantity_1.sql" />
+    <Build Include="dbo\Tables\tblShipmentCommments.sql" />
+    <Build Include="dbo\Views\view_tblShipmentFreightDetail.sql" />
+    <Build Include="dbo\Views\view_ShipmentQuantity.sql" />
+    <Build Include="dbo\Views\view_GetOrderTakenShipment.sql" />
+    <Build Include="dbo\Views\view_GetOrderNotTakenShipment.sql" />
+    <Build Include="dbo\Views\view_GetAllShipment.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetShipmentList_Test.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetShipmentList_New.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetShipmentList.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetShipment_OrderTaken_List.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetShipment_NotOrderTaken_List.sql" />
+    <Build Include="dbo\Tables\tblCustomerRegistrationBackup.sql" />
+    <Build Include="dbo\Tables\tblBaseAddresstest.sql" />
+    <Build Include="dbo\Tables\tblBaseAddressBackup.sql" />
+    <Build Include="dbo\Views\View_DriverShipmentDetail.sql" />
+    <Build Include="dbo\Stored Procedures\usp_UpdateShipmenetIsReady.sql" />
+    <Build Include="dbo\Tables\tblShipmentTrackingHistory.sql" />
+    <Build Include="dbo\Tables\tblShipmentStatus1.sql" />
+    <Build Include="dbo\Tables\tblShipmentEventHistory.sql" />
+    <Build Include="dbo\Tables\tblLanguage.sql" />
+    <Build Include="dbo\Tables\tblFumigationEventHistory.sql" />
+    <Build Include="dbo\Views\View_GetOrderNotTakenShipment_Updated_18Dec.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetShipment_NotOrderTaken_List_Updated_18Dec.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetOtherFumList.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetCompletedNcancelFumList.sql" />
+    <Build Include="dbo\Tables\tblDriverAttendance.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetOrderTakenFumigationList.sql" />
+    <Build Include="dbo\Functions\GetFumigationLocation_22Feb.sql" />
+    <Build Include="dbo\Tables\tblTimeCardlog.sql" />
+    <Build Include="dbo\Stored Procedures\usp_AddTimeCardDetail.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetTimeCardList.sql" />
+    <Build Include="dbo\Tables\tblTimeCardLoan.sql" />
+    <Build Include="dbo\Tables\tblTimeCardCalculation.sql" />
+    <Build Include="dbo\Tables\tblFumigationComments.sql" />
+    <Build Include="dbo\Stored Procedures\usp_GetTimeCardCalculation.sql" />
+    <Build Include="dbo\Stored Procedures\USP_GetLaborReport.sql" />
+    <Build Include="dbo\Stored Procedures\USP_GetWeeklyReport.sql" />
+    <Build Include="dbo\Stored Procedures\USP_TimeCardCalculator.sql" />
+  </ItemGroup>
+</Project>

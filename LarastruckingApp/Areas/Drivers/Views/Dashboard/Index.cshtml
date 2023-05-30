@@ -1,0 +1,154 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-6">
+        <div class="card-body">
+            <div class="white-bg customFormWrap">
+                <h2 class="cardHeading">
+                    Pre-Trip Checkup
+                </h2>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group required row">
+                            <input type="hidden" id="hdnPreTripCheckup" value="0" />
+                            <label class="col-sm-4 col-form-label" for="txtShipmentNumber"> Shipment Number</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       required="required"
+                                       id="txtShipmentNumber"
+                                       class="form-control" />
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group required row">
+                            <label class="col-sm-4 col-form-label" for="txtEquipmentNumber"> Equipment Number</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       required="required"
+                                       id="txtEquipmentNumber"
+                                       class="form-control" />
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group required checkbox-container row">
+                            <label class="col-sm-4 col-form-label" for="txtEquipmentNumber"> Tires </label>
+                            <div class="col-sm-8">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="tiresCheckup" value="true"> Good
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="tiresCheckup" value="false"> Not Good
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group required checkbox-container row">
+                            <label class="col-sm-4 col-form-label" for="txtEquipmentNumber"> Breaks </label>
+                            <div class="col-sm-8">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="breaksCheckup" value="true"> Good
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="breaksCheckup" value="false"> Not Good
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group required checkbox-container row">
+                            <label class="col-sm-4 col-form-label" for="txtEquipmentNumber"> Fuel </label>
+                            <div class="col-sm-8">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="fuelCheckup" value="Full"> Full
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="fuelCheckup" value="3/4"> 3/4
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="fuelCheckup" value="1/2"> 1/2
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="fuelCheckup" value="1/4"> 1/4
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group required checkbox-container row">
+                            <label class="col-sm-4 col-form-label" for="txtEquipmentNumber"> Load Straps </label>
+                            <div class="col-sm-8">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="loadStrapsCheckup" value="8"> 8
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="loadStrapsCheckup" value="<8"> < 8
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="loadStrapsCheckup" value="Other"> Other
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group required row">
+                            <label class="col-sm-4 col-form-label" for="txtOveralCondition"> Overall Condition</label>
+                            <div class="col-sm-8">
+                                <textarea id="txtOveralCondition" rows="3" class="form-control h_50"></textarea>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12 text-right mb-2">
+                        <button type="button" id="BtnAdd" class="btn green-Btn">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

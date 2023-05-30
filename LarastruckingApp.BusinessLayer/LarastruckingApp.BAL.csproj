@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D7A6084F-3E84-4D2C-ABC8-2FD915DF00B5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LarastruckingApp.BusinessLayer</RootNamespace>
+    <AssemblyName>LarastruckingApp.BusinessLayer</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\LarastruckingApp\CodeAnalysisRuleSet.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.1.0\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccidentReportBAL.cs" />
+    <Compile Include="AddressBAL.cs" />
+    <Compile Include="TimeCardBAL.cs" />
+    <Compile Include="CommonBAL.cs" />
+    <Compile Include="CustomerBAL.cs" />
+    <Compile Include="CustomerModule\CustomerModuleBAL.cs" />
+    <Compile Include="CustomerModule\ICustomerModuleBAL.cs" />
+    <Compile Include="DriverBAL.cs" />
+    <Compile Include="DriverModule\DriverModuleBAL.cs" />
+    <Compile Include="DriverModule\IDriverModuleBAL.cs" />
+    <Compile Include="EquipmentBAL.cs" />
+    <Compile Include="ForgotPasswordBAL.cs" />
+    <Compile Include="FumigationBAL.cs" />
+    <Compile Include="GpsTrackingBAL.cs" />
+    <Compile Include="Interface\IAccidentReportBAL.cs" />
+    <Compile Include="Interface\IAddressBAL.cs" />
+    <Compile Include="Interface\ITimeCardBAL.cs" />
+    <Compile Include="Interface\ICommonBAL.cs" />
+    <Compile Include="Interface\ICustomerBAL.cs" />
+    <Compile Include="Interface\IDriverBAL.cs" />
+    <Compile Include="Interface\IEquipmentBAL.cs" />
+    <Compile Include="Interface\IForgotPasswordBAL.cs" />
+    <Compile Include="Interface\IFumigationBAL.cs" />
+    <Compile Include="Interface\IGpsTrackingBAL.cs" />
+    <Compile Include="Interface\ILeaveBAL.cs" />
+    <Compile Include="Interface\IPageAutharizationBAL.cs" />
+    <Compile Include="Interface\IQuoteBAL.cs" />
+    <Compile Include="Interface\IRoleBAL.cs" />
+    <Compile Include="Interface\IShipmentBAL.cs" />
+    <Compile Include="Interface\IShipmentEventHistoryBAL.cs" />
+    <Compile Include="Interface\ITrailerRentalBAL.cs" />
+    <Compile Include="Interface\IUploadShipmentBAL.cs" />
+    <Compile Include="Interface\IUserBAL.cs" />
+    <Compile Include="Interface\IUserRoleBAL.cs" />
+    <Compile Include="Interface\IVendorBAL.cs" />
+    <Compile Include="LeaveBAL.cs" />
+    <Compile Include="PageAutharizationBAL.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuoteBAL.cs" />
+    <Compile Include="Reports\DailyReports\DailyReportBAL.cs" />
+    <Compile Include="Reports\DailyReports\IDailyReportBAL.cs" />
+    <Compile Include="RoleBAL.cs" />
+    <Compile Include="ShipmentBAL.cs" />
+    <Compile Include="ShipmentEventHistoryBAL.cs" />
+    <Compile Include="TrailerRentalBAL.cs" />
+    <Compile Include="UploadShipmentBAL.cs" />
+    <Compile Include="UserBAL.cs" />
+    <Compile Include="UserRoleBAL.cs" />
+    <Compile Include="VendorBAL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+    <Content Include="NewFile.txt" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LarastruckingApp.DAL\LarastruckingApp.DAL.csproj">
+      <Project>{14e65ec6-5cc5-4c50-821c-9753ce919775}</Project>
+      <Name>LarastruckingApp.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LarastruckingApp.Entities\LarastruckingApp.DTO.csproj">
+      <Project>{b4c68573-f80a-49c3-bb97-38954ea69879}</Project>
+      <Name>LarastruckingApp.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LarastruckingApp.Log\LarastruckingApp.Utility.csproj">
+      <Project>{174ED21B-989F-4332-90D0-E7B5B65CD94B}</Project>
+      <Name>LarastruckingApp.Utility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LarastruckingApp.Resource\LarastruckingApp.Resource.csproj">
+      <Project>{c7148821-96c6-462d-b2fc-4767821b1a12}</Project>
+      <Name>LarastruckingApp.Resource</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,921 @@
+﻿
+@using LarastruckingApp.Entities.Permission
+@{
+    ViewBag.Title = "Create Shipment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    PermissionsDto permissions = IsPermited.HasPermission();
+}
+
+@using (Html.BeginForm("Index", "Shipment/Shipment", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="card-body">
+        <div class="white-bg customFormWrap">
+            <h2 class="cardHeading">
+                SHIPMENT
+            </h2>
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group required row">
+                        <label class="col-sm-4 col-form-label" for="ddlCustomer">Customer</label>
+                        <div class="col-sm-8">
+                            <select id="ddlCustomer"
+                                    class="form-control">
+                                <option>SEARCH CUSTOMER</option>
+                            </select>
+
+                            <input type="hidden" id="hdnQuoteId" name="hdnQuoteId" value="0" />
+                            <input type="hidden" id="hdnShipmentId" name="hdnShipmentId" value="0" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="form-group required row">
+                        <label class="col-sm-2 col-form-label" for="ddlStatus">Status</label>
+                        <div class="col-sm-4">
+                            <select class="form-control" id="ddlStatus"></select>
+                        </div>
+                        <div class="col-sm-4">
+                            <select class="form-control" id="ddlSubStatus">
+                                <option value="">SELECT SUB-STATUS</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-0.5">
+                            <button type="button" id="btnApprovedShipment"><i class="fa fa-envelope" id="shipmentEnvelop"></i></button>
+                        </div>
+                        <div class="col-sm-0.5">
+                            <button type="button" id="btnGpsShipment" onclick="fn_RedirectToGPSTrackerPage();"><i class="fas fa-2x fa-map-marked-alt" id="GpsShipment"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label for="txtVendorNConsignee" class="col-sm-4 col-form-label">Vendor/Consignee</label>
+                        <div class="col-sm-8">
+
+                            <input type="text"
+                                   name="txtVendorNConsignee"
+                                   onkeypress="return onlyAlphanumeric(event)"
+                                   id="txtVendorNConsignee"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group required row">
+                        <label for="txtRequestedBy" class="col-sm-4 col-form-label">Requested By</label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   required="required"
+                                   name="txtRequestedBy"
+                                   onkeypress="return onlyAlphanumeric(event)"
+                                   id="txtRequestedBy"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="txtReason">Reason</label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   disabled="disabled"
+                                   name="txtReason"
+                                   onkeypress="return onlyAlphanumeric(event)"
+                                   id="txtReason"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 divShipmentRefNo">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="txtShipRefNo">Ship Ref. No.</label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   name="txtShipRefNo"
+                                   disabled="disabled"
+                                   onkeypress="return onlyAlphanumeric(event)"
+                                   id="txtShipRefNo"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="txtAirWayBill">Air Waybill</label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   autocomplete="off"
+                                   name="txtAirWayBill"
+                                   onkeypress="return onlyAlphanumeric(event)"
+                                   id="txtAirWayBill"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="txtCustomerPO">Customer PO</label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   name="txtCustomerPO"
+                                   onkeypress="return onlyAlphanumeric(event)"
+                                   id="txtCustomerPO"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="txtOrderNo">Order No.</label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   autocomplete="off"
+                                   name="txtOrderNo"
+                                   onkeypress="return onlyAlphanumeric(event)"
+                                   id="txtOrderNo"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group  row">
+                        <label class="col-sm-4 col-form-label" for="txtCustomerRefNo">Customer Ref. No.</label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   autocomplete="off"
+                                   name="txtCustomerRefNo"
+                                   onkeypress="return onlyAlphanumeric(event)"
+                                   id="txtCustomerRefNo"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="txtContainerNo">Container No.</label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   autocomplete="off"
+                                   name="txtContainerNo"
+                                   onkeypress="return onlyAlphanumeric(event)"
+                                   id="txtContainerNo"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group  row">
+                        <label class="col-sm-4 col-form-label" for="txtPurchaseDoc">Purchase Doc.</label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   autocomplete="off"
+                                   name="txtPurchaseDoc"
+                                   onkeypress="return onlyAlphanumeric(event)"
+                                   id="txtPurchaseDoc"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group  row">
+                        <label class="col-sm-4 col-form-label" for="txtEquipment"><a href="#" id="btnequipment">Equipment</a></label>
+                        <div class="col-sm-8">
+                            <input type="text" id="txtEquipment" readonly="readonly" class="form-control" />
+                            <input type="hidden" id="hdnEquipment" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group  row">
+                        <label class="col-sm-4 col-form-label" for="txtdriver">Driver</label>
+                        <div class="col-sm-8">
+                            <input type="text" id="txtdriver" readonly="readonly" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div id="formRouteStop">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="flexContainer">
+                            <fieldset>
+                                <legend> PICKUP LOCATION</legend>
+                                <div class="col-md-12">
+                                    <div class="form-group row required">
+                                        <label class="col-sm-4 col-form-label" for="ddlPickupLocation">Pickup Location</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control padd-R-70 withsearch" id="ddlPickupLocation">
+                                                <option value="0">SEARCH PICKUP LOCATION</option>
+                                            </select>
+
+                                            <button type="button" class="plus-ic btnOpenAddressModal">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group required row">
+                                        <label class="col-sm-4 col-form-label" for="dtArrivalDate">Est. Arrival</label>
+                                        <div class="col-sm-8">
+                                            <input type="text"
+                                                   autocomplete="off"
+                                                   data-required="required"
+                                                   placeholder="MM-DD-YYYY"
+                                                   id="dtArrivalDate"
+                                                   onkeypress="return onlyNumericOrcolon(event)"
+                                                   class="form-control dtTimer" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group required row">
+                                        <label class="col-sm-4 col-form-label" for="dtPickUpToDate">Est. Departure</label>
+                                        <div class="col-sm-8">
+                                            <input type="text"
+                                                   autocomplete="off"
+                                                   data-required="required"
+                                                   placeholder="MM-DD-YYYY"
+                                                   id="dtPickUpToDate"
+                                                   onkeypress="return onlyNumericOrcolon(event)"
+                                                   class="form-control dtTimer" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 divWaitingTime">
+                                    <div class="form-group row checkbox-container">
+                                        <label class="col-sm-4 col-form-label" for="chkPickUpWaitingTime">Waiting Time</label>
+                                        <div class="col-sm-8">
+                                            <div class="checkbox">
+                                                <input type="checkbox" id="chkPickUpWaitingTime" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div class="icon_exchange">
+                                <i id="swapp" class="fas fa-exchange-alt"></i>
+                            </div>
+                            <fieldset>
+                                <legend>DELIVERY LOCATION</legend>
+                                <div class="col-md-12">
+                                    <div class="form-group row required">
+                                        <label class="col-sm-4 col-form-label" for="ddlDeliveryLocation">Delivery Location</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control withsearch padd-R-70" id="ddlDeliveryLocation">
+                                                <option value="0">SEARCH DELIVERY LOCATION</option>
+                                            </select>
+                                            <button type="button" class="plus-ic btnOpenAddressModal">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group required row">
+                                        <label class="col-sm-4 col-form-label" for="dtDeliveryDate">Est. Arrival</label>
+                                        <div class="col-sm-8">
+                                            <input type="text"
+                                                   autocomplete="off"
+                                                   data-required="required"
+                                                   placeholder="MM-DD-YYYY"
+                                                   onkeypress="return onlyNumericOrcolon(event)"
+                                                   id="dtDeliveryDate"
+                                                   class="form-control  dtTimer" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group required row">
+                                        <label class="col-sm-4 col-form-label" for="dtDeliveryToDate">Est. Departure</label>
+                                        <div class="col-sm-8">
+                                            <input type="text"
+                                                   autocomplete="off"
+                                                   data-required="required"
+                                                   placeholder="MM-DD-YYYY"
+                                                   id="dtDeliveryToDate"
+                                                   onkeypress="return onlyNumericOrcolon(event)"
+                                                   class="form-control  dtTimer" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 divWaitingTime">
+                                    <div class="form-group row checkbox-container">
+                                        <label class="col-sm-4 col-form-label" for="chkDeliveryWaitingTime">Waiting Time</label>
+                                        <div class="col-sm-8">
+                                            <div class="checkbox">
+                                                <input type="checkbox" id="chkDeliveryWaitingTime" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row mb-2 mt-2">
+
+                    <div class="col-md-12 text-right">
+                        <button type="button" id="btnAddRouteStop" class="btn green-Btn">Add Trip</button>
+                        @*<button type="button" id="btnRoundTrip" class="btn green-Btn">Add Round Trip</button>*@
+                        <button type="button" id="btnClearRoute" class="btn outline-Btn">Clear</button>
+                    </div>
+                </div>
+            </div>
+            @* 18 Sep *@
+
+        </div>
+
+        <div class="white-bg customFormWrap">
+            <div id="formAddFreight">
+                <fieldset>
+                    <legend>ADD FREIGHT</legend>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group  row">
+                                <label class="col-sm-4 col-form-label" for="ddlCommodity">Commodity</label>
+                                <div class="col-sm-8">
+                                    <input type="text"
+                                           onkeypress="return onlyAlphabets(event)"
+                                           id="txtCommodity"
+                                           class="form-control form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group required row">
+                                <label class="col-sm-4 col-form-label" for="ddlFreightType">Freight Type</label>
+                                <div class="col-sm-8">
+                                    <select id="ddlFreightType" class="form-control"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group required  row">
+                                <label class="col-sm-4 col-form-label" for="ddlPricingMethod">Pricing Method</label>
+                                <div class="col-sm-8">
+                                    <select id="ddlPricingMethod" class="form-control"></select>
+                                </div>
+                            </div>
+                        </div>
+                        @if (permissions.IsPricingMethod)
+                        {
+                            <div class="col-md-4 pricingMethod">
+                                <div class="form-group  row">
+                                    <label class="col-sm-4 col-form-label" for="txtMinFee">Min. Fee</label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               onkeypress="return onlyNumeric(event)"
+                                               onfocusout="CalculateTotalPrice()"
+                                               id="txtMinFee"
+                                               class="form-control form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 pricingMethod">
+                                <div class="form-group  row">
+                                    <label class="col-sm-4 col-form-label" for="txtAddPrice">Add. Price</label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               onkeypress="return onlyNumeric(event)"
+                                               onfocusout="CalculateTotalPrice()"
+                                               id="txtAddPrice"
+                                               class="form-control form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 pricingMethod">
+                                <div class="form-group  row">
+                                    <label class="col-sm-4 col-form-label" for="txtUpTo">Up to <label id="lblupto"></label></label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               onkeypress="return onlyNumeric(event)"
+                                               onfocusout="CalculateTotalPrice()"
+                                               id="txtUpTo"
+                                               class="form-control form-control" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        }
+                        <div class="col-md-4 divNoOfPcs" id="divNoOfPcs">
+                            <div class="form-group  row">
+                                <label class="col-sm-4 col-form-label" for="txtQutVlmWgt">No. of Pallet</label>
+                                <div class="col-sm-8">
+                                    <input type="text"
+                                           onkeypress="return onlyNumeric(event)"
+                                           onfocusout="CalculateTotalPrice()"
+                                           id="txtQutVlmWgt"
+                                           class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 divBox">
+                            <div class="form-group  row">
+                                <label class="col-sm-4 col-form-label" for="txtNoOfBox">No. of Box</label>
+                                <div class="col-sm-8">
+                                    <input type="text"
+                                           onkeypress="return onlyNumeric(event)"
+                                           onfocusout="CalculateTotalPrice()"
+                                           id="txtNoOfBox"
+                                           class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 divWeight" id="divWeight">
+                            <div class="form-group  row">
+                                <label class="col-sm-4 col-form-label" for="txtWeight">Weight</label>
+                                <div class="col-sm-4">
+                                    <input type="text"
+                                           onchange="ConvertFloat(this)"
+                                           onkeypress="return onlyNumeric(event)"
+                                           onfocusout="CalculateTotalPrice()"
+                                           id="txtWeight"
+                                           class="form-control" />
+                                </div>
+                                <div class="col-md-4">
+                                    <select id="ddlUnit" class="form-control">
+                                        @{
+                                            foreach (var data in ViewBag.WeightUnit)
+                                            {
+                                                <option value="@data.Text">@data.Text</option>
+                                            }
+                                        }
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 divTrailer">
+                            <div class="form-group  row">
+                                <label class="col-sm-4 col-form-label" for="txtTrailer">Trailer Count</label>
+                                <div class="col-sm-8">
+                                    <input type="text"
+                                           onkeypress="return onlyNumeric(event)"
+                                           onfocusout="CalculateTotalPrice()"
+                                           id="txtTrailer"
+                                           class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 divHazardous">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label" for="ddlHazardous">Hazardous</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" id="ddlHazardous">
+                                        <option value="0">No</option>
+                                        <option value="1">Yes</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group  row">
+                                <label class="col-sm-4 col-form-label" for="txtTemperature">Req. Temp. (F)</label>
+                                <div class="col-sm-5">
+                                    <input type="text"
+                                           onkeypress="return onlyNumeric(event)"
+                                           id="txtTemperature"
+                                           class="form-control form-control" />
+                                </div>
+                                <div class="col-sm-3">
+                                    <select id="ddlTemperatureUnit" class="form-control">
+                                        <option value="F">F</option>
+                                        <option value="C">C</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        @if (permissions.IsPricingMethod)
+                        {
+                            <div class="col-md-4 pricingMethod">
+                                <div class="form-group  row">
+                                    <label class="col-sm-4 col-form-label" for="txtTotalPrice">Total Price</label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               disabled="disabled"
+                                               onkeypress="return onlyNumeric(event)"
+                                               id="txtTotalPrice"
+                                               class="form-control form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        <div class="col-md-4">
+                            <div class="form-group  row">
+                                <label class="col-sm-4 col-form-label" for="txtComments">Comments</label>
+                                <div class="col-sm-8">
+                                    <input type="text"
+                                           id="txtComments"
+                                           class="form-control form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 divIsPartila">
+                            <div class="form-group  row">
+                                <label class="col-sm-4 col-form-label" for="txtComments">Partial Shipment</label>
+                                <div class="col-sm-8">
+                                    <input type="checkbox" id="chkPartialShipment" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 divPartial">
+                            <div class="form-group  row">
+                                <label class="col-sm-4 col-form-label" for="txtPartialPallet">Total Pallet</label>
+                                <div class="col-sm-8">
+                                    <input type="text"
+                                           onkeypress="return onlyNumeric(event)"
+                                           id="txtPartalPallet"
+                                           class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 divPartial">
+                            <div class="form-group  row">
+                                <label class="col-sm-4 col-form-label" for="txtPartialBox">Total Box</label>
+                                <div class="col-sm-8">
+                                    <input type="text"
+                                           onkeypress="return onlyNumeric(event)"
+                                           id="txtPartialBox"
+                                           class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <button type="button" id="btnAddFreight" class="btn green-Btn">Add</button>
+                            <button type="button" id="btnClearFreight" class="btn outline-Btn">Clear</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="white-bg customFormWrap">
+
+            <fieldset>
+                <legend>ROUTE STOPS</legend>
+                <div class="row mt-2">
+
+                    <div class="col-md-12 table-responsive">
+                        <table data-row-no="" id="tblRouteStope" class="table-bordered table-striped cf w-100   activateDatatable">
+                            <thead>
+                                <tr>
+                                    <th width="10"></th>
+                                    <th>No.</th>
+                                    <th> Pickup Location </th>
+                                    <th> Pickup Date Time </th>
+                                    <th> Delivery Location </th>
+                                    <th> Delivery Date Time </th>
+                                    <th>Act. PickUp Arrival</th>
+                                    <th>Act. PickUp Depart</th>
+                                    <th>Act. Delivery Arrival</th>
+                                    <th>Act. Delivery Depart</th>
+                                    <th> Action </th>
+                                </tr>
+                            </thead>
+                            <tbody id="dtRouteBody"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="white-bg customFormWrap">
+
+            <fieldset>
+                <legend>SHIPMENT DETAIL</legend>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+
+                            <table id="tblShipmentDetail" data-row-no="" class="table-bordered table-striped cf w-100 activateDatatable">
+                                <thead>
+
+                                    <tr align="center">
+                                        <th width="10"></th>
+                                        <th>No.</th>
+                                        @*<th>Route No</th>*@
+                                        <th>Commodity</th>
+                                        <th>Freight</th>
+                                        <th>Pricing</th>
+                                        @{
+                                            if (permissions.IsPricingMethod)
+                                            {
+                                                <th class="pricingMethod">Min. Fee</th>
+                                                <th class="pricingMethod">Add. Unit Price</th>
+                                                <th class="pricingMethod">Up to</th>
+                                            }
+                                        }
+
+
+                                        <th>Quantity</th>
+                                        @{
+                                            if (permissions.IsPricingMethod)
+                                            {
+
+                                                <th class="pricingMethod">G. Total</th>
+                                            }
+                                        }
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+        </div>
+        <div class="row" id="divDamageNproofOfTemp">
+            <div class="col-md-12">
+                <div class="white-bg customFormWrap">
+                    <div class="row">
+                        <div class="col-md-6" id="divDamage">
+                            <div class="form-group required  row divProofOfTemp">
+                                <label class="col-sm-3 col-form-label" for="txtDamageDescription">Damage Description</label>
+                                <div class="col-sm-9">
+                                    <input type="text" data-required="required" id="txtDamageDescription" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group required row divProofOfTemp">
+                                <label class="col-sm-3 col-form-label" for="">Damage File</label>
+                                <div class="col-sm-7">
+                                    <input type="file" data-required="required" onchange="CheckImageExtension(this)" id="fuDamageFiles" class="fileUploader" multiple />
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <button type="button" class="btnDamageFile fuUpload"> Upload </button>
+                                </div>
+                            </div>
+                            <div>
+                                <legnd><strong>Shipment Files</strong></legnd>
+                                <table id="tblUploadedFiles" class="table-bordered dataTable table-striped cf w-100">
+                                    <thead>
+                                        <tr>
+                                            <th> Description </th>
+                                            <th>Date Time </th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-6" id="divProofOfTemp">
+                            <div class="form-group required row divProofOfTemp">
+                                <label class="col-sm-3 col-form-label" for="txtActualTemp">Actual Temp</label>
+                                <div class="col-sm-2">
+                                    <input type="text" data-required="required" id="txtActualTemp" onkeypress="return onlyNumeric(event)" class="form-control">
+                                </div>
+                                <div class="col-sm-2">
+                                    <select id="ddlActualTemperatureUnit" class="form-control">
+                                        <option selected="selected" value="F">F</option>
+                                        <option value="C">C</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="form-group required row divProofOfTemp">
+                                <label class="col-sm-3 col-form-label" for="txtProofOfTemperature">Proof of Temperature</label>
+                                <div class="col-sm-5">
+                                    <input type="file" data-required="required" onchange="CheckImageExtension(this)" id="fuProofOfTemperature" class="fileUploader">
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <button type="button" id="btnProofOfTemp" class="btnProofOfTemp fuUpload"> Upload </button>
+                                </div>
+                            </div>
+
+                            <legnd><strong>Proof Of Temperature Files</strong></legnd>
+                            <table id="tblProofOfTemp" class="table-bordered dataTable table-striped cf w-100">
+                                <thead>
+                                    <tr>
+                                        <th>Temp (F)</th>
+                                        <th>Date Time </th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="white-bg customFormWrap">
+            <h2 class="cardHeading" data-toggle="collapse" data-target="#formAccessorialchargs">
+                <span id="spnAccessorialCharges"><i class="fa fa-plus"></i> Accessorial Charges</span>
+            </h2>
+
+            <div id="formAccessorialchargs" class="collapse">
+                <div class="col-md-12">
+
+                    <div class="row" id="divfixedfee">
+
+
+                    </div>
+                </div>
+                <hr />
+                <div class="col-md-12">
+                    <div class="row" id="divunitfee">
+
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row" id="divother">
+
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-md-1"> </label>
+                                <label class="col-sm-5 col-form-label" for="txtTotalAccessorialchargs">Total Fee</label>
+
+                                <input type="text"
+                                       readonly="readonly"
+                                       onkeypress="return onlyNumeric(event)"
+                                       id="txtTotalAccessorialchargs"
+                                       class="col-sm-2 form-control" />
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="white-bg customFormWrap">
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <legnd><strong>SHIPMENT COMMENTS</strong></legnd>
+                            @*<div class="col-md-12" id="divShipmentComment">
+
+                                </div>*@
+                            <table id="tblShipmentComments"></table>
+                            <textarea id="txtDriverInstruction" class="form-control" cols="20" rows="1"></textarea>
+                        </div>
+
+
+
+
+                        <div class="col-md-6 text-right mt-2">
+                            @if (permissions.IsInsert)
+                            {
+                                <button type="button" id="btnSave" class="btn green-Btn">Submit</button>
+                            }
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@* Open modal to add new address *@
+<div class="modal" role="dialog" id="modalAddAddress">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            @{ Html.RenderPartial("prAddressJson");}
+        </div>
+    </div>
+</div>
+
+<div class="modal" role="dialog" id="modalEquipment">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header popup">
+                <h6 class="modal-title">Equipment and Driver</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                @{ Html.RenderPartial("_prEquipmentList");}
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal" role="dialog" id="modalSignature">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header popup">
+                <h6 class="modal-title"></h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="white-bg customFormWrap">
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group  row">
+
+
+                                <div class="col-sm-12">
+                                    <label class="col-sm-4 col-form-label"><b>Receiver Name :</b></label>
+                                    <label id="lblReceiverName" class="col-sm-4 col-form-label"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label"><b>Receiver Sign</b></label>
+                                <div class="col-sm-8">
+                                    <img type="image" id="imgsignature" height="100px" width="auto" />
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12 text-right mb-2">
+
+
+                            <button type="reset" class="btn outline-Btn" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal" role="dialog" id="modalDocument">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header popup">
+                <h6 class="modal-title">Document viewer</h6>
+                <div color="white" class="col-md-6">
+                    <h6>
+                        <button type="button" class="edit_icon btnPrintImage">
+                            <i class="fa fa-print"></i>
+                        </button>
+                        <button type="button" class="edit_icon btnPrintPdf">
+                            <i class="fa fa-print"></i>
+                        </button>
+                    </h6>
+                </div>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="divViewer" style="text-align:center">
+                            Preview file here
+                        </div>
+                    </div>
+                </div><br />
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <input type="hidden" id="proofOfTempratureId" />
+                        <input type="hidden" id="damageDocumentId" />
+                        <input type="button" display="none" class="btn green-Btn" id="btnApprovedProofOfTemp" value="Approve" />
+                        <input type="button" display="none" class="btn green-Btn" id="btnDamageDocument" value="Approve" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/shipment")
+
+
+

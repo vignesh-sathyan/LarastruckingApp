@@ -1,0 +1,118 @@
+﻿@{ Layout = null;}
+<style>
+    #vid {
+        padding: 20px;
+    }
+
+    .lbl-message {
+        display: none;
+        margin-top: 6px;
+        margin-left: 262px;
+        color: green;
+    }
+    .disabledbutton {
+        pointer-events: none;
+        opacity: 0.4;
+    }
+</style>
+<div class="modal-header">
+    <h5 class="modal-title">Capture Image</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <input type="hidden" id ="IsProofCamfile" value="" />
+    <div class="row">
+        <div id="DamageTitle" class="col-md-12">
+            <div class="form-group required row">
+                <label class="col-sm-3 col-form-label" for="txtWebDamagedFileName">Damaged Description</label>
+                <div class="col-sm-9">
+                    <input type="text" data-required="required" id="txtWebDamagedFileName" class="form-control" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12" id="ProofTitle">
+            <div class="form-group required row">
+                <label class="col-sm-2 col-form-label" for="txtwebActualTemp">Actual Temp</label>
+                <div class="col-sm-4">
+                    <input type="text" data-required="required" id="txtwebActualTemp" class="form-control" onkeypress="return onlyNumeric(event);">
+
+                </div>
+                <div class="col-sm-2">
+
+                    <select id="ddlwebTemperatureUnit" class="form-control">
+                        <option selected="selected" value="F">F</option>
+                        <option value="C">C</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md- offset-1">
+
+            <div id="wrap">
+
+                <div id='cont'>
+
+                    <div id="vid" class='son' style="display:block;">
+                        <video id='video'></video>
+                    </div>
+
+                    <div id="capture" class='son' style="display:none;">
+                        <canvas id='canvas-cam'></canvas>
+                        @*<canvas id='blank' style='display:block;'></canvas>*@
+                    </div>
+
+                    <div id="control">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-4"><a id='retake' class='btn btn-block m-1 hov'><i class="fas fa-sync-alt"></i></a></div>
+                                <div class="col-md-4" ><a id='snap' class='btn btn-block m-1 hov'><i class="fas fa-camera"></i></a></div>
+                                <div class="col-md-4"><a id='close' class='btn btn-block m-1 hov'><i class="fas fa-times"></i></a></div>
+
+                            </div>
+                            <div class="row">  <div class="lbl-message"> Image successfully captured</div></div>
+
+                        </div>
+                    </div>
+
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="signature-btn">
+        <input class="btn btn-success" id="btnWebCameraSave" type="button" data-inline="true" data-mini="true" data-theme="b" value="Submit Image"  />
+        @*<input class="btn btn-danger" id="clear" type="button" data-inline="true" data-mini="true" data-theme="b" value="Clear" onclick="init_Sign_Canvas()" />*@
+    </div>
+</div>
+
+<script>
+    $(function () {
+        convertTempWebcam();
+    });
+    //#region convert web cam Temperture F to C
+    var convertTempWebcam = function () {
+        var actualTemp;
+        $("#ddlwebTemperatureUnit").on("change", function () {
+            var unit = $(this).val();
+            var temp = $("#txtwebActualTemp").val();
+            if (temp != '') {
+                if (unit == 'C') {
+                    actualTemp = FahrenheitToCelsius(temp);
+                }
+                else {
+                    actualTemp = CelsiusToFahrenheit(temp);
+                }
+
+                $("#txtwebActualTemp").val(actualTemp)
+            }
+        })
+    }
+//#endregion
+</script>

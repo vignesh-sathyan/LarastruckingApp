@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-body">
+            <div class="white-bg customFormWrap">
+                <table class="table-bordered table-striped cf w-100" id="tblPreTripDetails">
+                    <thead>
+                        <tr>
+                            <th hidden="hidden"></th>
+                            <th>Status</th>
+
+                            <th>Pickup</th>
+                            <th>Delivery</th>
+
+                            @*<th>Air Waybill</th>*@
+                            <th>AWB/PO/ORD</th>
+                            @*<th>Pick Up Date</th>*@
+                            <th>Equipment No.</th>
+                            <th>Types</th>
+                            <th>Quantity</th>
+                            <th>Pre Trip Check</th>
+                            @*<th >Shipment Instructions</th>*@
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" role="dialog" id="modalPreTrip">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            @{ Html.RenderPartial("_prPreTripDetails");}
+        </div>
+    </div>
+</div>
+
+<div class="modal" role="dialog" id="modalFumigationPreTrip">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            @{ Html.RenderPartial("_prFumigationPreTripDetails");}
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/driverDashboard")
+@*<script src="~/CustomScript/driverModule/driverDashboard.js"></script>*@

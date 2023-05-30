@@ -1,0 +1,475 @@
+﻿@model LarastruckingApp.ViewModel.EquipmentViewModel
+@using LarastruckingApp.Entities.Enum
+@using LarastruckingApp.Entities.Permission
+@using LarastruckingApp.Infrastructure
+@{
+    ViewBag.Title = "Add Equipment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    PermissionsDto permissions = IsPermited.HasPermission();
+    MemberProfile memberProfile = new MemberProfile();
+}
+
+@using (Html.BeginForm("AddEquipment", "Equipment", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="card-body">
+        <div class="white-bg customFormWrap">
+            <h2 class="cardHeading">EQUIPMENT DETAILS</h2>
+            @Html.AntiForgeryToken()
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group required row">
+                        <label class="col-sm-4 col-form-label" for="EquipmentNo">Equipment Number  </label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(model => model.EquipmentNo,
+                                                new {
+                                                    @class = "form-control",
+                                                    @required = "required",
+                                                    @maxlength = "50",
+                                                    @onkeypress = "return onlyAlphanumeric(event)"
+                                                })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="VehicleType" class="col-sm-4 col-form-label">Equipment Type</label>
+                        <div class="col-sm-8">
+                            @Html.HiddenFor(model => model.EDID)
+
+                            @Html.DropDownListFor(m => m.VehicleType,
+                                new SelectList(Model.GetEquipmentTypes, "VehicleTypeID", "VehicleTypeName"),
+                                new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group required row">
+                        <label for="LicensePlate" class="col-sm-4 col-form-label">License Plate</label>
+
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(model => model.LicencePlate,
+                                                new {
+                                                    @class = "form-control",
+                                                    @onkeypress = "return onlyAlphanumeric(event)",
+                                                    @required = "required",
+                                                    @maxlength = "50"
+                                                })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Decal, htmlAttributes: new { @class = "col-sm-4 col-form-label" })
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(model => model.Decal, new { @class = "form-control", maxlength = 50, @onkeypress = "return onlyNumeric(event)" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="RegistrationExpiration">Registration Expiration</label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(model => model.RegistrationExpiration, new { @id = "RegistrationExpiration", @class = "form-control jqueryui-marker-datepicker", @placeholder = "MM-DD-YYYY", @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group  row">
+                        <label class="col-sm-4 col-form-label" for="Year"> Year </label>
+                        <div class="col-sm-8">
+                            <select id="Year" name="Year" class="form-control" onkeypress="return onlyNumeric(event)"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group required row">
+                        @Html.LabelFor(model => model.Make, htmlAttributes: new { @class = "col-sm-4 col-form-label", @maxlength = "50" })
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(model => model.Make,
+                                            new { @class = "form-control",
+                                                @onkeypress = "return onlyAlphanumeric(event)",
+                                                @required = "required",
+                                                @maxlength = "50"
+                                    })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Color, htmlAttributes: new { @class = "col-sm-4 col-form-label" })
+                        <div class="col-sm-8">
+                            @Html.DropDownListFor(m => m.Color, Colors.Black.ToSelectList(), new { id = "Color", @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group required row">
+                        @Html.LabelFor(model => model.VIN, htmlAttributes: new { @class = "col-sm-4 col-form-label" })
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(model => model.VIN,
+                                                new {
+                                                    @class = "form-control",
+                                                    @required = "required",
+                                                    @maxlength = "100"
+                                                })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="Capacity" class="col-sm-4 col-form-label">Capacity</label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(model => model.CubicFeet,
+                                                new {
+                                                    @class = "form-control",
+                                                    @maxlength = "50",
+                                                    placeholder="Cubic Feet"
+                                                     })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label"> Dimension </label>
+                        <div class="col-md-8">
+                            <div class="dimensionpanel">
+                                <div class="input-group">
+                                    @Html.TextBoxFor(model => model.LDimension,
+                                                    new {
+                                                        @class = "form-control dimension",
+                                                        @onkeypress = "return onlyNumeric(event)",
+                                                        placeholder = "0.0"
+                                                    })
+                                    <span class="input-group-addon"> 'L </span>
+                                </div>
+
+                                <div class="input-group">
+                                    @Html.TextBoxFor(model => model.WDimension,
+                                                    new {
+                                                        @class = "form-control dimension",
+                                                        @onkeypress = "return onlyNumeric(event)",
+                                                        placeholder = "0.0"
+                                                    })
+                                    <span class="input-group-addon"> 'W </span>
+                                </div>
+
+                                <div class="input-group">
+                                    @Html.TextBoxFor(model => model.HDimension,
+                                                new {
+                                                    @class = "form-control dimension",
+                                                    @onkeypress = "return onlyNumeric(event)",
+                                                    placeholder = "0.0"
+                                                })
+                                    <span class="input-group-addon"> 'H </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label for="DoorType" class="col-sm-4 col-form-label">Door Type</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownListFor(m => m.DoorTypeIds,
+                                new SelectList(Model.GetDoorTypes, "DoorTypeId", "DoorType")," ",
+                                new {
+                                    @class = "form-control",
+                                })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label"> Freight Type</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownListFor(m => m.FreightTypeIds,
+                                    new SelectList(Model.GetFreightTypes, "FreightTypeId", "FreightTypeName")," ",
+                                    new {
+                                        id = "ddlFreightTypeId",
+                                        @class = "form-control",
+                                    })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label"> Bed </label>
+                        <div class="col-sm-8">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="RollerBed" id="RollerBedRoller" value="Roller">
+                                <label class="form-check-label" for="RollerBedRoller">Roller</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="RollerBed" id="RollerBedFlat" value="Flat">
+                                <label class="form-check-label" for="RollerBedFlat">Flat</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label"> Max Load </label>
+                        <div class="col-sm-8">
+                            @Html.TextAreaFor(model => model.MaxLoad, new { @class = "form-control", @maxlength = "200" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label"> Upload Registration </label>
+                        <div class="col-sm-8">
+                            <input type="file" name="RegistrationImageURL" onchange="Validatefile(this)" class="filebrowse" id="RegistrationImageURL" accept="image/*" capture />
+                            <input type="hidden" name="hdnRegistrationImageURL" id="hdnRegistrationImageURL" value="" />
+                            <input type="hidden" name="hdnRegistrationImageName" id="hdnRegistrationImageName" value="" /><br />
+                            <span style="color:#c21004"> <small style="float: left"> * File should be jpg, jpeg, png, pdf,jfif and size less than or equal to 5MB.</small></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label"> Upload Insurance </label>
+                        <div class="col-sm-8">
+                            <input type="file" name="InsuranceImageURL" onchange="Validatefile(this)" class="filebrowse" id="InsuranceImageURL" accept="image/*" capture />
+                            <input type="hidden" name="hdnInsuranceImageURL" id="hdnInsuranceImageURL" value="" />
+                            <input type="hidden" name="hdnInsuranceImageName" id="hdnInsuranceImageName" value="" /><br />
+                            <span style="color:#c21004"> <small style="float: left"> * File should be jpg, jpeg, png, pdf,jfif and size less than or equal to 5MB.</small></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label"> Owned By </label>
+                        <div class="col-sm-8">
+                            @Html.DropDownListFor(m => m.Ownedby, OwnedBy.Laras.ToSelectList(), new { id = "ddlOwnedby", @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="QRCodeNo">QR Code No. </label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(model => model.QRCodeNo,
+                                                new {
+                                                    @class = "form-control",
+                                                     @maxlength = "10",
+                                                    @onkeypress = "return onlyAlphanumeric(event)"
+                                                })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" id="LeaseCompanyId" style="display: none">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label"> Lessee </label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(model => model.LeaseCompanyName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12" id="LeaseStartDateId" style="display: none">
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label"> Lessee Start Date </label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(model => model.LeaseStartDate, new { @class = "form-control jqueryui-marker-datepicker", @readonly = "readonly", @placeholder = "MM-DD-YYYY" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label"> Lessee End Date </label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(model => model.LeaseEndDate, new { @class = "form-control jqueryui-marker-datepicker", @readonly = "readonly", @placeholder = "MM-DD-YYYY" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @{
+                    if (memberProfile.UserRole.ToLower().Trim() != "Mechanics".ToLower().Trim())
+                    {
+                        <div class="col-md-6">
+                            <div class="form-group row checkbox-container">
+                                <label for="IsActive" class="col-sm-4 col-form-label eqpIsActive"> Active </label>
+                                <div class="col-sm-8 eqpIsActive">
+                                    @*<label class="checkbox1-container">*@
+                                    <label>
+                                        <input type="checkbox" id="IsActive" name="Active" checked="checked" value="true">
+                                        @*<span class="IsActive checkmark"></span>*@
+                                    </label>
+                                </div>
+                                <div class="col-sm-5 margin8 divEqpIsActive">
+                                    <label for="IsActive" class="lblEqpIsActive btnDamageFile btnDriverSumbit">Active</label>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                }
+
+                <div class="col-md-6">
+                    <div class="form-group row checkbox-container">
+                        <label for="chkOutOfService" class="col-sm-4 col-form-label outOfService">Out of service</label>
+                        <div class="col-sm-8 outOfService">
+                            @*<label class="checkbox1-container">*@
+                            <label>
+                                <input type="checkbox" name="IsOutOfService" id="chkOutOfService" value="true" />
+                                @*<span class="IsOutOfService checkmark"></span>*@
+                            </label>
+                        </div>
+                        <div class="col-sm-5 margin8 divOutOfService">
+                            <label for="chkOutOfService" class="lblOutOfService btnDamageFile btnDriverSumbit">Out of service</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12" id="OutOfServiceDiv" style="display: none">
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label">StartDate </label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(model => model.OutOfServiceStartDate,
+                                                new {
+                                                    @class = "form-control jqueryui-marker-datepicker",
+                                                    @readonly = "readonly",
+                                                    @placeholder = "MM-DD-YYYY"
+                                                })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label"> End Date </label>
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(model => model.OutOfServiceEndDate,
+                                                new {
+                                                    @class = "form-control jqueryui-marker-datepicker",
+                                                    @readonly = "readonly",
+                                                    @placeholder = "MM-DD-YYYY"
+                                                })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "col-sm-4 col-form-label" })
+                        <div class="col-sm-8">
+                            @Html.TextAreaFor(model => model.Comments, new { @class = "form-control", @rows = "4", @maxlength = "500" })
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-12 text-right mb-2" style="display: flex;justify-content: flex-end;">
+                    @if (permissions.IsInsert || permissions.IsUpdate)
+                    {
+                        <i class="fa fa-save" style="margin-right: -25px;position: relative;color: #fff;top:4px;"></i>
+                        <button type="button" id="btnSave" class="btn green-Btn" style="padding-right: 0;justify-content:center;">Save</button>
+                    }
+                    else
+                    {
+                        <span class="text-danger">You don't have permission to add</span>
+                    }
+                <a id="loginLink" class="btn green-Btn" href="@Url.Action("ViewEquipment", "Equipment")" style="align-items: center;justify-content: center;padding: 2px 8px 2px 4px;">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                    &nbsp;CLOSE
+
+                </a>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@Scripts.Render("~/bundles/equipment")
+
+<script type="text/javascript">
+    $(function () {
+        $("#ddlOwnedby").change(function () {
+            if ($(this).val() == "Leasing") {
+                $("#LeaseCompanyId").show();
+                $("#LeaseStartDateId").show();
+            }
+            else {
+                $("#LeaseCompanyId").hide();
+                $("#LeaseStartDateId").hide();
+            }
+        });
+
+        $("input[type='search']").keyup(function () {
+            oTable.search(this.value);
+            oTable.draw();
+
+        });
+        $("#btnSave").click(function () {
+            if (validateContact()) {
+                isNeedToloaded = false;
+                $("form").submit(); // Submit the form
+            }
+            else {
+                $("#btnSave").css("background", "linear-gradient(90deg, rgba(245,31,31,1) 0%, rgba(241,116,116,1) 100%)");
+                $("#btnSave").text('TRY AGAIN')
+            }
+        });
+        selectizeFreight();
+        selectizeDoorType();
+        showOutOfServiceDate();
+    });
+
+    var selectizeFreight = function () {
+        $("#ddlFreightTypeId").selectize({
+            maxItems: 10,
+            createOnBlur: false,
+            valueField: 'id',
+            labelField: 'text',
+            searchField: 'text',
+            plugins: ['restore_on_backspace'],
+        });
+        //  $("#ddlFreightTypeId").parent().find(".selectize-input").removeClass("invalid");
+    }
+
+    var selectizeDoorType = function () {
+        $("#DoorTypeIds").selectize({
+            maxItems: 10,
+            createOnBlur: false,
+            valueField: 'id',
+            labelField: 'text',
+            searchField: 'text',
+            plugins: ['restore_on_backspace'],
+        });
+        //  $("#DoorTypeIds").parent().find(".selectize-input").removeClass("invalid");
+    }
+
+
+
+
+    var showOutOfServiceDate = function () {
+        $('#chkOutOfService').on("click", function () {
+            if ($(this).is(":checked")) {
+                $('#OutOfServiceDiv').show();
+            }
+            else {
+                $('#OutOfServiceDiv').hide();
+            }
+        })
+
+    }
+</script>
+
+

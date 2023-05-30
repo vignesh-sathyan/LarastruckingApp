@@ -1,0 +1,348 @@
+﻿@model LarastruckingApp.Entities.Fumigation.TemperatureEmailDTO
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            font-family: calibri;
+        }
+
+        .setPadding td, .setPadding th {
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- aks remove -->
+    <table style="width:100%;">
+        @*/*margin:auto;width:75%;*/*@
+        <tr>
+            <td>
+                <div style="padding-left:25px;margin-bottom:25px;">
+                    <p style="font-size: 16px;font-family: calibri;">Dear Customer,</p>
+
+                    <p style="font-size: 16px;font-family: calibri;"> Please see temperature & loading time report, kindly reply back acknowledgement and/or further instructions. Should not hear from you in the next 30 minutes, our driver will continue the loading process under no liability.</p>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:60%;vertical-align:top;padding-top:10px;">
+                            <table style="width:100%">
+                                <tr><td><h2 style="margin:0px;">Lara's Trucking & Logistics</h2></td></tr>
+                                <tr><td style="color:#a4a6b9;">dispatch@larastrucking.com</td></tr>
+                                <tr><td style="color:#a4a6b9;">https://larastrucking.com</td></tr>
+                            </table>
+
+
+                        </td>
+                        <td style="width:40%;vertical-align:top;padding-top:10px;">
+                            <table style="width:100%;text-align:right;">
+                                <tr><td> <img src="@Model.LogoURL" style="width:260px; height:80px" /></td></tr>
+
+                                <tr><td style="font-size:25px;color:#375b93;text-align:right;padding-right:10px;">Fumigation Temperature</td></tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td style="text-align: center;display: flex;justify-content: center;align-items: center">
+                @{
+                    var loadingImg = @System.Configuration.ConfigurationManager.AppSettings["BaseURL"] + System.Configuration.ConfigurationManager.AppSettings["LoadingLogoPath"];
+                    var TempImg = @System.Configuration.ConfigurationManager.AppSettings["BaseURL"] + "Images/temp.jpg";
+                    var dotImg = @System.Configuration.ConfigurationManager.AppSettings["BaseURL"] + "Images/Status/dots.png";
+                    string emptyDate = "";
+                    string StartTime = Model.DriverLoadingStartTime.ToString();
+                    string FinishTime = Model.DriverLoadingFinishTime.ToString();
+                    string FumIn = Model.DriverFumigationIn.ToString() ;
+                }
+                <img style="margin-bottom:0px; height:75px;" src="@loadingImg" />
+                <img style="margin-bottom:0px; height:75px;" src="@dotImg" />
+                <img style="margin-bottom:0px; height:65px;" src="@TempImg" />
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <table style="width: 100%;">
+
+                    <tr>
+                        <td style="width: 100%;">
+                            <table style="font-weight:bold; width: 100%; color:#375b93">
+                                <tr style="font-size:16px;">
+                                    <td>
+                                        Estimated Pickup
+
+                                    </td>
+                                </tr>
+                                <tr style="font-size:18px;text-transform: uppercase;">
+                                    <td style="width:40%;">
+                                        
+                                        @{
+                                            if (string.Format("{0:dddd | MMMM dd, yyyy}", Model.PickUpArrival) != "1/1/0001 5:30:00")
+                                            {
+                                                string.Format("{0:dddd | MMMM dd, yyyy}", Model.PickUpArrival);
+                                            }
+                                            else
+                                            {
+                                                emptyDate.ToString();
+                                            }
+
+                                         }
+                                    </td>
+                                    @{
+                                        var AirWayBill = "";
+                                        if (Model.AirWayBill != "")
+                                        {
+                                            AirWayBill = Model.AirWayBill;
+                                        }
+                                        else if (Model.OrderNo != "")
+                                        {
+
+                                            AirWayBill = Model.OrderNo;
+                                        }
+                                        else
+                                        {
+                                            AirWayBill = Model.CustomerPO;
+                                        }
+
+
+                                    }
+                                    <td style="float:right;width:60%;text-align:right;">@AirWayBill</td>
+
+                                </tr>
+
+                            </table>
+                        </td>
+
+                        @*<td style="width:40%;">
+                            <table style="font-weight:bold; width: 100%;text-align: right;color:#375b93;">
+                                <tr style="font-size:16px;">
+                                    <td>
+                                        Estimated Delivery
+                                    </td>
+                                </tr>
+                                <tr style="font-size:18px; text-transform: uppercase;">
+                                    <td>@string.Format("{0:dddd | MMMM dd, yyyy}", Model.ESTDateTime)</td>
+                                </tr>
+                            </table>
+                        </td>*@
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid; padding: 10px; text-align: center;">
+                <table style="width:100%;font-size:14px;">
+                    <tr>
+                       
+
+                        @{
+                            if (Model.ActTemp != "")
+                            {
+                                <td colspan="2" style="background: #375b93; padding-top: 4px; padding-bottom: 4px; color: #fff; text-align: left;">
+
+                                    <label style="display: block;width: 100%;"><span style="padding-top: 5px;">&nbsp;&nbsp;Temperature Report:  @Model.ActTemp | @Model.ActTemperature F </span></label>
+                                </td>
+                            }
+                            else
+                            {
+                                <td colspan="2" style="background: #375b93; padding-top: 4px; padding-bottom: 4px; color: #fff; text-align: left;">
+
+                                    <label style="display: block;width: 100%;"><span style="padding-top: 5px;">&nbsp;&nbsp;Temperature Report: @Model.ActTemperature F</span></label>
+                                </td>
+                            }
+                        }
+
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr><td style="height:10px;"></td></tr>
+        <tr>
+            <td style="border:1px solid;padding:10px;">
+                <table style="width:100%;font-size:14px;">
+                    <tr>
+                        <td colspan="2" style="background: #375b93;padding-top:4px; padding-bottom:4px; color: #fff;">
+         
+
+                            <label style="display: block;width: 100%;"><span>&nbsp;&nbsp;Shipment Detail</span></label>
+                        </td>
+                    </tr>
+                    @*<tr style="text-align:center;color:#375b93;margin-top:10px; font-size:20px; font-weight:bold">
+                        <td colspan="2">
+                            Customer: @Model.CustomerName.ToUpper()@if (Model.Consignee != null && Model.Consignee != "")
+                            {<label>| Consignee: @Model.Consignee.ToUpper()</label>} | Service Type: @Model.FumigationType
+                        </td>
+
+                    </tr>*@
+
+                    <tr>
+                        <td>
+                            @{
+                       
+                                <table>
+
+                                    <tr>
+                                        <td><b>Pickup Arrival</b></td>
+                                        <td>@string.Format("{0:dddd | MMMM dd, yyyy}", Model.PickUpArrival) @Model.PickUpArrival</td>
+                                    </tr>
+                                    @*<tr>
+                                      <td><b>Actual PickUpArrival</b></td>
+                                       
+                                    </tr>*@
+                                <tr>
+                                    <td><b>Actual Loading Start</b></td>
+
+                                    @{
+                                        if (StartTime != "1/1/0001 5:30:00 AM")
+                                        {
+                                            <td>@string.Format("{0:dddd | MMMM dd, yyyy}", Model.DriverLoadingStartTime)</td>
+                                                }
+                                                else
+                                                {
+                                <td> @emptyDate.ToString() </td>
+                                                }
+
+                                                }
+
+
+                                            
+                                        </tr>
+                                <tr>
+                                    <td><b>Actual Loading Finish</b></td>
+
+                                    @{
+                                        if (FinishTime != "1/1/0001 5:30:00 AM")
+                                        {
+                                            <td>@string.Format("{0:dddd | MMMM dd, yyyy}", Model.DriverLoadingFinishTime) </td>
+                                            }
+                                            else
+                                            {
+                                             <td> @emptyDate.ToString() </td>
+                                            }
+
+                                    }
+
+
+                                </tr>
+                                <tr>
+                                    <td><b>Fumigation In</b></td>
+                                   
+                                        @{
+                                            if (FumIn != "1/1/0001 5:30:00 AM")
+                                            {
+                                               <td>@string.Format("{0:dddd | MMMM dd, yyyy}", Model.DriverFumigationIn)</td> 
+                                            }
+                                            else
+                                            {
+                                            <td> @emptyDate.ToString() </td>
+                                            }
+
+                                        }
+
+
+                                    </tr>
+                                    @*<tr>
+                                        <td><b>No.of Pallets</b></td>
+                                        <td>@routs.PalletCount.ToString().Replace(".00", "") </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>No.of Box</b></td>
+                                        <td>@routs.BoxCount.ToString().Replace(".00", "") </td>
+                                    </tr>*@
+                                    @*<tr>
+                                        <td><b>Loading Temp</b></td>
+                                        <td>
+                                            @if (routs.LoadingTemp != "")
+                                            {@routs.LoadingTemp <label>F</label>}
+                                        </td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td><b>Pickup Equipment</b></td>
+                                        <td>
+                                            @routs.PickUpEquipment
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Pickup Driver</b></td>
+                                        <td>
+                                            @routs.PickupDriver
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Delivery Temp</b></td>
+                                        <td>
+                                            @if (routs.DeliveryTemp !="")
+                                            {@routs.DeliveryTemp <label>F</label>}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Delivery Equipment</b></td>
+                                        <td>
+                                            @routs.DeliveryEquipment
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><b>Delivery Driver</b></td>
+                                        <td>
+                                            @routs.DeliveryDriver
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Damage Detail</b></td>
+                                        <td>@routs.LoadingDamageDetail</td>
+                                    </tr>*@
+
+
+                                </table>
+                            }
+
+                        </td>
+
+
+
+
+                    </tr>
+
+                </table>
+
+            </td>
+
+        </tr>
+        <tr><td style="height:10px;"></td></tr>
+
+
+
+
+
+
+    </table>
+
+</body>
+
+</html>
+
+
+

@@ -1,0 +1,1 @@
+﻿var msgMissingContactInfo = 'Please add contact person detail for selected customer in Customer Module for email notification.';

@@ -1,0 +1,97 @@
+﻿@model LarastruckingApp.ViewModel.GpsTracker.ShipmentGpsDetailsViewModal
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 mt-2">
+        <div class="white-bg customFormWrap">
+            <input type="hidden" id="hdnShipmentId" name="hdnShipmentId" value="@ViewBag.ShipmentId" />
+
+            <div class="col-md-12">
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group row">
+                            <label for="dtStartedDate" class="col-sm-4 col-form-label">Start Date</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       required="required"
+                                       placeholder="MM-DD-YYYY"
+                                       name="dtStartedDate"
+                                       onkeypress="return onlyAlphanumeric(event)"
+                                       readonly="readonly"
+                                       id="dtStartedDate"
+                                       autocomplete="off"
+                                       @*onchange="GetTrackerDetails('GetDetailsWithStartEnddate'); validateStartEndDate();"*@
+                                       onchange="GetGpsTrackerDetails(); validateStartEndDate();"
+                                       class="form-control dtTimer">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group  row">
+                            <label for="dtEndDate" class="col-sm-4 col-form-label">End Date</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       required="required"
+                                       placeholder="MM-DD-YYYY"
+                                       name="dtEndDate"
+                                       onkeypress="return onlyAlphanumeric(event)"
+                                       id="dtEndDate"
+                                       readonly="readonly"
+                                       autocomplete="off"
+                                       onchange="GetGpsTrackerDetails(); validateStartEndDate();"
+                                       @*onchange="GetTrackerDetails('GetDetailsWithStartEnddate'); validateStartEndDate();"*@
+                                       class="form-control dtTimer">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label" for="txtAirwayBill">AirWay Bill</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="txtAirwayBill" disabled="disabled" id="txtAirwayBill" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" onclick="self.close()" id="" class="btn green-Btn">Go Back</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="row">
+
+                    <table id="tblDriver" class="table-bordered dataTable table-striped cf w-100 dataTable  activateDatatable">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Driver Name</th>
+                                <th>Equipment Name</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dtDriverBody"></tbody>
+                    </table>
+
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="row">
+                    <div id="dvMap" class="gpsMap">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/gpsTracker")
+@*<script src="~/CustomScript/GpsTracker/GpsTracker.js"></script>*@
+@*<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCc5vVFw9rNMBRTazypkoydHGXB2LrlRv8&sensor=false"></script>*@
+
+

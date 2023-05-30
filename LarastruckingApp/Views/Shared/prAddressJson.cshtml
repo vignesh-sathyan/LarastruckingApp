@@ -1,0 +1,267 @@
+﻿@model LarastruckingApp.ViewModel.AddressViewModel
+
+
+@using (Html.BeginForm("AddAddress", "Global", new { area = "" }, FormMethod.Post, new { id = "formAddress" }))
+{
+<div class="card-body">
+    <div class="modal-header popup">
+        <h6 class="cardHeading">Address</h6>
+        <button type="button" class="close" data-dismiss="modal">×</button>
+    </div>
+    <div class="white-bg customFormWrap">
+
+        <div class="row">
+            <div class="col-md-12">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.AddressTypeId, htmlAttributes: new { @class = "col-sm-4 col-form-label" })
+                    @Html.HiddenFor(model => model.AddressId, new { value = 0 })
+                    <div class="col-sm-8">
+                        <select class="form-control" id="AddressTypeId" name="AddressTypeId">
+                            @{
+                                foreach (var data in ViewBag.AddressType)
+                                {
+                                    <option value="@data.AddressTypeID">@data.AddressTypeName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group required row">
+                    <label class="col-sm-4 col-form-label" for="txtCustomerName"> Company Name </label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.CompanyName,
+                             new
+                             {
+                                 @class = "form-control",
+                                 data_required = "required",
+                                 maxlength = 100,
+                                 @onkeypress = "return onlyAlphanumeric(event)"
+                             })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group required row">
+                    @Html.LabelFor(model => model.Address1, htmlAttributes: new { @class = "col-sm-4 col-form-label" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Address1,
+                             new
+                             {
+                                 @class = "form-control",
+                                 data_required = "required",
+                                 @onkeypress = "return onlyAlphanumeric(event)"
+                             })
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Address2, htmlAttributes: new { @class = "col-sm-4 col-form-label" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Address2,
+                             new
+                             {
+                                 @class = "form-control",
+                                 @onkeypress = "return onlyAlphanumeric(event)"
+                             })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group required row">
+                    @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "col-sm-4 col-form-label" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.City,
+                             new
+                             {
+                                 @class = "form-control",
+                                 data_required = "required",
+                                 @onkeypress = "return onlyAlphanumeric(event)"
+                             })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group required row">
+                    @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "col-sm-4 col-form-label", @for = "ddlState" })
+                    <div class="col-sm-8">
+                        @Html.DropDownList("State", ViewBag.State as SelectList, "Please select state",
+                         new { @name = "State", @id = "ddlState", @class = "form-control", data_required = "required", })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group required row">
+                    @Html.LabelFor(model => model.Zip, htmlAttributes: new { @class = "col-sm-4 col-form-label" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Zip,
+                                                     new
+                                                     {
+                                                         @class = "form-control",
+                                                         data_required = "required",
+                                                         @zip = "zip",
+                                                         @onkeypress = "return onlyNumeric(event)"
+                                                     })
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "col-sm-4 col-form-label" })
+                    <div class="col-sm-8">
+                        <select class="form-control" name="Country" id="ddlCountry">
+                            @{
+                                foreach (var data in ViewBag.Country)
+                                {
+                                    <option value="@data.ID">@data.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label"> Contact Person </label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.ContactPerson,
+                             new
+                             {
+                                 @class = "form-control",
+                                 @onkeypress = "return onlyAlphanumeric(event)"
+                             })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "col-sm-4 col-form-label" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Phone,
+                             new
+                             {
+                                 @class = "form-control",
+                                 @phone = "phone",
+                                 @onkeypress = "return onlyNumeric(event)"
+                             })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label"> Extension </label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Extension,
+                             new
+                             {
+                                 @class = "form-control",
+                                 @onkeypress = "return onlyNumeric(event)"
+                             })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "col-sm-4 col-form-label" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Email,
+                             new
+                             {
+                                 @class = "form-control",
+                                 @email = "email",
+                                 @onkeypress = "return onlyAlphanumeric(event)"
+                             })
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label" for="txtAddPhone1">Additional Phone 1</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.AdditionalPhone1,
+                            new
+                            {
+                                @class = "form-control",
+                                @phone = "phone",
+                                @maxlength = 15,
+                                @onkeypress = "return onlyNumeric(event)"
+                            })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label" for="txtAddExtension1"> Extension 1 </label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Extension1,
+                             new
+                             {
+                                 @class = "form-control",
+                                 @onkeypress = "return onlyNumeric(event)"
+                             })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label" for="txtAddPhone1"> Additional Phone 2 </label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.AdditionalPhone2,
+                            new
+                            {
+                                @class = "form-control",
+                                @phone = "phone",
+                                @maxlength = 15,
+                                @onkeypress = "return onlyNumeric(event)"
+                            })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label" for="txtAddExtension2"> Extension 2</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(model => model.Extension2,
+                             new
+                             {
+                                 @class = "form-control",
+                                 @onkeypress = "return onlyNumeric(event)"
+                             })
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-12 text-right mb-2">
+                <button type="button" id="BtnSubmit" class="btn green-Btn">Save</button>
+
+                <button type="reset" class="btn outline-Btn" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+
+

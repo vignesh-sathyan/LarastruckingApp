@@ -1,0 +1,403 @@
+﻿@model LarastruckingApp.ViewModel.DriverViewModel
+@using LarastruckingApp.Entities.Permission
+@{
+    ViewBag.Title = "CreateDriver";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    PermissionsDto permissions = IsPermited.HasPermission();
+}
+
+@using (Html.BeginForm("", "", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="card-body">
+        <div class="white-bg customFormWrap">
+            <h2 class="cardHeading">
+                Driver
+            </h2>
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group required row">
+                        <input type="hidden" id="hdfDriverId" value="@Model.DriverID" name="DriverId" />
+                        @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "col-sm-4 col-form-label", @for = "txtFirstName" })
+                        <div class="col-sm-8">
+                            <input type="text" required="required" name="FirstName" maxlength="50" onkeypress="return onlyAlphabets(event)" id="txtFirstName" class="form-control" />
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group required row">
+                        @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "col-sm-4 col-form-label" })
+                        <div class="col-sm-8">
+                            <input type="text" id="txtLastName" required="required" maxlength="50" onkeypress="return onlyAlphabets(event)" name="LastName" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group required row">
+                        <label class="col-sm-4 col-form-label" for="txtCitizenShip"> Citizenship </label>
+                        <div class="col-sm-8">
+                            <input type="text" id="txtCitizenShip" maxlength="50" required="required" name="CitizenShip" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group required row">
+                        @Html.LabelFor(model => model.Address1, htmlAttributes: new { @class = "col-sm-4 col-form-label", @for = "txtAddress1" })
+                        <div class="col-sm-8">
+                            <input type="text" required="required" id="txtAddress1" maxlength="100" onkeypress="return onlyAlphanumeric(event)" name="Address1" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Address2, htmlAttributes: new { @class = "col-sm-4 col-form-label", })
+                        <div class="col-sm-8">
+                            <input type="text" id="txtAddress2" name="Address2" maxlength="100" onkeypress="return onlyAlphanumeric(event)" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group required row">
+                        @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "col-sm-4 col-form-label", @for = "txtCity" })
+                        <div class="col-sm-8">
+                            <input type="text" required="required" id="txtCity" maxlength="50" onkeypress="return onlyAlphabets(event)" name="City" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group required row">
+                        @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "col-sm-4 col-form-label", @for = "ddlState" })
+                        <div class="col-sm-8">
+                            @Html.DropDownList("State", ViewBag.State as SelectList, "Please select state", new { @name = "State", @id = "ddlState", @class = "form-control", @required = "required" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group required row">
+                        <label class="col-sm-4 col-form-label" for="txtZipCode"> Zip Code </label>
+                        <div class="col-sm-8">
+
+                            <input type="text"
+                                   id="txtZipCode"
+                                   class="form-control"
+                                   maxlength="5"
+                                   required="required"
+                                   onkeypress="return onlyNumeric(event)" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "col-sm-4 col-form-label" })
+                        <div class="col-sm-8">
+                            <select class="form-control" name="Country" id="ddlCountry">
+                                @{
+                                    foreach (var data in ViewBag.Country)
+                                    {
+                                        <option value="@data.ID">@data.Name</option>
+                                    }
+
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group row required">
+                        @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "col-sm-4 col-form-label", @for = "txtPhone" })
+                        <div class="col-sm-8">
+                            <input type="text" required="required" maxlength="50" id="txtPhone" onkeypress="return onlyNumeric(event)" phone="phone" name="Phone" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.CellNumber, htmlAttributes: new { @class = "col-sm-4 col-form-label" })
+                        <div class="col-sm-8">
+                            <input type="text" id="txtCellNumber" maxlength="20" name="CellNumber" onkeypress="return onlyNumeric(event)" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Extension, htmlAttributes: new { @class = "col-sm-4 col-form-label" })
+                        <div class="col-sm-8">
+                            <input type="text" id="txtExtension" maxlength="10" name="CellNumber" onkeypress="return onlyNumeric(event)" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row required">
+                        @Html.LabelFor(model => model.EmailId, htmlAttributes: new { @class = "col-sm-4 col-form-label", @for = "txtEmailId" })
+                        <div class="col-sm-8">
+                            <input type="text" required="required" email="email" maxlength="50" onkeypress="return onlyAlphanumeric(event)" id="txtEmailId" name="Email" class="form-control noSpace" />
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.BloodGroup, htmlAttributes: new { @class = "col-sm-4 col-form-label" })
+                        <div class="col-sm-8">
+                            <select class="form-control" id="ddlBloodGroup" name="BloodGroup">
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.STANumber, htmlAttributes: new { @class = "col-sm-4 col-form-label", @for = "txtSTANumber" })
+                        <div class="col-sm-3">
+                            <input type="text" id="txtSTANumber" maxlength="50" onkeypress="return onlyAlphanumeric(event)" name="STA" class="form-control" />
+                        </div>
+                        @Html.LabelFor(model => model.ExpirationDate, htmlAttributes: new { @class = "col-sm-2 col-form-label", @for = "txtExpirationDate" })
+                        <div class="col-sm-3">
+                            <input type="text" id="txtExpirationDate" maxlength="50" onkeypress="return onlyNumeric(event)" name="ExpirationDate" class="form-control jqueryui-marker-datepicker" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group row required">
+                        @Html.LabelFor(model => model.MedicalConditions, htmlAttributes: new { @class = "col-sm-4 col-form-label", @for = "txtMedicalConditions" })
+                        <div class="col-sm-8">
+                            <input type="text" required="required" id="txtMedicalConditions" maxlength="50" onkeypress="return onlyAlphanumeric(event)" name="MedicalConditions" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.LanguageId, htmlAttributes: new { @class = "col-sm-4 col-form-label", @for = "ddlLanguage" })
+                        <div class="col-sm-8">
+                            @Html.DropDownList("LanguageId", ViewBag.Languages as SelectList, new { @name = "Language", @id = "ddlLanguage", @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row checkbox-container">
+                        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-sm-4 col-form-label" })
+                        <div class="col-sm-8">
+                            <div class="checkbox">
+                                <input type="checkbox" id="chkIsActive" />
+                                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 mt-2">
+                <div class="white-bg customFormWrap">
+                    <h2 class="cardHeading">
+                        @(Model.DriverID == 0 ? "Emergency contacts" : "Edit Emergency contacts")
+                    </h2>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group required row">
+                                @Html.LabelFor(model => model.EmergencyContactOne, htmlAttributes: new { @class = "col-sm-4 col-form-label", @for = "txtEmergencyContactOne" })
+                                <div class="col-sm-8">
+                                    <input type="text" required="required" onkeypress="return onlyAlphabets(event)" id="txtEmergencyContactOne" maxlength="100" name="EmergencyContactOne" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group required row">
+                                @Html.LabelFor(model => model.EmergencyPhoneNoOne, htmlAttributes: new { @class = "col-sm-4 col-form-label", @for = "txtEmergencyPhoneNoOne" })
+                                <div class="col-sm-8">
+                                    <input type="text" phone="phone" required="required" onkeypress="return onlyNumeric(event)" maxlength="50" id="txtEmergencyPhoneNoOne" name="EmergencyPhoneNoOne" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group required row">
+                                @Html.LabelFor(model => model.RelationshipStatus1, htmlAttributes: new { @class = "col-sm-4 col-form-label", @for = "RelationshipStatus1" })
+                                <div class="col-sm-8">
+                                    <input type="text" id="RelationshipStatus1" required="required" maxlength="50" onkeypress="return onlyAlphabets(event)" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-4">
+                            <div class="form-group  row">
+                                @Html.LabelFor(model => model.EmergencyContactTwo, htmlAttributes: new { @class = "col-sm-4 col-form-label" })
+                                <div class="col-sm-8">
+                                    <input type="text" id="txtEmergencyContactTwo" maxlength="100" onkeypress="return onlyAlphabets(event)" class="form-control" />
+                                    @Html.ValidationMessageFor(model => model.EmergencyContactTwo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group  row">
+                                @Html.LabelFor(model => model.EmergencyPhoneNoTwo, htmlAttributes: new { @class = "col-sm-4 col-form-label" })
+                                <div class="col-sm-8">
+                                    <input type="text" phone="phone" id="txtEmergencyPhoneNoTwo" maxlength="50" onkeypress="return onlyNumeric(event)" class="form-control" />
+                                    @Html.ValidationMessageFor(model => model.EmergencyPhoneNoTwo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-4">
+                            <div class="form-group  row">
+                                @Html.LabelFor(model => model.RelationshipStatus2, htmlAttributes: new { @class = "col-sm-4 col-form-label", @for = "RelationshipStatus2" })
+                                <div class="col-sm-8">
+                                    <input type="text" id="RelationshipStatus2" maxlength="50" onkeypress="return onlyAlphabets(event)" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12 text-right mb-2">
+                            @if (permissions.IsInsert)
+                            {
+                                <button type="button" id="BtnAdd" onclick="SaveDrierDetail()" class="btn green-Btn">Save</button>
+                            }
+                            else
+                            {
+                                <span class="text-danger">You don't have permission to add</span>
+                            }
+
+                            @Html.ActionLink("Cancel", "ViewDriver", "Driver", null, new { @class = "btn outline-Btn" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="dvUploadDocs">
+            <div class="col-md-12 mt-2">
+                <div class="white-bg customFormWrap">
+                    <h2 class="cardHeading">
+                        Upload Document
+                    </h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group required row">
+                                <label class="col-sm-4 col-form-label">Document Type</label>
+                                <div class="col-sm-8">
+                                    <select id="ddldocumenttype" name="DocumentType" onchange="CheckDuplicateRecord()" class="form-control"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group required row">
+                                <label class="col-sm-4 col-form-label">Document Name</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control" maxlength="50" name="DocumentName" id="txtDocumentName" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group  row">
+                                <label class="col-sm-4 col-form-label">Expiration Date</label>
+                                <div class="col-sm-8">
+                                    <input type="text" placeholder="MM-DD-YYYY" readonly="readonly" class="form-control jqueryui-marker-datepicker" name="ExpiryDate" id="dtExpiryDate" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group  row">
+                                <label class="col-sm-4 col-form-label">Upload Document</label>
+                                <div class="col-sm-8">
+                                    <input type="file" name="imgdocument" onchange="encodeImagetoBase64(this)" class="filebrowse" id="imgdocument" />
+                                    <input type="hidden" id="hdnimgdocument" value="" /><br />
+                                    <span style="color:#c21004"> <small style="float: left"> * File should be jpg, jpeg, png, pdf,jfif and size less than or equal to 5MB.</small></span>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12 text-right mb-2">
+                            <button type="button" class="btn green-Btn" onclick="AddRow()">Add</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mb-2">
+                            <div class="table-responsive">
+                                <table id="tblDriverDocument" class="table-bordered table-striped cf w-100">
+                                    <thead>
+                                        <tr>
+                                            <th>Document Type</th>
+                                            <th>Document Name</th>
+                                            <th>Upload Document</th>
+                                            <th>Expiry Date</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" role="dialog" id="modalDocument">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header popup">
+                    <h6 class="modal-title">Document viewer</h6>
+                    <div color="white" class="col-md-6">
+
+                    </div>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="divViewer" style="text-align:center">
+                                Preview file here
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@Scripts.Render("~/bundles/Driver")
+

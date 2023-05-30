@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B4C68573-F80A-49C3-BB97-38954EA69879}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LarastruckingApp.Entities</RootNamespace>
+    <AssemblyName>LarastruckingApp.Entities</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
+    <CodeAnalysisRuleSet>..\LarastruckingApp\CodeAnalysisRuleSet.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.1.0\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\BACKUP_LARA\19nov2019\LarasTruckingLogistics-SCMS\LarastruckingApp.Entities\bin\Debug\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\BACKUP_LARA\19nov2019\LarasTruckingLogistics-SCMS\LarastruckingApp.Entities\bin\Debug\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="LarastruckingApp.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\BACKUP_LARA\19nov2019\LarasTruckingLogistics-SCMS\LarastruckingApp.Entities\bin\Debug\LarastruckingApp.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccidentDocumentDTO.cs" />
+    <Compile Include="AccidentReportDocumentDTO.cs" />
+    <Compile Include="AccidentReportDTO.cs" />
+    <Compile Include="ActionButtonDto.cs" />
+    <Compile Include="AddressDTO.cs" />
+    <Compile Include="AddressTypeDTO.cs" />
+    <Compile Include="Fumigation\FumigationCommentDTO.cs" />
+    <Compile Include="Fumigation\FumigationReadyDTO.cs" />
+    <Compile Include="MainPage\Main.cs" />
+    <Compile Include="TimeCardDTO\DailyReportDTO.cs" />
+    <Compile Include="TimeCardDTO\LaborReportDTO.cs" />
+    <Compile Include="TimeCardDTO\SearchTimeCardDTO.cs" />
+    <Compile Include="TimeCardDTO\TimeCardCalculationDTO.cs" />
+    <Compile Include="TimeCardDTO\TimeCardDTO.cs" />
+    <Compile Include="TimeCardDTO\TimeCardLogDTO.cs" />
+    <Compile Include="CityDTO.cs" />
+    <Compile Include="CommodityDTO.cs" />
+    <Compile Include="CommonDTO.cs" />
+    <Compile Include="CommonDTO\DataTableFilterDto.cs" />
+    <Compile Include="CommonDTO\EncryptDecrypt.cs" />
+    <Compile Include="CommonDTO\MailWithCCAttachDTO.cs" />
+    <Compile Include="CommonDTO\Mapper.cs" />
+    <Compile Include="CommonDTO\Configurations.cs" />
+    <Compile Include="CommonDTO\SpResponseDTO.cs" />
+    <Compile Include="CountryDTO.cs" />
+    <Compile Include="CustomerDTO.cs" />
+    <Compile Include="CustomerDto\BaseAddressDto.cs" />
+    <Compile Include="CustomerDto\CustomerAccessorialCharges.cs" />
+    <Compile Include="CustomerDto\CustomerContact.cs" />
+    <Compile Include="CustomerDto\CustomerDto.cs" />
+    <Compile Include="CustomerDto\CustomerQuotesInfoDto.cs" />
+    <Compile Include="CustomerDto\CustomerShipLocationDetailsDto.cs" />
+    <Compile Include="CustomerDto\CustomerShipmentRoutesDto.cs" />
+    <Compile Include="CustomerDto\CustomerShipmentTrackDto.cs" />
+    <Compile Include="CustomerDto\CustomerStatusTrackDto.cs" />
+    <Compile Include="CustomerDto\UpdateCustomerShipmentDetails.cs" />
+    <Compile Include="CustomerDto\UpdateFreightDetailsDTO.cs" />
+    <Compile Include="CustomerFumigation\CustomerFumigationLocationDetailsDto.cs" />
+    <Compile Include="CustomerFumigation\CustomerFumigationRoutesDto.cs" />
+    <Compile Include="CustomerFumigation\CustomerFumigationTrackDto.cs" />
+    <Compile Include="CustomerQuotesDto.cs" />
+    <Compile Include="DocumentNameDTO.cs" />
+    <Compile Include="Driver Fumigation\DriverActualTimmingsDTO.cs" />
+    <Compile Include="Driver Fumigation\FumigationDamagedEditBindDto.cs" />
+    <Compile Include="Driver Fumigation\FumigationDamagedImagesDto.cs" />
+    <Compile Include="Driver Fumigation\FumigationFreightDetailsDto.cs" />
+    <Compile Include="Driver Fumigation\FumigationLocationDetailsDTO.cs" />
+    <Compile Include="Driver Fumigation\FumigationPreTripCheckUpDTO.cs" />
+    <Compile Include="Driver Fumigation\FumigationProofImagesDto.cs" />
+    <Compile Include="Driver Fumigation\FumigationProofOfTempEditBind.cs" />
+    <Compile Include="Driver Fumigation\FumigationRoutesDTO.cs" />
+    <Compile Include="Driver Fumigation\FumigationSignatureDto.cs" />
+    <Compile Include="Driver Fumigation\SaveDamageWebCamDTO.cs" />
+    <Compile Include="Driver Fumigation\SaveFumigationDetailsDTO.cs" />
+    <Compile Include="Driver Fumigation\SaveFumigationGpsTrackingHistoryDTO.cs" />
+    <Compile Include="Driver Fumigation\SaveWebCameraDTO.cs" />
+    <Compile Include="DriverDocumentDTO.cs" />
+    <Compile Include="DriverDTO.cs" />
+    <Compile Include="Driver\ContactRelationDto.cs" />
+    <Compile Include="Driver\DriverDetailsDto.cs" />
+    <Compile Include="Driver\DriverDocumentDto.cs" />
+    <Compile Include="Driver\DriverLeaveDto.cs" />
+    <Compile Include="Driver\DriverListDto.cs" />
+    <Compile Include="Driver\DriverPreTripDto.cs" />
+    <Compile Include="Driver\GetDriverExpDetailsDTO.cs" />
+    <Compile Include="Driver\GetFumigationWaitingNotificationDetailsDto.cs" />
+    <Compile Include="Driver\GetWaitingNotificationDetailsDto.cs" />
+    <Compile Include="Driver\LanguageDTO.cs" />
+    <Compile Include="Driver\LeaveDto.cs" />
+    <Compile Include="Driver\LeaveManageDto.cs" />
+    <Compile Include="Driver\LeaveStatusDto.cs" />
+    <Compile Include="Driver\PreTripAddShipmentDetailDto.cs" />
+    <Compile Include="Driver\PreTripShipmentDto.cs" />
+    <Compile Include="Driver\PreTripShipmentImagesDto.cs" />
+    <Compile Include="Driver\PreTripTimmingDetailsDto.cs" />
+    <Compile Include="Driver\SaveFumigationWaitingNotifiDto.cs" />
+    <Compile Include="Driver\SaveGpsTrackingHistoryDto.cs" />
+    <Compile Include="Driver\SaveShipmentDamageWebCamDTO.cs" />
+    <Compile Include="Driver\SaveShipmentWaitingNotifiDto.cs" />
+    <Compile Include="Driver\SaveShipmentWebCameraDTO.cs" />
+    <Compile Include="Driver\ShipmentDamagedImagesDto.cs" />
+    <Compile Include="Driver\ShipmentDamagedEditBindDto.cs" />
+    <Compile Include="Driver\ShipmentFreightDetailsDto.cs" />
+    <Compile Include="Driver\ShipmentLocationDetailsDto.cs" />
+    <Compile Include="Driver\ShipmentProofOfTempEditBind.cs" />
+    <Compile Include="Driver\ShipmentRoutesDto.cs" />
+    <Compile Include="Driver\ShipmentSignatureDto.cs" />
+    <Compile Include="Driver\UpdateWaitingTimeDTO.cs" />
+    <Compile Include="Enum\Enum.cs" />
+    <Compile Include="EquipmentDTO.cs" />
+    <Compile Include="Equipments\AddEquipmentDto.cs" />
+    <Compile Include="Equipments\DoorTypeDto.cs" />
+    <Compile Include="FreightTypeDTO.cs" />
+    <Compile Include="Fumigation\CopyFumigationDTO.cs" />
+    <Compile Include="Fumigation\FumigationAccessorialPriceDTO.cs" />
+    <Compile Include="Fumigation\FumigationDamageImages.cs" />
+    <Compile Include="Fumigation\FumigationDTO.cs" />
+    <Compile Include="Fumigation\FumigationEmailDTO.cs" />
+    <Compile Include="Fumigation\FumigationEquipmentNDriver.cs" />
+    <Compile Include="Fumigation\FumigationListDTO.cs" />
+    <Compile Include="Fumigation\FumigationProofOfTemprature.cs" />
+    <Compile Include="Fumigation\FumigationRoute.cs" />
+    <Compile Include="Fumigation\FumigationStatusHistoryDTO.cs" />
+    <Compile Include="Fumigation\GetFumigationAccessorialPriceDTO.cs" />
+    <Compile Include="Fumigation\GetFumigationDTO.cs" />
+    <Compile Include="Fumigation\GetFumigationEquipmentNDriver.cs" />
+    <Compile Include="Fumigation\GetFumigationRouteDTO.cs" />
+    <Compile Include="Fumigation\ProofOfTemperatureDTO.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Fumigation\FumigationTypeDTO.cs" />
+    <Compile Include="GpsTracker\GetFumigationEquipmentNDriversDTO.cs" />
+    <Compile Include="GpsTracker\GpsFumigationDetailsDTO.cs" />
+    <Compile Include="GpsTracker\GpsShipmentDetailsDTO.cs" />
+    <Compile Include="GpsTracker\GpsTrackerHistoryDTO.cs" />
+    <Compile Include="MailHistory\MailHistoryDTO.cs" />
+    <Compile Include="PageAuthorizationDTO.cs" />
+    <Compile Include="PagesDTO.cs" />
+    <Compile Include="Permission\PermissionsDto.cs" />
+    <Compile Include="PricingMethodDTO.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuotesDto\AccessorialChargesDto.cs" />
+    <Compile Include="QuotesDto\FreightDetailDto.cs" />
+    <Compile Include="QuotesDto\BaseFreightDto.cs" />
+    <Compile Include="QuotesDto\CustomerQuotesDto.cs" />
+    <Compile Include="QuotesDto\GetAccessorialChargesDTO.cs" />
+    <Compile Include="QuotesDto\GetFreightDetailDTO.cs" />
+    <Compile Include="QuotesDto\GetQuoteAccessorialPriceDTO.cs" />
+    <Compile Include="QuotesDto\GetQuoteDTO.cs" />
+    <Compile Include="QuotesDto\GetRouteStopsDTO.cs" />
+    <Compile Include="QuotesDto\QuoteAccessorialPriceDTO.cs" />
+    <Compile Include="QuotesDto\QuoteDTO.cs" />
+    <Compile Include="QuotesDto\RouteStopDto.cs" />
+    <Compile Include="QuotesDto\SearchQuoteDTO.cs" />
+    <Compile Include="QuotesDto\SendQuoteAccessorialPriceDTO.cs" />
+    <Compile Include="QuotesDto\ViewQuoteDTO.cs" />
+    <Compile Include="Reports\DailyReports\GetAllDetailsDailyReportDTO.cs" />
+    <Compile Include="Reports\DailyReports\GetDailyReportsDTO.cs" />
+    <Compile Include="RoleDTO.cs" />
+    <Compile Include="ShipmentDTO\AllShipmentDTO.cs" />
+    <Compile Include="ShipmentDTO\AllShipmentList.cs" />
+    <Compile Include="ShipmentDTO\CopyShipmentDTO.cs" />
+    <Compile Include="ShipmentDTO\CustomernNRouteInfoDTO.cs" />
+    <Compile Include="ShipmentDTO\CustomerShipmentDTO.cs" />
+    <Compile Include="ShipmentDTO\GetDamageImages.cs" />
+    <Compile Include="ShipmentDTO\GetFreightTypeDTO.cs" />
+    <Compile Include="ShipmentDTO\GetPricingMethodDTO.cs" />
+    <Compile Include="ShipmentDTO\GetProofOfTemprature.cs" />
+    <Compile Include="ShipmentDTO\GetShipmentAccessorialPriceDTO.cs" />
+    <Compile Include="ShipmentDTO\GetShipmentDTO.cs" />
+    <Compile Include="ShipmentDTO\GetShipmentEquipmentNDriverDTO.cs" />
+    <Compile Include="ShipmentDTO\GetShipmentFreightDetailDTO.cs" />
+    <Compile Include="ShipmentDTO\GetShipmentRouteStopDTO.cs" />
+    <Compile Include="ShipmentDTO\MatchEquipmentNDriverDTO.cs" />
+    <Compile Include="ShipmentDTO\ShipmentAccessorialFeeTypeDTO.cs" />
+    <Compile Include="ShipmentDTO\ShipmentAccessorialPriceDTO.cs" />
+    <Compile Include="ShipmentDTO\ShipmentBaseFreightDetailDTO.cs" />
+    <Compile Include="ShipmentDTO\ShipmentCommentDTO.cs" />
+    <Compile Include="ShipmentDTO\ShipmentDriverDTO.cs" />
+    <Compile Include="ShipmentDTO\ShipmentDTO.cs" />
+    <Compile Include="ShipmentDTO\ShipmentEquipmentDTO.cs" />
+    <Compile Include="ShipmentDTO\ShipmentEquipmentNdriverDTO.cs" />
+    <Compile Include="ShipmentDTO\ShipmentIsReadyDTO.cs" />
+    <Compile Include="ShipmentDTO\ShipmentRoutesStopDTO.cs" />
+    <Compile Include="ShipmentDTO\ShipmentStatusDTO.cs" />
+    <Compile Include="ShipmentDTO\ShipmentStatusHistoryDTO.cs" />
+    <Compile Include="ShipmentDTO\ShipmentSubStatusDTO.cs" />
+    <Compile Include="ShipmentDTO\UploadShipmentDTO.cs" />
+    <Compile Include="ShipmentDTO\ValidateDriverNEquipmentDTO.cs" />
+    <Compile Include="ShipmentDTO\ValidateRouteStopDTO.cs" />
+    <Compile Include="ShipmentDTO\ViewShipmentDTO.cs" />
+    <Compile Include="ShipmentDTO\ViewShipmentListDTO.cs" />
+    <Compile Include="ShipmentEmailDTO.cs" />
+    <Compile Include="ShipmentEventHistoryDTO\ShipmentEventHistoryDTO.cs" />
+    <Compile Include="StateDTO.cs" />
+    <Compile Include="TimeCardDTO\TimeCardUserDTO.cs" />
+    <Compile Include="TimeCardDTO\ValidateScheduledCheckInTimeDTO.cs" />
+    <Compile Include="TimeCardDTO\ViewTimeCardDTO.cs" />
+    <Compile Include="TimeCardDTO\WeeklyReportDTO.cs" />
+    <Compile Include="TrailerRental\TrailerRentalDetailDTO.cs" />
+    <Compile Include="TrailerRental\TrailerRentalDTO.cs" />
+    <Compile Include="TrailerRental\TrailerRentalListDTO.cs" />
+    <Compile Include="UploadShipmentDTO\CompanyNameDTO.cs" />
+    <Compile Include="UploadShipmentDTO\FreightTypeNPricingMethodDTO.cs" />
+    <Compile Include="UserDTO.cs" />
+    <Compile Include="UserRoleDTO.cs" />
+    <Compile Include="VehicleTypeDTO.cs" />
+    <Compile Include="VendorNconsigneeDTO.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

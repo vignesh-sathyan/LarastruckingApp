@@ -1,0 +1,48 @@
+﻿@using LarastruckingApp.Entities.Permission
+@{
+    ViewBag.Title = "ViewTrailerRental";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    PermissionsDto permissions = IsPermited.HasPermission();
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-body">
+            <div class="white-bg customFormWrap">
+                <div class="row">
+
+                    <div class="col-md-12 py-2 d-flex justify-content-start mb_40 pl-trl">
+
+                        @if (permissions.IsInsert)
+                        {
+                            @Html.ActionLink("CREATE RENTAL UNIT", "Index", "TrailerRental", null, new { @class = "btn green-Btn" })
+                        }
+
+                    </div>
+                </div>
+                <div id="customTableWrapper">
+                    <table class="table-bordered table-striped cf w-100" id="tblTrailerRentalDetail">
+                        <thead>
+                            <tr><td colspan="10"><b>REQUESTED RENTALS</b></td></tr>
+                            <tr>
+                                <th hidden="hidden"></th>
+
+                                <th>Customer</th>
+                                <th>Equipment</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Pickup Location</th>
+                                <th>Pickup Driver</th>
+                                <th>Delivery Location</th>
+                                <th>Delivery Driver</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/ViewTrailerRentalList")

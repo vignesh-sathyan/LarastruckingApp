@@ -1,0 +1,12 @@
+﻿@model LarastruckingApp.Entities.Driver.LeaveManageDto
+
+@{
+    ViewBag.Title = "Leave";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@{Html.RenderPartial("prDriverLeave", Model);}
+
+@*<script src="~/CustomScript/leave/manageLeave.js"></script>*@
+@Scripts.Render("~/bundles/manageLeave")

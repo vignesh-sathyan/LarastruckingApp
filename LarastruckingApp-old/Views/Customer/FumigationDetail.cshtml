@@ -1,0 +1,551 @@
+﻿
+@{
+    ViewBag.Title = "FumigationDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 mt-2">
+        <div class="white-bg customFormWrap">
+            <div class="col-md-12 mb-2">
+                <strong> <span> Fumigation | Fumigation Details </span></strong>
+            </div>
+            <hr class="hr_add" />
+            <strong> <span><h6>Fumigation Route Details</h6></span></strong>
+            <div class="customTableWrapper">
+                <div id="">
+                    <table id="tblShipmentRoute" class="table-bordered dataTable table-striped cf w-100">
+                        <thead>
+                            <tr>
+                                <th width="5%"> </th>
+                                <th width="5%"> No </th>
+                                <th> PickUp Location </th>
+                                <th> PickUp Date Time</th>
+                                <th>AWB/Cust.PO</th>
+                                <th>Fum. Location</th>
+                                <th> Delivery Location </th>
+                                <th> Delivery Date Time </th>
+                                <th>Equipment No.</th>
+                                <th>Driver Name</th>
+                                <th>Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.CustomerFumigationRoutesDetail.Count > 0)
+                            {
+                                int i = 0;
+                                foreach (var item in Model.CustomerFumigationRoutesDetail)
+                                {
+                                    i++;
+
+                                    <tr>
+                                        <td> <input type="radio" name="radioFumigationRoutsId" id="radioFumigationRoutsId" value="@item.FumigationRoutsId" onchange="CheckRouteStops(@item.FumigationRoutsId)" /> </td>
+                                        <td> @i </td>
+                                        <td> @item.PickupAddress </td>
+                                        <td>  @string.Format("{0:MM/dd/yyyy HH:mm}", item.PickupDateTime)</td>
+                                        <td>@item.AirWayBill</td>
+                                        <td>@item.FumigationAddress</td>
+                                        <td>  @item.DeliveryAddress </td>
+                                        <td> @string.Format("{0:MM/dd/yyyy HH:mm}", item.DeliveryDateTime) </td>
+                                        <td>@item.DriverEquipment</td>
+                                        <td>@item.DriverName</td>
+                                        <td>@item.QuantityNMethod</td>
+                                    </tr>
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="icon-outer">
+                        @{
+                            bool isValid = false;
+                            foreach (var status in Model.CustomerFumigationTrack.FumigationStatusHistory)
+                            {
+                                if (isValid == false)
+                                {
+                                    <div class="icon-list">
+                                        <img style="width:auto;" src="@status.ImageUrl" /><br />
+                                        <label>@string.Format("{0:MM/dd/yyyy HH:mm}", status.DateTime)</label>
+                                    </div>
+                                    isValid = true;
+                                }
+                                else
+                                {
+                                    <div class="icon-list dots-img">
+                                        <img style="margin-bottom:0px; " src="@Model.CustomerFumigationTrack.StatusDotPath" />
+
+                                    </div>
+                                    <div class="icon-list">
+
+
+                                        <img style="width:auto;" src="@status.ImageUrl" /><br />
+                                        <label>@string.Format("{0:MM/dd/yyyy HH:mm}", status.DateTime)</label>
+
+                                    </div>
+                                }
+
+                            }
+                            foreach (var status in Model.CustomerFumigationTrack.ShipmentStatusList)
+                            {
+                                <div class="icon-list dots-img"><img style="margin-bottom:0px;" src="@Model.CustomerFumigationTrack.StatusGrayDotPath" /></div>
+                                <div class="icon-list">
+
+
+                                    <img style="width:auto;" src="@status.GrayImageURL" />
+
+
+                                </div>
+
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div id="dvFumigationFreigtDetails">
+                <strong> <span> <h6>Fumigation Freight Details </h6> </span></strong>
+                <div class="customTableWrapper">
+                    <div id="tblFumiFreightDetailsTable">
+
+                    </div>
+                </div>
+            </div>
+            <hr />
+
+
+
+            <form action="" method="post" enctype="multipart/form-data">
+                <!--Row 1: Shipment Ref -->
+                <div class="row">
+                    <input type="hidden" id="hdnFumigationId" name="hdnFumigationId" value="0">
+                    @*<div class="col-md-3">
+                            <div class="form-group row">
+
+                                <label class="col-sm-4 col-form-label" for="txtShipRefNo">Ship Ref No.</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="txtShipRefNo" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                        </div>*@
+
+                    <div class="col-md-3">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label" for="txtAirWayBill">Air Waybill</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="txtAirWayBill" class="form-control" readonly="readonly">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label" for="txtCustomerPO">Customer PO</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="txtCustomerPO" class="form-control" readonly="readonly">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label" for="txtContainerNo">Container No.</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="txtContainerNo" class="form-control" readonly="readonly">
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+                <!--Row 3: Pickup/Delivery/ Phone Location -->
+                <div class="row">
+                    <!--Row 3i: Pickup-->
+                    <div class="col-md-6">
+                        <div class="row">
+                            <!--Pickup Location-->
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label" for="txtPickupLocation">Pickup Location</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="txtPickupLocation" class="form-control" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Fum. Location-->
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label" for="txtFumigationLocation" title="Fumigation Location">Fum. Location</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="txtFumigationLocation" class="form-control" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!--Delivery Location-->
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label" for="txtDeliveryLocation">Delivery Location</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="txtDeliveryLocation" class="form-control" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Driver Actual Arrival At Pickup Point-->
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="txtActualPickupArrived">Pickup Arrival</label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtActualPickupArrived"
+                                               required="required"
+                                               disabled="disabled"
+                                               placeholder="mm-dd-yyyy"
+                                               name="txtActualPickupArrived"
+                                               class="form-control"
+                                               readonly="readonly" />
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Driver Actual Departure From Pickup Point-->
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="txtActualPickupDepart">Pickup Depart</label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtActualPickupDepart"
+                                               required="required"
+                                               disabled="disabled"
+                                               placeholder="mm-dd-yyyy"
+                                               name="txtActualPickupDepart"
+                                               class="form-control"
+                                               readonly="readonly" />
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!--Row 3ii: Delivery-->
+                    <div class="col-md-6">
+                        <div class="row">
+
+                            <!--Pickup Phone-->
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="txtPickupPhone">Pickup Phone</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="txtPickupPhone" class="form-control" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Pickup Extension-->
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="txtPickupExtension">Pickup Extension</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="txtPickupExtension" class="form-control" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!--Fumigation Phone-->
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="txtFumigationPhone" title="Fumigation Phone">Fum. Phone</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="txtFumigationPhone" class="form-control" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Delivery Extension-->
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="txtFumigationExtension" title="Fumigation Extension">Fum. Extension</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="txtFumigationExtension" class="form-control" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Delivery Phone-->
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="txtDeliveryPhone">Delivery Phone</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="txtDeliveryPhone" class="form-control" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Delivery Extension-->
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="txtDeliveryExtension">Delivery Extension</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="txtDeliveryExtension" class="form-control" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Driver Actual Arrival At Delivery Point-->
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="txtActualFumigationDepart" title="Fumigation Depart">Fum. Depart</label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtActualFumigationDepart"
+                                               required="required"
+                                               disabled="disabled"
+                                               placeholder="mm-dd-yyyy"
+                                               name="txtActualFumigationDepart"
+                                               class="form-control calenderDisableRemove" />
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="txtActualDeliveryArrived">Delivery Arrival</label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtActualDeliveryArrived"
+                                               required="required"
+                                               disabled="disabled"
+                                               placeholder="mm-dd-yyyy"
+                                               name="txtActualDeliveryArrived"
+                                               class="form-control"
+                                               readonly="readonly" />
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Driver Actual Departure From Delivery Point-->
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <!--Row 4: Temperature -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="txtActualDeliveryDepart">Delivery Depart</label>
+                            <div class="col-sm-4">
+                                <input type="text"
+                                       id="txtActualDeliveryDepart"
+                                       required="required"
+                                       disabled="disabled"
+                                       placeholder="mm-dd-yyyy"
+                                       name="txtActualDeliveryDepart"
+                                       class="form-control"
+                                       readonly="readonly" />
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-3">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label" for="txtReceiverName">Receiver Name</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="txtReceiverName" class="form-control" readonly="readonly">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label" for="txtSign">Receiver Signature</label>
+                            <div class="col-sm-8">
+                                <img src="" id="txtSign" class="signaturePanel" />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row" id="divProofOfTemp">
+                    <div class="col-md-3">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label" for="txtTempReq">Temp Required</label>
+                            <div class="col-sm-8">
+                                <input type="text" id="txtTempReq" class="form-control" readonly="readonly">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                    </div>
+
+                    @*<div class="col-md-3">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label" for="txtActualTemp">Latest Temp</label>
+                                <div class="col-sm-5">
+                                    <input type="text" data-required="required" id="txtActualTemp" class="form-control" readonly="readonly" onkeypress="return onlyNumeric(event);">
+                                </div>
+                                <div class="col-sm-3">
+                                    <select id="ddlTemperatureUnit" class="form-control">
+                                        <option selected="selected" value="F">F</option>
+                                        <option value="C">C</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>*@
+
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="ddlCustomerShipmentStatus">Status</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="txtCustomerShipmentStatus" class="form-control" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="ddlCustomerShipmentSubStatus">Sub-Status</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="txtCustomerShipmentSubStatus" class="form-control" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label" for="txtOtherReason">Description</label>
+                                    <div class="col-sm-10">
+                                        <input type="text"
+                                               id="txtOtherReason"
+                                               disabled="disabled"
+                                               name="txtOtherReason"
+                                               onkeypress="return onlyAlphanumeric(event)"
+                                               class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <!--Row 6: Submit Button -->
+                @*<hr>*@
+                <div class="row">
+                    <div class="col-md-6">
+                        <legnd id="hdrDamgeFiles"><strong>Damaged Files</strong></legnd>
+                        <table id="tblDamagedFiles" class="table-bordered dataTable table-striped cf w-100 tblcolourChange">
+                            <thead>
+                                <tr>
+                                    <th> Description </th>
+                                    <th>File Name </th>
+                                    <th>Date & Time </th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <legnd id="hdrProof"><strong>Proof Of Temperature Files</strong></legnd>
+                        <table id="tblProofOfTemp" class="table-bordered dataTable table-striped cf w-100 tblcolourChange">
+                            <thead>
+                                <tr>
+                                    <th>Actual Temp  </th>
+                                    <th>File Name </th>
+                                    <th>Date & Time </th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row" id="divAccessorialchargs">
+                    <div class="col-md-4">
+                        <h2 class="cardHeading" data-toggle="collapse" data-target="#divAccessorialcharg">
+                            <span style="color:#007bff"><i class="fa fa-plus"></i> Accessorial Charges</span>
+                        </h2>
+
+                        <div id="divAccessorialcharg" class="collapse">
+                            <table id="tblAccessorialFee" class="table-bordered dataTable table-striped cf w-100">
+                                <thead>
+                                    <tr>
+                                        <th>Fee Type</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+                </div>
+                @*<hr />*@
+
+                <div class="row">
+                    <div class="col-md-12 text-right mb-8">
+                        @Html.ActionLink("Close", "Dashboard", "Customer", null, new { @class = "btn outline-Btn" })
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="modal" role="dialog" id="modalDocument">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header popup">
+                <h6 class="modal-title">Document viewer</h6>
+                <div color="white" class="col-md-6">
+                    <h6>
+                        <button type="button" class="edit_icon btnPrintImage">
+                            <i class="fa fa-print"></i>
+                        </button>
+                        <button type="button" class="edit_icon btnPrintPdf">
+                            <i class="fa fa-print"></i>
+                        </button>
+                    </h6>
+                </div>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="divViewer">
+                            Preview file here
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/CustomerFumigationDetails")
+@*<script src="~/CustomScript/customerJs/CustomerFumigationDetails.js"></script>*@

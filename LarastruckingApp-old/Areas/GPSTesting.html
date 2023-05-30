@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXBtkoqacvZToBGD9TCaiZ9qUTrAJDJN4&callback=initMap&libraries=places&SameSite=None"></script>
+    <script src="https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyDXBtkoqacvZToBGD9TCaiZ9qUTrAJDJN4"></script>
+    <script>
+
+        var lat;
+        var long;
+        var formatedCurrentAddress;
+        $(document).ready(function () {
+            getLocation();
+            $("#btnGps").click(function () {
+                debugger;
+                //var url = "https://maps.google.com/?q=" + lat + "," + long;
+                window.open("https://www.google.com/maps/dir/" + formatedCurrentAddress +"/Sector+63,+Noida,+Uttar+Prades");
+                //  window.open("https://www.google.com/maps/dir/Sector+28,+Panchkula+Extension,+Panchkula,+Haryana/Sector+25,+Panchkula+Extension,+Panchkula,+Haryana/@25.7901206,80.29142519999999,15z/data=!3m1!4b1!4m13!4m12!1m5!1m1!1s0x390f945133d89b49:0x2e26da5afde9802f!2m2!1d76.8774493!2d30.6483421!1m5!1m1!1s0x390f946f0dc6b4c1:0x496d901e460f7a2b!2m2!1d76.8865085!2d30.6714495");
+               
+                // window.open("https://maps.google.com/maps?daddr=" + lat + "/" + long + "," +"28.6514245,77.4231513&amp;ll=");
+                //window.open("https://maps.google.com/maps?daddr=Sector+62,+Noida,+Uttar+Pradesh/Sector+63,+Noida,+Uttar+Pradesh&amp;ll=");                
+            });
+        });
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+
+            } else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+        function showPosition(position) {
+            location.latitude = position.coords.latitude;
+            location.longitude = position.coords.longitude;
+            var geocoder = new google.maps.Geocoder();
+            var latLng = new google.maps.LatLng(location.latitude, location.longitude);
+            if (geocoder) {
+                geocoder.geocode({ 'latLng': latLng }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        formatedCurrentAddress =  results[0].formatted_address;
+                        console.log(results[0].formatted_address);
+                        $('#address').html('Address:' + results[0].formatted_address);
+                    }
+                    else {
+                        $('#address').html('Geocoding failed: ' + status);
+                        console.log("Geocoding failed: " + status);
+                    }
+                }); //geocoder.geocode()
+            }
+        } //showPosition
+
+                //function geoFindMe() {
+
+                //    const status = document.querySelector('#status');
+                //    const mapLink = document.querySelector('#map-link');
+
+                //    mapLink.href = '';
+                //    mapLink.textContent = '';
+
+                //    function success(position) {
+                //        const latitude = position.coords.latitude;
+                //        const longitude = position.coords.longitude;
+
+                //        status.textContent = '';
+                //        mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
+                //        mapLink.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} °`;
+
+                //        alert(mapLink.href);
+
+                //        alert(mapLink.textContent);
+                //    }
+
+                //    function error() {
+                //        status.textContent = 'Unable to retrieve your location';
+                //    }
+
+                //    if (!navigator.geolocation) {
+                //        status.textContent = 'Geolocation is not supported by your browser';
+                //    } else {
+                //        status.textContent = 'Locating…';
+                //        navigator.geolocation.getCurrentPosition(success, error);
+                //    }
+
+                //}
+
+    </script>
+
+
+</head>
+
+
+<body>
+    <button type="button" class="success-color" id="btnGps">GPS</button>
+    <p id="demo"></p>
+</body>
+</html>

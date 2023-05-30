@@ -1,0 +1,54 @@
+﻿@using LarastruckingApp.Entities.Permission
+@{
+    ViewBag.Title = "ViewTrailerRental";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    PermissionsDto permissions = IsPermited.HasPermission();
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-body">
+            <div class="white-bg customFormWrap">
+                <div class="row">
+
+                    <div class="col-md-12 py-2 d-flex justify-content-end mb_40 pl-trl" style="margin-bottom:0;">
+
+                        @if (permissions.IsInsert)
+                        {
+
+                        <a id="loginLink" class="btn green-Btn" href="@Url.Action("Index", "TrailerRental")" style="align-items: center;justify-content: space-between;display:flex;padding: 2px 8px 2px 8px;">
+                            <img alt="Log in" src="@Url.Content("~/Assets/images/add-icon.png")" style="width:20px;">
+                            &nbsp;CREATE RENTAL UNIT
+
+                        </a>
+                           
+                        }
+
+                    </div>
+                </div>
+                <div id="customTableWrapper">
+                    <table class="table-bordered table-striped cf w-100" id="tblTrailerRentalDetail">
+                        <thead>
+                            <tr><td colspan="10"><b>REQUESTED RENTALS</b></td></tr>
+                            <tr>
+                                <th hidden="hidden"></th>
+
+                                <th>Customer</th>
+                                <th>Equipment</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Pickup Location</th>
+                                <th>Pickup Driver</th>
+                                <th>Delivery Location</th>
+                                <th>Delivery Driver</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/ViewTrailerRentalList")

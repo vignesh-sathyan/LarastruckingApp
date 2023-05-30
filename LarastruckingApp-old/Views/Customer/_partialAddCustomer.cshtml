@@ -1,0 +1,555 @@
+﻿@model LarastruckingApp.Entities.CustomerDto.CustomerDto
+@using LarastruckingApp.Entities.Permission
+@{
+    PermissionsDto permissions = IsPermited.HasPermission();
+}
+
+<form id="formAddress" method="post">
+    <div class="card-body">
+        <div class="white-bg customFormWrap">
+            <h2 class="cardHeading">
+                Customer
+            </h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group required row">
+                        <label class="col-sm-4 col-form-label" for="txtCustomerName"> Company Name </label>
+                        <div class="col-sm-8">
+                            @Html.HiddenFor(model => model.CustomerId, new { id = "hdnCustomerId" })
+                            @Html.HiddenFor(model => model.BaseAddressId)
+                            <input type="text"
+                                   id="txtCustomerName"
+                                   class="form-control"
+                                   required="required"
+                                   maxlength="50"
+                                   onkeypress="return onlyAlphanumeric(event)" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 mb-2">
+                    <fieldset>
+                        <legend>Contact Information</legend>
+                        <div class="row" id="customerContactForm" role="form">
+                            <div class="col-md-6">
+                                <div class="form-group required row">
+                                    <label class="col-sm-4 col-form-label" for="txtFirstName"> First Name </label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtFirstName"
+                                               class="form-control"
+                                               data-required="required"
+                                               maxlength="50"
+                                               onkeypress="return onlyAlphabets(event)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group required row">
+                                    <label class="col-sm-4 col-form-label" for="txtLastName"> Last Name </label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtLastName"
+                                               class="form-control"
+                                               data-required="required"
+                                               maxlength="50"
+                                               onkeypress="return onlyAlphabets(event)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group required row">
+                                    <label class="col-sm-4 col-form-label" for="txtPhone"> Phone </label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtPhone"
+                                               class="form-control"
+                                               data-required="required"
+                                               phone="phone"
+                                               maxlength="50"
+                                               onkeypress="return onlyNumeric(event)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="txtExtension"> Extension </label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtExtension"
+                                               class="form-control"
+                                               maxlength="10"
+                                               onkeypress="return onlyNumeric(event)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group required  row">
+                                    <label class="col-sm-4 col-form-label" for="txtEmail"> Email </label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtEmail"
+                                               data-required="required"
+                                               class="form-control noSpace"
+                                               maxlength="50"
+                                               email="email"
+                                               onkeypress="return onlyAlphanumeric(event)" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group  row">
+                                    <label class="col-sm-4 col-form-label" for="txtTitle"> Title </label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtTitle"
+                                               class="form-control"
+                                               maxlength="30"
+                                               onkeypress="return onlyAlphanumeric(event)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 text-right mb-2">
+                                <button type="button" id="btnMultipleContact" class="btn green-Btn"> Add More </button>
+                            </div>
+                        </div>
+
+                        <table id="tblMultipleContacts" class="table-bordered table-striped cf w-100 dataTable">
+                            <thead>
+                                <tr>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Phone</th>
+                                    <th>Extension</th>
+                                    <th>Email</th>
+                                    <th>Title</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.CustomerContacts != null)
+                                {
+                                    foreach (var item in Model.CustomerContacts)
+                                    {
+                                        <tr>
+                                            <td> <label class="ContactFirstName"> @item.ContactFirstName </label></td>
+                                            <td> <label class="ContactLastName"> @item.ContactLastName </label></td>
+                                            <td> <label class="ContactPhone"> @item.ContactPhone </label></td>
+                                            <td> <label class="ContactExtension"> @item.ContactExtension </label></td>
+                                            <td> <label class="ContactEmail"> @item.ContactEmail </label></td>
+                                            <td> <label class="ContactTitle"> @item.ContactTitle </label></td>
+                                            <td>
+                                                <a href="javascript: void(0)" class="delete_icon" onclick="deleteTr(this)">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 mb-2">
+                    <fieldset>
+                        <legend>Billing Address</legend>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group required row">
+                                    <label class="col-sm-4 col-form-label" for="txtBillingAddress1"> Address 1</label>
+                                    <div class="col-sm-8">
+                                        <input type="hidden" id="hdnBillBaseAddressCategoryId" value="2" />
+                                        <input type="text"
+                                               id="txtBillingAddress1"
+                                               class="form-control"
+                                               required="required"
+                                               maxlength="100"
+                                               onkeypress="return onlyAlphanumeric(event)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="txtBillingAddress2"> Address 2</label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtBillingAddress2"
+                                               class="form-control"
+                                               maxlength="100"
+                                               onkeypress="return onlyAlphanumeric(event)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group required row">
+                                    <label class="col-sm-4 col-form-label" for="txtBillingCity"> City </label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtBillingCity"
+                                               class="form-control"
+                                               maxlength="50"
+                                               required="required"
+                                               onkeypress="return onlyAlphabets(event)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="ddlBillingCountry">Country</label>
+                                    <div class="col-sm-8">
+                                        <div class="dropdown">
+                                            <select class="form-control" id="ddlBillingCountry">
+                                                @{
+                                                    foreach (var data in ViewBag.Country)
+                                                    {
+                                                        <option value="@data.ID">@data.Name</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group required row">
+                                    <label class="col-sm-4 col-form-label" for="txtBillingZip"> Zip Code </label>
+                                    <div class="col-sm-8">
+
+                                        <input type="text"
+                                               id="txtBillingZip"
+                                               class="form-control"
+                                               maxlength="5"
+                                               required="required"
+                                               onkeypress="return onlyNumeric(event)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group required row">
+                                    <label class="col-sm-4 col-form-label" for="ddlBillingState"> State </label>
+                                    <div class="col-sm-8">
+                                        <div class="dropdown">
+                                            <select class="form-control" required="required" id="ddlBillingState">
+                                                <option>Please select state</option>
+                                            </select>
+                                        </div>
+                                        @*@Html.DropDownList("State", ViewBag.State as SelectList, "Please select state", new { @id = "ddlBillingState", @class = "form-control", required = "required" })*@
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group required row">
+                                    <label class="col-sm-4 col-form-label" for="txtBillingPhone"> Phone </label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtBillingPhone"
+                                               class="form-control"
+                                               required="required"
+                                               phone="phone"
+                                               maxlength="50"
+                                               onkeypress="return onlyNumeric(event)" />
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="txtBillingExtension"> Extension </label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtBillingExtension"
+                                               class="form-control"
+                                               maxlength="10"
+                                               onkeypress="return onlyNumeric(event)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group  row">
+                                    <label class="col-sm-4 col-form-label" for="txtBillingFax"> Fax </label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtBillingFax"
+                                               class="form-control"
+                                               maxlength="10"
+                                               onkeypress="return onlyNumeric(event)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group required row">
+                                    <label class="col-sm-4 col-form-label" for="txtBillingEmail"> Email </label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtBillingEmail"
+                                               class="form-control noSpace"
+                                               required="required"
+                                               email="email"
+                                               maxlength="50"
+                                               onkeypress="return onlyAlphanumeric(event)" />
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="txtPALAccount">PAL Account</label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtPALAccount"
+                                               class="form-control"
+                                               maxlength="50"
+                                               onkeypress="return onlyAlphanumeric(event)" />
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 mb-2">
+                    <div class="form-group row checkbox-container">
+                        <label class="col-sm-4 col-form-label" for="chkSameAddress"> Shipping address same as billing address </label>
+                        <div class="col-sm-8">
+                            <div class="checkbox">
+                                <input type="checkbox" id="chkSameAddress" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 mb-2">
+                    <fieldset>
+                        <legend>Shipping Address</legend>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group required row">
+                                    <label class="col-sm-4 col-form-label" for="txtShippingAddress1"> Address 1</label>
+                                    <div class="col-sm-8">
+                                        <input type="hidden" id="hdnShipBaseAddressCategoryId" value="2" />
+                                        <input type="text"
+                                               id="txtShippingAddress1"
+                                               class="form-control"
+                                               required="required"
+                                               maxlength="100"
+                                               onkeypress="return onlyAlphanumeric(event)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="txtShippingAddress2"> Address 2</label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtShippingAddress2"
+                                               class="form-control"
+                                               maxlength="100"
+                                               onkeypress="return onlyAlphanumeric(event)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group required row">
+                                    <label class="col-sm-4 col-form-label" for="txtShippingCity"> City </label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtShippingCity"
+                                               class="form-control"
+                                               maxlength="100"
+                                               required="required"
+                                               onkeypress="return onlyAlphabets(event)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="ddlShippingCountry">Country</label>
+                                    <div class="col-sm-8">
+                                        <div class="dropdown">
+                                            <select class="form-control" id="ddlShippingCountry">
+                                                @{
+                                                    foreach (var data in ViewBag.Country)
+                                                    {
+                                                        <option value="@data.ID">@data.Name</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group required row">
+                                    <label class="col-sm-4 col-form-label" for="txtShippingZip"> Zip Code </label>
+                                    <div class="col-sm-8">
+
+                                        <input type="text"
+                                               id="txtShippingZip"
+                                               class="form-control"
+                                               maxlength="5"
+                                               required="required"
+                                               onkeypress="return onlyNumeric(event)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group required row">
+                                    <label class="col-sm-4 col-form-label" for="ddlShippingState"> State </label>
+                                    <div class="col-sm-8">
+                                        <div class="dropdown">
+                                            <select class="form-control" required="required" id="ddlShippingState">
+                                                <option>Please select state</option>
+                                            </select>
+                                        </div>
+                                        @*@Html.DropDownList("State", ViewBag.State as SelectList, "Please select state", new { @id = "ddlShippingState", @class = "form-control", required = "required" })*@
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group required row">
+                                    <label class="col-sm-4 col-form-label" for="txtShippingPhone"> Phone </label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtShippingPhone"
+                                               class="form-control"
+                                               required="required"
+                                               phone="phone"
+                                               maxlength="50"
+                                               onkeypress="return onlyNumeric(event)" />
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="txtShippingExtension"> Extension </label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtShippingExtension"
+                                               class="form-control"
+                                               maxlength="10"
+                                               onkeypress="return onlyNumeric(event)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group  row">
+                                    <label class="col-sm-4 col-form-label" for="txtShippingFax"> Fax </label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtShippingFax"
+                                               class="form-control"
+                                               maxlength="10"
+                                               onkeypress="return onlyNumeric(event)" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group  row">
+                                    <label class="col-sm-4 col-form-label" for="txtShippingEmail"> Email </label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               id="txtShippingEmail"
+                                               class="form-control noSpace"
+                                               @*required="required"*@
+                                               email="email"
+                                               maxlength="50"
+                                               onkeypress="return onlyAlphanumeric(event)" />
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="txtWebsite"> Website </label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   id="txtWebsite"
+                                   class="form-control"
+                                   maxlength="100"
+                                   onkeypress="return onlyAlphanumeric(event)" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="txtComment"> Comment </label>
+                        <div class="col-sm-8">
+                            <textarea id="txtComment" class="form-control" maxlength="200" onkeypress="return onlyAlphanumeric(event)"> </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group row checkbox-container">
+                        <label class="col-sm-8 col-form-label" for="chkIsPickDropLocation"> Add Pickup/Delivery Location </label>
+                        <div class="checkbox">
+                            <input type="checkbox" id="chkIsPickDropLocation" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group row checkbox-container">
+                        <label class="col-sm-10 col-form-label" for="chkIsWaitingTimeRequired">Waiting Time Required </label>
+                        <div class="checkbox">
+                            <input type="checkbox" id="chkIsWaitingTimeRequired" />
+                        </div>
+                      
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group row checkbox-container">
+                        <label class="col-sm-10 col-form-label" for="chkTemperatureRequired">Temperature Required </label>
+                        <div class="checkbox">
+                            <input type="checkbox" id="chkTemperatureRequired" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group row checkbox-container">
+                        <label class="col-sm-5 col-form-label" for="chkIsActive"> Active </label>
+                        <div class="checkbox">
+                            <input type="checkbox" id="chkIsActive" checked="checked" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+            <div class="row">
+                <div class="col-md-12 text-right mb-2">
+                    @if (permissions.IsInsert || permissions.IsUpdate)
+                    {
+                        <input type="button" id="btnSave" value="SAVE" class="btn green-Btn" />
+                    }
+                    else
+                    {
+                        <span class="text-danger">You don't have permission to add</span>
+                    }
+                    @Html.ActionLink("Cancel", "ViewCustomer", "Customer", null, new { @class = "btn outline-Btn" })
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+

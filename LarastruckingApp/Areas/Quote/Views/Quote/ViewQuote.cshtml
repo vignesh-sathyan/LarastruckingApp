@@ -1,0 +1,110 @@
+﻿@using LarastruckingApp.Entities.Permission
+@{
+    ViewBag.Title = "ViewQuote";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    PermissionsDto permissions = IsPermited.HasPermission();
+}
+<div class="row">
+    <div class="col-lg-12 col-md-12 mt-2">
+        <div class="white-bg customFormWrap">
+
+            <div class="col-md-12">
+                <div class="row">
+                    @*text-right mb-2*@
+                    <div class="col-md-3">
+                        <div class="form-group row">
+                            <label for="dtStartedDate" class="col-sm-4 col-form-label">Quote Date</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       required="required"
+                                       placeholder="MM-DD-YYYY"
+                                       name="dtQuoteDate"
+                                       onkeypress="return onlyAlphanumeric(event)"
+                                       id="dtQuoteDate"
+                                       autocomplete="off"
+                                       class="form-control jqueryui-marker-datepicker">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group  row">
+                            <label for="dtEndDate" class="col-sm-4 col-form-label">Valid Thru</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       required="required"
+                                       placeholder="MM-DD-YYYY"
+                                       name="dtValidUpto"
+                                       onkeypress="return onlyAlphanumeric(event)"
+                                       id="dtValidUpto"
+                                       autocomplete="off"
+                                       class="form-control jqueryui-marker-datepicker">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group row">
+                            <label for="ddlCustomer" class="col-sm-4 col-form-label">Customer</label>
+                            <div class="col-sm-8">
+                                <select id="ddlCustomer" class="form-control">
+                                    <option>SEARCH CUSTOMER</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        
+                        <button type="button" id="btnViewShipment" class="btn green-Btn pullr" >
+                            <i class="fa fa-search" aria-hidden="true" style="margin-right: 5px;"></i>
+
+                            <label style="margin-bottom: 0px; top: 1px; position: relative;">SEARCH</label>
+                        </button>
+                        @*@{
+            if (permissions.IsInsert)
+            {
+                @Html.ActionLink("Add Quote", "Index", "Quote", null, new { @class = "btn green-Btn" })
+            }
+        }*@
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 py-2 d-flex justify-content-end mb_40 pl-qty z9999" style="margin-bottom:0;">
+                    @if (permissions.IsInsert)
+                    {
+                    <a id="loginLink" class="btn green-Btn" href="@Url.Action("Index", "Quote")" style="display: flex;align-items: center;justify-content: space-between;padding: 2px 8px 2px 4px;">
+                        <img alt="Log in" src="@Url.Content("~/Assets/images/add-icon.png")" style="width:20px;">
+                        &nbsp;Add Quote
+
+                    </a>
+                       
+                    }
+                </div>
+            </div>
+            @*<hr class="hr_add" />*@
+            <div class="customTableWrapper">
+                <div id="">
+                    <table class="table-bordered table-striped cf w-100" id="tblQuoteDetails">
+                        <thead>
+                            <tr>
+                                <th hidden="hidden">QuoteId</th>
+                                <th>Customer</th>
+                                <th>Quote Name</th>
+                                <th>Quote Range Date</th>
+                                <th>Created By</th>
+                                <th>Quote Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/viewQuote")
+
+

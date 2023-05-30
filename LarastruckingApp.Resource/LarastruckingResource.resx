@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="EmailAddressRequired" xml:space="preserve">
+    <value>Please Enter Email </value>
+  </data>
+  <data name="EmailValidation" xml:space="preserve">
+    <value>Please Enter Valid Email </value>
+  </data>
+  <data name="FirstNameRequired" xml:space="preserve">
+    <value>Please Enter First Name.</value>
+  </data>
+  <data name="LastNameRequired" xml:space="preserve">
+    <value>Please Enter Last Name</value>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>Please Enter Password.</value>
+  </data>
+  <data name="RoleRequired" xml:space="preserve">
+    <value>Please Select Role.</value>
+  </data>
+  <data name="UsernameRequired" xml:space="preserve">
+    <value>Please Enter UserName .</value>
+  </data>
+  <data name="InvalidUserNamePassword" xml:space="preserve">
+    <value>Invalid User name and Password. </value>
+  </data>
+  <data name="msgPermissionUpdateSuccessfully" xml:space="preserve">
+    <value>Permission Update Successfully.</value>
+  </data>
+  <data name="LoginIncorrectDetails" xml:space="preserve">
+    <value>Please enter correct details!</value>
+  </data>
+  <data name="UserAlreadyExist" xml:space="preserve">
+    <value>Username already exists!</value>
+  </data>
+  <data name="DataSaveSuccessfully" xml:space="preserve">
+    <value>Success! Your data has been saved!</value>
+  </data>
+  <data name="DataUpdateSuccessfully" xml:space="preserve">
+    <value>Success! Your data has been updated!</value>
+  </data>
+  <data name="msgAddDriver" xml:space="preserve">
+    <value>Driver Successfully Added.</value>
+  </data>
+  <data name="msgDeleteDriver" xml:space="preserve">
+    <value>Driver Successfully Deleted.</value>
+  </data>
+  <data name="msgUpdateDriver" xml:space="preserve">
+    <value>Driver Successfully  Updated.</value>
+  </data>
+  <data name="msgDeleteCustomer" xml:space="preserve">
+    <value>Customer Successfully Deleted.</value>
+  </data>
+  <data name="msgUpdateCustomer" xml:space="preserve">
+    <value>Customer Successfully Updated.</value>
+  </data>
+  <data name="msgAddCustomer" xml:space="preserve">
+    <value>Customer Successfully Added.</value>
+  </data>
+  <data name="CreateNewPasswordLink" xml:space="preserve">
+    <value>Create New password link</value>
+  </data>
+  <data name="CreateNewPasswordLinkSendOnYourRegisteredEmailaddress" xml:space="preserve">
+    <value>Create new password link send on your registered Email address.</value>
+  </data>
+  <data name="ForgotPasswordResetPassword" xml:space="preserve">
+    <value>ForgotPassword/ResetPassword/</value>
+  </data>
+  <data name="PleaseEnterRegisteredUserName" xml:space="preserve">
+    <value>Please Enter registered UserName.</value>
+  </data>
+  <data name="msgAddAccidentReport" xml:space="preserve">
+    <value>Report Accident  Save Sucessfully!</value>
+  </data>
+  <data name="msgUpdateAccidentReport" xml:space="preserve">
+    <value>Report Accident Successfully Updated.</value>
+  </data>
+  <data name="mstDeleteAccidentReport" xml:space="preserve">
+    <value>Report Accident Successfully Deleted.</value>
+  </data>
+  <data name="ErrorOccured" xml:space="preserve">
+    <value>Error Occured</value>
+  </data>
+  <data name="DataDeleteSuccessfully" xml:space="preserve">
+    <value>Success! Your data has been deleted!</value>
+  </data>
+  <data name="EnterRegisteredUserName" xml:space="preserve">
+    <value>Please enter a registered email.</value>
+  </data>
+  <data name="LoginFailed" xml:space="preserve">
+    <value>Login Failed</value>
+  </data>
+  <data name="LoginSuccessfully" xml:space="preserve">
+    <value>Login Successfully.</value>
+  </data>
+  <data name="PasswordSuccessfullyChanged" xml:space="preserve">
+    <value>Password successfully changed</value>
+  </data>
+  <data name="ResetPasswordLinkSendOnYourRegisteredEmailaddress" xml:space="preserve">
+    <value>Reset password link send on your registered Email address.</value>
+  </data>
+  <data name="SomethingWentWrong" xml:space="preserve">
+    <value>Something went wrong!</value>
+  </data>
+  <data name="UserSuccess" xml:space="preserve">
+    <value>User created successfully. Please check your email for further instruction.</value>
+  </data>
+  <data name="AlreadyExist" xml:space="preserve">
+    <value>already exist!</value>
+  </data>
+  <data name="CustomerExists" xml:space="preserve">
+    <value>Customer already exists!</value>
+  </data>
+  <data name="InvalidInputs" xml:space="preserve">
+    <value>Invalid input!</value>
+  </data>
+  <data name="Exists" xml:space="preserve">
+    <value>exists</value>
+  </data>
+  <data name="QuoteMailBody" xml:space="preserve">
+    <value>&lt;br /&gt;&lt;br /&gt;As per request, we have sent the quote. Please find attachment quote for</value>
+  </data>
+  <data name="QuoteMailSubject" xml:space="preserve">
+    <value>Quote Detail</value>
+  </data>
+  <data name="QuoteFileName" xml:space="preserve">
+    <value>Quote.pdf</value>
+  </data>
+  <data name="QuoteSuccessMessage" xml:space="preserve">
+    <value>Quote successfully sent.</value>
+  </data>
+  <data name="QuoteMailSignature" xml:space="preserve">
+    <value>&lt;br /&gt;&lt;br /&gt;  Best Regards,&lt;br/&gt; Lara’s Trucking &amp; Logistics</value>
+  </data>
+  <data name="RoleDriver" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="UserRole_Driver" xml:space="preserve">
+    <value>Driver</value>
+  </data>
+  <data name="RoleCustomerId" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="UserRole_Customer" xml:space="preserve">
+    <value>Customer</value>
+  </data>
+  <data name="ApproveShipment" xml:space="preserve">
+    <value>Shipment successfully approved.</value>
+  </data>
+  <data name="ProofOfTemperature" xml:space="preserve">
+    <value>Proof of temperature</value>
+  </data>
+  <data name="s" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ShipmentStatusChanges" xml:space="preserve">
+    <value>LARA'S SHIPMENT ADVICE | @AWB | @STATUS</value>
+  </data>
+  <data name="WaitingTimeStatus" xml:space="preserve">
+    <value>LARAS WAITING TIME START ADVICE  | @AWB | @STATUS</value>
+  </data>
+  <data name="LarasFumigationAdvice" xml:space="preserve">
+    <value>LARA'S FUMIGATION ADVICE |  @AWB/PO/ORD | @TRLR | @STATUS</value>
+  </data>
+  <data name="LarasQuoteAdvice" xml:space="preserve">
+    <value>LARA'S QUOTE ENCLOSED  | $CUSTOMERNAME | $QUOTENAME</value>
+  </data>
+  <data name="DriverDocumetExpiration" xml:space="preserve">
+    <value>LARAS DRIVER DOCUMENT EXPIRATION ADVICE |</value>
+  </data>
+  <data name="WaitingTimeTotal" xml:space="preserve">
+    <value>LARA'S TOTAL WAITING TIME ACCRUED ADVICE  | @AWB | @STATUS</value>
+  </data>
+  <data name="StatusDotsGrayImage" xml:space="preserve">
+    <value>/Images/Status/Gray/dots.png</value>
+  </data>
+  <data name="StatusDotsImage" xml:space="preserve">
+    <value>/Images/Status/dots.png</value>
+  </data>
+  <data name="ExcelFileFormate" xml:space="preserve">
+    <value>Please correct you excel file format.</value>
+  </data>
+</root>

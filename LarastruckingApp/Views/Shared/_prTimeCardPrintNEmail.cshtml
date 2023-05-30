@@ -1,0 +1,307 @@
+﻿<div class="modal" role="dialog" id="modalEmail">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header popup">
+                <h6 class="modal-title"> Email</h6>
+            </div>
+            <div class="modal-body">
+                <div class="white-bg customFormWrap">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group required row">
+                                <label class="col-sm-2 col-form-label">
+                                    To
+                                </label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="txtTo" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <img id="theimage9" src="../../Assets/images/printer.png" style="display:none" />
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group required row">
+                                <label class="col-sm-2 col-form-label">
+                                    Subject
+                                </label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="txtSubject" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group required row">
+                                <label class="col-sm-2 col-form-label">
+                                    Description
+                                </label>
+                                <div class="col-sm-8">
+                                    <textarea id="txtBody" name="w3review" rows="4" cols="75"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group required row">
+                                <div class="col-sm-10 text-right">
+                                    <div class="ajax-loader">
+                                        @{
+                                            var loadingImg = @System.Configuration.ConfigurationManager.AppSettings["BaseURL"];
+                                        }
+                                        <img src="@loadingImg/Images/loading.gif" class="img-responsive" />
+                                    </div>
+                                    <button id="btnSendEmail" onclick="btnSendEmail()" class="btn btn-primary">
+                                        SEND
+                                    </button>
+                                    <button type="reset" id="btnClose" class="btn outline-Btn" data-dismiss="modal">CLOSE</button>
+                                    @*<button id="btnSendEmailDriver" onclick="btnSendEmails()" class="btn btn-primary">
+            Send
+        </button>*@
+                                </div>
+                            </div>
+                        </div>
+                      
+                    </div>
+                    @*<div class="row">
+                        <div class="col-md-12 text-right mb-2">
+                            <button type="reset" id="btnClose" class="btn outline-Btn" data-dismiss="modal">CLOSE</button>
+                        </div>
+                    </div>*@
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@*start code for email*@
+<div id="mytimeCard" >
+   
+            <table style="width:100%;">
+                <tr style="background:#035eaa;width:100%;">
+                    <td style="background:#035eaa;width:100%;color:#fff;padding:5px; font-size:16px;">
+                        TIMECARD CALCULATOR
+                    </td>
+                </tr>
+                <tr style="width:95%; border: 5px #ff0000">
+                    <td style="border: 2px solid #495057 !important; border-bottom: none;">
+                        <table style="width:100%;">
+                            <tr style="width:100%">
+                                <td style="font-size:16px;padding:5px;width:100%;">
+                                    <label><span id="spnPrintDriverName"></span> | TIMECARD WEEK  [<span id="spnPrintStartDate"></span> To <span id="spnPrintEndtDate"></span>]</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table style="width:100%;">
+                                        <tr>
+                                            <td>
+                                                <table id="tblTimeCardPrint" style="width:100% !important;border:0px;border-collapse:collapse;">
+                                                    <thead>
+                                                        <tr style="width:100%;font-size:12px; background:#7ca337;color:#fff;">
+                                                            <th style="padding:5px;"></th>
+                                                            <th style="padding:5px;text-align:center;">IN</th>
+                                                            <th style="padding:5px;"></th>
+                                                            <th style="padding:5px;text-align:center;">OUT</th>
+                                                            <th style="padding:5px;">TOTAL</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr style="background:#035eaa; border:5px #0000ff">
+                                                            <td style="text-align:left; padding-left:10px;width:10%">
+                                                                <span style="font-size:12px;">Thursday 123</span>
+                                                            </td>
+                                                            <td style="padding:7px; text-align:center;">
+                                                                <label style="background:#fff; height:35px; padding: 5px 10px; font-size: 16px; font-weight: 400; line-height: 1.5; color: #495057; border: 1px solid #ced4da; border-radius: 5px;">
+                                                                    06-17-2021
+                                                                </label>
+                                                                <span>&nbsp;</span>
+                                                                <label style="background:#fff; height:35px; padding:5px 10px; font-size: 12px; font-weight: 400; line-height: 1.5; color: #495057; border: 1px solid #ced4da; border-radius: 5px;">
+                                                                    HH
+                                                                </label>
+                                                                <span>:</span>
+                                                                <label style="background:#fff; height:35px; padding:5px 10px; font-size: 12px; font-weight: 400; line-height: 1.5; color: #495057; border: 1px solid #ced4da; border-radius: 5px;">
+                                                                    MM
+                                                                </label>
+                                                            </td>
+                                                            <td style="padding:7px;font-size:18px;">To</td>
+                                                            <td style="padding:7px;text-align:center;">
+                                                                <label style="background:#fff; height:35px; padding: 5px 10px; font-size: 16px; font-weight: 400; line-height: 1.5; color: #495057; border: 1px solid #ced4da; border-radius: 5px;">
+                                                                    06-17-2021
+                                                                </label>
+                                                                <span>&nbsp;</span>
+                                                                <label style="background:#fff; height:35px; padding:5px 10px; font-size: 12px; font-weight: 400; line-height: 1.5; color: #495057; border: 1px solid #ced4da; border-radius: 5px;">
+                                                                    HH
+                                                                </label>
+                                                                <span>:</span>
+                                                                <label style="background:#fff; height:35px; padding:5px 10px; font-size: 12px; font-weight: 400; line-height: 1.5; color: #495057; border: 1px solid #ced4da; border-radius: 5px;">
+                                                                    MM
+                                                                </label>
+                                                            </td>
+                                                            <td style="font-size:18px;">00:00</td>
+                                                        </tr>
+
+
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr style="color:#fff;">
+                                                            <td style="background:#7ca337;font-size:16px;padding:5px;">GRAND TOTAL</td>
+                                                            <td style="background:#7ca337;font-size:16px;padding:5px;"></td>
+                                                            <td style="background:#7ca337;font-size:16px;padding:5px;"></td>
+                                                            <td style="background:#7ca337;font-size:16px;padding:5px;"></td>
+                                                            <td style="background:#7ca337;font-size:16px;padding:5px;">
+                                                                <span id="spnPrintGrandTotal" style="font-size:16px;">00:00</span>
+                                                            </td>
+                                                        </tr>
+
+                                                    </tfoot>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table style="width:100%;">
+                                        <tr>
+                                            <td>
+                                                <table style="width: 100% !important; ">
+
+                                                    <tbody>
+
+                                                        <tr style="width: 100%; ">
+                                                            <td style="width: 20%;height: 50px;padding: 7px;">
+                                                                <table style="display: flex; align-items: center; justify-content: center; width: 95%; ">
+                                                                    <td style="color: #fff !important; background: #a09e9f !important; height: 35px; padding: 5px; font-weight: 400; line-height: 1.5; border: 1px solid #ced4da; border-radius: 5px !important; text-align: center; ">
+                                                                        <label style="font-size: 12px; ">
+                                                                            HOURLY RATE
+                                                                        </label>
+                                                                    </td>
+                                                                </table>
+                                                            </td>
+
+                                                            <td style="width: 25%; height: 50px; padding: 7px; ">
+                                                                <table style="width: 100%;">
+                                                                    <td style=" width: 100%; height: 35px; border: 1px solid #495057; background-color: #fff !important; padding: 5px 10px; font-size: 15px; font-weight: 400; line-height: 1.5; color: #495057; border-radius: 1px; ">
+                                                                        <label style="width: 100%;">
+                                                                            <span>$</span><span id="lblPrintHourlyRate"></span>
+                                                                        </label>
+                                                                    </td>
+                                                                </table>
+                                                            </td>
+                                                            <td style="width: 20%;height: 50px;padding: 7px;">
+                                                                <table style="display: flex; align-items: center; justify-content: center; width: 95%;">
+                                                                    <td style="color: #fff !important; background: #a09e9f !important; height: 35px; padding: 5px; font-weight: 400; line-height: 1.5; border: 1px solid #ced4da; border-radius: 5px !important; text-align: center;">
+                                                                        <label style=" font-size: 12px;">
+                                                                            LOAN
+                                                                        </label>
+                                                                    </td>
+                                                                </table>
+                                                            </td>
+                                                            <td style="width: 25%; height: 50px; padding: 7px;  ">
+                                                                <table style="width: 100%;">
+                                                                    <td style=" width: 100%; height: 35px; border: 1px solid #495057; padding: 5px 10px; background-color: #fff !important; font-size: 15px; font-weight: 400; line-height: 1.5; color: #495057; border-radius: 1px; ">
+                                                                        <label style="width: 100%;">
+                                                                            <span>$</span><span id="lblPrintLoan"></span>
+                                                                        </label>
+                                                                    </td>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="width: 100%; ">
+                                                            <td style="width: 20%;height: 50px;padding: 7px;">
+                                                                <table style="display: flex; align-items: center; justify-content: center; width: 95%;">
+                                                                    <td style="color: #fff !important; background: #a09e9f !important; height: 35px; padding: 5px; font-weight: 400; line-height: 1.5; border: 1px solid #ced4da; border-radius: 5px !important; text-align: center; ">
+                                                                        <label style="font-size: 12px;">
+                                                                            TOTAL PAY
+                                                                        </label>
+                                                                    </td>
+                                                                </table>
+                                                            </td>
+                                                            <td style="width: 25%; height: 50px; padding: 7px;  ">
+                                                                <table style="width: 100%; background: #fff !important;">
+                                                                    <td style=" width: 100%; height: 35px; border: 1px solid #495057; background-color: #fff !important; padding: 5px 10px; font-size: 15px; font-weight: 400; line-height: 1.5; color: #495057; border-radius: 1px; ">
+                                                                        <label style="width: 100%;">
+                                                                            <span>$</span><span id="lblPrintTotalPay"></span>
+                                                                        </label>
+                                                                    </td>
+                                                                </table>
+                                                            </td>
+                                                            <td style="width: 20%;height: 50px;padding: 7px;">
+                                                                <table style="display: flex; align-items: center; justify-content: center; width: 95%;">
+                                                                    <td style="color: #fff !important; background: #a09e9f !important; height: 35px; padding: 5px; font-weight: 400; line-height: 1.5; border: 1px solid #ced4da; border-radius: 5px !important; text-align: center; ">
+                                                                        <label style="font-size: 12px;">
+                                                                            DEDUCTION
+                                                                        </label>
+                                                                    </td>
+                                                                </table>
+                                                            </td>
+                                                            <td style="width: 25%; height: 50px; padding: 7px; ">
+                                                                <table style="width: 100%; background: #fff !important;">
+                                                                    <td style=" width: 100%; height: 35px; border: 1px solid #495057; background-color: #fff !important; padding: 5px 10px; font-size: 15px; font-weight: 400; line-height: 1.5; color: #495057; border-radius: 1px; ">
+                                                                        <label style="width: 100%;">
+                                                                            <span>$</span><span id="lblPrintDeduction"></span>
+                                                                        </label>
+                                                                    </td>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="width: 100%; ">
+                                                            <td style="width: 20%;height: 50px;padding: 7px;">
+                                                                <table style="display: flex; align-items: center; justify-content: center; width: 95%;">
+                                                                    <td style="color: #fff !important; background: #a09e9f !important; height: 35px; padding: 5px; font-weight: 400; line-height: 1.5; border: 1px solid #ced4da; border-radius: 5px !important; text-align: center; ">
+                                                                        <label style="font-size: 12px;">
+                                                                            DESCRIPTION
+                                                                        </label>
+                                                                    </td>
+                                                                </table>
+                                                            </td>
+                                                            <td style="width: 25%; height: 50px; padding: 7px;  ">
+                                                                <table style="width: 100%; background: #fff !important;">
+                                                                    <td style=" width: 100%; height: 35px; border: 1px solid #495057; background-color: #fff !important; padding: 5px 10px; font-size: 15px; font-weight: 400; line-height: 1.5; color: #495057; border-radius: 1px; ">
+                                                                        <label style="width: 100%;">
+
+                                                                        </label>
+                                                                    </td>
+                                                                </table>
+                                                            </td>
+                                                            <td style="width: 20%;height: 50px;padding: 7px;">
+                                                                <table style="display: flex; align-items: center; justify-content: center; width: 95%;">
+                                                                    <td style="color: #fff !important; background: #a09e9f !important; height: 35px; padding: 5px;  font-weight: 400; line-height: 1.5; border: 1px solid #ced4da; border-radius: 5px !important; text-align:center;">
+                                                                        <label style="font-size: 12px; ">
+                                                                            REMAINING
+                                                                        </label>
+                                                                    </td>
+                                                                </table>
+                                                            </td>
+                                                            <td style="width: 25%; height: 50px; padding: 7px; ">
+                                                                <table style="width: 100%; background: #fff !important;">
+                                                                    <td style=" width: 100%; height: 35px; border: 1px solid #495057; background-color: #fff !important; padding: 5px 10px; font-size: 15px; font-weight: 400; line-height: 1.5; color: #495057; border-radius: 1px; ">
+                                                                        <label style="width: 100%;">
+                                                                            <span>$</span><span id="lblPrintRemaining"></span>
+                                                                        </label>
+                                                                    </td>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </td>
+                </tr>
+            </table>
+       
+</div>
+@*end code for email*@

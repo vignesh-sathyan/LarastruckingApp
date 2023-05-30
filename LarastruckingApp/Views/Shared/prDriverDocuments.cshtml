@@ -1,0 +1,146 @@
+﻿
+@model LarastruckingApp.Entities.Driver.DriverDetailsDto
+
+<script>
+    //#region colour change on grid icon
+    $("#tblLeave").on("mouseover", 'tbody tr', function () {
+    $(this).find(".chng-color-edit").css('color', 'white');
+    $(this).find(".chng-color-Trash").css('color', 'white');
+});
+
+
+    $("#tblLeave").on("mouseout", 'tbody tr', function () {
+
+    $(this).find(".chng-color-edit").css('color', '#007bff');
+    $(this).find(".chng-color-Trash").css('color', 'red');
+
+});
+    //#endregion
+</script>
+
+<div class="row">
+    <div class="col-lg-5 col-md-5">
+        <div class="card-body">
+            <div class="white-bg customFormWrap">
+                <h2 class="cardHeading">
+                    Documents
+                </h2>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <label class="col-sm-12 col-form-label">
+                                Driver Name:
+                                <strong>
+                                    @Model.FirstName
+                                    @Model.LastName
+                                </strong>
+                            </label>
+                            <label class="col-sm-6 col-form-label">
+                                Address:
+                                <strong>
+                                    @Model.Address1
+                                </strong>
+                            </label>
+                            <label class="col-sm-6 col-form-label">
+                                City:
+                                <strong>
+                                    @Model.City
+                                </strong>
+                            </label>
+                            <label class="col-sm-6 col-form-label">
+                                State:
+                                <strong>
+                                    @Model.State
+                                </strong>
+                            </label>
+                            <label class="col-sm-6 col-form-label">
+                                Country:
+                                <strong>
+                                    @Model.Country
+                                </strong>
+                            </label>
+                            <label class="col-sm-6 col-form-label">
+                                Phone:
+                                <strong>
+                                    @Model.Phone
+                                </strong>
+                            </label>
+                            <label class="col-sm-6 col-form-label">
+                                Email:
+                                <strong>
+                                    @Model.Email
+                                </strong>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <table class="table-bordered dataTable table-striped cf w-100" id="tblLeave">
+                            <thead class="cf">
+                                <tr>
+                                    <th>Document Name</th>
+                                    <th>Expiration Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.DriverDocuments != null)
+                                {
+                                    foreach (var item in Model.DriverDocuments)
+                                    {
+                                        <tr>
+                                            <td> @item.DocumentName </td>
+                                            <td> @string.Format("{0:MM-dd-yyyy}", item.ExpiryDate) </td>
+                                            <td>
+                                                <div class="action-ic">
+                                                    <a href="javascript:void(0)" data-file-url="@item.ImageURL" title="preview" class="edit_icon chng-color-edit fileViewer">
+                                                        <i class="far fa-eye"></i>
+                                                    </a> |
+                                                    <a href="@Url.Action("Download","Driver", new {id= item.DocumentId})" title="download" class="edit_icon chng-color-edit">
+                                                        <i class="fa fa-download"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="3"> Please upload documents  </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-7 col-md-7">
+        <div class="white-bg customFormWrap">
+            <div class="row">
+                <div class="col-md-6"><h6> Document Viewer</h6></div>
+                <div class="col-md-6 text-right">
+                    <h6>
+                        <button type="button" class="edit_icon btnPrintImage">
+                            <i class="fa fa-print"></i>
+                        </button>
+                        <button type="button" class="edit_icon btnPrintPdf">
+                            <i class="fa fa-print"></i>
+                        </button>
+                    </h6>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="divViewer">
+                        Preview file here
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

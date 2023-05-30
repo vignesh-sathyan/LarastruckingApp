@@ -1,0 +1,164 @@
+﻿
+
+<table class="table-bordered table-striped cf w-100" id="tblAddress">
+    <thead>
+        <tr>
+            <th hidden="hidden">AddressId</th>
+            <th>Address Type</th>
+            <th>Company Name</th>
+
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zip</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Extension</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+</table>
+
+<script type="text/javascript">
+    $(function () {
+        initDatatable();
+    });
+
+   
+
+//#region colour change on grid icon
+    $("#tblAddress").on("mouseover", 'tr', function () {
+
+        $(this).find(".chng-color-edit").css('color', 'white');
+        $(this).find(".chng-color-Trash").css('color', 'white');
+    });
+
+
+    $("#tblAddress").on("mouseout", 'tr', function () {
+
+        $(this).find(".chng-color-edit").css('color', '#007bff');
+        $(this).find(".chng-color-Trash").css('color', 'red');
+
+    });
+//#endregion
+
+//#region Double click to open in Edit Mode 
+    $('#tblAddress').on('dblclick', 'tbody tr', function () {
+        debugger;
+        var table = $('#tblAddress').DataTable();
+        var data_row = table.row($(this).closest('tr')).data();
+        var listId= data_row.AddressId;
+        $.ajax({
+            url: baseUrl + '/Address/EditAddress',
+            data: { 'id': listId },
+            type: "POST",
+            success: function (data) {
+                $("#AddressId").val(listId);
+                $("#AddressTypeId").val(data.AddressTypeId);
+                $("#Address1").val(data.Address1);
+                $("#Address2").val(data.Address2);
+                $("#City").val(data.City);
+                $("#ddlState").val(data.State);
+                $("#ddlCountry").val(data.Country);
+                $("#ContactPerson").val(data.ContactPerson);
+                $("#Phone").val(data.Phone);
+                $("#Extension").val(data.Extension);
+                $("#Email").val(data.Email);
+                $("#Zip").val(data.Zip);
+
+                $("#CompanyName").val(data.CompanyName);
+                $("#AdditionalPhone1").val(data.AdditionalPhone1);
+                $("#Extension1").val(data.Extension1);
+                $("#AdditionalPhone2").val(data.AdditionalPhone2);
+                $("#Extension2").val(data.Extension2);
+                $("#Comments").val(data.Comments);
+                if (data.IsAppointmentRequired == true) {
+                    $("#IsAppointmentRequired").prop("checked", true);
+                }
+                else {
+                    $("#IsAppointmentRequired").prop("checked", false);
+                }
+                $("#Website").val(data.Website);
+                $("#CompanyNickname").val(data.CompanyNickname);
+
+                $("#BtnSubmit").attr("value", "Update");
+
+            }
+        });
+
+       
+    });
+//#endregion
+    var initDatatable = function () {
+        $('#tblAddress').DataTable({
+            "bInfo": false,
+            select: 'single',
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            searching: true,
+            bDestroy: true,
+            stateSave:true,
+            "language": {
+                processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
+            },
+            "ajax": {
+                "url": baseUrl + "/Address/LoadData",
+                "type": "POST",
+                "datatype": "json",
+                "async": false,
+            },
+            "columns": [
+                { "data": "AddressId", "name": "AddressId", "autoWidth": true },
+                { "data": "AddressTypeName", "name": "AddressTypeName", "autoWidth": true },
+                { "data": "CompanyName", "name": "CompanyName", "autoWidth": true },
+
+                { "data": "Address1", "name": "Address1", "autoWidth": true },
+                { "data": "City", "name": "City", "autoWidth": true },
+                { "data": "StateName", "name": "StateName", "autoWidth": true },
+                { "data": "Zip", "name": "Zip", "autoWidth": true },
+                { "data": "Email", "name": "Email", "autoWidth": true },
+                { "data": "Phone", "name": "Phone", "autoWidth": true },
+                { "data": "Extension", "name": "Extension", "autoWidth": true },
+                { "data": "Action", "autoWidth": true },
+            ],
+            "order": [[0, "desc"]],
+            columnDefs: [
+                {
+                    "targets": 10,
+                    "orderable": false,
+                    "render": function (data, type, row, meta) {
+                        var btnEdit = '<a href="javascript: void(0)" class="edit_icon chng-color-edit" onclick= "javascript:EditAddress(' + row.AddressId + ');" >' +
+                            '<i class="far fa-edit"></i> | ' +
+                            '</a> ';
+                        var btnDelete = '<a href="javascript: void(0)" class="delete_icon chng-color-Trash" onclick="javascript:DeleteAddress(' + row.AddressId + ');" >' +
+                            '<i class="far fa-trash-alt"></i>' +
+                            '</a> ';
+
+                        btnEdit = (isInsert == true) ? btnEdit : "";
+                        btnDelete = (isDelete == true) ? btnDelete : "";
+
+                        return '<div class="action-ic">' + btnEdit + btnDelete + '</div>'
+                    }
+                },
+                {
+                    "targets": 0,
+                    "visible": false,
+                }
+            ]
+        });
+
+        oTable = $('#tblAddress').DataTable();
+
+        $("input[type='search']").keyup(function () {
+            // console.log(this.value);
+
+            oTable.search(this.value);
+            oTable.draw();
+        });
+
+    }
+
+</script>
+
+

@@ -1,0 +1,143 @@
+﻿<div class="card-body">
+    <div class="white-bg customFormWrap">
+        <h2 class="cardHeading">
+            Pre-Trip Checkup
+        </h2>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label" for="txtShipmentNumber"> Shipment Number</label>
+                    <div class="col-sm-8">
+                        <input type="hidden" id="hdnFumigationPreTripCheckupId" />
+                        <input type="hidden" id="hdnFumigationId" />
+                        <input type="text"
+                               id="txtShipmentNumber"
+                               class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label" for="txtEquipmentNumber"> Equipment Number</label>
+                    <div class="col-sm-8">
+                        <input type="hidden" id="hdnEquipmentId" />
+                        <input type="text"
+                               id="txtEquipmentNumber"
+                               class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="form-group checkbox-container row">
+                    <label class="col-sm-4 col-form-label"> Tires </label>
+                    <div class="col-sm-8">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="radio-inline">
+                                    <input type="radio" name="IsTiresGood" value="true"> Good
+                                </label>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="radio-inline">
+                                    <input type="radio" name="IsTiresGood" value="false"> Not Good
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="form-group checkbox-container row">
+                    <label class="col-sm-4 col-form-label"> Breaks </label>
+                    <div class="col-sm-8">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="radio-inline">
+                                    <input type="radio" name="IsBreaksGood" value="true"> Good
+                                </label>
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="radio-inline">
+                                    <input type="radio" name="IsBreaksGood" value="false"> Not Good
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="form-group checkbox-container row">
+                    <label class="col-sm-4 col-form-label"> Fuel </label>
+                    <div class="col-sm-8">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="radio-inline">
+                                    <input type="radio" name="Fuel" value="Full"> Full
+                                </label>
+                            </div>
+                            <div class="col-sm-3">
+                                <label class="radio-inline">
+                                    <input type="radio" name="Fuel" value="3/4"> 3/4
+                                </label>
+                            </div>
+                            <div class="col-sm-3">
+                                <label class="radio-inline">
+                                    <input type="radio" name="Fuel" value="1/2"> 1/2
+                                </label>
+                            </div>
+                            <div class="col-sm-3">
+                                <label class="radio-inline">
+                                    <input type="radio" name="Fuel" value="1/4"> 1/4
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="form-group checkbox-container row">
+                    <label class="col-sm-4 col-form-label"> Load Straps </label>
+                    <div class="col-sm-8">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="radio-inline">
+                                    <input type="radio" name="LoadStraps" value="8"> 8
+                                </label>
+                            </div>
+                            <div class="col-sm-3">
+                                <label class="radio-inline">
+                                    <input type="radio" name="LoadStraps" value="&lt; 8"> &lt; 8
+                                </label>
+                            </div>
+                            <div class="col-sm-3">
+                                <label class="radio-inline">
+                                    <input type="radio" name="LoadStraps" value="Other"> Other
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label" for="txtOveralCondition"> Overall Condition</label>
+                    <div class="col-sm-8">
+                        <textarea id="txtOveralCondition" rows="3" class="form-control h_50"></textarea>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-12 text-right mb-2">
+                <button type="button" id="BtnAddFumigation" class="btn green-Btn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+

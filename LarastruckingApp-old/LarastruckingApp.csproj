@@ -1,0 +1,806 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5EDD0C73-27C5-4D12-911C-84522AB40D3F}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LarastruckingApp</RootNamespace>
+    <AssemblyName>LarastruckingApp</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <Use64BitIISExpress />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>CodeAnalysisRuleSet.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.1.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.1.0\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Excel, Version=2.1.2.3, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.2.1.2.3\lib\net45\Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.1, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker, Version=5.5.13.1, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\itextsharp.xmlworker.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.2\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.2\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcSiteMapProvider, Version=4.6.26.0, Culture=neutral, PublicKeyToken=1923abe4657913cc, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvcSiteMapProvider.MVC5.Core.4.6.26\lib\net45\MvcSiteMapProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcSiteMapProvider.WebActivator, Version=4.6.26.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvcSiteMapProvider.MVC5.4.6.26\lib\net45\MvcSiteMapProvider.WebActivator.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard1.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Unity.Abstractions, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Abstractions.5.11.1\lib\net47\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Container.5.11.1\lib\net47\Unity.Container.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mvc, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Mvc.5.11.1\lib\net47\Unity.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Agent.Intercept">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.2.0\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.2.0\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.2.0\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.2.0\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.2.0\lib\net45\Microsoft.AI.Web.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="App_Start\UnityMvcActivator.cs" />
+    <Compile Include="Areas\TimeCard\TimeCardAreaRegistration.cs" />
+    <Compile Include="Areas\TimeCard\Controllers\TimeCardController.cs" />
+    <Compile Include="Areas\Dispatcher\Controllers\DashboardController.cs" />
+    <Compile Include="Areas\Dispatcher\DispatcherAreaRegistration.cs" />
+    <Compile Include="Areas\Drivers\Controllers\DashboardController.cs" />
+    <Compile Include="Areas\Drivers\DriversAreaRegistration.cs" />
+    <Compile Include="Areas\Fumigation\Controllers\FumigationController.cs" />
+    <Compile Include="Areas\Fumigation\FumigationAreaRegistration.cs" />
+    <Compile Include="Areas\GpsTracker\Controllers\GpsTrackerController.cs" />
+    <Compile Include="Areas\GpsTracker\GpsTrackerAreaRegistration.cs" />
+    <Compile Include="Areas\Quote\Controllers\QuoteController.cs" />
+    <Compile Include="Areas\Quote\QuoteAreaRegistration.cs" />
+    <Compile Include="Areas\Reports\Controllers\DailyReportController.cs" />
+    <Compile Include="Areas\Reports\ReportsAreaRegistration.cs" />
+    <Compile Include="Areas\Shipment\Controllers\ShipmentController.cs" />
+    <Compile Include="Areas\Shipment\Controllers\UploadShipmentController.cs" />
+    <Compile Include="Areas\Shipment\ShipmentAreaRegistration.cs" />
+    <Compile Include="Areas\TrailerRental\Controllers\TrailerRentalController.cs" />
+    <Compile Include="Areas\TrailerRental\TrailerRentalAreaRegistration.cs" />
+    <Compile Include="Common\Common.cs" />
+    <Compile Include="Common\EncryptAndDecrypt.cs" />
+    <Compile Include="Controllers\AccidentReportController.cs" />
+    <Compile Include="Controllers\AddressController.cs" />
+    <Compile Include="Controllers\AuthorizationController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\DriverController.cs" />
+    <Compile Include="Controllers\EquipmentController.cs" />
+    <Compile Include="Controllers\ForgotPasswordController.cs" />
+    <Compile Include="Controllers\GlobalController.cs" />
+    <Compile Include="Controllers\ProofOfDeliveryController.cs" />
+    <Compile Include="Controllers\ShipmentController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\VendorController.cs" />
+    <Compile Include="ExtensionMethods\ControllerExtensions.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Helper\IsPermited.cs" />
+    <Compile Include="Infrastructure\ClaimsTypeProperty.cs" />
+    <Compile Include="Infrastructure\CustomAuthorizeAttribute.cs" />
+    <Compile Include="Infrastructure\EncryptAction.cs" />
+    <Compile Include="Infrastructure\IdentityHelper.cs" />
+    <Compile Include="Infrastructure\MemberProfile.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\AccidentReportViewModel.cs" />
+    <Compile Include="ViewModel\AddressTypeViewModel.cs" />
+    <Compile Include="ViewModel\AddressViewModel.cs" />
+    <Compile Include="ViewModel\CityViewModel.cs" />
+    <Compile Include="ViewModel\CountryViewModel.cs" />
+    <Compile Include="ViewModel\CustomerViewModel.cs" />
+    <Compile Include="ViewModel\Customer\CustomerListViewModel.cs" />
+    <Compile Include="ViewModel\Customer\CustomerQuotesViewModel.cs" />
+    <Compile Include="ViewModel\DriverDocumentViewModel.cs" />
+    <Compile Include="ViewModel\DriverViewModel.cs" />
+    <Compile Include="ViewModel\EquipmentViewModel.cs" />
+    <Compile Include="ViewModel\GpsTracker\ShipmentGpsDetailsViewModal.cs" />
+    <Compile Include="ViewModel\JsonResponse.cs" />
+    <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="ViewModel\PageAutharizationViewModel.cs" />
+    <Compile Include="ViewModel\PermissionsViewModel.cs" />
+    <Compile Include="ViewModel\PreTrip\PreTripViewModel.cs" />
+    <Compile Include="ViewModel\QuoteViewModel.cs" />
+    <Compile Include="ViewModel\Quote\BaseFreightViewModel.cs" />
+    <Compile Include="ViewModel\Shipment\ShipmentViewModel.cs" />
+    <Compile Include="ViewModel\ResetPasswordViewModel.cs" />
+    <Compile Include="ViewModel\RoleViewModel.cs" />
+    <Compile Include="ViewModel\Shipment\UploadShipmentViewModel.cs" />
+    <Compile Include="ViewModel\StateViewModel.cs" />
+    <Compile Include="ViewModel\UploadAccidentDocumentViewModel.cs" />
+    <Compile Include="ViewModel\UploadDriverDocumentViewModel.cs" />
+    <Compile Include="ViewModel\UserRoleViewModel.cs" />
+    <Compile Include="ViewModel\UserViewModel.cs" />
+    <Compile Include="ViewModel\VehicleTypeViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\GPSTesting.html" />
+    <Content Include="Assets\css\all.css" />
+    <Content Include="Assets\css\base\accordion.css" />
+    <Content Include="Assets\css\base\all.css" />
+    <Content Include="Assets\css\base\autocomplete.css" />
+    <Content Include="Assets\css\base\base.css" />
+    <Content Include="Assets\css\base\button.css" />
+    <Content Include="Assets\css\base\core.css" />
+    <Content Include="Assets\css\base\datepicker.css" />
+    <Content Include="Assets\css\base\dialog.css" />
+    <Content Include="Assets\css\base\draggable.css" />
+    <Content Include="Assets\css\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Assets\css\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Assets\css\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Assets\css\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Assets\css\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Assets\css\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Assets\css\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Assets\css\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Assets\css\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Assets\css\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Assets\css\base\images\ui-icons_444444_256x240.png" />
+    <Content Include="Assets\css\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Assets\css\base\images\ui-icons_555555_256x240.png" />
+    <Content Include="Assets\css\base\images\ui-icons_777620_256x240.png" />
+    <Content Include="Assets\css\base\images\ui-icons_777777_256x240.png" />
+    <Content Include="Assets\css\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Assets\css\base\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Assets\css\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Assets\css\base\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Assets\css\base\jquery-ui.css" />
+    <Content Include="Assets\css\base\jquery-ui.min.css" />
+    <Content Include="Assets\css\base\menu.css" />
+    <Content Include="Assets\css\base\progressbar.css" />
+    <Content Include="Assets\css\base\resizable.css" />
+    <Content Include="Assets\css\base\selectable.css" />
+    <Content Include="Assets\css\base\selectmenu.css" />
+    <Content Include="Assets\css\base\slider.css" />
+    <Content Include="Assets\css\base\sortable.css" />
+    <Content Include="Assets\css\base\spinner.css" />
+    <Content Include="Assets\css\base\tabs.css" />
+    <Content Include="Assets\css\base\theme.css" />
+    <Content Include="Assets\css\base\tooltip.css" />
+    <Content Include="Assets\css\bootstrap.min.css" />
+    <Content Include="Assets\css\dataTables.bootstrap4.min.css" />
+    <Content Include="Assets\css\font-awesome.css" />
+    <Content Include="Assets\css\font-awesome.min.css" />
+    <Content Include="Assets\css\mdb.css" />
+    <Content Include="Assets\css\quotepreview.css" />
+    <Content Include="Assets\css\responsive.bootstrap4.min.css" />
+    <Content Include="Assets\css\responsive.css" />
+    <Content Include="Assets\css\selecty.min.css" />
+    <Content Include="Assets\css\style_backup.css" />
+    <Content Include="Assets\css\style.css" />
+    <Content Include="Assets\email.css" />
+    <Content Include="Assets\fonts\fontawesome-webfont.svg" />
+    <Content Include="Assets\images\porfile-img.png" />
+    <Content Include="Assets\images\previewlogo.png" />
+    <Content Include="Assets\images\search-icon.png" />
+    <Content Include="Assets\images\sparrow-logo.png" />
+    <Content Include="Assets\js\bootstrap.min.js" />
+    <Content Include="Assets\js\custom.js" />
+    <Content Include="Assets\js\dataTables.bootstrap4.min.js" />
+    <Content Include="Assets\js\dataTables.responsive.min.js" />
+    <Content Include="Assets\js\jquery-3.3.1.slim.min.js" />
+    <Content Include="Assets\js\jquery-ui-1.12.1.min.js" />
+    <Content Include="Assets\js\jquery.dataTables.min.js" />
+    <Content Include="Assets\js\jquery.mask.min.js" />
+    <Content Include="Assets\js\jquery.maskedinput.date.js" />
+    <Content Include="Assets\js\jquery.maskedinput.umd.js" />
+    <Content Include="Assets\js\jquery.min.js" />
+    <Content Include="Assets\js\jquery.multi-select.js" />
+    <Content Include="Assets\js\jquery.validate.js" />
+    <Content Include="Assets\js\mdb.min.js" />
+    <Content Include="Assets\js\pdfmake.min.js" />
+    <Content Include="Assets\js\popper.min.js" />
+    <Content Include="Assets\js\responsive.bootstrap4.min.js" />
+    <Content Include="Assets\js\selectize\normalize.css" />
+    <Content Include="Assets\js\selectize\selectize.bootstrap2.css" />
+    <Content Include="Assets\js\selectize\selectize.bootstrap3.css" />
+    <Content Include="Assets\js\selectize\selectize.css" />
+    <Content Include="Assets\js\selectize\selectize.default.css" />
+    <Content Include="Assets\js\selectize\selectize.legacy.css" />
+    <Content Include="Assets\js\selectize\selectize.min.js" />
+    <Content Include="Assets\js\selectize\standalone\selectize.js" />
+    <Content Include="Assets\js\selectize\standalone\selectize.min.js" />
+    <Content Include="Assets\js\selecty.min.js" />
+    <Content Include="Assets\QRcode\audio\beep.mp3" />
+    <Content Include="Assets\QRcode\css\qrcode-reader.css" />
+    <Content Include="Assets\QRcode\js\jsQR\jsQR.js" />
+    <Content Include="Assets\QRcode\js\qrcode-reader.js" />
+    <Content Include="CustomScript\AccidentReport.js" />
+    <Content Include="CustomScript\baseUrlJs.js" />
+    <Content Include="CustomScript\Customer.js" />
+    <Content Include="CustomScript\customerJs\CustomerDashboard.js" />
+    <Content Include="CustomScript\customerJs\CustomerFumigationDetails.js" />
+    <Content Include="CustomScript\customerJs\CustomerShipmentDetails.js" />
+    <Content Include="CustomScript\customerJs\manageCustomerJs.js" />
+    <Content Include="CustomScript\customerJs\OldShipmentDaashboard.js" />
+    <Content Include="CustomScript\Driver.js" />
+    <Content Include="CustomScript\Address.js" />
+    <Content Include="CustomScript\accidentDocViewer.js" />
+    <Content Include="CustomScript\driverDoc\driverDocViewer.js" />
+    <Content Include="CustomScript\driverModule\driverDashboard.js" />
+    <Content Include="CustomScript\driverModule\DriverFumigationDetails.js" />
+    <Content Include="CustomScript\driverModule\preTripShipmentDetail.js" />
+    <Content Include="CustomScript\Equipment.js" />
+    <Content Include="CustomScript\fumigationjs\fumigation.js" />
+    <Content Include="CustomScript\fumigationjs\fumigationequipmentlist.js" />
+    <Content Include="CustomScript\fumigationjs\GetFumigationList.js" />
+    <Content Include="CustomScript\fumigationjs\ViewAllFumigation.js" />
+    <Content Include="CustomScript\globalJs.js" />
+    <Content Include="CustomScript\GpsTracker\FumigationGpsTracker.js" />
+    <Content Include="CustomScript\GpsTracker\GpsTracker.js" />
+    <Content Include="CustomScript\jsonReturn\addAddressJson.js" />
+    <Content Include="CustomScript\leave\manageLeave.js" />
+    <Content Include="CustomScript\messages.js" />
+    <Content Include="CustomScript\quotesJs\managingQuotesJs.js" />
+    <Content Include="CustomScript\quotesJs\sendQuote.js" />
+    <Content Include="CustomScript\quotesJs\viewQuote.js" />
+    <Content Include="CustomScript\Reports\DailyReport.js" />
+    <Content Include="CustomScript\shipmentjs\equipmentlist.js" />
+    <Content Include="CustomScript\shipmentjs\shipment.js" />
+    <Content Include="CustomScript\shipmentjs\uploadShipment.js" />
+    <Content Include="CustomScript\shipmentjs\viewAllShipment.js" />
+    <Content Include="CustomScript\shipmentjs\viewShipmentList.js" />
+    <Content Include="CustomScript\TimeCard\MainTimeCard.js" />
+    <Content Include="CustomScript\TimeCard\TimeCard.js" />
+    <Content Include="CustomScript\TimeCard\ViewTimeCard.js" />
+    <Content Include="CustomScript\TrailerRental\TrailerRental.js" />
+    <Content Include="CustomScript\TrailerRental\ViewTrailerRentalList.js" />
+    <Content Include="CustomScript\User.js" />
+    <Content Include="CustomScript\Validation.js" />
+    <Content Include="CustomScript\vendor\vendor.js" />
+    <Content Include="CustomScript\ViewCustomer.js" />
+    <Content Include="CustomScript\ViewDriver.js" />
+    <Content Include="CustomScript\ViewEquipment.js" />
+    <Content Include="CustomScript\ViewReportAccident.js" />
+    <Content Include="DLL\itextsharp.dll" />
+    <Content Include="DLL\itextsharp.xmlworker.dll" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Images\AccidentReportImage\3510d013-62e7-49bb-8cec-db4740e0fdc7.jpg" />
+    <Content Include="Images\ajax-loader.gif" />
+    <Content Include="Images\ajax-loader1.gif" />
+    <Content Include="Images\DamagedFiles\d234b555-61bc-45b3-b300-0ff8b30767c4.jpg" />
+    <Content Include="Images\favicon.ico" />
+    <Content Include="Images\images.jfif" />
+    <Content Include="Images\Laraslogo.png" />
+    <Content Include="Images\Laraslogo1.jfif" />
+    <Content Include="Images\logo-350.png" />
+    <Content Include="Images\porfile-img.png" />
+    <Content Include="Images\ProofFiles\00338904-1249-4d94-91e7-ba44557692c0.jpg" />
+    <Content Include="Images\ProofFiles\01b66ca5-1774-4ede-9f21-407022898d1d.jpg" />
+    <Content Include="Images\ProofFiles\03bf4139-137f-45af-a293-0e6fce5e0490.jpg" />
+    <Content Include="Images\ProofFiles\09b9a7ea-8672-4f2f-b10e-43300500dbd6.jpg" />
+    <Content Include="Images\ProofFiles\0b6b1106-170d-4dfd-85ae-0a8b998fa342.jpg" />
+    <Content Include="Images\ProofFiles\0cb2ac32-fb06-4186-952d-afac34e186c6.jfif" />
+    <Content Include="Images\ProofFiles\0d4ba4d5-754f-45b0-b71c-75071fbbf2d6.jpg" />
+    <Content Include="Images\ProofFiles\0e9e413a-44dc-4d54-a07f-fccc53f8688b.jpg" />
+    <Content Include="Images\ProofFiles\12a4aaa5-30d0-482a-bc02-ab0a76f5d412.jpg" />
+    <Content Include="Images\ProofFiles\13c2ad8b-2d1e-4788-83d4-652236568f50.jpg" />
+    <Content Include="Images\ProofFiles\1a5dc2e6-5c09-43c1-89fc-cbc8e75e6592..jpg" />
+    <Content Include="Images\ProofFiles\1ee15ea8-431b-4ef6-a9ee-0c6718af8d92.jfif" />
+    <Content Include="Images\ProofFiles\21a3b84d-0d52-48ce-9742-bfd8e43c20b5.jpg" />
+    <Content Include="Images\ProofFiles\22b4c956-927c-4132-8d83-75038dcd00bf.jpg" />
+    <Content Include="Images\ProofFiles\28e8dbf2-e720-46be-8e88-8b978fbde075.jpg" />
+    <Content Include="Images\ProofFiles\2b9e6fed-c7d1-403b-84fc-3f63618ddff6.jpg" />
+    <Content Include="Images\ProofFiles\2ed61225-e129-4262-b3c5-0eaba410383c.jpg" />
+    <Content Include="Images\ProofFiles\2f650146-4acc-439e-b8da-6d8515464250.jpg" />
+    <Content Include="Images\ProofFiles\32999193-0270-4087-87a2-dc421a9189d0.jpg" />
+    <Content Include="Images\ProofFiles\32bd283f-4605-4a73-bf15-3f952c458e80.jpg" />
+    <Content Include="Images\ProofFiles\32edf1d2-8f61-4d72-8ef8-d92ec536b089.jpg" />
+    <Content Include="Images\ProofFiles\38e6e45b-63f0-4ce4-b9b0-a5f842bf7929.jpg" />
+    <Content Include="Images\ProofFiles\3c36a770-909a-4756-b675-8e56da32df15.jpg" />
+    <Content Include="Images\ProofFiles\49cbf8c5-47e9-4536-a367-7d67bd40393a.jpg" />
+    <Content Include="Images\ProofFiles\4affca8a-0d39-42b9-b87d-6666e396aa30..jpg" />
+    <Content Include="Images\ProofFiles\4b844335-c3f7-4deb-8f81-87647293636e.jpg" />
+    <Content Include="Images\ProofFiles\54d04c4c-8e97-43f7-9cf0-f6273a107c90.jpg" />
+    <Content Include="Images\ProofFiles\55f02e3b-3b88-424e-9f2f-04c76eef79ec.jpg" />
+    <Content Include="Images\ProofFiles\5a90e3b3-7d6f-4e94-b6b8-074287c96985..jpg" />
+    <Content Include="Images\ProofFiles\5efec203-1cea-4631-aca4-9324e4cae93f.jpg" />
+    <Content Include="Images\ProofFiles\621854c4-4719-4ada-b3cd-236a393fb9fc.jpg" />
+    <Content Include="Images\ProofFiles\63c6ffcd-0cb4-4af2-afec-4d606cc749ab.jpg" />
+    <Content Include="Images\ProofFiles\647ed933-8f0b-4b88-8d09-5cdfe69cbe2e.jpg" />
+    <Content Include="Images\ProofFiles\68a29027-2fdd-4d11-81b6-fb5c931bcb66.jpg" />
+    <Content Include="Images\ProofFiles\68a2e9b0-ff86-4f8f-8a26-1cec537b4de6.jpg" />
+    <Content Include="Images\ProofFiles\6f567a9f-7327-4164-9134-c50aa4b0c062.jfif" />
+    <Content Include="Images\ProofFiles\701478a5-e083-4966-919e-7a93b60a796d.jpg" />
+    <Content Include="Images\ProofFiles\71ed46c3-ac4a-4561-84ba-c7d9e65291d0.jpg" />
+    <Content Include="Images\ProofFiles\789942e0-9911-44aa-8aec-1790495a33f3.jpg" />
+    <Content Include="Images\ProofFiles\7bc2778e-558d-43eb-bf66-6eb762e0f602.jpg" />
+    <Content Include="Images\ProofFiles\7cb9a7a9-a14e-4020-b164-14926014e6a2.jpg" />
+    <Content Include="Images\ProofFiles\7ce01ef3-1f95-44b2-9c27-bdea78d9102b.jpg" />
+    <Content Include="Images\ProofFiles\7e80de9b-fe36-4c61-bfe7-bf6fc81be15a.jpg" />
+    <Content Include="Images\ProofFiles\81d657e1-3547-4271-9014-2903b8949cf4.jpg" />
+    <Content Include="Images\ProofFiles\821181c2-9a73-417d-b16e-906d8fa3c91d.jpg" />
+    <Content Include="Images\ProofFiles\85219b1b-00e5-464f-977a-9f0aceaedc4d.jpg" />
+    <Content Include="Images\ProofFiles\8aadf1cb-48c7-4aa5-a82b-cbbf2c6581ef.jpg" />
+    <Content Include="Images\ProofFiles\8c9a3da7-fe96-42df-94a6-8a4f80673353.jpg" />
+    <Content Include="Images\ProofFiles\909d7bef-a8ba-43b6-b720-ca618f8da7ce.jpg" />
+    <Content Include="Images\ProofFiles\936bf87e-93c4-4866-997f-375287b4e56d.jpg" />
+    <Content Include="Images\ProofFiles\96621524-e635-4d33-9b3f-52a4bb01e1de.jpg" />
+    <Content Include="Images\ProofFiles\97f814ba-9529-44d6-978a-68dac3561164.jpg" />
+    <Content Include="Images\ProofFiles\98af6954-9c27-4d4d-8538-154581b90e09.jpg" />
+    <Content Include="Images\ProofFiles\9be2abea-a9da-4e27-8744-afcfd63ce1ba.jpg" />
+    <Content Include="Images\ProofFiles\9c8048a6-bfd4-43ce-a84f-387d87161f99.jpg" />
+    <Content Include="Images\ProofFiles\9ce3147d-55e5-4212-a535-a9e478c8766b.jpg" />
+    <Content Include="Images\ProofFiles\9d003a3d-92f7-473f-b99f-3b986a640c7d.jpg" />
+    <Content Include="Images\ProofFiles\a1dfa081-d924-4673-899e-68958aafb455..jpg" />
+    <Content Include="Images\ProofFiles\a4037138-51d3-4d13-8f37-eb5ed670ea8d..jpg" />
+    <Content Include="Images\ProofFiles\a5cd8683-743d-4040-a0d5-e1927033d8e0.jpg" />
+    <Content Include="Images\ProofFiles\a7c90af9-3c22-4fbb-b01f-73163a006d48.jpg" />
+    <Content Include="Images\ProofFiles\b1a531f3-2539-443b-a878-dc7b48c0b669.jpg" />
+    <Content Include="Images\ProofFiles\b258abe1-aa25-4f5e-8116-e5550b96e779.jpg" />
+    <Content Include="Images\ProofFiles\b559f5df-a3a2-4635-8959-eb5475435584.jpg" />
+    <Content Include="Images\ProofFiles\b6c0c869-e7f9-4f2c-b986-70e27098aa98.jpg" />
+    <Content Include="Images\ProofFiles\b79d26c6-a332-4f91-922d-0b6b5bbedec4..jpg" />
+    <Content Include="Images\ProofFiles\b85280da-fb8a-46d8-909c-1156ddf4a663.jpg" />
+    <Content Include="Images\ProofFiles\ba6e2930-928d-4df2-9d89-4f2e15f5216f.jpg" />
+    <Content Include="Images\ProofFiles\bb170855-1813-4553-bef2-12af3b41e715.jpg" />
+    <Content Include="Images\ProofFiles\bb45e528-6da7-4053-a468-5e829f960590.jpg" />
+    <Content Include="Images\ProofFiles\bbe4171b-6bfd-4d93-a80d-c7ae8bc99c03.jpg" />
+    <Content Include="Images\ProofFiles\bc2de093-92ec-487f-88e0-e2373fb50820.jpg" />
+    <Content Include="Images\ProofFiles\bd3b6ed2-4b8e-4b7e-8fb7-e0a13fc8d896.jpg" />
+    <Content Include="Images\ProofFiles\c2f2c466-1b4b-4b07-b002-588133541099.jpg" />
+    <Content Include="Images\ProofFiles\c967f1d3-6915-4e56-bfe4-14f57c0dbcd2.jpg" />
+    <Content Include="Images\ProofFiles\d1c7856e-11db-468a-ae78-2db54e55a23c.jpg" />
+    <Content Include="Images\ProofFiles\d9da4c0f-6f4e-4c04-8210-ce6a43b198cc.jpg" />
+    <Content Include="Images\ProofFiles\db19a99e-6918-4335-be58-f8bd83a59277.jpg" />
+    <Content Include="Images\ProofFiles\e01e042f-54dc-400a-bed7-124e7b83e75c.jpg" />
+    <Content Include="Images\ProofFiles\e037b4a8-912c-4850-ab54-03f6693c6356.jpg" />
+    <Content Include="Images\ProofFiles\e43bd2ba-d736-4dc8-826a-72598fa08981.jpg" />
+    <Content Include="Images\ProofFiles\e62879a2-7360-4683-9473-751a4bfa5d06.jpg" />
+    <Content Include="Images\ProofFiles\ef136558-9da8-4e60-bc9c-8b38eb905a8b.jfif" />
+    <Content Include="Images\ProofFiles\f2c1ebfb-fc02-452f-94f5-8570fa318285.jpg" />
+    <Content Include="Images\ProofFiles\f9fb5e8c-8be9-461f-a90c-613406e57d7d.jpg" />
+    <Content Include="Images\ProofFiles\fbb8bbbe-7034-49c6-bb84-e7b3899fef36.jpg" />
+    <Content Include="Images\ProofFiles\fecc0c99-67e8-41aa-add0-a8d1d5c418bd.jpg" />
+    <Content Include="Images\sparrow-logo.png" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\fonts\fontawesome-webfont.eot" />
+    <Content Include="Assets\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Assets\fonts\fontawesome-webfont.woff" />
+    <Content Include="Assets\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Assets\fonts\FontAwesome.otf" />
+    <Content Include="Areas\Dispatcher\Views\web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Areas\Dispatcher\Views\Dashboard\Index.cshtml" />
+    <Content Include="Areas\Drivers\Views\web.config" />
+    <Content Include="Areas\Drivers\Views\Dashboard\Index.cshtml" />
+    <Content Include="Areas\Quote\Views\web.config" />
+    <Content Include="Areas\Quote\Views\Quote\Index.cshtml" />
+    <Content Include="CodeAnalysisRuleSet.ruleset" />
+    <Content Include="Areas\Quote\Views\Quote\ViewQuote.cshtml" />
+    <Content Include="Images\Status\appointmentpending.png" />
+    <Content Include="Images\Status\cancelled.png" />
+    <Content Include="Images\Status\completed.png" />
+    <Content Include="Images\Status\delivered.png" />
+    <Content Include="Images\Status\dispatched.png" />
+    <Content Include="Images\Status\dots.png" />
+    <Content Include="Images\Status\Gray\appointmentpending.png" />
+    <Content Include="Images\Status\Gray\cancelled.png" />
+    <Content Include="Images\Status\Gray\completed.png" />
+    <Content Include="Images\Status\Gray\delivered.png" />
+    <Content Include="Images\Status\Gray\dispatched.png" />
+    <Content Include="Images\Status\Gray\dots.png" />
+    <Content Include="Images\Status\Gray\immediatattentiaon.png" />
+    <Content Include="Images\Status\Gray\infumigation.png" />
+    <Content Include="Images\Status\Gray\inqueue.png" />
+    <Content Include="Images\Status\Gray\inroutedeliverylocation.png" />
+    <Content Include="Images\Status\Gray\loadingatpickuplocation.png" />
+    <Content Include="Images\Status\Gray\onhold.png" />
+    <Content Include="Images\Status\Gray\ordertaken.png" />
+    <Content Include="Images\Status\immediatattentiaon.png" />
+    <Content Include="Images\Status\infumigation.png" />
+    <Content Include="Images\Status\inqueue.png" />
+    <Content Include="Images\Status\inroutedeliverylocation.png" />
+    <Content Include="Images\Status\loadingatpickuplocation.png" />
+    <Content Include="Images\Status\onhold.png" />
+    <Content Include="Images\Status\ordertaken.png" />
+    <Content Include="Images\step_icons\icon-1.png" />
+    <Content Include="Images\step_icons\icon-2.png" />
+    <Content Include="Images\step_icons\icon-3.png" />
+    <Content Include="Images\step_icons\icon-4.png" />
+    <Content Include="Images\step_icons\icon-5.png" />
+    <Content Include="Images\step_icons\icon-6.png" />
+    <Content Include="Images\step_icons\icon-7.png" />
+    <Content Include="Images\step_icons\icon-8.png" />
+    <Content Include="Mvc.sitemap" />
+    <Content Include="Areas\Quote\Views\Quote\_prQuotePreview.cshtml" />
+    <Content Include="Areas\Quote\Views\Quote\ViewAndSendQuote.cshtml" />
+    <Content Include="Areas\Shipment\Views\web.config" />
+    <Content Include="Areas\Shipment\Views\Shipment\Index.cshtml" />
+    <Content Include="Areas\Shipment\Views\Shipment\_prEquipmentList.cshtml" />
+    <Content Include="Images\AddressLog\ADDRESSESFILE.xlsx" />
+    <Content Include="Areas\Shipment\Views\Shipment\ViewShipmentList.cshtml" />
+    <Content Include="Areas\Shipment\Views\Shipment\ViewAllShipment.cshtml" />
+    <Content Include="Areas\Shipment\Views\UploadShipment\Index.cshtml" />
+    <Content Include="Images\ExcelSample\uploadshipment.xls" />
+    <Content Include="Images\UploadShipmentSample\DailyList.xlsx" />
+    <Content Include="Images\UploadShipmentSample\DecemberPacificLog.xlsx" />
+    <Content Include="Images\UploadShipmentSample\PickUpTo.XLS" />
+    <Content Include="Areas\GpsTracker\Views\web.config" />
+    <Content Include="Areas\GpsTracker\Views\GpsTracker\Index.cshtml" />
+    <Content Include="Areas\Reports\Views\web.config" />
+    <Content Include="Areas\Reports\Views\DailyReport\Index.cshtml" />
+    <Content Include="Areas\Fumigation\Views\Fumigation\Index.cshtml" />
+    <Content Include="Areas\Fumigation\Views\web.config" />
+    <Content Include="Areas\Fumigation\Views\Fumigation\ViewFumigationList.cshtml" />
+    <Content Include="Areas\Fumigation\Views\Fumigation\_prEquipmentList.cshtml" />
+    <Content Include="Areas\GpsTracker\Views\GpsTracker\FumigationIndex.cshtml" />
+    <Content Include="Areas\TrailerRental\Views\web.config" />
+    <Content Include="Areas\TrailerRental\Views\TrailerRental\Index.cshtml" />
+    <Content Include="Areas\TrailerRental\Views\TrailerRental\ViewTrailerRental.cshtml" />
+    <Content Include="Areas\Shipment\Views\Shipment\ViewShipmentNotification.cshtml" />
+    <Content Include="Areas\Fumigation\Views\Fumigation\ViewFumigationNotification.cshtml" />
+    <Content Include="Areas\Fumigation\Views\Fumigation\ViewAllFumigation.cshtml" />
+    <Content Include="Areas\TimeCard\Views\web.config" />
+    <Content Include="Areas\TimeCard\Views\TimeCard\DriverTimeCard.cshtml" />
+    <Content Include="Areas\TimeCard\Views\TimeCard\Index.cshtml" />
+    <Content Include="Areas\TimeCard\Views\TimeCard\ViewTimeCard.cshtml" />
+    <Content Include="Areas\TimeCard\Views\TimeCard\MyTimeCard.cshtml" />
+    <Content Include="Areas\TimeCard\Views\TimeCard\_DailyReport.cshtml" />
+    <None Include="MvcSiteMapSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <Content Include="Views\Shared\_DriverExpirationDocsEmail.html" />
+    <Content Include="Views\User\UserRegistration.cshtml" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\ForgotPassword\ForgotPassword.cshtml" />
+    <Content Include="Views\ForgotPassword\ResetPassword.cshtml" />
+    <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\Authorization\Index.cshtml" />
+    <Content Include="Views\Equipment\Index.cshtml" />
+    <Content Include="Views\User\_UserList.cshtml" />
+    <Content Include="Views\Equipment\AddEquipment.cshtml" />
+    <Content Include="Views\Driver\Index.cshtml" />
+    <Content Include="Views\Driver\ViewDriver.cshtml" />
+    <Content Include="Views\Address\Index.cshtml" />
+    <Content Include="Views\Address\AddAddress.cshtml" />
+    <Content Include="Views\Address\_AddressDataList.cshtml" />
+    <Content Include="Views\Customer\ViewCustomer.cshtml" />
+    <Content Include="Views\AccidentReport\Index.cshtml" />
+    <Content Include="Views\AccidentReport\ViewAccidentReport.cshtml" />
+    <Content Include="Views\Shipment\Index.cshtml" />
+    <Content Include="Views\Equipment\ViewEquipment.cshtml" />
+    <Content Include="Views\Address\_prAddAddress.cshtml" />
+    <Content Include="Views\Shared\prAddressJson.cshtml" />
+    <Content Include="Views\Customer\_partialAddCustomer.cshtml" />
+    <Content Include="Views\Driver\Leave.cshtml" />
+    <Content Include="Views\Shared\prDriverLeave.cshtml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapTitleHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapPathHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapNodeModelList.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapNodeModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\SiteMapHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\MetaRobotsHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\MenuHelperModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
+    <Content Include="Views\Driver\Documents.cshtml" />
+    <Content Include="Views\Shared\prDriverDocuments.cshtml" />
+    <Content Include="Views\Driver\Dashboard.cshtml" />
+    <Content Include="Views\Driver\_prPreTripDetails.cshtml" />
+    <Content Include="Views\Driver\Detail.cshtml" />
+    <Content Include="Views\Customer\Dashboard.cshtml" />
+    <Content Include="Views\Address\ImportClients.cshtml" />
+    <Content Include="Views\Customer\Detail.cshtml" />
+    <Content Include="Views\Driver\ImportDrivers.cshtml" />
+    <Content Include="Views\Customer\TrackShipment.cshtml" />
+    <Content Include="Views\Equipment\ImportEquipments.cshtml" />
+    <Content Include="Views\AccidentReport\ViewAccidentDocument.cshtml" />
+    <Content Include="Views\User\PageNotFound.cshtml" />
+    <Content Include="Views\Driver\_prSignaturePad.cshtml" />
+    <Content Include="Views\Vendor\Index.cshtml" />
+    <Content Include="Views\Vendor\_VendorList.cshtml" />
+    <Content Include="Views\Driver\_getDirectionDetails.cshtml" />
+    <Content Include="Views\Driver\FumigationDetails.cshtml" />
+    <Content Include="Views\Driver\_prFumigationPreTripDetails.cshtml" />
+    <Content Include="Views\ProofOfDelivery\ShipmentProofOfDelivery.cshtml" />
+    <Content Include="Views\Shared\_ShipmentStatusEmail.cshtml" />
+    <Content Include="Views\Shared\_FumigationStatusEmail.cshtml" />
+    <Content Include="Views\ProofOfDelivery\FumigationProofOfDelivery.cshtml" />
+    <Content Include="Views\Customer\FumigationDetail.cshtml" />
+    <Content Include="Views\Shared\_FreightDetails_NotInUse.cshtml" />
+    <Content Include="Views\Customer\TrackFumigation.cshtml" />
+    <Content Include="Views\Shared\_FumigationFreightDetails_NotInUse.cshtml" />
+    <Content Include="Views\Customer\OldShipmentDashboard.cshtml" />
+    <Content Include="Views\Shared\_prWebCamera.cshtml" />
+    <Content Include="Views\Shared\_prUpdateFreightDetails.cshtml" />
+    <Content Include="Views\Customer\_CustomerFreightDetails.cshtml" />
+    <Content Include="Views\Shared\_watingTimeEmailForCustomer.html" />
+    <Content Include="Views\Driver\_FumigationFreightDetails.cshtml" />
+    <Content Include="Views\Driver\_FreightDetails.cshtml" />
+    <Content Include="Views\Shared\_prTimeCard.cshtml" />
+    <Content Include="Views\Shared\_prTimeCardPrintNEmail.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Areas\Dispatcher\Models\" />
+    <Folder Include="Areas\Dispatcher\Views\Shared\" />
+    <Folder Include="Areas\Drivers\Models\" />
+    <Folder Include="Areas\Drivers\Views\Shared\" />
+    <Folder Include="Areas\GpsTracker\Models\" />
+    <Folder Include="Areas\GpsTracker\Views\Shared\" />
+    <Folder Include="Areas\Quote\Models\" />
+    <Folder Include="Areas\Quote\Views\Shared\" />
+    <Folder Include="Areas\Reports\Models\" />
+    <Folder Include="Areas\Reports\Views\Reports\" />
+    <Folder Include="Areas\Reports\Views\Shared\" />
+    <Folder Include="Areas\Shipment\Models\" />
+    <Folder Include="Areas\Shipment\Views\Shared\" />
+    <Folder Include="Areas\TimeCard\Models\" />
+    <Folder Include="Areas\TimeCard\Views\Shared\" />
+    <Folder Include="Areas\TrailerRental\Models\" />
+    <Folder Include="Areas\TrailerRental\Views\Shared\" />
+    <Folder Include="Images\DriverImage\" />
+    <Folder Include="Images\EquipmentImages\" />
+    <Folder Include="Images\SignatureImage\" />
+    <Folder Include="LarastruckingLog\" />
+    <Folder Include="Models\" />
+    <Folder Include="Views\GlobalWaitingTime\" />
+    <Folder Include="Views\Global\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LarastruckingApp.BusinessLayer\LarastruckingApp.BAL.csproj">
+      <Project>{d7a6084f-3e84-4d2c-abc8-2fd915df00b5}</Project>
+      <Name>LarastruckingApp.BAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LarastruckingApp.DAL\LarastruckingApp.DAL.csproj">
+      <Project>{14e65ec6-5cc5-4c50-821c-9753ce919775}</Project>
+      <Name>LarastruckingApp.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LarastruckingApp.Entities\LarastruckingApp.DTO.csproj">
+      <Project>{b4c68573-f80a-49c3-bb97-38954ea69879}</Project>
+      <Name>LarastruckingApp.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LarastruckingApp.Log\LarastruckingApp.Utility.csproj">
+      <Project>{174ed21b-989f-4332-90d0-e7b5b65cd94b}</Project>
+      <Name>LarastruckingApp.Utility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LarastruckingApp.Repository\LarastruckingApp.Repository.csproj">
+      <Project>{75c2a08a-f534-4463-8023-fa53d19e2266}</Project>
+      <Name>LarastruckingApp.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LarastruckingApp.Resource\LarastruckingApp.Resource.csproj">
+      <Project>{c7148821-96c6-462d-b2fc-4767821b1a12}</Project>
+      <Name>LarastruckingApp.Resource</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>54137</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:5225/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

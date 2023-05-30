@@ -1,0 +1,381 @@
+﻿@using LarastruckingApp.Entities.Permission
+@using LarastruckingApp.Infrastructure
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>@ViewBag.Title</title>
+    <link rel="icon" href="~/Images/favicon.ico" sizes="16x16">
+
+    @{
+        PermissionsDto permissions = IsPermited.HasPermission();
+        MemberProfile memberProfile = new MemberProfile();
+        <script type="text/javascript">
+            var isInsert =  @permissions.IsInsert.ToString().ToLower();
+            var isView = @permissions.IsView.ToString().ToLower();
+            var isUpdate = @permissions.IsUpdate.ToString().ToLower();
+            var isDelete = @permissions.IsDelete.ToString().ToLower();
+            var IsPricingMethod =  @permissions.IsPricingMethod.ToString().ToLower();
+        </script>
+    }
+
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" />
+    @Styles.Render("~/bundles/styles")
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css">
+
+    <meta name="baseURL" content="@(Request.Url.Scheme + "://" + Request.Url.Authority + VirtualPathUtility.ToAbsolute("~/"))" />
+    @Scripts.Render("~/bundles/scripts")
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+    <script src="~/Assets/js/jquery.mask.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXBtkoqacvZToBGD9TCaiZ9qUTrAJDJN4&libraries=places&SameSite=None&sensor=false"></script>
+
+    @*<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXBtkoqacvZToBGD9TCaiZ9qUTrAJDJN4&callback=initMap&libraries=places&SameSite=None&sensor=false"></script>*@
+    <script src="https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyDXBtkoqacvZToBGD9TCaiZ9qUTrAJDJN4"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.print.min.js"></script>
+    <script src="~/Assets/js/pdfmake.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.colVis.min.js"></script>
+    <script>
+        toastr.options.positionClass = 'toast-top-center';
+    </script>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                SuccessPopup('@TempData["SuccessMessage"]')
+
+                        @*toastr.success('@TempData["SuccessMessage"]', '');*@
+                    };
+        </script>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                AlertPopup('@TempData["ErrorMessage"]')
+                        @*toastr.error('@TempData["ErrorMessage"]', '');*@
+                    };
+        </script>
+    }
+    <style>
+        /*.highlight {
+            border: 1px red solid;
+        }*/
+        /*//CSS Static Live Shipment for customer*/
+
+        .default > a, .asc > a, .desc > a {
+            text-decoration: none;
+            color: black
+        }
+
+            .default > a > #asc, #desc {
+                color: grey
+            }
+
+            .asc > a > #asc {
+                color: #5eb8ff;
+            }
+
+            .asc > a > #desc {
+                color: grey;
+            }
+
+            .desc > a > #desc {
+                color: #5eb8ff;
+            }
+
+            .desc > a > #asc {
+                color: grey;
+            }
+
+        #asc, #desc {
+            font-size: xx-small;
+        }
+
+
+        .sidenavsubBar div {
+            color: #f7f7f7;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .sidenavsubBar {
+            margin: 10px 0 0;
+            display: block;
+        }
+
+            .sidenavsubBar > ul {
+                margin: 0;
+                padding: 0;
+            }
+
+                .sidenavsubBar > ul > li > a {
+                    display: block;
+                    color: #fff;
+                    padding: 0px;
+                    font-size: 13px;
+                    padding-left: 35px;
+                    white-space: nowrap;
+                    font-weight: 500;
+                    text-transform: uppercase;
+                    transition: all 0.3s ease-in-out;
+                }
+
+                    .sidenavsubBar > ul > li > a.active span.leftIc,
+                    .sidenavsubBar > ul > li > a:hover span.leftIc {
+                        color: #000;
+                    }
+
+                    .sidenavsubBar > ul > li > a > i {
+                        float: right;
+                        padding: 2px 5px;
+                        font-size: 1.1rem;
+                    }
+
+                .sidenavsubBar > ul > li:hover > a {
+                    color: #000;
+                    text-decoration: none;
+                    background: #f7f7f7;
+                }
+        /*// commnet*/
+
+
+
+
+        .invalid {
+            border: #FF0000 1px solid;
+        }
+
+        tooltip {
+            padding: 10px;
+            color: #333;
+            font-size: 12px;
+            background: #FFACAC;
+        }
+
+        .form-group.required .col-form-label:after {
+            content: " *";
+            color: red;
+        }
+    </style>
+
+</head>
+<body class="bodyBg">
+    <div class="dvloader">
+        <div class="lds-ring">
+            <div></div><div></div><div></div><div></div>
+            <p>Loading...</p>
+        </div>
+
+    </div>
+    <div class="mainWrapper">
+        <!-- Top Bar start -->
+        <div class="topBar">
+            <button id="menuBtn" type="button" class="fas fa-bars"> </button>
+            <div class="top-right-panel">
+                <ul>
+                    @*<li>
+                            <a href="javascript:void(0)">
+                                <span>
+                                    <i class="far fa-bell"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <span>
+                                    <i class="far fa-envelope"></i>
+                                </span>
+                            </a>
+                        </li>*@
+                    <li class="profile">
+                        <div class="dropdown">
+                            <b> <lable>Hello @memberProfile.FullName </lable></b>
+                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="~/images/porfile-img.png" style="height:28px; width: 28px;" />
+
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" href="@Url.Action("Logout", "User", new { area = "" })"><span><i class="fas fa-sign-out-alt"></i></span>Logout</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- Top Bar end -->
+        <!-- LeftAsideBar panel start -->
+        <div class="leftAsideBar">
+            <a href="" class="logo">
+                <img src="~/images/sparrow-logo.png">
+
+            </a>
+
+            <div class="sidenavBar" style="overflow-y: auto;overflow-x:hidden;">
+                <ul>
+                    @{
+                        MemberProfile mp = new MemberProfile();
+                        var controllerName = ViewContext.RouteData.Values["Controller"].ToString();
+                        var actionName = ViewContext.RouteData.Values["Action"].ToString();
+                        var areaName = Convert.ToString(ViewContext.RouteData.DataTokens["area"]);
+                        areaName = (areaName == null) ? "" : areaName.ToString();
+
+                        var id = Convert.ToString(ViewContext.RouteData.Values["id"]);
+
+                        if (mp.Permissions != null)
+                        {
+                            if (mp.UserRole == "Customer")
+                            {
+                                <li class="sidenavsubBar">
+
+                                    <div>
+                                        <span class="leftIc">
+                                            <i class="fas fa-tachometer-alt"></i>
+                                        </span>
+                                        <span class="leftText">Live Shipment</span>
+                                    </div>
+                                    <ul class="sub">
+                                        <li>
+                                            <a href="javascript:void(0)">
+                                                @*<span class="leftIc">
+                                                        <i class="fas fa-tachometer-alt"></i>
+                                                    </span>*@
+                                                @*<span class="leftText"> Shipment</span>*@
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                </li>
+                            }
+                            foreach (var data in mp.Permissions)
+                            {
+                                if (data.IsMenu)
+                                {
+                                    if (data.CanView)
+                                    {
+                                        if (data.ControllerName == "Shipment" || data.ControllerName == "Fumigation" || data.ControllerName == "TrailerRental" || data.ControllerName == "Driver" || data.ControllerName == "Customer")
+                                        {
+                                            if ((data.ControllerName == "Driver" && actionName == "FumigationDetails") || (data.ControllerName == "Driver" && actionName == "Detail"))
+                                            {
+                                                actionName = "Dashboard";
+                                            }
+
+                                            <li>
+                                                <a class="@(controllerName == data.ControllerName && actionName == data.ActionName && areaName == data.AreaName ? "active" : "")"
+                                                   @*<a class="@(controllerName == data.ControllerName && actionName== data.ActionName ? "active" : "")"*@
+                                                   href="@Url.Action(data.ActionName, data.ControllerName, new { area = data.AreaName })">
+                                                    <span title="@data.PageName.ToUpper()" class="leftIc">
+                                                        <i class="@data.DisplayIcon"></i>
+                                                    </span>
+                                                    <span class="leftText">
+                                                        @data.PageName
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li>
+                                                @*<a class="@(controllerName == data.ControllerName && actionName== data.ActionName && areaName == data.AreaName ? "active" : "")"*@
+                                                <a class="@(controllerName == data.ControllerName && actionName==data.ActionName ? "active" : "")"
+                                                   href="@Url.Action(data.ActionName, data.ControllerName, new { area = data.AreaName })">
+                                                    <span title="@data.PageName.ToUpper()" class="leftIc">
+                                                        <i class="@data.DisplayIcon"></i>
+                                                    </span>
+                                                    <span class="leftText">
+                                                        @data.PageName
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                </ul>
+            </div>
+
+        </div>
+        <!-- LeftAsideBar panel end -->
+        <!-- right Body Start -->
+        <div class="rightBody">
+            <!-- Tabs html start -->
+            <div class="tabWrapper">
+                <div class="">
+                    <div class="tabContainerWrapper">
+                        <div id="content" class="tab-content" role="tablist">
+                            <div id="pane-A" class="tab-pane fade show active" role="tabpanel" aria-labelledby="tab-A">
+                                <!-- Note: New place of `data-parent` -->
+                                <div class="collapse show">
+                                    @RenderBody()
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tabs html end -->
+                </div>
+                <!-- right Body end -->
+            </div>
+
+
+            <div class="overLay"></div>
+        </div>
+    </div>
+
+    <div class="modal" role="dialog" id="modalSession">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header prelative">
+
+                <div class="text-center"> <img src="~/Images/logo-350.png" /></div>
+                    <div class="modal-title text-center fs-18">Session Expired</div>
+                    <button type="button" class="close setCorner" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="session_msg"></p>
+                </div>
+                <div class="modal-footer row m-0">
+                    <div class="col-md-12 text-center">
+                    <button type="button" id="btnOk" class="btn btn-primary" data-dismiss="modal">Sign In </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @RenderSection("scripts", required: false)
+
+
+</body>
+</html>
+<script>
+
+    var WindowsSize = function () {
+        var h = $(window).height();
+        $(".sidenavBar").css("height", (h - 55));
+    };
+    $(document).ready(WindowsSize);
+    $(window).resize(WindowsSize);
+
+</script>

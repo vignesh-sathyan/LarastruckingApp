@@ -1,0 +1,35 @@
+﻿@model IEnumerable<LarastruckingApp.Entities.ShipmentDTO.GetShipmentRouteStopDTO>
+@{
+    /**/
+
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ShipmentProofOfDelivery</title>
+</head>
+<body>
+    <div>
+        <table border="1">
+            <tr><th>Receiver Name</th><th>Delivery Location</th><th>Signature</th></tr>
+            @{
+
+                foreach (var data in Model)
+                {
+                    <tr>
+                        <td><label>@data.ReceiverName</label></td>
+                        <td>@data.DeliveryLocation</td>
+                        <td><img src="@data.DigitalSignature" /></td>
+                                                                 
+                    </tr>
+                }
+            }
+        </table>
+
+    </div>
+</body>
+</html>

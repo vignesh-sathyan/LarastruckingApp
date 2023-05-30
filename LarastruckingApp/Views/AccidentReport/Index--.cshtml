@@ -1,0 +1,329 @@
+﻿
+@using LarastruckingApp.Entities.Permission
+@model LarastruckingApp.ViewModel.AccidentReportViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    PermissionsDto permissions = IsPermited.HasPermission();
+}
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
+{
+    <div class="card-body">
+        <div class="white-bg customFormWrap">
+            <h2 class="cardHeading">
+               ACCIDENT REPORT
+            </h2>
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group required row">
+                        <label class="col-sm-4 col-form-label" for="txtLicencePlate">License Plate</label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   name="LicencePlate"
+                                   required="required"
+                                   id="txtLicencePlate"
+                                   placeholder="Search By License Plate#"
+                                   onkeypress="return onlyAlphanumeric(event)"
+                                   maxlength="50"
+                                   class="form-control" />
+
+                            <input type="hidden" id="hdnReportAccident" name="AccidentReportId" value="@Model.AccidentReportId" />
+                            <input type="hidden" id="hdnEquipmentId" name="EquipmentId" value="0" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group required row">
+                        <label class="col-sm-4 col-form-label" for="txtVIN">VIN</label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   required="required"
+                                   name="VIN" id="txtVIN"
+                                   placeholder="Search By VIN"
+                                   maxlength="100"
+                                   onkeypress="return onlyAlphanumeric(event)"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group required row">
+                        <label class="col-sm-4 col-form-label">
+                            Equipment No.
+                        </label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   name="EquipmentNo"
+                                   placeholder="Search By Equipment No."
+                                   onkeypress="return onlyAlphanumeric(event)"
+                                   id="txtEquipmentNo"
+                                   maxlength="50"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Year</label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   readonly
+                                   name="Year"
+                                   onkeypress="return onlyNumeric(event)"
+                                   id="txtYear"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">
+                            Vehicle Type
+                        </label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   readonly
+                                   name="VehicleType"
+                                   onkeypress="return onlyAlphanumeric(event)"
+                                   id="txtVehicleType"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Model</label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   readonly
+                                   name="Model"
+                                   onkeypress="return onlyAlphanumeric(event)"
+                                   id="txtModel"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group row required">
+                        <label class="col-sm-4 col-form-label" for="driverId"> Driver </label>
+                        <div class="col-sm-8">
+                            <select class="form-control"
+                                    required="required"
+                                    name="driverId"
+                                    onchange="GetDriverInfo()"
+                                    id="driverId">
+                                <option>Please Select Driver</option>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">
+                            Phone No.
+                        </label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   readonly
+                                   name="Phone"
+                                   onkeypress="return onlyNumeric(event)"
+                                   id="txtPhone"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">
+                            Driver Email
+                        </label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   readonly
+                                   name="EmailId"
+                                   onkeypress="return onlyAlphanumeric(event)"
+                                   id="txtEmailId"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group row required">
+                        <label class="col-sm-4 col-form-label" for="dtAccidentDate">Date &amp; Time</label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   required="required"
+                                   placeholder="MM-DD-YYYY HH:MM"
+                                   autocomplete="off"
+                                   name="AccidentDate"
+                                   onkeypress="return onlyAlphanumeric(event)"
+                                   id="dtAccidentDate"
+                                   class="form-control  dtTimer" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row required">
+                        <label class="col-sm-4 col-form-label">
+                            Address
+                        </label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   required="required"
+                                   autocomplete="off"
+                                   name="Address"
+                                   id="txtAddress"
+                                   maxlength="100"
+                                   onkeypress="return onlyAlphanumeric(event)"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">
+                            Police Report No.
+                        </label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   autocomplete="off"
+                                   name="txtPoliceReportNo"
+                                   id="txtPoliceReportNo"
+                                   maxlength="15"
+                                   onkeypress="return onlyAlphanumeric(event)"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">
+                            Comment
+                        </label>
+                        <div class="col-sm-8">
+                            <textarea rows="4"
+                                      name="Comment"
+                                      cols="50"
+                                      id="txtComment"
+                                      onkeypress="return onlyAlphanumeric(event)"
+                                      maxlength="500"
+                                      class="form-control"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-12 text-right mb-2">
+
+                <button type="button" id="BtnAdd" onclick="SaveAccidentInfo()" class="btn green-Btn">Save</button>
+
+                @Html.ActionLink("CLOSE", "ViewAccidentReport", "AccidentReport", null, new { @class = "btn outline-Btn" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mt-2">
+                <div class="white-bg customFormWrap">
+                    <h2 class="cardHeading">
+                        Upload Image
+                    </h2>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group  row">
+                                        <label class="col-sm-4 col-form-label">Type</label>
+                                        <div class="col-sm-8">
+
+                                            <select id="ddldocumenttype" name="DocumentType" onchange="CheckDuplicateRecord()" class="form-control"></select>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group  row">
+                                        <label class="col-sm-4 col-form-label">Name</label>
+                                        <div class="col-sm-8">
+
+                                            <input type="text"
+                                                   class="form-control"
+                                                   name="DocumentName"
+                                                   id="txtDocumentName" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group  row">
+                                        <label class="col-sm-4 col-form-label">Browse Document</label>
+                                        <div class="col-sm-8">
+                                            <input type="file" name="imgdocument" onchange="encodeImagetoBase64(this)" class="filebrowse" id="imgdocument" />
+                                            <input type="hidden" id="hdnimgdocument" value="" /><br />
+                                            <span class="lblred"> <small style="float: left"> * File should be jpg, jpeg, png, pdf,jfif and size less than or equal to 5MB.</small></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 text-right mb-2">
+                                    <button type="button" class="btn green-Btn" onclick="AddRow()">Add</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-md-12 mb-2">
+                                    <div class="table-responsive">
+                                        <table id="tblAccidentReportDocument" class="table-bordered table-striped cf w-100">
+                                            <thead>
+                                                <tr>
+                                                    <th>Type</th>
+                                                    <th>Name</th>
+                                                    <th>Upload Document</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+}
+
+@Scripts.Render("~/bundles/accidentReport")

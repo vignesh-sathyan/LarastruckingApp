@@ -1,0 +1,57 @@
+﻿@using LarastruckingApp.Entities.Permission
+@{
+    ViewBag.Title = "ViewCustomer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    PermissionsDto permissions = IsPermited.HasPermission();
+}
+
+
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 mt-2">
+        <div class="white-bg customFormWrap">
+            <div class="row">
+                <div class="col-md-12 py-2 d-flex justify-content-start mb_40 pl-cust">
+                    @if (permissions.IsInsert)
+                    {
+                        @Html.ActionLink("Add Customer", "Index", "Customer", null, new { @class = "btn green-Btn" })
+                    }
+                </div>
+            </div>
+            @*<hr class="hr_add" />*@
+            <div class="customTableWrapper table-spacing">
+                @*<div id="divEquipmentList">*@
+                    <table class="table-bordered table-striped cf w-100" id="tblcustomer">
+                        <thead class="cf">
+                            <tr>
+                                <th colspan="8">
+                                    <label>
+                                        <input type="radio" value="0" checked="checked" name="IsFullFledge" /> All
+                                    </label>
+                                    <label>
+                                        <input type="radio" value="1" name="IsFullFledge" /> Customers
+                                    </label>
+                                    <label>
+                                        <input type="radio" value="2" name="IsFullFledge" /> Prospect
+                                    </label>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th hidden="hidden">CustomerId</th>
+                                <th>Company Name</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Account Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                @*</div>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/ViewCustomer")
+

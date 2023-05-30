@@ -1,0 +1,14 @@
+Inbound PO Receipts
+
+Expected Del Dates:						       12/24/2019  to  00/00/0000
+
+		Val. Start			Vendor			Purch.Doc.	Airway bill number			Land date		Time			Status	Time			Sched. Qt		OUn	Order Qty		BUn
+	 Item		Plnt	SLoc		Material	Short Text			DCI	Del. Date		 Sched. Qty		OUn	  Order Qty			BUn	  Delivered		   Delivered			Cvendor
+
+		12/24/2019			Trapananda Seafarms			4500290681	LARAS AT MIT			12/24/2019		00:00:00			E	00:00:00			    62.0		CSE	1220.000		LB
+
+		12/24/2019			Aquabest Seafood LLC			4500290762	LARAS AT RANK			12/27/2019		00:00:00				00:00:00			    30.0		CSE	 300.000		LB
+
+		12/24/2019			Industrias Martec S			4500290799	992-51029075PRIORITY			12/24/2019		10:00:00			E	00:00:00			    18.0		CSE	 885.000		LB
+
+		12/24/2019			Ocean Master Seafoo			4500290816	001-36694092PRIORITY			12/24/2019		00:00:00				00:00:00			    63.0		CSE	3580.000		LB

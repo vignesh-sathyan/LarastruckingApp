@@ -1,0 +1,136 @@
+﻿@using LarastruckingApp.Entities.Permission
+@{
+    ViewBag.Title = "ViewAllFumigation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    PermissionsDto permissions = IsPermited.HasPermission();
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-body">
+            <div class="white-bg customFormWrap">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="col-md-12 divSearch">
+                        @*@Html.ActionLink("Create Shipment", "Index", "Shipment", null, new { @class = "btn green-Btn" })*@
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group row">
+                                    <label for="dtStartedDate" class="col-sm-4 col-form-label dtStartedDate">Start Date</label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               required="required"
+                                               placeholder="MM-DD-YYYY"
+                                               name="dtStartedDate"
+                                               onkeypress="return onlyAlphanumeric(event)"
+                                               id="dtStartedDate"
+                                               autocomplete="off"
+                                               class="form-control jqueryui-marker-datepicker">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group  row">
+                                    <label for="dtEndDate" class="col-sm-4 col-form-label">End Date</label>
+                                    <div class="col-sm-8">
+                                        <input type="text"
+                                               required="required"
+                                               placeholder="MM-DD-YYYY"
+                                               name="dtEndDate"
+                                               onkeypress="return onlyAlphanumeric(event)"
+                                               id="dtEndDate"
+                                               autocomplete="off"
+                                               class="form-control jqueryui-marker-datepicker">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group row">
+                                    <label for="ddlCustomer" class="col-sm-4 col-form-label">Customer</label>
+                                    <div class="col-sm-8">
+                                        <select id="ddlCustomer" class="form-control">
+                                            <option>SEARCH CUSTOMER</option>
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="ddlStatus">Status</label>
+                                    <div class="col-sm-8">
+
+                                        <select class="form-control" id="ddlStatus">SELECT STATUS</select>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="ddlDriver">Driver</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" id="ddlDriver">SELECT DRIVER</select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-right" style="display: flex;justify-content: flex-end;">
+                                <button type="button" id="btnViewFumigaion" class="btn green-Btn pullr" style="height: 24px;">
+                                    <i class="fa fa-search" style="margin-right: 5px;"></i>
+                                    <label style="margin-bottom:0;">Search</label>
+                                </button>
+                                @if (permissions.IsInsert)
+                                {
+                                    @*@Html.ActionLink("Create Fumigation", "Index", "Fumigation", null, new { @class = "btn green-Btn" })*@
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+                <hr class="hr_add" />
+                <div id="customTableWrapper">
+                    <table class="table-bordered table-striped cf w-100 data-paroller-factor" id="tblFumigationList">
+                        <thead>
+                            <tr>
+                                <th hidden="hidden"></th>
+                                <th>Status</th>
+                                <th>Req Loading </th>
+                                <th>Fum Type</th>
+                                <th>Customer</th>
+                                <th>Pickup Location</th>
+                                <th>AWB/PO/Container</th>
+                                <th>Consignee</th>
+                                <th>Box Count</th>
+                                <th>Pallet Count</th>
+                                <th>Position</th>
+                                <th>Fumigation Site</th>
+                                <th>Fumigation Arrival</th>
+                                <th>Pickup Equipment</th>
+
+                                <th>Pickup Driver</th>
+                                <th>Temp</th>
+                                @*<th>Pickup Arrival</th>*@
+                                <th>Fum Release Time</th>
+
+                                @*<th>Delivery Location</th>*@
+                                <th>Delivery Equipment</th>
+                                <th>Delivery Driver</th>
+                                <th>Delivery Location</th>
+                                <th>WT</th>
+                                <th>ST</th>
+                                @*<th>Delivery Arrival</th>*@
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/viewAllFumigation")

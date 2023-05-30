@@ -1,0 +1,163 @@
+﻿
+@model LarastruckingApp.Entities.Driver.LeaveManageDto
+@using LarastruckingApp.Entities.Permission
+@using LarastruckingApp.Entities.Enum
+
+@using (Html.BeginForm("", "", FormMethod.Post, new { id = "formLeave" }))
+{
+    PermissionsDto permissions = IsPermited.HasPermission();
+    <div class="card-body">
+        <div class="white-bg customFormWrap">
+            <h2 class="cardHeading">
+                Manage Leave
+            </h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        @*@Html.LabelFor(model => model.DriverLeave.FirstName, htmlAttributes: new { @class = "col-sm-4 col-form-label", @for = "lblFirstName" })*@
+                        <label class="col-sm-4 col-form-label" for="lblFirstName">First Name</label>
+                        <div class="col-sm-8">
+                            @Html.HiddenFor(m => m.DriverLeave.LeaveId)
+                            @Html.HiddenFor(m => m.DriverLeave.UserId)
+
+                            @Html.TextBoxFor(m => m.DriverLeave.FirstName,
+                                                  new { @class = "form-control dtDate",
+                                                      disabled = "disabled"
+                                                  })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        @*@Html.LabelFor(model => model.DriverLeave.LastName, htmlAttributes: new { @class = "col-sm-4 col-form-label", @for = "lblLastName" })*@
+                        <label class="col-sm-4 col-form-label" for="lblLastName">Last Name</label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.DriverLeave.LastName,
+                                                  new { @class = "form-control dtDate",
+                                                      disabled = "disabled"
+                                                  })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.DriverLeave.Email, htmlAttributes: new { @class = "col-sm-4 col-form-label", @for = "lblEmail" })
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.DriverLeave.Email,
+                                                  new { @class = "form-control dtDate",
+                                                      disabled = "disabled"
+                                                  })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.DriverLeave.Phone, htmlAttributes: new { @class = "col-sm-4 col-form-label", @for = "lblPhone" })
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.DriverLeave.Phone,
+                                                  new { @class = "form-control dtDate",
+                                                      disabled = "disabled"
+                                                  })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group required row">
+                        @Html.LabelFor(model => model.DriverLeave.TakenFrom, htmlAttributes: new { @class = "col-sm-4 col-form-label", @for = "txtTakenFrom" })
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   required="required"
+                                   readonly
+                                   placeholder="MM-DD-YYYY HH:MM"
+                                   onkeypress="return onlyAlphabets(event)"
+                                   onchange="TakenFrom()"
+                                   id="txtTakenFrom"
+                                   class="form-control dtTimer" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group required row">
+                        @Html.LabelFor(model => model.DriverLeave.TakenTo, htmlAttributes: new { @class = "col-sm-4 col-form-label", @for = "txtTakenTo" })
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   id="txtTakenTo"
+                                   placeholder="MM-DD-YYYY HH:MM"
+                                   required="required"
+                                   readonly
+                                   onkeypress="return onlyAlphabets(event)"
+                                   onchange="TakenTo()"
+                                   class="form-control dtTimer" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group required row">
+                        @Html.LabelFor(model => model.DriverLeave.Reason, htmlAttributes: new { @class = "col-sm-4 col-form-label", @for = "txtReason" })
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="txtReason" required="required" onkeypress="return onlyAlphanumeric(event)"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group required row">
+                        @Html.LabelFor(model => model.DriverLeave.LeaveStatusId, htmlAttributes: new { @class = "col-sm-4 col-form-label", @for = "Status" })
+                        <div class="col-sm-8">
+                            @Html.DropDownListFor(model => model.DriverLeave.LeaveStatusId, new SelectList(Model.LeaveStatus, "LeaveStatusId", "LeaveStatus"), new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+            <div class="row">
+                <div class="col-md-12 text-right mb-2">
+
+                    @if (permissions.IsInsert || permissions.IsUpdate)
+                    {
+                    <button type="button" id="BtnAdd" class="btn green-Btn"> Apply </button>
+                    }
+                    else
+                    {
+                        <span class="text-danger">You don't have permission to add</span>
+                    }
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 mt-2">
+        <div class="white-bg customFormWrap">
+            <div class="customTableWrapper">
+                <table class="table-bordered dataTable table-striped cf w-100" id="tblLeave">
+                    <thead class="cf">
+                        <tr>
+                            <th>Leave From</th>
+                            <th>Leave To</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+

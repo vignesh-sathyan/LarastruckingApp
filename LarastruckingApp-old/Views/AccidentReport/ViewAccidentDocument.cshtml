@@ -1,0 +1,120 @@
+﻿
+@model LarastruckingApp.Entities.AccidentReportDTO
+@{
+    ViewBag.Title = "ViewAccidentDocument";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-5 col-md-5">
+        <div class="card-body">
+            <div class="white-bg customFormWrap">
+                <h2 class="cardHeading">
+                    Documents
+                </h2>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <label class="col-sm-12 col-form-label">
+                                Driver Name:
+                                <strong>
+                                    @Model.DriverName
+
+                                </strong>
+                            </label>
+                            <label class="col-sm-6 col-form-label">
+                                Equipment:
+                                <strong>
+                                    @Model.EquipmentNo
+                                </strong>
+                            </label>
+                            <label class="col-sm-6 col-form-label">
+                                Licence Plate :
+                                <strong>
+                                    @Model.LicencePlate
+                                </strong>
+                            </label>
+
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <table class="table-bordered dataTable table-striped cf w-100 tblChange-bgcolor" id="tblLeave">
+                            <thead class="cf">
+                                <tr>
+                                    <th>Document Name</th>
+                                    <th>Document Type</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.AccidentReportDocumentList != null)
+                                {
+                                    foreach (var item in Model.AccidentReportDocumentList)
+                                    {
+                                        <tr>
+                                            <td> @item.DocumentName </td>
+                                            <td> @item.DocumentTypeName</td>
+                                            <td>
+                                                <div class="action-ic">
+                                                    <a href="javascript:void(0)" data-file-url="@item.ImageURL" title="preview" class="edit_icon fileViewer">
+                                                        <i class="far fa-eye"></i>
+                                                    </a> |
+                                                    <a href="javascript:void(0)" data-file-url="@item.ImageURL" download title="download" class="edit_icon fileDownload">
+                                                        <i class="fa fa-download"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="3"> Please upload documents  </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="col-md-12 text-right">
+                        <button type="button" onclick="self.close()" id="" class="btn green-Btn">Go Back</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-7 col-md-7">
+        <div class="white-bg customFormWrap">
+            <div class="row">
+                <div class="col-md-6"><h6> Document Viewer</h6></div>
+                <div class="col-md-6 text-right">
+                    <h6>
+                        <button type="button" class="edit_icon btnPrintImage">
+                            <i class="fa fa-print"></i>
+                        </button>
+                        <button type="button" class="edit_icon btnPrintPdf">
+                            <i class="fa fa-print"></i>
+                        </button>
+                    </h6>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="divViewer">
+                        Preview file here
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@Scripts.Render("~/bundles/accidentDocViewer")
+
+

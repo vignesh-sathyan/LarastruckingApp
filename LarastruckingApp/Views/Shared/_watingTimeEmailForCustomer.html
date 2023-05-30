@@ -1,0 +1,214 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            font-family: calibri;
+        }
+
+        .setPadding td, .setPadding th {
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+    <table style="width:100%;">
+        <tr>
+            <td>
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:60%;vertical-align:top;padding-top:10px;">
+                            <table style="width:100%">
+                                <tr><td><h2 style="margin:0px;">Lara's Trucking & Logistics</h2></td></tr>
+                                <tr><td style="color:#a4a6b9;">dispatch@larastrucking.com</td></tr>
+                                <tr><td style="color:#a4a6b9;">https://larastrucking.com</td></tr>
+                            </table>
+
+
+                        </td>
+                        <td style="width:40%;vertical-align:top;padding-top:10px;">
+                            <table style="width:100%;text-align:right;">
+                                <tr><td> <img src="$$LogoURL$$" style="width:260px; height:80px" /></td></tr>
+
+                                <tr><td style="font-size:25px;color:#375b93;text-align:right;padding-right:10px;">Waiting Time</td></tr>
+
+                                <tr><td style="font-size:20px;text-align:right;padding-right:10px;">$$AWBPoOrderNO$$</td></tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td style="text-align: center;">
+                $$ShipmentStatusHistory$$
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table style="width: 100%;">
+
+                    <tr>
+                        <td style="width: 40%;">
+                            <table style="font-weight:bold; width: 100%; color:#375b93">
+                                <tr style="font-size:16px;">
+                                    <td>
+                                        Estimated Pickup
+
+                                    </td>
+                                </tr>
+                                <tr style="font-size:18px;text-transform: uppercase;">
+                                    <td>$$OrderTaken$$</td>
+                                </tr>
+
+                            </table>
+                        </td>
+                        <td style="width:20%;">
+                            <table style="width:100%;text-align:center;">
+                                <tr>
+                                    <td></td>
+
+                                </tr>
+                            </table>
+                        </td>
+                        <td style="width:40%;">
+                            <table style="font-weight:bold; width: 100%;text-align: right;color:#375b93;">
+                                <tr style="font-size:16px;">
+                                    <td>
+                                        Estimated Delivery
+                                    </td>
+                                </tr>
+                                <tr style="font-size:18px; text-transform: uppercase;">
+                                    <td>$$ESTDateTime$$</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr><td style="height:10px;"></td></tr>
+        <tr>
+            <td style="border:1px solid;padding:10px;">
+                <table style="width:100%;font-size:14px;">
+                    <tr>
+                        <td colspan="2" style="background: #375b93;padding-top:4px; padding-bottom:4px; color: #fff;">
+                            &nbsp; Shipment Detail
+                        </td>
+                    </tr>
+                    <tr style="text-align:center;color:#375b93;margin-top:10px; font-size:20px; font-weight:bold">
+                        <td colspan="2">Customer: $$CustomerName$$ | Consignee: $$Consignee$$ | Service Type: Shipment</td>
+                    </tr>
+
+                    <tr>
+                        <td>
+
+                            <table>
+
+                                <tr><td colspan="2"><b>Route 1</b></td></tr>
+                                <tr><td colspan="2"> &nbsp;</td></tr>
+                                <tr>
+                                    <td><b>Pickup Location</b></td>
+                                    <td>$$PickupLocation$$</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Delivery Location</b></td>
+                                    <td>$$DeliveryLocation$$</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Reference No.</b></td>
+                                    <td>$$AWBPoOrderNO$$</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Freight Type</b></td>
+                                    <td>$$FreightType$$</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Commodity</b></td>
+                                    <td>$$Commodity$$</td>
+                                </tr>
+                                <tr>
+                                    <td><b>No.of Pallets</b></td>
+                                    <td>$$Pallet$$</td>
+                                </tr>
+                                <tr>
+                                    <td><b>No.of Box</b></td>
+                                    <td>$$NoOfBox$$</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Weight</b></td>
+                                    <td>$$Weight$$</td>
+                                </tr>
+
+
+                                <tr>
+                                    <td colspan="2" style="height:10px;"></td>
+                                </tr>
+
+                            </table>
+
+
+                        </td>
+
+
+
+
+                    </tr>
+
+                </table>
+
+            </td>
+
+        </tr>
+        <tr><td style="height:10px;"></td></tr>
+        <tr>
+            <td style="border:1px solid;padding:10px;">
+                <table style="width:100%;font-size:14px;">
+                    <tr>
+                        <td colspan="2" style="background: #375b93;padding-top:4px; padding-bottom:4px; color: #fff;">
+                            &nbsp; Waiting Time History
+                        </td>
+                    </tr>
+                    
+
+                    <tr>
+                        <td>
+
+                            <table>
+                                <tr>
+                                    <th style="width:25%;text-align:left;">Date & Time</th>
+                                    <th style="width:75%;text-align:left;">Status</th>
+
+                                </tr>
+                                  $$WaitingTimeHistory$$
+
+
+
+
+                            </table>
+
+
+                        </td>
+
+
+
+
+                    </tr>
+
+                </table>
+
+            </td>
+
+        </tr>
+    </table>
+</body>
+
+
+</html>

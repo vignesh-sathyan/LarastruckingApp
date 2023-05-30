@@ -1,0 +1,224 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .multi-select-container {
+        display: inline-block;
+        position: relative;
+    }
+
+    .multi-select-menu {
+        position: absolute;
+        left: 0;
+        top: 0.8em;
+        float: left;
+        min-width: 100%;
+        background: #fff;
+        margin: 1em 0;
+        padding: 0.4em 0;
+        border: 1px solid #aaa;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        display: none;
+    }
+
+        .multi-select-menu input {
+            margin-right: 0.3em;
+            vertical-align: 0.1em;
+        }
+
+    .multi-select-button {
+        display: inline-block;
+        font-size: 0.875em;
+        padding: 0.2em 0.6em;
+        max-width: 20em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: -0.5em;
+        background-color: #fff;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        cursor: default;
+    }
+
+        .multi-select-button:after {
+            content: "";
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0.4em 0.4em 0 0.4em;
+            border-color: #999 transparent transparent transparent;
+            margin-left: 0.4em;
+            vertical-align: 0.1em;
+        }
+
+    .multi-select-container--open .multi-select-menu {
+        display: block;
+    }
+
+    .multi-select-container--open .multi-select-button:after {
+        border-width: 0 0.4em 0.4em 0.4em;
+        border-color: transparent transparent #999 transparent;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 mt-2">
+        <div class="white-bg customFormWrap">
+
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group row">
+                            <label for="dtStartedDate2" class="col-sm-4 col-form-label">Start Date</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       required="required"
+                                       placeholder="mm-dd-yyyy"
+                                       name="dtStartedDate"
+                                       onkeypress="return onlyAlphanumeric(event)"
+                                       id="dtStartedDate"
+                                       autocomplete="off"
+                                       class="form-control jqueryui-marker-datepicker">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group  row">
+                            <label for="dtEndDate2" class="col-sm-4 col-form-label">End Date</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       required="required"
+                                       placeholder="mm-dd-yyyy"
+                                       name="dtEndDate"
+                                       onkeypress="return onlyAlphanumeric(event)"
+                                       id="dtEndDate"
+                                       autocomplete="off"
+                                       class="form-control jqueryui-marker-datepicker">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group row">
+                            <label for="ddlCustomer2" class="col-sm-4 col-form-label">Customer</label>
+                            <div class="col-sm-8">
+                                <select id="ddlCustomer2" class="form-control">
+                                    <option> Search Customer</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group row">
+                            <label for="ddlFreightType" class="col-sm-4 col-form-label">Freight Type</label>
+                            <div class="col-sm-8">
+                                <select id="ddlFreightType2" class="form-control">
+                                    <option> Search Freight</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <div class="form-group row">
+                            <label for="ddlStatusType" class="col-sm-4 col-form-label">Status</label>
+                            <div class="col-sm-8">
+                                <select id="ddlStatusType" class="form-control multi"  onclick="">
+                                    <option>Search Status</option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-right"> 
+
+                        <button type="button" id="btnViewShipment2" class="btn green-Btn pullr">Search</button>
+
+                    </div>
+
+                </div>
+            </div>
+            <hr class="hr_add" />
+            <div class="customTableWrapper">
+
+                <table class="table-bordered table-striped cf w-100" id="tblShipmentDetails">
+                    <thead>
+                        <tr>
+                            <th hidden="hidden">ShipmentId</th>
+                            <th>Status</th>
+                            <th>Customer Name</th>
+                            <th>P. Address</th>
+                            <th>P. Date</th>
+                            <th>D. Address</th>
+                            <th>D. Date</th>
+                            <th>Air Waybill</th>
+                            <th>Cust. PO</th>
+                            <th>Driver Name</th>
+                            <th>Equipment No</th>
+                            <th>Shipment Ref. No</th>
+                            <th>Quantity</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/CustomScript/Reports/DailyReport.js"></script>
+<script src="~/Assets/js/jquery.multi-select.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#languages').multiSelect({
+
+            // Custom templates
+            'containerHTML': '<div class="multi-select-container">',
+            'menuHTML': '<div class="multi-select-menu">',
+            'buttonHTML': '<span class="multi-select-button">',
+            'menuItemsHTML': '<div class="multi-select-menuitems">',
+            'menuItemHTML': '<label class="multi-select-menuitem">',
+            'presetsHTML': '<div class="multi-select-presets">',
+
+            // sets some HTML (eg: <div class="multi-select-modal">) to enable the modal overlay.
+            'modalHTML': undefined,
+
+            // Active CSS class
+            'activeClass': 'multi-select-container--open',
+
+            // Text to show when no option is selected
+            'noneText': '-- Select --',
+
+            // Text to show when all options are selected
+            'allText': undefined,
+
+            // an array of preset option groups
+            'presets': undefined,
+
+            // CSS class added to the container, when the menu is about to extend beyond the right edge of the position<a href="https://www.jqueryscript.net/menu/">Menu</a>Within element
+            'positionedMenuClass': 'multi-select-container--positioned',
+
+            // If you provide a jQuery object here, the plugin will add a class (see positionedMenuClass option) to the container when the right edge of the dropdown menu is about to extend outside the specified element, giving you the opportunity to use CSS to prevent the menu extending, for example, by allowing the option labels to wrap onto multiple lines.
+            'positionMenuWithin': undefined,
+
+            // The plugin will attempt to keep this distance, in pixels, clear between the bottom of the menu and the bottom of the viewport, by setting a fixed height style if the menu would otherwise approach this distance from the bottom edge of the viewport.
+            'viewportBottomGutter': 20,
+
+            // minimal height
+            'menuMinHeight': 200
+
+        });
+
+    });
+</script>

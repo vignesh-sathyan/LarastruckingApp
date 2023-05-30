@@ -1,0 +1,36 @@
+﻿@model LarastruckingApp.Entities.CustomerDto.CustomerDto
+
+@{
+
+    ViewBag.Title = "CreateCustomer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{ Html.RenderPartial("_partialAddCustomer", Model);}
+
+
+@Scripts.Render("~/bundles/manageCustomerJs")
+
+<script>
+    $(document).ready(function () {
+        var customerid = $("#hdnCustomerId").val();
+        if (customerid > 0 && customerid != undefined) {
+            $("#ddlBillingState").val(@Model.BillingStateId);
+            $("#ddlShippingState").val(@Model.ShippingStateId);
+
+            var params = @Html.Raw(Json.Encode(Model));
+            editCustomerAjax(params);
+        }
+        else {
+
+            $("#ddlBillingCountry").val(231);
+            $("#ddlShippingCountry").val(231);
+            bindBillingState();
+            bindShippingState();
+            $("#ddlBillingState").val(3929);
+            $("#ddlShippingState").val(3929);
+        }
+
+    });
+
+</script>

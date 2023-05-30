@@ -1,0 +1,51 @@
+﻿@using LarastruckingApp.Entities.Permission
+@{
+    ViewBag.Title = "ViewAccidentReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    PermissionsDto permissions = IsPermited.HasPermission();
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 mt-2">
+        <div class="white-bg customFormWrap">
+            <div class="col-md-12 py-2 d-flex justify-content-start mb_40 pl-acr" style="justify-content:    end !important;right:328px;padding-right: 0;padding-top: 0 !important;margin-bottom: -40px;">
+                @{
+                    if (permissions.IsInsert)
+                    {
+                                <a id="loginLink" class="btn green-Btn" href="@Url.Action("Index", "AccidentReport")" style="display: flex; align-items: center; justify-content: space-between; padding: 2px 8px 2px 4px; height: 31px;">
+                                    <img alt="Log in" src="@Url.Content("~/Assets/images/add-icon.png")" style="width:20px;">
+                                    &nbsp;CREATE ACCIDENT REPORT
+
+                                </a>
+
+                    }
+                }
+
+            </div>
+            <div class="customTableWrapper">
+                <div id="">
+                    <table class="table-bordered table-striped dataTable cf w-100 tblChange-bgcolor" id="tblAccidentReport">
+                        <thead>
+                            <tr>
+                                <th hidden="hidden">AccidentReportId</th>
+                                <th>DATE OF ACCIDENT</th>
+                                <th>DRIVER</th>
+                                <th>EQUIP</th>
+                                <th>YEAR</th>
+                                <th>PLATE</th>
+                                <th>EQUIP TYPE</th>
+                                <th>VIN</th>
+                                <th>REPORT NO.</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*@Scripts.Render("~/bundles/viewReportAccident")*@
+<script src="~/CustomScript/ViewReportAccident.js"></script>

@@ -1,0 +1,50 @@
+﻿@using LarastruckingApp.Entities.Permission
+@{
+    ViewBag.Title = "ViewEquipment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    PermissionsDto permissions = IsPermited.HasPermission();
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 mt-2">
+        <div class="white-bg customFormWrap">
+            <div class="col-md-12">
+                <div class="row">
+
+                    <div class="col-md-12 py-2 d-flex justify-content-start mb_40 pl-eqp">
+                        @{ if (permissions.IsInsert)
+                            {
+                                @Html.ActionLink("Add Equipment", "AddEquipment", "Equipment", null, new { @class = "btn green-Btn" })
+                            }
+
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="customTableWrapper">
+                <div id="divEquipmentList">
+                    <table class="table-bordered table-striped cf w-100" id="tblEquipmentDetails">
+                        <thead>
+                            <tr>
+                                <th hidden="hidden">EquipmentId</th>
+                                <th>Equipment No.</th>
+                                <th>Equipment Type</th>
+                                <th>Max Load</th>
+                                <th>Roller Bed</th>
+                                <th>Freight Type</th>
+                                <th class="numeric">License Plate</th>
+                                <th class="numeric">Year</th>
+                                <th class="numeric">VIN</th>
+                                <th class="numeric">Owned By</th>
+                                <th class="numeric">Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/viewEquipment")
+

@@ -1,0 +1,273 @@
+﻿@model LarastruckingApp.ViewModel.Customer.CustomerQuotesViewModel
+
+@{
+    ViewBag.Title = "TrackShipment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+}
+
+
+<div class="white-bg customFormWrap TrackShipment-custom">
+
+    <h6>Track Shipment Details</h6>
+
+    <div class="row">
+        @*<div class="col-md-3">
+                <div class="form-group row">
+                    <input type="hidden" id="hdShipmentId" name="hdShipmentId" value="0">
+                    <label class="col-sm-4 col-form-label" for="txtShipRefNo">Ship Ref No.</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="txtShipRefNo" class="form-control" readonly="readonly" value="@Model.CustomerShipmentTrack.ShipmentRefNo">
+                    </div>
+                </div>
+            </div>*@
+
+        <div class="col-md-3">
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label" for="txtAirWayBill">Air Waybill</label>
+                <div class="col-sm-8">
+                    <input type="text" id="txtAirWayBill" class="form-control" readonly="readonly" value="@Model.CustomerShipmentTrack.AirWayBill">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label" for="txtCustomerPO">Customer PO</label>
+                <div class="col-sm-8">
+                    <input type="text" id="txtCustomerPO" class="form-control" readonly="readonly" value="@Model.CustomerShipmentTrack.CustomerPO">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label" for="txtOrderNo"> Order No</label>
+                <div class="col-sm-8">
+                    <input type="text" id="txtOrderNo" class="form-control" readonly="readonly" value="@Model.CustomerShipmentTrack.OrderNo">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Row 2: Customer Ref -->
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label" for="txtCustomerRef">Customer Ref.</label>
+                <div class="col-sm-8">
+                    <input type="text" id="txtCustomerRef" class="form-control" readonly="readonly" value="@Model.CustomerShipmentTrack.CustomerRef">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label" for="txtContainerNo">Container No.</label>
+                <div class="col-sm-8">
+                    <input type="text" id="txtContainerNo" class="form-control" readonly="readonly" value="@Model.CustomerShipmentTrack.ContainerNo">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label" for="txtPurchaseDoc">Purchase Doc.</label>
+                <div class="col-sm-8">
+                    <input type="text" id="txtPurchaseDoc" class="form-control" readonly="readonly" value="@Model.CustomerShipmentTrack.PurchaseDoc">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!--Pickup Location-->
+        <div class="col-md-6">
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="txtPickupLocation">Pickup Location</label>
+                <div class="col-sm-10">
+                    <input type="text" id="txtPickupLocation" class="form-control" readonly="readonly" value="@Model.CustomerShipmentTrack.PickUpLocation">
+                </div>
+            </div>
+        </div>
+
+        <!--Pickup Arrival-->
+        <div class="col-md-3">
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label" for="txtEstimatedPickupArrival">Pickup Date</label>
+                <div class="col-sm-8">
+                    <input type="text" id="txtEstimatedPickupArrival" class="form-control" readonly="readonly" value="@string.Format("{0:MM/dd/yyyy HH:mm}", Model.CustomerShipmentTrack.PickUpArrivalDate)">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="txtDeliveryLocation">Del. Location</label>
+                <div class="col-sm-10">
+                    <input type="text" id="txtDeliveryLocation" class="form-control" readonly="readonly" value="@Model.CustomerShipmentTrack.DeliveryAddress">
+                </div>
+            </div>
+        </div>
+
+
+
+        <!--Pickup Depart-->
+        <div class="col-md-3">
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label" for="txtEstimatedPickupDepart">Delivery Date</label>
+                <div class="col-sm-8">
+                    <input type="text" id="txtEstimatedPickupDepart" class="form-control" readonly="readonly" value="@string.Format("{0:MM/dd/yyyy HH:mm}", Model.CustomerShipmentTrack.DeliveryArrive)">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="icon-outer">
+                @{
+                    bool isValid = false;
+                    foreach (var status in Model.CustomerShipmentTrack.ShipmentStatusHistory)
+                    {
+                        if (isValid == false)
+                        {
+                            <div class="icon-list">
+                                <img style="width:auto;" src="@status.ImageUrl" /><br />
+                                <label>@string.Format("{0:MM/dd/yyyy HH:mm}", status.DateTime)</label>
+                            </div>
+                            isValid = true;
+                        }
+                        else
+                        {
+                            <div class="icon-list dots-img">
+                                <img style="margin-bottom:0px; " src="@Model.CustomerShipmentTrack.StatusDotPath" />
+
+                            </div>
+                            <div class="icon-list">
+                                <img style="width:auto;" src="@status.ImageUrl" /><br />
+                                <label>@string.Format("{0:MM/dd/yyyy HH:mm}", status.DateTime)</label>
+                            </div>
+                        }
+
+
+                    }
+                    foreach (var status in Model.CustomerShipmentTrack.ShipmentStatusList)
+                    {
+                        <div class="icon-list dots-img"><img style="margin-bottom:0px;" src="@Model.CustomerShipmentTrack.StatusGrayDotPath" /></div>
+                        <div class="icon-list">
+                            <img style="width:auto;" src="@status.GrayImageURL" />
+                        </div>
+
+
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid px-1 py-5 mx-auto">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-12">
+                <div class="row">
+
+
+                    @* <ul id="progressbar" class="text-center">
+                            @foreach (SelectListItem status in ViewBag.StatusList)
+                        {
+                            int id = Convert.ToInt32(status.Value);
+                            var item = Model.CustomerShipmentTrack.CustomerStatusTrack.Find(x => x.StatusId == id);
+                            string activecss = string.Empty;
+
+                            if (item != null)
+                            {
+                                activecss = "active";
+
+                            }
+
+                            switch (id)
+                            {
+                                case 1:
+                                case 2:
+                                case 5:
+                                case 6:
+                                    {
+                                        <li class="@activecss step0" id="step8">
+                                            <span class="spnStatusName">
+                                                @status.Text<br />
+                                                @if (item != null)
+                                                {
+                                                   <label>@string.Format("{0:MM/dd/yyyy HH:mm}", item.CreatedOn)</label>
+                                                }
+                                                </span>
+                                        </li>
+                                    }
+                                    break;
+                                case 3:
+                                case 4:
+                                    if (item != null)
+                                    {
+                                        <li class="@activecss step0" id="step8">
+
+                                            <span class="spnStatusName">
+                                                @status.Text<br />
+                                                @if (item != null)
+                                                {
+                                                  <label>@string.Format("{0:MM/dd/yyyy HH:mm}", item.CreatedOn)</label>
+                                                }
+                                            </span>
+                                        </li>
+                                    }
+                                    break;
+                                case 8:
+                                    {
+
+                                        if (id == 8 && Model.CustomerShipmentTrack.CustomerStatusTrack.Find(x => x.StatusId == 7) == null && item != null)
+                                        {
+                                            <li class="@activecss step0" id="step8">
+                                                <span class="spnStatusName">
+                                                    @status.Text<br />
+                                                    @if (item != null)
+                                                    {
+                                                     <label>@string.Format("{0:MM/dd/yyyy HH:mm}", item.CreatedOn)</label>
+                                                    }
+                                                </span>
+                                            </li>
+                                        }
+                                    }
+                                    break;
+                                case 7:
+                                    {
+
+                                        if (id == 7 && Model.CustomerShipmentTrack.CustomerStatusTrack.Find(x => x.StatusId == 8) == null)
+                                        {
+                                            <li class="@activecss step0" id="step8">
+
+                                                <span class="spnStatusName">
+                                                    @status.Text<br />
+                                                    @if (item != null)
+                                                    {
+                                                      <label>@string.Format("{0:MM/dd/yyyy HH:mm}", item.CreatedOn)</label>
+                                                    }
+                                                </span>
+                                            </li>
+                                        }
+
+                                    }
+                                    break;
+
+                            }
+
+
+                        }</ul>*@
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="~/CustomScript/customerJs/CustomerDashboard.js"></script>
+

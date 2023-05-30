@@ -1,0 +1,43 @@
+﻿@model LarastruckingApp.ViewModel.EquipmentViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<table class="table table-bordered">
+    <tr>
+        <td>
+            name
+        </td>
+        <td>
+            action
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @User.Identity.Name
+        </td>
+        <td>
+            @if (IsPermited.HasPermission("CanView"))
+            {
+                <button> View </button>
+            }
+
+            @if (IsPermited.HasPermission("CanInsert"))
+            {
+                <button> Insert </button>
+            }
+
+            @if (IsPermited.HasPermission("CanUpdate"))
+
+            {
+                <button> Update </button>
+            }
+
+            @if (IsPermited.HasPermission("CanDelete"))
+
+            {
+                <button> delete </button>
+            }
+        </td>
+    </tr>
+</table>

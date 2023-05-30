@@ -1,0 +1,173 @@
+﻿
+<table border="0" cellpadding="0" cellspacing="3">
+    <tr>
+        <td colspan="2">
+            <div id="dvDistance">
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div id="dvMap" style="width: 1000px; height: 1000px">
+            </div>
+        </td>
+        <td>
+            <div id="dvPanel" style="width: 500px; height: 500px">
+            </div>
+        </td>
+    </tr>
+</table>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDME32UFDEYyS_KwgS3WJRqPY5cpbtKH0A&callback=initMap&libraries=places&SameSite=None"></script>
+
+<script>
+    
+    var source, destination;
+    //var directionsDisplay;
+    var geocoder;
+    var directionsService;
+    var destinationLocation = '@ViewBag.location';
+ 
+    var latLng_Master = []; var latLng = [];
+
+    var deniedID = window.setInterval(function () {
+        initMap();
+       // callAtInterval();
+    }, 10000);
+   // console.log(deniedID); 
+
+    var drawLocation = new google.maps.LatLng(41.850033, -87.6500523);
+    var zoomLevel = 13;
+
+    function initMap() {
+        //alert('After 30 Sec, Active');
+            
+        
+        zoomLevel = 13;
+        var mapOptions = {
+            center: drawLocation,
+            scrollwheel: true,
+            zoom: zoomLevel,
+            gestureHandling: 'cooperative'
+        };
+         
+        map = new google.maps.Map(document.getElementById('dvMap'), mapOptions);
+        //alert('G map obj = '+map)
+        
+
+        let marker = new google.maps.Marker({
+            map: map,
+            position: drawLocation,
+            icon: {
+                url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+            }
+        });
+
+        geocoder = new google.maps.Geocoder();
+        var driverLocation = []; latLng_Master = [];
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+
+               // alert('position =' + position);
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+
+                driverLocation.push(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+                latLng_Master.push(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+
+                destinationAdd();
+            });
+        }
+
+    }
+
+    function destinationAdd() {
+        var add = destinationLocation;
+        //alert('address = ' + destinationLocation)
+        //address.forEach((add) => {
+        geocoder.geocode({ 'address': add }, function (results, status) {
+            if (status == 'OK') {
+                //source = results[0].geometry.location;
+                latLng.push(results[0].geometry.location);
+                latLng_Master.push(new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()));
+
+                //alert('latitude =' + results[0].geometry.location.lat() + 'and longitude is' + results[0].geometry.location.lng() );
+                //count++;
+                //if (address.length == count) {
+                
+                drawRoutePointsAndWaypoints(latLng_Master);
+                //}
+            }
+        });
+        //});
+    }
+    function drawRoutePointsAndWaypoints(Points) {
+        //clearInterval(deniedID);
+        //Define a variable for waypoints.
+        var _waypoints = new Array();
+        if (Points.length > 2) //Waypoints will be come.
+        {
+            for (var j = 0; j < Points.length - 1; j++) {
+                var address = Points[j].location;
+                if (address !== "") {
+                    _waypoints.push({
+                        location: address,
+                        stopover: true  //stopover is used to show marker on map for waypoints
+                    });
+                }
+            }
+
+            //Call a drawRoute() function
+            drawRoute(Points[0], Points[Points.length - 1], _waypoints);
+
+        } else if (Points.length > 1) {
+            //Call a drawRoute() function only for start and end locations
+            drawRoute(Points[Points.length - 2], Points[Points.length - 1], _waypoints);
+        } else {
+            //Call a drawRoute() function only for one point as start and end locations.
+            drawRoute(Points[Points.length - 1], Points[Points.length - 1], _waypoints);
+        }
+    }
+    function drawRoute(source, destination, _waypoints) {
+        var request = {
+            origin: source,
+            destination: destination,
+            travelMode: google.maps.TravelMode.DRIVING
+        };
+
+        ///var bounds = new google.maps.LatLngBounds();
+        directionsService = new google.maps.DirectionsService();
+        directionsService.route(request, function (response, status) {
+            
+            if (status == google.maps.DirectionsStatus.OK) {
+                //directionsDisplay = new google.maps.DirectionsRenderer({ 'draggable': true });
+                //directionsDisplay.setMap(map);
+                let directionsDisplay = new google.maps.DirectionsRenderer({ preserveViewport: false });
+                //map.setZoom(13);
+                directionsDisplay.setMap(map);
+
+                directionsDisplay.setPanel(document.getElementById('dvPanel'));
+                directionsDisplay.setDirections(response);
+                //directionsDisplay.getMap().setZoom(13);
+                //bounds.union(response.routes[0].bounds);
+                //map.fitBounds(bounds);
+            }
+        });
+    }
+
+    function callAtInterval() {
+        //alert('1 st');
+        latLng_Master = [];
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                
+                //alert(map.getZoom());
+                //latLng_Master.push(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+                latLng_Master[0] = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+                drawRoutePointsAndWaypoints(latLng_Master);
+            });
+        }
+    }
+
+</script>

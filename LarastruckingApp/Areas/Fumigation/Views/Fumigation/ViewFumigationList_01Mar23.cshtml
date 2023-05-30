@@ -1,0 +1,242 @@
+﻿@using LarastruckingApp.Entities.Permission
+@{
+    ViewBag.Title = "Fumigation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    PermissionsDto permissions = IsPermited.HasPermission();
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-body">
+            <div class="white-bg customFormWrap">
+                <div class="row">
+
+                    <div class="col-md-12 py-2 d-flex justify-content-start mb_40 pl-fum" style="justify-content:    end !important;right: 556px;padding-right: 0;padding-top: 0 !important;">
+
+                        @if (permissions.IsInsert)
+                        {
+
+                            <!-- <a id="loginLink" class="btn green-Btn" href="@Url.Action("Index", "Fumigation")" style="display: flex;align-items: center;justify-content: space-between;padding: 2px 8px 2px 4px;"> -->
+                            <a id="loginLink" class="btn green-Btn" href="#" onclick="window.open('@Url.Action("Index", "Fumigation")')" style="display: flex;align-items: center;justify-content: space-between;padding: 2px 8px 2px 4px;">
+                                <img alt="Log in" src="@Url.Content("~/Assets/images/add-icon.png")" style="width:20px;margin-right:5px;">
+                                <label style="margin-bottom:-2px;">Create Fumigation</label>
+
+                            </a>
+                            <label>&nbsp;</label><label>&nbsp;</label>
+                            <a id="loginLink" class="btn green-Btn" href="@Url.Action("ViewAllFumigation", "Fumigation")" style="display: flex;align-items: center;justify-content: space-between;padding: 2px 8px 2px 8px;">
+                                <img alt="Log in" src="@Url.Content("~/Assets/images/archives.png")" style="width: 20px; margin-right: 5px;">
+
+                                <label style="margin-bottom:-2px;">Fumigation Archive</label>
+
+                            </a>
+
+                        }
+
+                    </div>
+                </div>
+                <div id="customTableWrapper">
+                    <table class="table-bordered table-striped cf w-100 collapsed" id="tblOrderTakenFumigation">
+                        <thead>
+                            <tr><td colspan="22"><b>REQUESTED FUMIGATION</b></td></tr>
+                            <tr>
+                                <th hidden="hidden"></th>
+                                <th>Status</th>
+                                <th style="width: 72px !important;padding-right: 12px;">Req Loading</th>
+                                <th>Fum Type</th>
+                                <th>Customer</th>
+                                <th>Pickup Location</th>
+                                <th style="width: 106px !important; padding-right:22px !important;">AWB/PO/Container</th>
+                                <th>Consignee</th>
+                                <th>Box Count</th>
+                                <th>Pallet Count</th>
+                                <th>Position</th>
+                                <th>Temp F</th>
+                                <th>Fumigation Site</th>
+                                <th style="width: 28px !important;padding-right: 8px;">Pickup Equ</th>
+                                <th>Pickup Driver</th>
+                                <th>Delivery Location</th>
+                                <th>Comments</th>
+                                @*<th>Delivery Driver</th>
+                                <th>Delivery Equipment</th>
+                                <th>Delivery Arrival</th>*@
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-body">
+            <div class="white-bg customFormWrap">
+
+                <div id="customTableWrapper">
+                    <table class="table-bordered table-striped cf w-100" id="tblOtherFumigation">
+                        <thead>
+                            <tr><td colspan="22"><b>FUMIGATION IN PROGRESS</b></td></tr>
+                            <tr>
+                                <th hidden="hidden"></th>
+                                <th>Status</th>
+                                <th>Fum Release</th>
+
+                                <th>Fum Type</th>
+                                <th>Customer</th>
+                                <th>Pickup Location</th>
+                                <th>AWB/PO/Container</th>
+                                <th>Consignee</th>
+
+                                <th>Box Count</th>
+                                <th>Pallet Count</th>
+                                <th>Position</th>
+                                <th>Fumigation Site</th>
+                                <th>Pickup Equipment</th>
+                                <th>Pickup Driver</th>
+                               
+                                <th>Actual Start</th>
+                                <th>Actual Finish</th>
+                                <th>Temp F</th>
+
+
+                                @*<th>Actual Fum In</th>
+
+                                <th>Act. Fum Departure</th>*@
+                                <th>Equipment</th>
+                                <th>Delivery Driver</th>
+                                <th>Delivery Location</th>
+                                <th>Comments</th>
+                                @*<th>Actual Arrival</th>
+                                <th>Actual Departure</th>*@
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" role="dialog" id="fumigationModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header popup">
+                <h6 class="modal-title">Copy Fumigation</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <div class="white-bg customFormWrap">
+                        <input type="hidden" id="FumigationId" value="" />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group required row">
+                                    <label class="col-sm-4 col-form-label" for="ddlCustomerCopy">Customer</label>
+                                    <div class="col-sm-8">
+                                        <select id="ddlCustomerCopy"
+                                                class="form-control">
+                                            <option>SEARCH CUSTOMER</option>
+                                        </select>
+
+                                        <input type="hidden" id="hdnFumigationId" name="hdnFumigationId" value="0" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label" for="txtAirWayBill">Air Waybill</label>
+                                        <div class="col-sm-8">
+                                            <input type="text"
+                                                   name="txtAirWayBill"
+                                                   onkeypress="return onlyAlphanumeric(event)"
+                                                   id="txtAirWayBill"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="12">
+                                    <div class="form-group row required">
+                                        <label class="col-sm-4 col-form-label" for="dtReqLoading">Req. Loading</label>
+                                        <div class="col-sm-8">
+                                            <input type="text"
+                                                   autocomplete="off"
+                                                   data-required="required"
+                                                   placeholder="MM-DD-YYYY"
+                                                   onkeypress="return onlyNumericOrcolon(event)"
+                                                   id="dtReqLoading"
+                                                   class="form-control dtTimer" />
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-12">
+                                    <div class="form-group row required">
+                                        <label class="col-sm-4 col-form-label" for="dtEstFumIn">Est. Fum. In</label>
+                                        <div class="col-sm-8">
+                                            <input type="text"
+                                                   autocomplete="off"
+                                                   data-required="required"
+                                                   placeholder="MM-DD-YYYY"
+                                                   onkeypress="return onlyNumericOrcolon(event)"
+                                                   id="dtEstFumIn"
+                                                   class="form-control dtTimer" />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-12">
+                                    <div class="form-group row required">
+                                        <label class="col-sm-4 col-form-label" for="dtRelease">Est. Fum. Release</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" autocomplete="off" data-required="required" placeholder="MM-DD-YYYY" onkeypress="return onlyNumericOrcolon(event)" id="dtRelease" class="form-control dtTimer" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-12">
+                                    <div class="form-group row required">
+                                        <label class="col-sm-4 col-form-label" for="dtDelEstArrival">Del. Est. Arrival</label>
+                                        <div class="col-sm-8">
+                                            <input type="text"
+                                                   autocomplete="off"
+                                                   data-required="required"
+                                                   placeholder="MM-DD-YYYY"
+                                                   onkeypress="return onlyNumericOrcolon(event)"
+                                                   id="dtDelEstArrival"
+                                                   class="form-control dtTimer" />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 text-right" style="flex: unset;width:auto;">
+                                <button type="button" id="btnCopy" class="btn green-Btn">Copy Fumigation</button>
+                            </div>
+                            <div class="col-md-12 text-right" style="flex: unset; width: auto;">
+                                <button type="button" id="btnCancel" class="btn green-Btn">Cancel</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@Scripts.Render("~/bundles/getFumigationList")
+

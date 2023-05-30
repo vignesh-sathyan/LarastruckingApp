@@ -1,0 +1,55 @@
+﻿@using LarastruckingApp.Entities.Permission
+@{
+    ViewBag.Title = "ViewEquipment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    PermissionsDto permissions = IsPermited.HasPermission();
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 mt-2">
+        <div class="white-bg customFormWrap">
+            <div class="col-md-12">
+                <div class="row">
+
+                    <div class="col-md-12 py-2 d-flex justify-content-start mb_40 pl-eqp" style="justify-content: end !important; right: 328px; padding-right: 0; padding-top: 0 !important; margin-bottom: -40px;">
+                        @{ if (permissions.IsInsert)
+                            {
+                                                <a id="loginLink" class="btn green-Btn" href="@Url.Action("AddEquipment", "Equipment")" style="display: flex;align-items: center;justify-content: space-between;padding: 2px 8px 2px 4px;height:31px;">
+                                                    <img alt="Log in" src="@Url.Content("~/Assets/images/add-icon.png")" style="width:20px;">
+                                                    &nbsp;Add Equipment
+
+                                                </a>
+                               
+                            }
+
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="customTableWrapper">
+                <div id="divEquipmentList">
+                    <table class="table-bordered table-striped cf w-100" id="tblEquipmentDetails">
+                        <thead>
+                            <tr>
+                                <th hidden="hidden">EquipmentId</th>
+                                <th>Equipment No.</th>
+                                <th>Equipment Type</th>
+                                <th>Max Load</th>
+                                <th>Roller Bed</th>
+                                <th>Freight Type</th>
+                                <th class="numeric">License Plate</th>
+                                <th class="numeric">Year</th>
+                                <th class="numeric">VIN</th>
+                                <th class="numeric">Owned By</th>
+                                <th class="numeric">Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/viewEquipment")
+

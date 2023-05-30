@@ -1,0 +1,423 @@
+﻿@model IEnumerable<LarastruckingApp.Entities.ShipmentDTO.UploadShipmentDTO>
+@using LarastruckingApp.Entities.Permission
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    PermissionsDto permissions = IsPermited.HasPermission();
+}
+
+
+<div class="card-body">
+    <div class="white-bg customFormWrap">
+        @using (Html.BeginForm("Index", "UploadShipment", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <h2 class="cardHeading">
+              UPLOAD SHIPMENT
+            </h2>
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group required row">
+                        <label class="col-sm-4 col-form-label" for="flUploadShipment">Customer Name</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" name="customerId" id="ddlCompanyName">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group required row">
+                        <label class="col-sm-4 col-form-label" for="flUploadShipment">Upload File (.xls/.xlsx)</label>
+                        <div class="col-sm-8">
+                            <input type="file"
+                                   name="file"
+                                   required="required"
+                                   id="flUploadShipment"
+                                   onchange="CheckFileName(this)"
+                                   class="filebrowse" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-7">
+                    <div class="row">
+                        <div class="col-sm-12" style="justify-content: flex-end;display: flex;">
+                            <i class="fa fa-upload icon" style="display: inline-block; margin-right: -24px; position: relative; margin-top: 6px; width: auto; height: auto; color: #fff;"></i>
+                            <input type="button" id="btnSave" value="Upload File" class="btn green-Btn" style="margin-right: 6px; padding-left: 33px; height: 25px;">
+                            @if (permissions.IsInsert)
+                            {
+                                <i class="fa fa-save" style="display: inline-block; margin-left: 17px; position: relative; margin-top: 6px; width: auto; height: auto; color: #fff; margin-right: -25px;"></i>
+                                <input type="button" id="btnSaveData" value="Save" class="btn green-Btn" style="margin-right: 6px; justify-content: center; padding-right: 0;" />
+                                <i class="fa fa-times" style="display: inline-block; margin-left: 13px; position: relative; margin-top: 6px; width: auto; height: auto; color: #fff; margin-right: -23px;"></i>
+
+                                <input type="button" id="btnClear" value="Clear" class="btn green-Btn" style="padding-right: 0px; justify-content: center;"/>
+
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="row">
+
+            <div class="col-md-6">
+                <a href="#" id="fldownload" name="fldownload" class="fldownload">Download Sample Excel <i class="fa fa-download" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12 mt-2">
+        <div class="white-bg customFormWrap">
+
+            <div class="customTableWrapper table-responsive">
+                <table id="tblShipmentData" class="table-bordered table-striped  cf w-100">
+                    <thead class="cf">
+                        <tr>
+                            <th>ETA DATE</th>
+
+                            <th>DEL. DATE</th>
+                            <th>CONSIGNEE/<br />VENDOR NAME</th>
+                            <th>CUSTOMER PO</th>
+                            <th>ORDER NO</th>
+                            <th width="10%">AWB #</th>
+                            <th>PICKUP LOCATION</th>
+                            <th>DELIVERY LOCATION</th>
+                            <th>FREIGHT TYPE</th>
+                            <th>COMMODITY</th>
+                            <th>NO. OF PALLETS</th>
+
+                            <th>NO. OF BOX</th>
+                            <th>WEIGHT</th>
+                            <th>UNIT KG/LB</th>
+                            <th>PRICING METHOD</th>
+                            <th>REQ. TEMP</th>
+                            <th>COMMENT</th>
+                            <th>TOTAL PALLETS</th>
+                            <th>TOTAL BOX</th>
+                            <th>REQUESTED BY</th>
+                            <th>EDIT</th>
+                        </tr>
+                    </thead>
+                    <tbody class=""></tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" role="dialog" id="uploadShipmentModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header popup">
+                <h6 class="modal-title">Edit Shipment</h6>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <div class="white-bg customFormWrap">
+                        <input type="hidden" id="rowValue" value="" />
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label" for="lblPickupDate"></label>
+                                        <div class="col-sm-8">
+                                            <label id="lblPickupDate"></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row required">
+                                        <label class="col-sm-4 col-form-label" for="ddlPickupDate">Pickup Date</label>
+                                        <div class="col-sm-8">
+                                            <input type="text"
+                                                   autocomplete="off"
+                                                   data-required="required"
+                                                   placeholder="MM-DD-YYYY"
+                                                   onkeypress="return onlyNumericOrcolon(event)"
+                                                   id="ddlPickupDate"
+                                                   class="form-control dtTimer" />
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label" for="lblDeliveryDate"></label>
+                                        <div class="col-sm-8">
+                                            <label id="lblDeliveryDate"></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row required">
+                                        <label class="col-sm-4 col-form-label" for="ddlDeliveryDate">Delivery Date</label>
+                                        <div class="col-sm-8">
+
+                                            <input type="text"
+                                                   autocomplete="off"
+                                                   data-required="required"
+                                                   placeholder="MM-DD-YYYY"
+                                                   onkeypress="return onlyNumericOrcolon(event)"
+                                                   id="ddlDeliveryDate"
+                                                   class="form-control dtTimer" />
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label" for="lblPickupLocation"></label>
+                                        <div class="col-sm-8">
+                                            <label id="lblPickupLocation"></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row required">
+                                        <label class="col-sm-4 col-form-label" for="ddlPickupLocation">Pickup Location</label>
+                                        <div class="col-sm-8">
+
+                                            <select class="form-control" id="ddlPickupLocation">
+                                                <option value="0">SEARCH PICKUP LOCATION</option>
+                                            </select>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="lblDeliveryLocation"></label>
+                                    <div class="col-sm-8">
+                                        <label id="lblDeliveryLocation"></label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group row required">
+                                        <label class="col-sm-4 col-form-label" for="ddlDeliveryLocation">Delivery Location</label>
+
+                                        <div class="col-sm-8">
+
+                                            <select class="form-control" id="ddlDeliveryLocation">
+                                                <option value="0">SEARCH DELIVERY LOCATION</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="lblFreightType"></label>
+                                    <div class="col-sm-8">
+                                        <label id="lblFreightType"></label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group row required">
+                                        <label class="col-sm-4 col-form-label" for="ddlFreightType">Freight Type</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control" id="ddlFreightType">
+                                                <option value="0">SELECT FREIGHT  TYPE</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="lblPricingMethod"></label>
+                                    <div class="col-sm-8">
+                                        <label id="lblPricingMethod"></label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group row required">
+                                        <label class="col-sm-4 col-form-label" for="ddlPricingMethod">Pricing Method</label>
+                                        <div class="col-sm-8">
+
+                                            <select class="form-control" id="ddlPricingMethod">
+                                                <option value="0">SELECT PRICING METHOD</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for="lblUnit"></label>
+                                    <div class="col-sm-8">
+                                        <label id="lblUnit"></label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label" for="ddlUnit">Unit</label>
+                                        <div class="col-sm-8">
+                                            <input type="hidden" value="false" id="hdnUnit" />
+                                            <select class="form-control" id="ddlUnit">
+                                                <option value="">SELECT UNIT</option>
+                                                @{
+                                                    if (ViewBag.WeightUnit != null)
+                                                    {
+                                                        foreach (var data in ViewBag.WeightUnit)
+                                                        {
+                                                            <option value="@data.Text">@data.Text</option>
+                                                        }
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label" for=""></label>
+                                    <div class="col-sm-8">
+                                        <label></label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label" for="txtAirWayBill">Air Waybill</label>
+                                        <div class="col-sm-8">
+                                            <input type="text"
+                                                   name="txtAirWayBill"
+                                                   onkeypress="return onlyAlphanumeric(event)"
+                                                   id="txtAirWayBill"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label" for="txtCustomerPO">Customer PO</label>
+                                        <div class="col-sm-8">
+                                            <input type="text"
+                                                   name="txtCustomerPO"
+                                                   onkeypress="return onlyAlphanumeric(event)"
+                                                   id="txtCustomerPO"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label" for="txtOrderNo">Order No</label>
+                                        <div class="col-sm-8">
+                                            <input type="text"
+                                                   name="txtOrderNo"
+                                                   onkeypress="return onlyAlphanumeric(event)"
+                                                   id="txtOrderNo"
+                                                   class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
+                            <div class="col-md-4">
+                                <div class="col-md-12">
+                                    <div class="form-group row checkbox-container">
+                                        <label class="col-sm-8 col-form-label" for="chkPickUpLocation"> Pickup Location For All </label>
+                                        <div class="col-sm-4">
+                                            <div class="checkbox">
+                                                <input type="checkbox" id="chkPickUpLocation" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-12">
+                                    <div class="form-group row checkbox-container">
+                                        <label class="col-sm-8 col-form-label" for="chkDeliveryLocation"> Delivery Location For All </label>
+                                        <div class="col-sm-4">
+                                            <div class="checkbox">
+                                                <input type="checkbox" id="chkDeliveryLocation" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 text-right">
+                                <button type="button" id="btnUpdate" class="btn green-Btn">Update</button>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="col-md-12">
+                                    <div class="form-group row checkbox-container">
+                                        <label class="col-sm-8 col-form-label" for="chkPickupLocationSame"> Pickup Location For Same </label>
+                                        <div class="col-sm-4">
+                                            <div class="checkbox">
+                                                <input type="checkbox" id="chkPickupLocationSame" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-12">
+                                    <div class="form-group row checkbox-container">
+                                        <label class="col-sm-8 col-form-label" for="chkDeliveryLocationSame"> Delivery Location For Same </label>
+                                        <div class="col-sm-4">
+                                            <div class="checkbox">
+                                                <input type="checkbox" id="chkDeliveryLocationSame" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/uploadShipment")
+
+
+<script>
+    $(document).ready(function () {
+        glbShipmentData =@Html.Raw(Json.Encode(Model));
+        BindExceSheetData();
+    })
+
+
+</script>

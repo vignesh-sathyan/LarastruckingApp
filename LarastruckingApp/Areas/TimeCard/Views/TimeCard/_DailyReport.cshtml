@@ -1,0 +1,875 @@
+﻿@model IEnumerable<LarastruckingApp.Entities.TimeCardDTO.DailyReportDTOList>
+
+@{
+
+    int grandHrTotal = 0;
+    int grandMinTotal = 0;
+    int hourThusdayTotal = 0;
+    int minThusdayTotal = 0;
+    int hourFriTotal = 0;
+    int minFriTotal = 0;
+    int hourSatTotal = 0;
+    int minSatTotal = 0;
+    int hourSunTotal = 0;
+    int minSunTotal = 0;
+    int hourMonTotal = 0;
+    int minMonTotal = 0;
+    int hourTueTotal = 0;
+    int minTueTotal = 0;
+    int hourWedTotal = 0;
+    int minWedTotal = 0;
+
+    int thhours = 0;
+    int thmins = 0;
+    int frhours = 0;
+    int frmins = 0;
+    int sahours = 0;
+    int samins = 0;
+    int suhours = 0;
+    int sumins = 0;
+    int mohours = 0;
+    int momins = 0;
+    int tuhours = 0;
+    int tumins = 0;
+    int wehours = 0;
+    int wemins = 0;
+
+  
+
+}
+
+<div style="text-align: left; margin-bottom: 10px;" id="divPrint">
+    <img src="../../Assets/images/printer.png" style="height: 18px; width: 16px; position: relative; top: 23px; left: 11px;" />
+    <input type="button" style="padding: 4px 33px;color:#fff;text-transform: uppercase;
+    font-size: 0.875rem;letter-spacing: 1px;padding-right:0;" media="print" class="btn green-Btn" value="Print" onclick="PrintDiv()" />
+</div>
+
+<div id="printDivDailyReport">
+    <table id='printdaily' style="display:none;">
+        <tr>
+            <td width='80%'><h3>Daily Report</h3></td>
+            
+            <td width='20%'>
+                <div><img src='https://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px' /></div>
+            </td>
+        </tr>
+    </table>
+    <table class="table-bordered table-striped cf w-100" id="tblDailyReportTotal">
+        <thead>
+            <tr><td colspan="3"><b>DAILY  REPORT</b></td></tr>
+            <tr>
+                <th>WEEK</th>
+                <th colspan="7" class="text-center">DAILY REPORT</th>
+                <th>GRAND TOTAL PAID</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="selectedweek"></td>
+                <td id="thusdayWeeklyTotal">00:00</td>
+                <td id="fridayWeeklyTotal">00:00</td>
+                <td id="saturdayWeeklyTotal">00:00</td>
+                <td id="sundayWeeklyTotal">00:00</td>
+                <td id="mondayWeeklyTotal">00:00</td>
+                <td id="tuesdayWeeklyTotal">00:00</td>
+                <td id="wednesdayWeeklyTotal">00:00</td>
+                <td id="grandTotal">00:00</td>
+            </tr>
+            <tr>
+                <th>NAME</th>
+                <th>THU</th>
+                <th>FRI</th>
+                <th>SAT</th>
+                <th>SUN</th>
+                <th>MON</th>
+                <th>TUE</th>
+                <th>WED</th>
+                <th>TOTAL HRS (WEEK)</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                var thursdayData = @item.DailyReportDTOs.Find(x => x.Day == "Thursday");
+                var fridayData = @item.DailyReportDTOs.Find(x => x.Day == "Friday");
+                var saturdayData = @item.DailyReportDTOs.Find(x => x.Day == "Saturday");
+                var sundayData = @item.DailyReportDTOs.Find(x => x.Day == "Sunday");
+                var mondayData = @item.DailyReportDTOs.Find(x => x.Day == "Monday");
+                var tuesdayData = @item.DailyReportDTOs.Find(x => x.Day == "Tuesday");
+                var wednesdayData = @item.DailyReportDTOs.Find(x => x.Day == "Wednesday");
+                TimeSpan weeklyTotal = TimeSpan.Parse("00:00");
+                int weeklyHrTotal = 0;
+                int weeklyMintTotal = 0;
+                <tr>
+                    @if (thursdayData != null && thursdayData.OutDateTime != null)
+                    {
+                        //hourThusdayTotal += thursdayData.InOutDiff.Hours;
+                        //minThusdayTotal += thursdayData.InOutDiff.Minutes;
+
+                        if (thursdayData.InOutDiff.TotalHours >= 1)
+                        {
+                            var values = thursdayData.InOutDiff.TotalHours.ToString().Split('.');
+                            hourThusdayTotal += Convert.ToInt32(values[0]);
+                            minThusdayTotal += thursdayData.InOutDiff.Minutes;
+
+
+                            if (minThusdayTotal > 59)
+                            {
+                                hourThusdayTotal = hourThusdayTotal + 1;
+                                minThusdayTotal = minThusdayTotal - 60;
+                            }
+                            weeklyHrTotal += Convert.ToInt32(values[0]);
+                            weeklyMintTotal += thursdayData.InOutDiff.Minutes;
+                            if (weeklyMintTotal > 59)
+                            {
+                                weeklyHrTotal = weeklyHrTotal + 1;
+                                weeklyMintTotal = weeklyMintTotal - 60;
+                            }
+                        }
+                    }
+                    @if (fridayData != null && fridayData.OutDateTime != null)
+                    {
+
+                        if (fridayData.InOutDiff.TotalHours >= 1)
+                        {
+                            var values = fridayData.InOutDiff.TotalHours.ToString().Split('.');
+                            hourFriTotal += Convert.ToInt32(values[0]);
+                            minFriTotal += fridayData.InOutDiff.Minutes;
+
+
+                            if (minFriTotal > 59)
+                            {
+                                hourFriTotal = hourFriTotal + 1;
+                                minFriTotal = minFriTotal - 60;
+                            }
+                            weeklyHrTotal += Convert.ToInt32(values[0]); ;
+                            weeklyMintTotal += fridayData.InOutDiff.Minutes;
+                            if (weeklyMintTotal > 59)
+                            {
+                                weeklyHrTotal = weeklyHrTotal + 1;
+                                weeklyMintTotal = weeklyMintTotal - 60;
+                            }
+                        }
+                    }
+
+                    @if (saturdayData != null && saturdayData.OutDateTime != null)
+                    {
+                        //sahours = Convert.ToInt32(saturdayData.InOutDiff.TotalHours);
+
+                        if (saturdayData.InOutDiff.TotalHours >= 1)
+                        {
+                            var values = saturdayData.InOutDiff.TotalHours.ToString().Split('.');
+                            //  sahours = Convert.ToInt32(values[0]);
+                            // samins = saturdayData.InOutDiff.Minutes;
+                            hourSatTotal += Convert.ToInt32(values[0]);
+                            minSatTotal += saturdayData.InOutDiff.Minutes;
+
+
+
+                            if (minSatTotal > 59)
+                            {
+                                hourSatTotal = hourSatTotal + 1;
+                                minSatTotal = minSatTotal - 60;
+                            }
+                            weeklyHrTotal += Convert.ToInt32(values[0]);
+                            weeklyMintTotal += saturdayData.InOutDiff.Minutes;
+                            if (weeklyMintTotal > 59)
+                            {
+                                weeklyHrTotal = weeklyHrTotal + 1;
+                                weeklyMintTotal = weeklyMintTotal - 60;
+                            }
+                        }
+                    }
+
+                    @if (sundayData != null && sundayData.OutDateTime != null)
+                    {
+
+                        if (sundayData.InOutDiff.TotalHours >= 1)
+                        {
+                            var values = sundayData.InOutDiff.TotalHours.ToString().Split('.');
+                            hourSunTotal += Convert.ToInt32(values[0]);
+                            minSunTotal += sundayData.InOutDiff.Minutes;
+
+
+                            if (minSunTotal > 59)
+                            {
+                                hourSunTotal = hourSunTotal + 1;
+                                minSunTotal = minSunTotal - 60;
+                            }
+                            weeklyHrTotal += Convert.ToInt32(values[0]);
+                            weeklyMintTotal += sundayData.InOutDiff.Minutes;
+                            if (weeklyMintTotal > 59)
+                            {
+                                weeklyHrTotal = weeklyHrTotal + 1;
+                                weeklyMintTotal = weeklyMintTotal - 60;
+                            }
+                        }
+                    }
+
+                    @if (mondayData != null && mondayData.OutDateTime != null)
+                    {
+
+
+                        if (mondayData.InOutDiff.TotalHours >= 1)
+                        {
+                            var values = mondayData.InOutDiff.TotalHours.ToString().Split('.');
+                            hourMonTotal += Convert.ToInt32(values[0]);
+                            minMonTotal += mondayData.InOutDiff.Minutes;
+
+
+                            if (minMonTotal > 59)
+                            {
+                                hourMonTotal = hourMonTotal + 1;
+                                minMonTotal = minMonTotal - 60;
+                            }
+                            weeklyHrTotal += Convert.ToInt32(values[0]);
+                            weeklyMintTotal += mondayData.InOutDiff.Minutes;
+                            if (weeklyMintTotal > 59)
+                            {
+                                weeklyHrTotal = weeklyHrTotal + 1;
+                                weeklyMintTotal = weeklyMintTotal - 60;
+                            }
+                        }
+                    }
+
+                    @if (tuesdayData != null && tuesdayData.OutDateTime != null)
+                    {
+
+                        if (tuesdayData.InOutDiff.TotalHours >= 1)
+                        {
+                            var values = tuesdayData.InOutDiff.TotalHours.ToString().Split('.');
+                            hourTueTotal += Convert.ToInt32(values[0]);
+                            minTueTotal += tuesdayData.InOutDiff.Minutes;
+
+
+                            if (minTueTotal > 59)
+                            {
+                                hourTueTotal = hourTueTotal + 1;
+                                minTueTotal = minTueTotal - 60;
+                            }
+                            weeklyHrTotal += Convert.ToInt32(values[0]);
+                            weeklyMintTotal += tuesdayData.InOutDiff.Minutes;
+
+                            if (weeklyMintTotal > 59)
+                            {
+                                weeklyHrTotal = weeklyHrTotal + 1;
+                                weeklyMintTotal = weeklyMintTotal - 60;
+                            }
+                        }
+                    }
+
+                    @if (wednesdayData != null && wednesdayData.OutDateTime != null)
+                    {
+
+                        if (wednesdayData.InOutDiff.TotalHours >= 1)
+                        {
+                            var values = wednesdayData.InOutDiff.TotalHours.ToString().Split('.');
+                            hourWedTotal += Convert.ToInt32(values[0]);
+                            minWedTotal += wednesdayData.InOutDiff.Minutes;
+
+
+                            if (minWedTotal > 59)
+                            {
+                                hourWedTotal = hourWedTotal + 1;
+                                minWedTotal = minWedTotal - 60;
+                            }
+                            weeklyHrTotal += Convert.ToInt32(values[0]);
+                            weeklyMintTotal += wednesdayData.InOutDiff.Minutes;
+
+                            if (weeklyMintTotal > 59)
+                            {
+                                weeklyHrTotal = weeklyHrTotal + 1;
+                                weeklyMintTotal = weeklyMintTotal - 60;
+                            }
+                        }
+                    }
+
+
+                    <td rowspan="2" >@item.UserName</td>
+
+                    @if (thursdayData != null && thursdayData.InDateTime != null)
+                    {
+                        <td >  @thursdayData.InDateTime.Value.ToString("HH:mm")</td>
+                    }
+                    else
+                    {
+                        <td>00:00</td>
+                    }
+                    @if (fridayData != null && fridayData.InDateTime != null)
+                    {
+                        <td >  @fridayData.InDateTime.Value.ToString("HH:mm")</td>
+                    }
+                    else
+                    {
+                        <td>00:00</td>
+                    }
+
+                    @if (saturdayData != null && saturdayData.InDateTime != null)
+                    {
+                        <td >  @saturdayData.InDateTime.Value.ToString("HH:mm")</td>
+                    }
+                    else
+                    {
+                        <td>00:00</td>
+                    }
+                    @if (sundayData != null && sundayData.InDateTime != null)
+                    {
+                        <td>  @sundayData.InDateTime.Value.ToString("HH:mm")</td>
+                    }
+                    else
+                    {
+                        <td>00:00</td>
+                    }
+                    @if (mondayData != null && mondayData.InDateTime != null)
+                    {
+                        <td>  @mondayData.InDateTime.Value.ToString("HH:mm")</td>
+                    }
+                    else
+                    {
+                        <td>00:00</td>
+                    }
+                    @if (tuesdayData != null && tuesdayData.InDateTime != null)
+                    {
+                        <td >  @tuesdayData.InDateTime.Value.ToString("HH:mm")</td>
+                    }
+                    else
+                    {
+                        <td>00:00</td>
+                    }
+                    @if (wednesdayData != null && wednesdayData.InDateTime != null)
+                    {
+                        <td>@wednesdayData.InDateTime.Value.ToString("HH:mm")</td>
+                    }
+                    else
+                    {
+                        <td>00:00</td>
+                    }
+
+                    @{
+                        string hrweeeklytotal = weeklyHrTotal >= 10 ? Convert.ToString(weeklyHrTotal) : "0" + weeklyHrTotal;
+                        string minweeeklytotal = weeklyMintTotal >= 10 ? Convert.ToString(weeklyMintTotal) : "0" + weeklyMintTotal;
+                        grandHrTotal += weeklyHrTotal;
+                        grandMinTotal += weeklyMintTotal;
+                        if (grandMinTotal > 59)
+                        {
+                            grandHrTotal = grandHrTotal + 1;
+                            grandMinTotal = grandMinTotal - 60;
+                        }
+                    }
+                    <td rowspan="3">@hrweeeklytotal:@minweeeklytotal</td>
+                </tr>
+                <tr>
+
+
+                    @if (thursdayData != null && thursdayData.OutDateTime != null)
+                    {
+                        <td>  @thursdayData.OutDateTime.Value.ToString("HH:mm")</td>
+                    }
+                    else
+                    {
+                        <td>00:00</td>
+                    }
+                    @if (fridayData != null && fridayData.OutDateTime != null)
+                    {
+                        <td>  @fridayData.OutDateTime.Value.ToString("HH:mm")</td>
+                    }
+                    else
+                    {
+                        <td>00:00</td>
+                    }
+
+                    @if (saturdayData != null && saturdayData.OutDateTime != null)
+                    {
+                        <td>  @saturdayData.OutDateTime.Value.ToString("HH:mm")</td>
+                    }
+                    else
+                    {
+                        <td>00:00</td>
+                    }
+                    @if (sundayData != null && sundayData.OutDateTime != null)
+                    {
+                        <td>  @sundayData.OutDateTime.Value.ToString("HH:mm")</td>
+                    }
+                    else
+                    {
+                        <td>00:00</td>
+                    }
+                    @if (mondayData != null && mondayData.OutDateTime != null)
+                    {
+                        <td>  @mondayData.OutDateTime.Value.ToString("HH:mm")</td>
+                    }
+                    else
+                    {
+                        <td>00:00</td>
+                    }
+                    @if (tuesdayData != null && tuesdayData.OutDateTime != null)
+                    {
+                        <td> @tuesdayData.OutDateTime.Value.ToString("HH:mm")</td>
+                    }
+                    else
+                    {
+                        <td>00:00</td>
+                    }
+                    @if (wednesdayData != null && wednesdayData.OutDateTime != null)
+                    {
+                        <td>  @wednesdayData.OutDateTime.Value.ToString("HH:mm")</td>
+                    }
+                    else
+                    {
+                        <td>00:00</td>
+                    }
+                </tr>
+                <tr style="background: #7ca337;color: #fff;">
+                    <td>TOTAL HRS (DAY)</td>
+                    @if (thursdayData != null && thursdayData.OutDateTime != null)
+                    {
+
+                        //thhours = Convert.ToInt32(thursdayData.InOutDiff.TotalHours);
+                        // thmins = Convert.ToInt32(thursdayData.InOutDiff.Minutes);
+
+
+                        if (thursdayData.InOutDiff.TotalHours >= 1)
+                        {
+                            var values = thursdayData.InOutDiff.TotalHours.ToString().Split('.');
+                            thhours = Convert.ToInt32(values[0]);
+                            thmins = thursdayData.InOutDiff.Minutes;
+                        }
+                        else
+                        {
+                            thhours = 0;
+                            thmins = thursdayData.InOutDiff.Minutes;
+
+                        }
+
+                        if (thhours < 10 || thmins < 10)
+                        {
+                            string thhour = "";
+                            string thmin = "";
+                            if (thhours < 10 && thmins > 9)
+                            {
+                                thhour = thhours.ToString("00");
+                                <td>@thhour:@thursdayData.InOutDiff.Minutes.ToString()</td>
+                            }
+                            if (thmins < 10 && thhours > 9)
+                            {
+                                thmin = thursdayData.InOutDiff.Minutes.ToString("00");
+                                <td>@thhours:@thmin</td>
+
+                            }
+                            if (thmins < 10 && thhours < 10)
+                            {
+                                thhour = thhours.ToString("00");
+                                thmin = thursdayData.InOutDiff.Minutes.ToString("00");
+                                <td>@thhour:@thmin</td>
+                            }
+
+
+                        }
+                        else
+                        {
+
+                            <td>@thhours:@thursdayData.InOutDiff.Minutes.ToString()</td>
+                        }
+                        // <td>@thursdayData.InOutDiff.ToString(@"hh\:mm")</td>
+                    }
+                    else
+                    {
+                        <td>00:00</td>
+                    }
+                    @if (fridayData != null && fridayData.OutDateTime != null)
+                    {
+                        //<td>@fridayData.InOutDiff.ToString(@"hh\:mm")</td>
+                        //frhours = Convert.ToInt32(fridayData.InOutDiff.TotalHours);
+                        // frmins = fridayData.InOutDiff.Minutes;
+
+                        if (fridayData.InOutDiff.TotalHours >= 1)
+                        {
+                            var values = fridayData.InOutDiff.TotalHours.ToString().Split('.');
+                            frhours = Convert.ToInt32(values[0]);
+                            frmins = fridayData.InOutDiff.Minutes;
+                        }
+                        else
+                        {
+                            frhours = 0;
+                            frmins = fridayData.InOutDiff.Minutes;
+
+                        }
+
+                        if (frhours < 10 || frmins < 10)
+                        {
+                            string frhour = "";
+                            string frmin = "";
+                            if (frhours < 10 && frmins >9)
+                            {
+                                frhour = frhours.ToString("00");
+                                <td>@frhour:@fridayData.InOutDiff.Minutes.ToString()</td>
+                            }
+                            if (frmins < 10 && frhours > 9)
+                            {
+                                frmin = fridayData.InOutDiff.Minutes.ToString("00");
+                                <td>@frhours:@frmin</td>
+
+                            }
+                            if (frmins < 10 && frhours < 10)
+                            {
+                                frhour = frhours.ToString("00");
+                                frmin = fridayData.InOutDiff.Minutes.ToString("00");
+                                <td>@frhour:@frmin</td>
+                            }
+
+                        }
+                        else
+                        {
+
+                            <td>@frhours:@fridayData.InOutDiff.Minutes.ToString()</td>
+                        }
+
+
+                    }
+                    else
+                    {
+                        <td>00:00</td>
+                    }
+                    @if (saturdayData != null && saturdayData.OutDateTime != null)
+                    {
+                        //<td>@saturdayData.InOutDiff.ToString(@"hh\:mm")</td>
+                        //sahours = Convert.ToInt32(saturdayData.InOutDiff.TotalHours);
+                        // samins = saturdayData.InOutDiff.Minutes;
+                        sahours = Convert.ToInt32(saturdayData.InOutDiff.TotalHours);
+
+                        if (saturdayData.InOutDiff.TotalHours >= 1)
+                        {
+                            var values = saturdayData.InOutDiff.TotalHours.ToString().Split('.');
+                            sahours = Convert.ToInt32(values[0]);
+                            samins = saturdayData.InOutDiff.Minutes;
+                        }
+                        else
+                        {
+                            sahours = 0;
+                            samins = saturdayData.InOutDiff.Minutes;
+
+                        }
+
+                        if (sahours < 10 || samins < 10)
+                        {
+                            string sahour = "";
+                            string samin = "";
+                            if (sahours < 10 && samins > 9)
+                            {
+                                sahour = sahours.ToString("00");
+                                <td>@sahour:@saturdayData.InOutDiff.Minutes.ToString()</td>
+                            }
+                            if (samins < 10 && sahours > 9)
+                            {
+                                samin = saturdayData.InOutDiff.Minutes.ToString("00");
+                                <td>@sahours:@samin</td>
+
+                            }
+                            if (samins < 10 && sahours < 10)
+                            {
+                                sahour = sahours.ToString("00");
+                                samin = saturdayData.InOutDiff.Minutes.ToString("00");
+                                <td>@sahour:@samin</td>
+                            }
+
+                        }
+                        else
+                        {
+
+                            <td>@sahours:@saturdayData.InOutDiff.Minutes.ToString()</td>
+                        }
+                    }
+                    else
+                    {
+                        <td>00:00</td>
+                    }
+                    @if (sundayData != null && sundayData.OutDateTime != null)
+                    {
+                        //<td>@sundayData.InOutDiff.ToString(@"hh\:mm")</td>
+                        //suhours = Convert.ToInt32(sundayData.InOutDiff.TotalHours);
+                        //sumins = sundayData.InOutDiff.Minutes;
+
+                        if (sundayData.InOutDiff.TotalHours >= 1)
+                        {
+                            var values = sundayData.InOutDiff.TotalHours.ToString().Split('.');
+                            suhours = Convert.ToInt32(values[0]);
+                            sumins = sundayData.InOutDiff.Minutes;
+                        }
+                        else
+                        {
+                            suhours = 0;
+                            sumins = sundayData.InOutDiff.Minutes;
+
+                        }
+
+                        if (suhours < 10 || sumins < 10)
+                        {
+                            string suhour = "";
+                            string sumin = "";
+                            if (suhours < 10 && sumins > 9)
+                            {
+                                suhour = suhours.ToString("00");
+                                <td>@suhour:@sundayData.InOutDiff.Minutes.ToString()</td>
+                            }
+                            if (sumins < 10 && suhours > 9)
+                            {
+                                sumin = sundayData.InOutDiff.Minutes.ToString("00");
+                                <td>@suhours:@sumin</td>
+
+                            }
+                            if (sumins < 10 && suhours < 10)
+                            {
+                                suhour = suhours.ToString("00");
+                                sumin = sundayData.InOutDiff.Minutes.ToString("00");
+                                <td>@suhour:@sumin</td>
+                            }
+
+                        }
+                        else
+                        {
+
+                            <td>@suhours:@sundayData.InOutDiff.Minutes.ToString()</td>
+                        }
+                    }
+                    else
+                    {
+                        <td>00:00</td>
+                    }
+                    @if (mondayData != null && mondayData.OutDateTime != null)
+                    {
+                        //<td>@mondayData.InOutDiff.ToString(@"hh\:mm")</td>
+                        //mohours = Convert.ToInt32(mondayData.InOutDiff.TotalHours);
+                        // momins = mondayData.InOutDiff.Minutes;
+
+                        if (mondayData.InOutDiff.TotalHours >= 1)
+                        {
+                            var values = mondayData.InOutDiff.TotalHours.ToString().Split('.');
+                            mohours = Convert.ToInt32(values[0]);
+                            momins = mondayData.InOutDiff.Minutes;
+                        }
+                        else
+                        {
+                            mohours = 0;
+                            momins = mondayData.InOutDiff.Minutes;
+
+                        }
+
+                        if (mohours < 10 || momins < 10)
+                        {
+                            string mohour = "";
+                            string momin = "";
+                            if (mohours < 10 && momins > 9)
+                            {
+                                mohour = mohours.ToString("00");
+                                <td>@mohour:@mondayData.InOutDiff.Minutes.ToString()</td>
+                            }
+                            if (momins < 10 && mohours > 9)
+                            {
+                                momin = mondayData.InOutDiff.Minutes.ToString("00");
+                                <td>@mohours:@momin</td>
+
+                            }
+                            if (momins < 10 && mohours < 10)
+                            {
+                                mohour = mohours.ToString("00");
+                                momin = mondayData.InOutDiff.Minutes.ToString("00");
+                                <td>@mohour:@momin</td>
+                            }
+
+                        }
+                        else
+                        {
+
+                            <td>@mohours:@mondayData.InOutDiff.Minutes.ToString()</td>
+                        }
+                    }
+                    else
+                    {
+                        <td>00:00</td>
+                    }
+                    @if (tuesdayData != null && tuesdayData.OutDateTime != null)
+                    {
+
+                        //<td>@tuesdayData.InOutDiff.ToString(@"hh\:mm")</td>
+                        // tuhours = Convert.ToInt32(tuesdayData.InOutDiff.TotalHours);
+                        //tumins = tuesdayData.InOutDiff.Minutes;
+
+                        if (tuesdayData.InOutDiff.TotalHours >= 1)
+                        {
+                            var values = tuesdayData.InOutDiff.TotalHours.ToString().Split('.');
+                            tuhours = Convert.ToInt32(values[0]);
+                            tumins = tuesdayData.InOutDiff.Minutes;
+                        }
+                        else
+                        {
+                            tuhours = 0;
+                            tumins = tuesdayData.InOutDiff.Minutes;
+
+                        }
+
+                        if (tuhours < 10 || tumins < 10)
+                        {
+                            string tuhour = "";
+                            string tumin = "";
+                            if (tuhours < 10 && tumins > 9)
+                            {
+                                tuhour = tuhours.ToString("00");
+                                <td>@tuhour:@tuesdayData.InOutDiff.Minutes.ToString()</td>
+                            }
+                            if (tumins < 10 && tuhours > 9)
+                            {
+                                tumin = tuesdayData.InOutDiff.Minutes.ToString("00");
+                                <td>@tuhours:@tumin</td>
+
+                            }
+                            if (tumins < 10 && tuhours < 10)
+                            {
+                                tuhour = tuhours.ToString("00");
+                                tumin = tuesdayData.InOutDiff.Minutes.ToString("00");
+                                <td>@tuhour:@tumin</td>
+                            }
+
+                        }
+                        else
+                        {
+
+                            <td>@tuhours:@tuesdayData.InOutDiff.Minutes.ToString()</td>
+                        }
+                    }
+                    else
+                    {
+                        <td>00:00</td>
+                    }
+                    @if (wednesdayData != null && wednesdayData.OutDateTime != null)
+                    {
+                        //<td>@wednesdayData.InOutDiff.ToString(@"hh\:mm")</td>
+                        // wehours = Convert.ToInt32(wednesdayData.InOutDiff.TotalHours);
+                        //wemins = wednesdayData.InOutDiff.Minutes;
+
+                        if (wednesdayData.InOutDiff.TotalHours >= 1)
+                        {
+                            var values = wednesdayData.InOutDiff.TotalHours.ToString().Split('.');
+                            wehours = Convert.ToInt32(values[0]);
+                            wemins = wednesdayData.InOutDiff.Minutes;
+                        }
+                        else
+                        {
+                            wehours = 0;
+                            wemins = wednesdayData.InOutDiff.Minutes;
+
+                        }
+
+                        if (wehours < 10 || wemins < 10)
+                        {
+                            string wehour = "";
+                            string wemin = "";
+                            if (wehours < 10 && wemins > 9)
+                            {
+                                wehour = wehours.ToString("00");
+                                <td>@wehour:@wednesdayData.InOutDiff.Minutes.ToString()</td>
+                            }
+                            if (wemins < 10 && wehours > 9)
+                            {
+                                wemin = wednesdayData.InOutDiff.Minutes.ToString("00");
+                                <td>@wehours:@wemin</td>
+
+                            }
+                            if (wemins < 10 && wehours < 10)
+                            {
+                                wehour = wehours.ToString("00");
+                                wemin = wednesdayData.InOutDiff.Minutes.ToString("00");
+                                <td>@wehour:@wemin</td>
+                            }
+
+                        }
+                        else
+                        {
+
+                            <td>@wehours:@wednesdayData.InOutDiff.Minutes.ToString()</td>
+                        }
+                    }
+                    else
+                    {
+                        <td>00:00</td>
+                    }
+
+
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>*@
+<script type="text/javascript">
+
+    
+    var thushrweek = parseInt('@hourThusdayTotal') >= 10 ? '@hourThusdayTotal' : '0' + '@hourThusdayTotal';
+    var thusminweek = parseInt('@minThusdayTotal') >= 10 ? '@minThusdayTotal' : '0' + '@minThusdayTotal';
+    var frihrweek = parseInt('@hourFriTotal') >= 10 ? '@hourFriTotal' : '0' + '@hourFriTotal';
+    var friminweek = parseInt('@minFriTotal') >= 10 ? '@minFriTotal' : '0' + '@minFriTotal';
+    var sathrweek = parseInt('@hourSatTotal') >= 10 ? '@hourSatTotal' : '0' + '@hourSatTotal';
+    var satminweek = parseInt('@minSatTotal') >= 10 ? '@minSatTotal' : '0' + '@minSatTotal';
+    var sunhrweek = parseInt('@hourSunTotal') >= 10 ? '@hourSunTotal' : '0' + '@hourSunTotal';
+    var sunminweek = parseInt('@minSunTotal') >= 10 ? '@minSunTotal' : '0' + '@minSunTotal';
+     var monhrweek = parseInt('@hourMonTotal') >= 10 ? '@hourMonTotal' : '0' + '@hourMonTotal';
+    var monminweek = parseInt('@minMonTotal') >= 10 ? '@minMonTotal' : '0' + '@minMonTotal';
+     var tuehrweek = parseInt('@hourTueTotal') >= 10 ? '@hourTueTotal' : '0' + '@hourTueTotal';
+    var tueminweek = parseInt('@minTueTotal') >= 10 ? '@minTueTotal' : '0' + '@minTueTotal';
+    var wedhrweek = parseInt('@hourWedTotal') >= 10 ? '@hourWedTotal' : '0' + '@Math.Abs(hourWedTotal)';
+    var wedminweek = parseInt('@minWedTotal') >= 10 ? '@minWedTotal' : '0' + '@Math.Abs(@minWedTotal)';
+    $("#thusdayWeeklyTotal").text(thushrweek + ':' + thusminweek)
+    $("#fridayWeeklyTotal").text(frihrweek + ':' + friminweek)
+    $("#saturdayWeeklyTotal").text(sathrweek + ':' + satminweek)
+    $("#sundayWeeklyTotal").text(sunhrweek + ':' + sunminweek)
+    $("#mondayWeeklyTotal").text(monhrweek + ':' + monminweek)
+    $("#tuesdayWeeklyTotal").text(tuehrweek + ':' + tueminweek)
+    $("#wednesdayWeeklyTotal").text(wedhrweek + ':' + wedminweek)
+     var grandhrweek = parseInt('@grandHrTotal') >= 10 ? '@grandHrTotal' : '0' + '@grandHrTotal';
+    var grandminweek = parseInt('@grandMinTotal') >= 10 ? '@grandMinTotal' : '0' + '@grandMinTotal';
+    $("#grandTotal").text(grandhrweek + ':' + grandminweek);
+
+
+  
+
+    function PrintDiv() {
+        var divName = "printDivDailyReport";
+       // var x = document.getElementsByClassName("blueremove")[0];
+        $("td").each(function () {
+            $(this).addClass("blueremove");
+        });
+      //  x.style.background = "transparent !important";
+      //  $(x).addClass("active");
+        var printContents = document.getElementById(divName).innerHTML;
+       // var modalTime = document.getElementById("modalTimeCard");
+        var originalContents = document.body.innerHTML;
+       //console.log("printContents: " + printContents);
+    
+        var printContent = document.getElementById(divName);
+        document.body.innerHTML = printContents;
+        //document.getElementById("printdaily").style.display = "table";
+        $("#modalTimeCard").css('display', 'none');
+       
+       // $("#printdaily tr:hover").css('background', 'none');
+      
+      // console.log("print: " , x);
+        window.print();
+        
+        document.body.innerHTML = originalContents;
+       
+
+    }
+
+    if (window.matchMedia) {
+        var mediaQueryList = window.matchMedia('print');
+        mediaQueryList.addListener(function (mql) {
+            if (mql.matches) {
+                console.log('mql matches');
+            } else {
+                console.log('mql did NOT match');
+                $("td").each(function () {
+                    $(this).removeClass("blueremove");
+                });
+            }
+        });
+    }
+</script>

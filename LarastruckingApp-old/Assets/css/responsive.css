@@ -1,0 +1,183 @@
+@media only screen and (max-width: 1024px) {
+    .radioBtnWrapper{
+        display: block;
+    }
+    table.dataTable > tbody > tr.child span.dtr-title {
+        min-width: 48px;
+    }
+
+    table.dataTable > tbody > tr.child ul.dtr-details > li[data-dtr-index="9"] {
+        width: 50%;
+        float: right;
+        position: absolute;
+        top: -5px;
+        right: 0;
+        text-align: right;
+        padding-right: 15px;
+    }
+
+    table.dataTable > tbody > tr.child ul.dtr-details > li {
+        width: 50%;
+    }
+
+    table.dataTable > tbody > tr.child ul.dtr-details {
+        width: 100%;
+        position: relative;
+        min-height: 60px;
+    }
+
+        table.dataTable > tbody > tr.child ul.dtr-details > li:last-child {
+            display: flex;
+            justify-content: flex-end;
+            position: absolute;
+            right: 15px;
+            bottom: 0px;
+        }
+}
+
+@media only screen and (min-width: 769px) {
+    .overLay {
+        display: none !important;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    
+    
+    /* leftPanel css start */
+    .leftAsideBar {
+        left: -250px
+    }
+    .topBar,
+    .rightBody {
+        width: 100%;
+        margin-left: 0;
+    }
+    body.removeBoby .rightBody,
+    body.removeBoby .topBar {
+        width: 100%;
+        margin-left: 0;
+    }
+    body.removeBoby .leftAsideBar {
+        left: 0;
+        width: 200px;
+        z-index: 101;
+    }
+    /* leftPanel css end */
+   
+}
+
+@media all and (max-width: 767px) {
+
+    table.dataTable > tbody > tr.child span.dtr-title {
+        min-width: 48px;
+    }
+    table.dataTable > tbody > tr.child ul.dtr-details > li[data-dtr-index="9"] {
+        width: 50%;
+        float: right;
+        position: absolute;
+        top: -5px;
+        right: 0;
+        text-align: right;
+        padding-right: 15px;
+    }
+    table.dataTable > tbody > tr.child ul.dtr-details > li{
+
+        width:50%;
+    }
+    table.dataTable > tbody > tr.child ul.dtr-details {
+        width: 100%;
+        position: relative;
+        min-height: 60px;
+    }
+        table.dataTable > tbody > tr.child ul.dtr-details > li:last-child {
+            display: flex;
+            justify-content: flex-end;
+            position: absolute;
+            right: 15px;
+            bottom: 0px;
+        }
+        .leftAsideBar {
+            left: -250px;
+            z-index: 101;
+        }
+    body.removeBoby .leftAsideBar {
+        left: 0;
+        width: 250px;
+    }
+    .rightBody,
+    body.removeBoby .rightBody {
+        width: 100%;
+        margin-left: 0;
+    }
+    .topBar,
+    body.removeBoby .topBar {
+        width: 100%;
+        margin-left: 0;
+    }
+    .rightHeading {
+        display: block;
+    }
+    body.removeBoby .leftAsideBar .profile>img {
+        width: auto;
+    }
+    body.removeBoby .leftAsideBar .sidenavBar {
+        margin: 0;
+        padding: 0 15px;
+       
+    }
+    body.removeBoby .leftAsideBar .profile>h5,
+    body.removeBoby .leftAsideBar .profile>a {
+        display: block;
+        margin: 14px 0;
+    }
+    body.removeBoby .leftAsideBar .sidenavBar .leftText {
+        font-size: 1rem;
+    }
+    body.removeBoby .leftAsideBar .sidenavBar span.leftIc {
+        position: relative;
+        bottom: 0;
+    }
+    
+    .sidenavBar>ul>li>a{
+        text-align: left;
+    }
+    .removeBoby a.logo > img {
+        width: 116px;
+    }
+    h1.mainHeading {
+        font-size: 1.45rem;
+    }
+    .topTabPanel{
+        display: none;
+    }
+    .customFormWrap .form-control {
+        height: calc(1.5em + .75rem + 2px);
+        padding: .375rem .75rem;
+        font-size: 1rem;
+    }
+    .dateToWrapper {
+        display: block;
+    }
+    button.search-ic{
+        padding: 8px;
+    }
+    button.plus-ic {
+        top: 8px;
+    }
+ 
+}
+@media all and (max-width: 467px){
+    .customTableWrapper {
+        overflow-x: scroll;
+    }
+    
+}
+
+@media only screen and (max-width: 320px) {
+   
+   
+    h1.mainHeading {
+        font-size: 1.25rem;
+    }
+}

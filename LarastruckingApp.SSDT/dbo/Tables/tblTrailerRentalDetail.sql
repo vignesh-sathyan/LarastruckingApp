@@ -1,0 +1,35 @@
+﻿CREATE TABLE [dbo].[tblTrailerRentalDetail] (
+    [TrailerRentalDetailId] INT             IDENTITY (1, 1) NOT NULL,
+    [TrailerRentalId]       INT             NULL,
+    [DeliveryLocationId]    INT             NULL,
+    [PickUpLocationId]      INT             NULL,
+    [DeliveryDriverId]      INT             NULL,
+    [PickupDriverId]        INT             NULL,
+    [StartDate]             DATETIME        NOT NULL,
+    [EndDate]               DATETIME        NOT NULL,
+    [ReturnedDate]          DATETIME        NULL,
+    [NoOfDays]              INT             NULL,
+    [EquipmentId]           INT             NULL,
+    [FeePerDay]             DECIMAL (18, 2) NULL,
+    [TotalFee]              DECIMAL (18, 2) NULL,
+    [CreatedDate]           DATETIME        NOT NULL,
+    [CreatedBy]             INT             NOT NULL,
+    [ModifiedDate]          DATETIME        NULL,
+    [ModifiedBy]            INT             NULL,
+    [IsDeleted]             BIT             DEFAULT ((0)) NULL,
+    [DeletedBy]             INT             NULL,
+    [DeletedDate]           DATETIME        NULL,
+    [FixedFee]              DECIMAL (18, 2) NULL,
+    PRIMARY KEY CLUSTERED ([TrailerRentalDetailId] ASC),
+    FOREIGN KEY ([CreatedBy]) REFERENCES [dbo].[tblUser] ([Userid]),
+    FOREIGN KEY ([DeletedBy]) REFERENCES [dbo].[tblUser] ([Userid]),
+    FOREIGN KEY ([DeliveryDriverId]) REFERENCES [dbo].[tblDriver] ([DriverID]),
+    FOREIGN KEY ([DeliveryLocationId]) REFERENCES [dbo].[tblAddress] ([AddressId]),
+    FOREIGN KEY ([ModifiedBy]) REFERENCES [dbo].[tblUser] ([Userid]),
+    FOREIGN KEY ([PickupDriverId]) REFERENCES [dbo].[tblDriver] ([DriverID]),
+    FOREIGN KEY ([PickUpLocationId]) REFERENCES [dbo].[tblAddress] ([AddressId]),
+    FOREIGN KEY ([TrailerRentalId]) REFERENCES [dbo].[tblTrailerRental] ([TrailerRentalId])
+);
+
+
+

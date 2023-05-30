@@ -1,0 +1,46 @@
+﻿@using LarastruckingApp.Entities.Permission
+@{
+    ViewBag.Title = "ViewAccidentReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    PermissionsDto permissions = IsPermited.HasPermission();
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 mt-2">
+        <div class="white-bg customFormWrap">
+            <div class="col-md-12 py-2 d-flex justify-content-start mb_40 pl-acr">
+                @{
+                    if (permissions.IsInsert)
+                    {
+                        @Html.ActionLink("CREATE ACCIDENT REPORT", "Index", "AccidentReport", null, new { @class = "btn green-Btn" })
+                    }
+                }
+
+            </div>
+            <div class="customTableWrapper">
+                <div id="">
+                    <table class="table-bordered table-striped dataTable cf w-100 tblChange-bgcolor" id="tblAccidentReport">
+                        <thead>
+                            <tr>
+                                <th hidden="hidden">AccidentReportId</th>
+                                <th>DATE OF ACCIDENT</th>
+                                <th>DRIVER</th>
+                                <th>EQUIP</th>
+                                <th>YEAR</th>
+                                <th>PLATE</th>
+                                <th>EQUIP TYPE</th>
+                                <th>VIN</th>
+                                <th>REPORT NO.</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*@Scripts.Render("~/bundles/viewReportAccident")*@
+<script src="~/CustomScript/ViewReportAccident.js"></script>

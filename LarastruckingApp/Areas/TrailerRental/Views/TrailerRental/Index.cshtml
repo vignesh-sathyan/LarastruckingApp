@@ -1,0 +1,277 @@
+﻿@using LarastruckingApp.Entities.Permission
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    PermissionsDto permissions = IsPermited.HasPermission();
+}
+
+<div class="card-body">
+    <div class="white-bg customFormWrap">
+        <h2 class="cardHeading">
+           TRAILER RENTAL
+        </h2>
+        <div class="row">
+            <div class="col-md-12">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group required row">
+                    <label class="col-sm-3 col-form-label" for="ddlCustomer">Customer</label>
+                    <div class="col-sm-9">
+                        <select id="ddlCustomer"
+                                class="form-control">
+                            <option>SEARCH CUSTOMER</option>
+                        </select>
+
+                        <input type="hidden" id="hdnTrailerRentalId" name="hdnTrailerRentalId" value="0" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group row required">
+                    <label class="col-sm-3 col-form-label" for="ddlDeliveryLocation">Delivery Location</label>
+                    <div class="col-sm-9">
+                        <select class="form-control withsearch padd-R-70" id="ddlDeliveryLocation">
+                            <option value="0">SEARCH DELIVERY LOCATION</option>
+                        </select>
+                        <button type="button" class="plus-ic btnOpenAddressModal">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group row required">
+                    <label class="col-sm-3 col-form-label" for="ddlPickupLocation">Pickup Location</label>
+                    <div class="col-sm-9">
+                        <select class="form-control padd-R-70 withsearch" id="ddlPickupLocation">
+                            <option value="0">SEARCH PICKUP LOCATION</option>
+                        </select>
+
+                        <button type="button" class="plus-ic btnOpenAddressModal">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="trailerDetail">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group required row">
+                        <label class="col-sm-4 col-form-label" for="dtStartDate">Start Date</label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   autocomplete="off"
+                                   data-required="required"
+                                   placeholder="MM-DD-YYYY"
+                                   onfocusout="BindEquipmentDriver()"
+                                   id="dtStartDate"
+                                   onkeypress="return onlyNumericOrcolon(event)"
+                                   class="form-control dtTimer" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group required row">
+                        <label class="col-sm-4 col-form-label" for="dtEndDate">End Date</label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   autocomplete="off"
+                                   data-required="required"
+                                   placeholder="MM-DD-YYYY"
+                                   onfocusout="BindEquipmentDriver()"
+                                   id="dtEndDate"
+                                   onkeypress="return onlyNumericOrcolon(event)"
+                                   class="form-control dtTimer" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="dtReturnedDate">Returned Date</label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   autocomplete="off"
+                                   placeholder="MM-DD-YYYY"
+                                   onfocusout="ValidateStartAndEndDate()"
+                                   id="dtReturnedDate"
+                                   class="form-control dtTimer" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group  row">
+                        <label class="col-sm-4 col-form-label" for="txtNoOfDays">No. of Days</label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   readonly="readonly"
+                                   onkeypress="return onlyNumeric(event)"
+                                   id="txtNoOfDays"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group required row">
+                        <label class="col-sm-4 col-form-label" for="ddlEquipment">Equipment No.</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" onchange="ValidateEquipment()" data-required="required" id="ddlEquipment"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group  row">
+                        <label class="col-sm-4 col-form-label" for="txtFeePerDay">Fee/Day</label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   @*data-required="required"*@
+                                   onkeypress="return onlyNumeric(event)"
+                                   onfocusout="ValidateStartAndEndDate()"
+                                   id="txtFeePerDay"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group  row">
+                        <label class="col-sm-4 col-form-label" for="txtFixedFee">Fixed Fee</label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   @*data-required="required"*@
+                                   onkeypress="return onlyNumeric(event)"
+                                   onfocusout="ValidateStartAndEndDate()"
+                                   id="txtFixedFee"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group  row">
+                        <label class="col-sm-4 col-form-label" for="txtTotalFee">Total Fee</label>
+                        <div class="col-sm-8">
+                            <input type="text"
+                                   readonly="readonly"
+                                   onkeypress="return onlyNumeric(event)"
+                                   id="txtTotalFee"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group  row">
+                        <label class="col-sm-4 col-form-label" for="ddlDeliveryDriver">Delivery Driver</label>
+                        <div class="col-sm-8">
+                            <select id="ddlDeliveryDriver" onchange="ValidateDriver(this)" class="form-control"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label" for="ddlPickUpDriver">Pickup Driver</label>
+                        <div class="col-sm-4">
+                            <select id="ddlPickUpDriver" onchange="ValidateDriver(this)" class="form-control"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 text-right" style="display: flex;justify-content: flex-end;">
+                    <button type="button" id="btnAddTrailer" class="btn green-Btn">
+                        <img src="~/Assets/images/add-icon.png" style="width:20px;margin-right: 5px;" />
+                        <label style="margin-bottom:0;">Add Trailer</label>
+                    </button>
+                    <button type="button" id="btnClearRoute" class="btn green-Btn">
+                        <i class="fa fa-times" aria-hidden="true" style="margin-right: 5px;"></i>
+
+                        <label style="margin-bottom:0;">CLEAR</label>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="white-bg customFormWrap">
+        <div class="row mt-2">
+            <div class="col-md-12 table-responsive">
+                <table data-row-no="" id="tblTrailerDetail" class="table-bordered table-striped cf w-100   activateDatatable">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Eqp. No.</th>
+                            <th>Delivery Location</th>
+                            <th>Pickup Location</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Fee/Day</th>
+                            <th>Fixed Fee</th>
+                            <th>Total Fee</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="white-bg customFormWrap">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label" for="txtTrailerInstruction">Trailer Instructions</label>
+                            <div class="col-sm-9">
+                                <textarea id="txtTrailerInstruction" class="form-control" cols="20" rows="1"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mt-2">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label" for="txtGrandTotal">Grand Total Fee</label>
+                            <div class="col-sm-8">
+                                <input type="text"
+                                       onkeypress="return onlyNumeric(event)"
+                                       id="txtGrandTotal"
+                                       readonly="readonly"
+                                       class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 text-right mt-2" style="display: flex;justify-content: flex-end;">
+                        @if (permissions.IsInsert)
+                        {
+                            <button type="button" id="btnGoBack" class="btn green-Btn" style="height: 24px; width:100px;">
+                                <label style="margin-bottom:0;">GO BACK</label>
+                            </button>
+                            <button type="button" id="btnSave" class="btn green-Btn" style="height: 24px;">
+                                <i class="fa fa-check" aria-hidden="true" style="margin-right: 5px;"></i>
+                                <label style="margin-bottom:0;">SUBMIT</label>
+                            </button>
+                        }
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@* Open modal to add new address *@
+<div class="modal" role="dialog" id="modalAddAddress">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            @{ Html.RenderPartial("prAddressJson");}
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/trailerRental")

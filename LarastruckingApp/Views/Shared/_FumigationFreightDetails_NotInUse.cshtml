@@ -1,0 +1,48 @@
+﻿@model LarastruckingApp.ViewModel.PreTrip.PreTripViewModel
+
+
+<table id="tblFreightDetails" class="table-bordered dataTable table-striped cf w-100 dataTable  activateDatatable">
+    <thead>
+        <tr>
+            <th width="10"> </th>
+            <th width="15"> No </th>
+            <th> Commodity </th>
+            <th>Box Count</th>
+            <th>Trailer Position</th>
+            <th> Pricing </th>
+            <th> No. of Pallets </th>
+            <th> Test</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model.FumimgationFreightList.Count > 0)
+        {
+            var loopCount = 0;
+            foreach (var item in Model.FumimgationFreightList)
+            {
+                loopCount += 1;
+        <tr>
+
+            <td><input type="radio" name="radiofreightId" id="radiofreightId" onchange="GetTemperatureREQ(this)" value=@item.FumigationRoutsId /></td>
+
+            <td><label name='lblSrNo'>@loopCount</label></td>
+
+            <td>
+                <label class='lblTemperatureRequired' name='lblTemperatureRequired' style='display:none'>@item.TemperatureRequired</label>
+                <label name='lblCommodityText'>@item.Commodity</label>
+            </td>
+
+            <td><label name='lblBoxCount'>@item.BoxCount</label></td>
+            <td><label name='lblPricingMethodName'>@item.TrailerPosition</label></td>
+
+            <td><label name='lblPricingMethodName'>@item.PricingMethodName</label></td>
+
+            <td><label name='lblQuantityNweight'>@item.QuantityNweight</label></td>
+
+        </tr>
+
+            }
+        }
+    </tbody>
+</table>
