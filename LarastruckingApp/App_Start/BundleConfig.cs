@@ -39,6 +39,9 @@ namespace LarastruckingApp
             bundles.Add(new ScriptBundle("~/bundles/viewShipment").Include(
                "~/CustomScript/shipmentjs/viewShipmentList.js"
                               ));
+            bundles.Add(new ScriptBundle("~/bundles/MainShipment").Include(
+              "~/CustomScript/shipmentjs/MainShipment.js"
+                             ));
             bundles.Add(new ScriptBundle("~/bundles/viewAllShipment").Include(
              "~/CustomScript/shipmentjs/viewAllShipment.js"
                             ));
@@ -66,6 +69,9 @@ namespace LarastruckingApp
             bundles.Add(new ScriptBundle("~/bundles/getFumigationList").Include(
              "~/CustomScript/fumigationjs/GetFumigationList.js"
                             ));
+            bundles.Add(new ScriptBundle("~/bundles/MainFumigation").Include(
+            "~/CustomScript/fumigationjs/MainPageFumigation.js"
+                           ));
             bundles.Add(new ScriptBundle("~/bundles/viewAllFumigation").Include(
              "~/CustomScript/fumigationjs/ViewAllFumigation.js"
                             ));

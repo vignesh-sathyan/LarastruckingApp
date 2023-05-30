@@ -261,6 +261,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\DriverController.cs" />
+    <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\EquipmentController.cs" />
     <Compile Include="Controllers\ForgotPasswordController.cs" />
     <Compile Include="Controllers\GlobalController.cs" />
@@ -358,6 +359,7 @@
     <Content Include="Assets\css\dataTables.bootstrap4.min.css" />
     <Content Include="Assets\css\font-awesome.css" />
     <Content Include="Assets\css\font-awesome.min.css" />
+    <Content Include="Assets\css\Main.css" />
     <Content Include="Assets\css\mdb.css" />
     <Content Include="Assets\css\quotepreview.css" />
     <Content Include="Assets\css\responsive.bootstrap4.min.css" />
@@ -420,6 +422,7 @@
     <Content Include="CustomScript\Equipment.js" />
     <Content Include="CustomScript\fumigationjs\fumigation.js" />
     <Content Include="CustomScript\fumigationjs\fumigationequipmentlist.js" />
+    <Content Include="CustomScript\fumigationjs\MainPageFumigation.js" />
     <Content Include="CustomScript\fumigationjs\GetFumigationList.js" />
     <Content Include="CustomScript\fumigationjs\ViewAllFumigation.js" />
     <Content Include="CustomScript\globalJs.js" />
@@ -727,6 +730,7 @@
     <Content Include="Views\Shared\_prTimeCard.cshtml" />
     <Content Include="Views\Shared\_prTimeCardPrintNEmail.cshtml" />
     <Content Include="Views\Shared\_TemperatureEmail.cshtml" />
+    <Content Include="Views\Main\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Dispatcher\Models\" />

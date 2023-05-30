@@ -1,0 +1,649 @@
+﻿@using LarastruckingApp.Entities.Permission
+@using LarastruckingApp.Infrastructure
+@{
+    Layout = null;
+    PermissionsDto permissions = IsPermited.HasPermission();
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="~/Assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Assets/css/Main.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" />
+    @Styles.Render("~/bundles/styles")
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css">
+
+    <meta name="baseURL" content="@(Request.Url.Scheme + "://" + Request.Url.Authority + VirtualPathUtility.ToAbsolute("~/"))" />
+    @Scripts.Render("~/bundles/scripts")
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+    <script src="~/Assets/js/jquery.mask.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDME32UFDEYyS_KwgS3WJRqPY5cpbtKH0A&libraries=places&SameSite=None&sensor=false"></script>
+
+    @*<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCc5vVFw9rNMBRTazypkoydHGXB2LrlRv8&callback=initMap&libraries=places&SameSite=None&sensor=false"></script>*@
+    <script src="https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyDME32UFDEYyS_KwgS3WJRqPY5cpbtKH0A"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.print.min.js"></script>
+    <script src="~/Assets/js/pdfmake.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.colVis.min.js"></script>
+    <script type="text/javascript">
+            var isInsert =  @permissions.IsInsert.ToString().ToLower();
+            var isView = @permissions.IsView.ToString().ToLower();
+            var isUpdate = @permissions.IsUpdate.ToString().ToLower();
+            var isDelete = @permissions.IsDelete.ToString().ToLower();
+            var IsPricingMethod =  @permissions.IsPricingMethod.ToString().ToLower();
+    </script>
+</head>
+<body>
+    <div class="header">
+        <nav class="menu">
+            <div class="menu-toggle">
+                <label class="menu-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </label>
+            </div>
+            <ul class="menu-items">
+                @{
+                    MemberProfile mp = new MemberProfile();
+                    var controllerName = ViewContext.RouteData.Values["Controller"].ToString();
+                    var actionName = ViewContext.RouteData.Values["Action"].ToString();
+                    var areaName = Convert.ToString(ViewContext.RouteData.DataTokens["area"]);
+                    areaName = (areaName == null) ? "" : areaName.ToString();
+
+                    var id = Convert.ToString(ViewContext.RouteData.Values["id"]);
+
+                    if (mp.Permissions != null)
+                    {
+                        if (mp.UserRole == "Customer")
+                        {
+                            <li>
+
+                                <div>
+                                    <span class="leftIc">
+                                        <i class="fas fa-tachometer-alt"></i>
+                                    </span>
+                                    <span class="leftText">Live Shipment</span>
+                                </div>
+                                <ul>
+                                    <li>
+                                        <a href="javascript:void(0)">
+                                            @*<span class="leftIc">
+                                                    <i class="fas fa-tachometer-alt"></i>
+                                                </span>*@
+                                            @*<span class="leftText"> Shipment</span>*@
+                                        </a>
+                                    </li>
+                                </ul>
+
+                            </li>
+                        }
+                        foreach (var data in mp.Permissions)
+                        {
+                            if (data.IsMenu)
+                            {
+                                if (data.CanView)
+                                {
+                                    if (data.ControllerName == "Shipment" || data.ControllerName == "Fumigation" || data.ControllerName == "TrailerRental" || data.ControllerName == "Driver" || data.ControllerName == "Customer")
+                                    {
+                                        if ((data.ControllerName == "Driver" && actionName == "FumigationDetails") || (data.ControllerName == "Driver" && actionName == "Detail"))
+                                        {
+                                            actionName = "Dashboard";
+                                        }
+
+                                        <li>
+                                            <a class="@(controllerName == data.ControllerName && actionName == data.ActionName && areaName == data.AreaName ? "active" : "")"
+                                               @*<a class="@(controllerName == data.ControllerName && actionName== data.ActionName ? "active" : "")"*@
+                                               href="@Url.Action(data.ActionName, data.ControllerName, new { area = data.AreaName })">
+                                                <span title="@data.PageName.ToUpper()" class="leftIc">
+                                                    <i class="@data.DisplayIcon"></i>
+                                                </span>
+                                                <span class="leftText">
+                                                    @data.PageName
+                                                </span>
+                                            </a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            @*<a class="@(controllerName == data.ControllerName && actionName== data.ActionName && areaName == data.AreaName ? "active" : "")"*@
+                                            <a class="@(controllerName == data.ControllerName && actionName==data.ActionName ? "active" : "")"
+                                               href="@Url.Action(data.ActionName, data.ControllerName, new { area = data.AreaName })">
+                                                <span title="@data.PageName.ToUpper()" class="leftIc">
+                                                    <i class="@data.DisplayIcon"></i>
+                                                </span>
+                                                <span class="leftText">
+                                                    @data.PageName
+                                                </span>
+                                            </a>
+                                        </li>
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            </ul>
+        </nav>
+
+    </div>
+    <div class="section">
+        <div class="aside">
+            <div class="sprogress">
+                <label> SHIPMENTS PROGRESS<span style="margin-Left:30px; font-weight:normal;">13</span></label>
+                <p style=" margin-top:20px;">SHIPMENT PIPELINE <span style="margin-Left:43px; font-weight:normal;">13</span></pstyle="font-weight:normal;>
+            </div>
+            <div class="fprogress">
+                FUMIGATION PROGRESS
+                <p style="font-weight:normal; margin-top:10px;">LOADING <span style="margin-Left:34px; font-weight:normal;">13</span></p>
+                <p style="font-weight:normal;">DELIVERY <span style="margin-Left:30px; font-weight:normal;">13</span></p>
+            </div>
+            <div class="driver">
+                DRIVER WAITING ROOM
+            </div>
+            <div class="driver-list">
+                <ul class="list-items">
+                    <li>Name</li>
+                    <li>Status</li>
+                    <li>DeliveryLocation</li>
+                </ul>
+            </div>
+        </div>
+        <div class="article">
+            CUSTOMER PROFILE
+            <ul class="article-items">
+                <li>Name</li>
+                <li>Address</li>
+                <li>Cantact No</li>
+                <li>phone</li>
+                <li>E-Mail</li>
+            </ul>
+            <ul class="article-items1">
+                <li>Raj</li>
+                <li>chennai</li>
+                <li>9098766563</li>
+                <li>7878987654</li>
+                <li>drt@gmail.com</li>
+            </ul>
+        </div>
+        <div>
+            SHIPMENTS ADVICE
+        </div>
+        <div>
+            GPS LIVE TRACKING
+        </div>
+    </div>
+    <div class="customTableWrapper">
+        <div class="row">
+            <div></div>
+            <div class="col-md-12 py-2 d-flex  mb_40 pl-16 shipmentmob" style="justify-content:end ;right: 345px;padding-right: 0;padding-top: 0;">
+                @if (permissions.IsInsert)
+                {
+                    <!-- <a id="loginLink" class="btn green-Btn" href="window.open('@Url.Action("Index", "Shipment")')" style="display: flex;align-items: center;justify-content: space-between;padding: 2px 8px 2px 4px;"> -->
+                    <a id="loginLink" class="btn green-Btn" href='#' onclick="var newTab = window.open('@Url.Action("Index", "Shipment")');" style="display: flex;align-items: center;justify-content: space-between;padding: 6px 8px 6px 4px;">
+                        <img alt="Log in" src="@Url.Content("~/Assets/images/add-icon.png")" style="width:20px;margin-right:5px;">
+                        <label style="margin-bottom:-2px;">Create Shipment</label>
+
+                    </a>
+                    <label>&nbsp;</label><label>&nbsp;</label>
+                    <a id="loginLink" class="btn green-Btn" href="@Url.Action("ViewAllShipment", "Shipment")" style="display: flex;align-items: center;justify-content: space-between;padding: 6px 8px 6px 8px;">
+                        <img alt="Log in" src="@Url.Content("~/Assets/images/archives.png")" style="height: 20px; margin-right: 5px;">
+                        <label style="margin-bottom:-2px;">Shipment Archive</label>
+
+                    </a>
+
+
+                }
+            </div>
+            <div></div>
+        </div>
+        <table class="table-bordered table-striped cf w-100 dataTable no-footer dtr-inline" id="tblShipmentDetails">
+            <thead>
+                <tr><td colspan="11"><b>REQUESTED SHIPMENTS</b></td></tr>
+                <tr>
+                    <th hidden="hidden">ShipmentId</th>
+                    <th>Customer Name</th>
+                    <th>Pickup</th>
+                    <th>Pickup Date</th>
+                    <th>Delivery</th>
+                    <th>Delivery Date</th>
+                    <th>AWB / PO / ORD</th>
+                    <th>Quantity</th>
+                    <th>Created By</th>
+                    <th>Ready</th>
+                    <th style="max-width:250px;width:100%;">Comments</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    </div>
+    </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12 mt-2">
+            <div class="white-bg customFormWrap  table-spacing">
+
+                <div class="col-md-12 divSearchBox">
+                    @*@Html.ActionLink("Create Shipment", "Index", "Shipment", null, new { @class = "btn green-Btn" })*@
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group row">
+                                <label for="dtStartedDate2" class="col-sm-4 col-form-label">Start Date</label>
+                                <div class="col-sm-8">
+                                    <input type="text"
+                                           required="required"
+                                           placeholder="MM-DD-YYYY"
+                                           name="dtStartedDate"
+                                           onkeypress="return onlyAlphanumeric(event)"
+                                           id="dtStartedDate"
+                                           autocomplete="off"
+                                           class="form-control jqueryui-marker-datepicker">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group  row">
+                                <label for="dtEndDate2" class="col-sm-4 col-form-label">End Date</label>
+                                <div class="col-sm-8">
+                                    <input type="text"
+                                           required="required"
+                                           placeholder="MM-DD-YYYY"
+                                           name="dtEndDate"
+                                           onkeypress="return onlyAlphanumeric(event)"
+                                           id="dtEndDate"
+                                           autocomplete="off"
+                                           class="form-control jqueryui-marker-datepicker">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group row">
+                                <label for="ddlCustomer2" class="col-sm-4 col-form-label">Customer</label>
+                                <div class="col-sm-8">
+                                    <select id="ddlCustomer2" class="form-control">
+                                        <option>SEARCH CUSTOMER</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group row">
+                                <label for="ddlFreightType" class="col-sm-4 col-form-label">Freight Type</label>
+                                <div class="col-sm-8">
+                                    <select id="ddlFreightType2" class="form-control">
+                                        <option>SELECT FREIGHT TYPE</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-12 text-right py-2">
+
+                            <button type="button" id="btnViewShipment2" class="btn green-Btn pullr">Search</button>
+
+                        </div>
+                    </div>
+                </div>
+                @*<hr class="hr_add" />*@
+                <div class="customTableWrapper table-spacing">
+
+                    <table class="table-bordered table-striped cf w-100 dataTable no-footer dtr-inline" id="tblShipmentDetails2">
+                        <thead>
+                            <tr><td colspan="12"><b>SHIPMENTS IN PROGRESS</b></td></tr>
+                            <tr>
+                                <th hidden="hidden">ShipmentId</th>
+                                <th>STATUS</th>
+                                <th>Pickup Date</th>
+                                <th>Pickup</th>
+                                <th>Delivery Date</th>
+                                <th>Delivery</th>
+                                <th>Customer Name</th>
+                                <th>AWB / PO / ORD</th>
+                                @*<th>Cust. PO</th>*@
+                                <th>Quantity</th>
+
+                                <th>Commodity</th>
+                                <th>TEMP(F)</th>
+                                <th>DRIVER</th>
+                                <th>Equipment</th>
+                                <th>WT</th>
+                                <th>ST</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal" role="dialog" id="shipmentModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header popup">
+                    <h6 class="modal-title">Copy Shipment</h6>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-body">
+                        <div class="white-bg customFormWrap">
+                            <input type="hidden" id="ShipmentId" value="" />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group required row">
+                                        <label class="col-sm-4 col-form-label" for="ddlCustomerCopy">Customer</label>
+                                        <div class="col-sm-8">
+                                            <select id="ddlCustomerCopy"
+                                                    class="form-control">
+                                                <option>SEARCH CUSTOMER</option>
+                                            </select>
+
+                                            <input type="hidden" id="hdnShipmentId" name="hdnShipmentId" value="0" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="txtAirWayBill">Air Waybill</label>
+                                            <div class="col-sm-8">
+                                                <input type="text"
+                                                       name="txtAirWayBill"
+                                                       onkeypress="return onlyAlphanumeric(event)"
+                                                       id="txtAirWayBill"
+                                                       class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="12">
+                                        <div class="form-group row required">
+                                            <label class="col-sm-4 col-form-label" for="ddlPickupDate">Est. Pickup Arrival</label>
+                                            <div class="col-sm-8">
+                                                <input type="text"
+                                                       autocomplete="off"
+                                                       data-required="required"
+                                                       placeholder="MM-DD-YYYY"
+                                                       onkeypress="return onlyNumericOrcolon(event)"
+                                                       id="ddlPickupDate"
+                                                       class="form-control dtTimer" />
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <div class="form-group row required">
+                                            <label class="col-sm-4 col-form-label" for="ddlDeliveryDate">Est. Delivery Arrival</label>
+                                            <div class="col-sm-8">
+
+                                                <input type="text"
+                                                       autocomplete="off"
+                                                       data-required="required"
+                                                       placeholder="MM-DD-YYYY"
+                                                       onkeypress="return onlyNumericOrcolon(event)"
+                                                       id="ddlDeliveryDate"
+                                                       class="form-control dtTimer" />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 text-right" style="flex: unset; width: auto;">
+                                    <button type="button" id="btnCopy" class="btn green-Btn">Copy Shipment</button>
+                                </div>
+                                <div class="col-md-12 text-right" style="flex: unset; width: auto;">
+                                    <button type="button" id="btnCancel" class="btn green-Btn">Cancel</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-body">
+                <div class="white-bg customFormWrap">
+
+                    <div id="customTableWrapper">
+                        <table class="table-bordered table-striped cf w-100 collapsed" id="tblOrderTakenFumigation">
+                            <thead>
+                                <tr><td colspan="22"><b>REQUESTED FUMIGATION</b></td></tr>
+                                <tr>
+                                    <th hidden="hidden"></th>
+                                    <th>Status</th>
+                                    <th style="width: 72px !important;padding-right: 12px;">Req Loading</th>
+                                    <th>Fum Type</th>
+                                    <th>Customer</th>
+                                    <th>Pickup Location</th>
+                                    <th style="width: 106px !important; padding-right:22px !important;">AWB/PO/Container</th>
+                                    <th>Consignee</th>
+                                    <th>Box Count</th>
+                                    <th>Pallet Count</th>
+                                    <th>Position</th>
+                                    <th>Temp F</th>
+                                    <th>Fumigation Site</th>
+                                    <th style="width: 28px !important;padding-right: 8px;">Pickup Equ</th>
+                                    <th>Pickup Driver</th>
+                                    <th>Delivery Location</th>
+                                    <th>Comments</th>
+                                    @*<th>Delivery Driver</th>
+                                        <th>Delivery Equipment</th>
+                                        <th>Delivery Arrival</th>*@
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-body">
+                <div class="white-bg customFormWrap">
+
+                    <div id="customTableWrapper">
+                        <table class="table-bordered table-striped cf w-100" id="tblOtherFumigation">
+                            <thead>
+                                <tr><td colspan="22"><b>FUMIGATION IN PROGRESS</b></td></tr>
+                                <tr>
+                                    <th hidden="hidden"></th>
+                                    <th>Status</th>
+                                    <th>Fum Release</th>
+
+                                    <th>Fum Type</th>
+                                    <th>Customer</th>
+                                    <th>Pickup Location</th>
+                                    <th>AWB/PO/Container</th>
+                                    <th>Consignee</th>
+
+                                    <th>Box Count</th>
+                                    <th>Pallet Count</th>
+                                    <th>Position</th>
+                                    <th>Fumigation Site</th>
+                                    <th>Pickup Equipment</th>
+                                    <th>Pickup Driver</th>
+
+                                    <th>Actual Start</th>
+                                    <th>Actual Finish</th>
+                                    <th>Temp F</th>
+
+
+                                    @*<th>Actual Fum In</th>
+
+                                        <th>Act. Fum Departure</th>*@
+                                    <th>Equipment</th>
+                                    <th>Delivery Driver</th>
+                                    <th>Delivery Location</th>
+                                    <th>WT</th>
+                                    <th>ST</th>
+                                    @*<th>Actual Arrival</th>
+                                        <th>Actual Departure</th>*@
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" role="dialog" id="fumigationModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header popup">
+                    <h6 class="modal-title">Copy Fumigation</h6>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-body">
+                        <div class="white-bg customFormWrap">
+                            <input type="hidden" id="FumigationId" value="" />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group required row">
+                                        <label class="col-sm-4 col-form-label" for="ddlCustomerCopy">Customer</label>
+                                        <div class="col-sm-8">
+                                            <select id="ddlCustomerCopy"
+                                                    class="form-control">
+                                                <option>SEARCH CUSTOMER</option>
+                                            </select>
+
+                                            <input type="hidden" id="hdnFumigationId" name="hdnFumigationId" value="0" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="txtAirWayBill">Air Waybill</label>
+                                            <div class="col-sm-8">
+                                                <input type="text"
+                                                       name="txtAirWayBill"
+                                                       onkeypress="return onlyAlphanumeric(event)"
+                                                       id="txtAirWayBill"
+                                                       class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="12">
+                                        <div class="form-group row required">
+                                            <label class="col-sm-4 col-form-label" for="dtReqLoading">Req. Loading</label>
+                                            <div class="col-sm-8">
+                                                <input type="text"
+                                                       autocomplete="off"
+                                                       data-required="required"
+                                                       placeholder="MM-DD-YYYY"
+                                                       onkeypress="return onlyNumericOrcolon(event)"
+                                                       id="dtReqLoading"
+                                                       class="form-control dtTimer" />
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <div class="form-group row required">
+                                            <label class="col-sm-4 col-form-label" for="dtEstFumIn">Est. Fum. In</label>
+                                            <div class="col-sm-8">
+                                                <input type="text"
+                                                       autocomplete="off"
+                                                       data-required="required"
+                                                       placeholder="MM-DD-YYYY"
+                                                       onkeypress="return onlyNumericOrcolon(event)"
+                                                       id="dtEstFumIn"
+                                                       class="form-control dtTimer" />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <div class="form-group row required">
+                                            <label class="col-sm-4 col-form-label" for="dtRelease">Est. Fum. Release</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" autocomplete="off" data-required="required" placeholder="MM-DD-YYYY" onkeypress="return onlyNumericOrcolon(event)" id="dtRelease" class="form-control dtTimer" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <div class="form-group row required">
+                                            <label class="col-sm-4 col-form-label" for="dtDelEstArrival">Del. Est. Arrival</label>
+                                            <div class="col-sm-8">
+                                                <input type="text"
+                                                       autocomplete="off"
+                                                       data-required="required"
+                                                       placeholder="MM-DD-YYYY"
+                                                       onkeypress="return onlyNumericOrcolon(event)"
+                                                       id="dtDelEstArrival"
+                                                       class="form-control dtTimer" />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 text-right" style="flex: unset;width:auto;">
+                                    <button type="button" id="btnCopy" class="btn green-Btn">Copy Fumigation</button>
+                                </div>
+                                <div class="col-md-12 text-right" style="flex: unset; width: auto;">
+                                    <button type="button" id="btnCancel" class="btn green-Btn">Cancel</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/MainShipment")
+    @Scripts.Render("~/bundles/MainFumigation")
+</body>
+</html>
