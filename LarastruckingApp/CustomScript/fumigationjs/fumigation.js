@@ -266,15 +266,15 @@ function GetFumigationById() {
                         $("#hdnIsOnhold").val(0);
                     }
 
-                    
+
                     //#region for binding equipment and driver
                     for (let i = 0; i < response.FumigationEquipmentNDriver.length; i++) {
-                       // console.log("response.FumigationEquipmentNDriver: ", response.FumigationEquipmentNDriver);
+                        console.log("response.FumigationEquipmentNDriver: ", response.FumigationEquipmentNDriver);
                         var equipmentNdriver = {};
                         equipmentNdriver.RouteNo = response.FumigationEquipmentNDriver[i].RouteNo;
                         equipmentNdriver.FumigationEquipmentNDriverId = response.FumigationEquipmentNDriver[i].FumigationEquipmentNDriverId;
                         equipmentNdriver.EquipmentId = response.FumigationEquipmentNDriver[i].EquipmentId == null ? null : response.FumigationEquipmentNDriver[i].EquipmentId;
-                       // console.log("glbEquipmentNdriver: ", glbEquipmentNdriver);
+                        // console.log("glbEquipmentNdriver: ", glbEquipmentNdriver);
                         equipmentNdriver.EquipmentName = response.FumigationEquipmentNDriver[i].EquipmentName == null ? '|' : equipmentNdriver.EquipmentName = response.FumigationEquipmentNDriver[i].EquipmentName;
                         equipmentNdriver.DriverId = response.FumigationEquipmentNDriver[i].DriverId;
                         equipmentNdriver.DriverName = response.FumigationEquipmentNDriver[i].DriverName;
@@ -1073,7 +1073,7 @@ function AddRouteStops() {
      }*/
     // else {
     if (glbRouteStops.length > 0) {
-       // console.log("glbRouteStops: ", glbRouteStops);
+        // console.log("glbRouteStops: ", glbRouteStops);
         var max = glbRouteStops.reduce(function (prev, current) {
             return (prev.RouteNo > current.RouteNo) ? prev : current
         });
@@ -1088,20 +1088,18 @@ function AddRouteStops() {
 
     //Update route detail
     if ($("#tblShipmentDetail").attr("data-row-no") > 0) {
-        
-        
 
         var tblRowsCount = $("#tblShipmentDetail").attr("data-row-no");
         var rowindex = Number(tblRowsCount) - 1;
         //console.log("rowindex: ", rowindex);
         var routedetail;
         if (rowindex == 0) {
-          
+
             for (let j = 0; j < glbRouteStops.length; j++) {
 
                 routedetail = glbRouteStops[j];
                 if (j == 0) {
-                    console.log("glbRouteStops.length in first: ", glbRouteStops.length);
+                    console.log("glbRouteStops.length: ", glbRouteStops.length);
                     routedetail.FumigationTypeId = $.trim($("#ddlFumigationType").val());
 
                     routedetail.VendorNConsignee = $.trim($("#txtVendorNConsignee").val());
@@ -1149,9 +1147,9 @@ function AddRouteStops() {
                     routedetail.TrailerPosition = $.trim($("#txtTrailerPosition").val());
                     routedetail.TotalFee = $.trim($("#txtTotalFee").val());
                     routedetail.PickUpEquipment = $.trim($("#txtPickUpEquipment").val());
-                  //  console.log("glbEquipmentNdriver if j==0: ", glbEquipmentNdriver);
+                    console.log("glbEquipmentNdriver if j==0: ", glbEquipmentNdriver);
                     routedetail.PickUpDriver = $.trim($("#txtPickUpdriver").val());
-                   // console.log("hdnequp: ", $("#hdnPickUpEquipment").val());
+                    console.log("hdnequp: ", $("#hdnPickUpEquipment").val());
                     var PickupEQuipmentDriver = [];
                     var DeliveryEQuipmentDriver = [];
                     // PickupEQuipmentDriver = JSON.parse($.trim($("#hdnPickUpEquipment").val()));
@@ -1159,7 +1157,7 @@ function AddRouteStops() {
 
                     if (routedetail.PickUpDriver != "" && $("#hdnPickUpEquipment").val() != "") {
                         routedetail.PickUpEquipmentNdriver = JSON.parse($.trim($("#hdnPickUpEquipment").val()));
-                       // console.log("hdnequp val after parse: ", routedetail.PickUpEquipmentNdriver);
+                        console.log("hdnequp val after parse: ", routedetail.PickUpEquipmentNdriver);
                     }
                     else {
                         routedetail.PickUpEquipmentNdriver = $.trim($("#hdnPickUpEquipment").val());
@@ -1169,9 +1167,9 @@ function AddRouteStops() {
                     //  routedetail.DeliveryEquipment = $.trim($("#txtDeliveryEquipment").val());
 
                     // routedetail.DeliveryDriver = $.trim($("#txtDeliveryDriver").val());
-                    console.log("routedetail.DeliveryDriver :", $("#hdnDeliveryEquipment").val());
+                    //console.log("routedetail.DeliveryDriver :", routedetail.DeliveryDriver);
 
-                    if (routedetail.DeliveryDriver != "" && $("#hdnDeliveryEquipment").val()!="") {
+                    if (routedetail.DeliveryDriver != "" && $("#hdnDeliveryEquipment").val() != "") {
                         routedetail.DeliveryEquipmentNdriver = JSON.parse($.trim($("#hdnDeliveryEquipment").val()));
                     }
                     else {
@@ -1196,27 +1194,27 @@ function AddRouteStops() {
                         }
                     }
 
-                    if (j==1) {
-                    $.alert({
-                        title: 'Success!',
-                        content: "<b>Your data has successfully been updated to your shipment.<br/>  Don't forget to click on the Submit button to save all changes.</b>",
-                        type: 'green',
-                        typeAnimated: true,
-                    });
+                    if (j == 1) {
+                        $.alert({
+                            title: 'Success!',
+                            content: "<b>Your data has successfully been updated to your shipment.<br/>  Don't forget to click on the Submit button to save all changes.</b>",
+                            type: 'green',
+                            typeAnimated: true,
+                        });
 
-                     }
+                    }
 
 
                     $("#tblShipmentDetail").attr("data-row-no", 0);
+                    $("#txtVendorNConsignee").val("");
                     $("#btnAddRoute").text("ADD LOADING LOCATION & FREIGHT");
                 }
                 else {
                     var routeNumber = routedetail + 1;
-                    console.log("glbRouteStops: ", glbRouteStops);
                     //routedetail = glbRouteStops[rowindex];
                     routedetail.FumigationTypeId = $.trim($("#ddlFumigationType").val());
 
-                  //  routedetail.VendorNConsignee = $.trim($("#txtVendorNConsignee").val());
+                    // routedetail.VendorNConsignee = $.trim($("#txtVendorNConsignee").val());
 
                     // routedetail.AirWayBill = $.trim($("#txtAirWayBill").val());
                     // routedetail.CustomerPO = $.trim($("#txtCustomerPO").val());
@@ -1261,9 +1259,9 @@ function AddRouteStops() {
                     // routedetail.TrailerPosition = $.trim($("#txtTrailerPosition").val());
                     // routedetail.TotalFee = $.trim($("#txtTotalFee").val());
                     routedetail.PickUpEquipment = $.trim($("#txtPickUpEquipment").val());
-                   // console.log("edit equipment : ", $.trim($("#txtPickUpEquipment").val()));
+                    //console.log("edit equipment : ", $.trim($("#txtPickUpEquipment").val()));
                     routedetail.PickUpDriver = $.trim($("#txtPickUpdriver").val());
-                  console.log("glbEquipmentNdriver edit not first: ", glbEquipmentNdriver);
+                    //console.log("glbEquipmentNdriver edit first: ", glbEquipmentNdriver);
 
                     //  var upd_obj = glbEquipmentNdriver.findIndex((obj => obj.RouteNo > 0));
                     //  console.log("upd_obj: ", upd_obj);
@@ -1273,59 +1271,152 @@ function AddRouteStops() {
                     // DeliveryEQuipmentDriver = JSON.parse($.trim($("#hdnDeliveryEquipment").val()));
 
                     if (glbEquipmentNdriver.length > 0) {
+                        var EquipmentD = glbEquipmentNdriver.find((element) => element.RouteNo == 1 && element.IsPickUp == true);
                         var pickOb = {
                             FumigationEquipmentNDriverId: 0,
-                            IsPickUp: glbEquipmentNdriver[1].IsPickUp,
-                            EquipmentId: glbEquipmentNdriver[1].EquipmentId,
-                            EquipmentName: glbEquipmentNdriver[1].EquipmentName,
-                            DriverId: glbEquipmentNdriver[1].DriverId,
-                            DriverName: glbEquipmentNdriver[1].DriverName,
+                            IsPickUp: EquipmentD.IsPickUp,
+                            EquipmentId: EquipmentD.EquipmentId,
+                            EquipmentName: EquipmentD.EquipmentName,
+                            DriverId: EquipmentD.DriverId,
+                            DriverName: EquipmentD.DriverName,
                             RouteNo: routeNo,
                             IsDeleted: false
 
                         };
+                        var equipCheck = glbEquipmentNdriver.find((element) => element.RouteNo == 1 && element.IsPickUp == false);
+                        if (equipCheck == undefined) {
+                            console.log("equipCheck: " + equipCheck);
+                            var EquipmentDel = glbEquipmentNdriver.find((element) => element.RouteNo == 1 && element.IsPickUp == true);
 
-                        //console.log("glbEquipmentNdriver[1].IsPickUp: ", glbEquipmentNdriver[1].IsPickUp);
-                        var delOb = {
-                            FumigationEquipmentNDriverId: 0,
-                            IsPickUp: glbEquipmentNdriver[0].IsPickUp,
-                            EquipmentId: glbEquipmentNdriver[0].EquipmentId,
-                            EquipmentName: glbEquipmentNdriver[0].EquipmentName,
-                            DriverId: glbEquipmentNdriver[0].DriverId,
-                            DriverName: glbEquipmentNdriver[0].DriverName,
-                            RouteNo: routeNo,
-                            IsDeleted: false
+                            //console.log("glbEquipmentNdriver[1].IsPickUp: ", glbEquipmentNdriver[1].IsPickUp);
+                            var delOb = {
+                                FumigationEquipmentNDriverId: 0,
+                                IsPickUp: EquipmentDel.IsPickUp,
+                                EquipmentId: EquipmentDel.EquipmentId,
+                                EquipmentName: EquipmentDel.EquipmentName,
+                                DriverId: EquipmentDel.DriverId,
+                                DriverName: EquipmentDel.DriverName,
+                                RouteNo: routeNo,
+                                IsDeleted: false
 
-                        };
+                            };
 
-                        PickupEQuipmentDriver.push(pickOb);
-                        DeliveryEQuipmentDriver.push(delOb);
+
+                            PickupEQuipmentDriver.push(pickOb);
+                            DeliveryEQuipmentDriver.push(delOb);
+                        }
+                        else {
+                            var EquipmentDel = glbEquipmentNdriver.find((element) => element.RouteNo == 1 && element.IsPickUp == false);
+
+                            //console.log("glbEquipmentNdriver[1].IsPickUp: ", glbEquipmentNdriver[1].IsPickUp);
+                            var delOb = {
+                                FumigationEquipmentNDriverId: 0,
+                                IsPickUp: EquipmentDel.IsPickUp,
+                                EquipmentId: EquipmentDel.EquipmentId,
+                                EquipmentName: EquipmentDel.EquipmentName,
+                                DriverId: EquipmentDel.DriverId,
+                                DriverName: EquipmentDel.DriverName,
+                                RouteNo: routeNo,
+                                IsDeleted: false
+
+                            };
+
+
+                            PickupEQuipmentDriver.push(pickOb);
+                            DeliveryEQuipmentDriver.push(delOb);
+                        }
+                        //console.log("PickupEQuipmentDriver: ",PickupEQuipmentDriver);
                     }
-                    for (let k = 0; k < glbEquipmentNdriver.length; k++) {
-                        if (glbEquipmentNdriver[k].RouteNo > 1) {
-                            // glbEquipmentNdriver[k].push(pickOb);
-                            // glbEquipmentNdriver[k].IsPickUp = glbEquipmentNdriver[0].IsPickUp;
-                            //console.log("glbEquipmentNdriver[k]: ", glbEquipmentNdriver[k]);
-                            if (glbEquipmentNdriver[k].IsPickUp == false) {
-                                //console.log("glbEquipmentNdriver[k].IsPickUp: ", glbEquipmentNdriver[k].IsPickUp);
-                                glbEquipmentNdriver[k].EquipmentId = glbEquipmentNdriver[0].EquipmentId;
-                                glbEquipmentNdriver[k].EquipmentName = glbEquipmentNdriver[0].EquipmentName;
-                                glbEquipmentNdriver[k].DriverId = glbEquipmentNdriver[0].DriverId;
-                                glbEquipmentNdriver[k].DriverName = glbEquipmentNdriver[0].DriverName;
+                    for (let h = 0; h < glbRouteStops.length; h++) {
+                        console.log("glbRouteStops.length * 2: ", glbRouteStops.length * 2 + "glbEquipmentNdriver.length : ", glbEquipmentNdriver.length);
+                        if ((glbRouteStops.length * 2) == (glbEquipmentNdriver.length)) {
+                            //console.log("driver and equipment count is coorect");
+                            for (let k = 0; k < glbEquipmentNdriver.length; k++) {
+                                if (glbEquipmentNdriver[k].RouteNo > 1) {
+                                    // glbEquipmentNdriver[k].push(pickOb);
+                                    // glbEquipmentNdriver[k].IsPickUp = glbEquipmentNdriver[0].IsPickUp;
+                                    // console.log("glbEquipmentNdriver greater than 1: ", glbEquipmentNdriver[k]);
+                                    if (glbEquipmentNdriver[k].IsPickUp == false) {
+                                        var EquipmentD = glbEquipmentNdriver.find((element) => element.RouteNo == 1 && element.IsPickUp == false);
+                                        // console.log("EquipmentD delivery: ",EquipmentD);
+                                        console.log("glbEquipmentNdriver[k].IsPickUp: ", glbEquipmentNdriver[k].IsPickUp);
+                                        glbEquipmentNdriver[k].EquipmentId = EquipmentD.EquipmentId;
+                                        glbEquipmentNdriver[k].EquipmentName = EquipmentD.EquipmentName;
+                                        glbEquipmentNdriver[k].DriverId = EquipmentD.DriverId;
+                                        glbEquipmentNdriver[k].DriverName = EquipmentD.DriverName;
+                                    }
+                                    else {
+                                        //console.log("glbEquipmentNdriver[k].IsPickUp: ", glbEquipmentNdriver[k].IsPickUp);
+                                        // glbEquipmentNdriver[k].IsPickUp = glbEquipmentNdriver[1].IsPickUp;
+                                        var EquipmentD = glbEquipmentNdriver.find((element) => element.RouteNo == 1 && element.IsPickUp == true);
+                                        console.log("EquipmentD pickup : ", EquipmentD);
+                                        glbEquipmentNdriver[k].EquipmentId = EquipmentD.EquipmentId;
+                                        glbEquipmentNdriver[k].EquipmentName = EquipmentD.EquipmentName;
+                                        glbEquipmentNdriver[k].DriverId = EquipmentD.DriverId;
+                                        glbEquipmentNdriver[k].DriverName = EquipmentD.DriverName;
+                                    }
+
+                                }
+                                else {
+                                    console.log("fumigation quipment add for not added");
+                                    console.log("glbRouteStops.length ee: ", glbRouteStops.length);
+                                    console.log("routeNo: ", routeNo);
+                                    //if (glbEquipmentNdriver[k].RouteNo != 1) {
+                                    //glbEquipmentNdriver.push(pickOb);
+                                    //glbEquipmentNdriver.push(delOb);
+                                    //}
+                                }
+
                             }
-                            else {
-                                //console.log("glbEquipmentNdriver[k].IsPickUp: ", glbEquipmentNdriver[k].IsPickUp);
-                                // glbEquipmentNdriver[k].IsPickUp = glbEquipmentNdriver[1].IsPickUp;
-                                glbEquipmentNdriver[k].EquipmentId = glbEquipmentNdriver[1].EquipmentId;
-                                glbEquipmentNdriver[k].EquipmentName = glbEquipmentNdriver[1].EquipmentName;
-                                glbEquipmentNdriver[k].DriverId = glbEquipmentNdriver[1].DriverId;
-                                glbEquipmentNdriver[k].DriverName = glbEquipmentNdriver[1].DriverName;
+                        }
+                        else {
+                            // console.log("driver and equipment count is not coorect");
+                            // console.log("glbRouteStops.length: ",glbRouteStops.length);
+                            // console.log("routeNo: ",routeNo);
+                            for (let l = 1; l <= glbRouteStops.length; l++) {
+                                if (l != 1) {
+                                    var EquipmentD = glbEquipmentNdriver.find((element) => element.RouteNo == 1 && element.IsPickUp == true);
+                                    var EquipmentDel = glbEquipmentNdriver.find((element) => element.RouteNo == 1 && element.IsPickUp == false);
+                                    console.log("EquipmentD: ", EquipmentD);
+                                    console.log("EquipmentDel: ", EquipmentDel);
+                                    if (EquipmentD != undefined && EquipmentDel != undefined) {
+
+                                        var pickOb = {
+                                            FumigationEquipmentNDriverId: 0,
+                                            IsPickUp: EquipmentD.IsPickUp,
+                                            EquipmentId: EquipmentD.EquipmentId,
+                                            EquipmentName: EquipmentD.EquipmentName,
+                                            DriverId: EquipmentD.DriverId,
+                                            DriverName: EquipmentD.DriverName,
+                                            RouteNo: routeNo,
+                                            IsDeleted: false
+
+                                        };
+
+                                        //console.log("glbEquipmentNdriver[1].IsPickUp: ", glbEquipmentNdriver[1].IsPickUp);
+                                        var delOb = {
+                                            FumigationEquipmentNDriverId: 0,
+                                            IsPickUp: EquipmentDel.IsPickUp,
+                                            EquipmentId: EquipmentDel.EquipmentId,
+                                            EquipmentName: EquipmentDel.EquipmentName,
+                                            DriverId: EquipmentDel.DriverId,
+                                            DriverName: EquipmentDel.DriverName,
+                                            RouteNo: routeNo,
+                                            IsDeleted: false
+
+                                        };
+                                        pickOb.RouteNo = l;
+                                        delOb.RouteNo = l;
+                                        glbEquipmentNdriver.push(pickOb);
+                                        glbEquipmentNdriver.push(delOb);
+                                    }
+
+                                }
                             }
 
                         }
-                       
-
                     }
+
                     //if (routedetail.PickUpDriver != "" && $("#hdnPickUpEquipment").val()!="") {
                     //    routedetail.PickUpEquipmentNdriver = JSON.parse($.trim($("#hdnPickUpEquipment").val()));
                     //    console.log("hdnequp val after parse: ", routedetail.PickUpEquipmentNdriver);
@@ -1353,7 +1444,7 @@ function AddRouteStops() {
                     routedetail.DriverDeliveryDeparture = $.trim($("#dtActDeliveryDeparture").val());
 
 
-
+                    console.log("after equpment add: ", glbEquipmentNdriver);
                     var glbEquipmentNdriverList = glbEquipmentNdriver.filter(x => x.RouteNo == 0);
 
                     if (glbEquipmentNdriverList.length > 0) {
@@ -1375,6 +1466,7 @@ function AddRouteStops() {
 
 
                     $("#tblShipmentDetail").attr("data-row-no", 0);
+                    $("#txtVendorNConsignee").val("");
                     $("#btnAddRoute").text("ADD LOADING LOCATION & FREIGHT");
                 }
 
@@ -1382,9 +1474,9 @@ function AddRouteStops() {
 
         }
         else {
-            
+
             routedetail = glbRouteStops[rowindex];
-            console.log("glbEquipmentNdriver edit not first: ", glbEquipmentNdriver );
+            console.log("glbEquipmentNdriver edit not first: ", glbEquipmentNdriver + "routeindex: " + glbRouteStops[rowindex]);
             routedetail.FumigationTypeId = $.trim($("#ddlFumigationType").val());
 
             routedetail.VendorNConsignee = $.trim($("#txtVendorNConsignee").val());
@@ -1441,30 +1533,30 @@ function AddRouteStops() {
             // DeliveryEQuipmentDriver = JSON.parse($.trim($("#hdnDeliveryEquipment").val()));
 
             if (glbEquipmentNdriver.length > 0) {
-                     var pickOb = {
-                            FumigationEquipmentNDriverId: 0,
-                            IsPickUp: glbEquipmentNdriver[1].IsPickUp,
-                            EquipmentId: glbEquipmentNdriver[1].EquipmentId,
-                            EquipmentName: glbEquipmentNdriver[1].EquipmentName,
-                            DriverId: glbEquipmentNdriver[1].DriverId,
-                            DriverName: glbEquipmentNdriver[1].DriverName,
-                            RouteNo: routeNo,
-                            IsDeleted: false
+                var pickOb = {
+                    FumigationEquipmentNDriverId: 0,
+                    IsPickUp: glbEquipmentNdriver[0].IsPickUp,
+                    EquipmentId: glbEquipmentNdriver[0].EquipmentId,
+                    EquipmentName: glbEquipmentNdriver[0].EquipmentName,
+                    DriverId: glbEquipmentNdriver[0].DriverId,
+                    DriverName: glbEquipmentNdriver[0].DriverName,
+                    RouteNo: routeNo,
+                    IsDeleted: false
 
-                        };
+                };
 
-                        //console.log("glbEquipmentNdriver[1].IsPickUp: ", glbEquipmentNdriver[1].IsPickUp);
-                        var delOb = {
-                            FumigationEquipmentNDriverId: 0,
-                            IsPickUp: glbEquipmentNdriver[0].IsPickUp,
-                            EquipmentId: glbEquipmentNdriver[0].EquipmentId,
-                            EquipmentName: glbEquipmentNdriver[0].EquipmentName,
-                            DriverId: glbEquipmentNdriver[0].DriverId,
-                            DriverName: glbEquipmentNdriver[0].DriverName,
-                            RouteNo: routeNo,
-                            IsDeleted: false
+                //console.log("glbEquipmentNdriver[1].IsPickUp: ", glbEquipmentNdriver[1].IsPickUp);
+                var delOb = {
+                    FumigationEquipmentNDriverId: 0,
+                    IsPickUp: glbEquipmentNdriver[1].IsPickUp,
+                    EquipmentId: glbEquipmentNdriver[1].EquipmentId,
+                    EquipmentName: glbEquipmentNdriver[1].EquipmentName,
+                    DriverId: glbEquipmentNdriver[1].DriverId,
+                    DriverName: glbEquipmentNdriver[1].DriverName,
+                    RouteNo: routeNo,
+                    IsDeleted: false
 
-                        };
+                };
                 PickupEQuipmentDriver.push(pickOb);
                 DeliveryEQuipmentDriver.push(delOb);
             }
@@ -1515,6 +1607,7 @@ function AddRouteStops() {
             });
 
             $("#tblShipmentDetail").attr("data-row-no", 0);
+            $("#txtVendorNConsignee").val("");
             $("#btnAddRoute").text("ADD LOADING LOCATION & FREIGHT");
         }
     }
@@ -1777,6 +1870,7 @@ function AddRouteStops() {
         });
     }
     bindLocation();
+    $("#txtVendorNConsignee").val("");
 }
 //#endregion
 function SplitString(text, count, insertDots) {
@@ -1921,7 +2015,7 @@ clearRouteStops = function () {
     $("#txtReqTemperature").val("");
     $("#ddlTemperatureUnit").val("F");
     $("#ddlPricingMethod").val("");
-
+    $("#txtVendorNConsignee").val("");
     $("#dtRelease").val("");
     $("#dtDeparture").val("");
     $("#txtCommodity").val("");
@@ -1963,7 +2057,7 @@ function edit_route_stops(index) {
     $($("#tblShipmentDetail tbody tr")[index]).find("input[type=radio]").prop("checked", true);
 
     var routedetail = glbRouteStops[index];
-    //console.log("txtPickUpEquipment: ", routedetail.PickUpEquipment);
+    console.log("txtPickUpEquipment: ", routedetail.PickUpEquipment);
 
     $("#ddlFumigationType").val(routedetail.FumigationTypeId);
 
@@ -2252,19 +2346,23 @@ function GetJsonValue() {
     values.AccessorialPrice = glbAccessorialFee;
 
 
-   // console.log("glbEquipmentNdriver Get JsonValue Function:", glbEquipmentNdriver);
+    // console.log("glbEquipmentNdriver Get JsonValue Function:", glbEquipmentNdriver);
     // console.log("glbEquipmentNdriver Get Json:", $("#EqId").val());
     //  console.log("glbEquipmentNdriver Get Json:", glbEquipmentNdriver.length + " : " + glbRouteStops.length);
 
     var tempLen = glbEquipmentNdriver.length;
     var delObjExists = false;
+    var chkEquipment = $("#chkEquipment").val();
+    console.log("chkEquipment: ", chkEquipment);
+    //if(chkEquipment==null || chkEquipment=="null"){
     for (let i = 0; i < tempLen; i++) {
         //delObjExists = false;
         if (glbEquipmentNdriver[i].IsPickUp == false && glbEquipmentNdriver[i].RouteNo == 0) {
+            console.log("delobject: ", glbEquipmentNdriver[i].RouteNo);
             delObjExists = true;
         }
-        // console.log("delObjExists: " + glbEquipmentNdriver[i].IsPickUp + " : " + glbEquipmentNdriver[i].RouteNo + " : " + delObjExists);
-        if (glbEquipmentNdriver.length >= 1 && glbEquipmentNdriver[i].IsPickUp == true) {
+        console.log("delObjExists: " + glbEquipmentNdriver[i].IsPickUp + " : " + glbEquipmentNdriver[i].RouteNo + " : " + delObjExists);
+        if (glbEquipmentNdriver.length >= 1 && glbEquipmentNdriver[i].IsPickUp == true && glbEquipmentNdriver.length <= 2) {
             var deliveryObj = {
                 FumigationEquipmentNDriverId: 0,
                 IsPickUp: false,
@@ -2278,11 +2376,12 @@ function GetJsonValue() {
             if (glbEquipmentNdriver[i + 1] == null && glbEquipmentNdriver[i].RouteNo == 0 && delObjExists == false) {
                 glbEquipmentNdriver.push(deliveryObj);
             }
-            //console.log("glbEquipmentNdriver Get JsonValue Function after push:", glbEquipmentNdriver);
+            console.log("glbEquipmentNdriver Get JsonValue Function after push:", glbEquipmentNdriver);
         }
     }
+    //}
 
-      //console.log("glbEquipmentNdriver: Get Json Final Value : ", glbEquipmentNdriver);
+    console.log("glbEquipmentNdriver: Get Json Final Value : ", glbEquipmentNdriver);
     values.FumigationEquipmentNdriver = glbEquipmentNdriver;
 
     return values;
@@ -2319,19 +2418,19 @@ function SendMessage() {
 
         broker = values.RequestedBy;
         const FumigationEquipmentNdriver = "FumigationEquipmentNdriver"[i] in values;
-       // console.log("FumigationEquipmentNdriver: ", FumigationEquipmentNdriver);
+        // console.log("FumigationEquipmentNdriver: ", FumigationEquipmentNdriver);
         //console.log("values.FumigationEquipmentNdriver[i].DriverId: ", values.FumigationEquipmentNdriver[i].DriverId);
         // var customer = values.CustomerName;
         if (values.FumigationEquipmentNdriver[i].DriverId != "" && values.FumigationEquipmentNdriver[i].DriverId != "undefined") {
-           // console.log("driver not empty");
+            // console.log("driver not empty");
             driverid = values.FumigationEquipmentNdriver[i].DriverId;
             // break;
         }
         else {
             driverid = values.FumigationEquipmentNdriver[0].DriverId;
         }
-       // console.log("driverid: ", driverid);
-       // console.log("PickupDetails: ", PickupDetails);
+        // console.log("driverid: ", driverid);
+        // console.log("PickupDetails: ", PickupDetails);
         var driverphone;
     }
     //console.log("driverid: ", driverid);
@@ -3101,7 +3200,7 @@ var btnSave = function () {
         var values = {};
         values = GetJsonValue();
         var prevalues = GetValues();
-         console.log("btnsave: ", values);
+        console.log("btnsave: ", values);
         //console.log("prevalues: ", prevalues);
         //console.log("pickdriver: ", values.FumigationRouteDetail[0].PickUpEquipmentNdriver[0].DriverId);
         if ($("#ddlCustomer").val() > 0) {
@@ -3314,8 +3413,8 @@ var SendTempReport = function () {
     var values = {};
     values = GetJsonValue();
     var prevalues = GetValues();
-//
-    //console.log("SendTempReport: ", values);
+
+    console.log("SendTempReport: ", values);
 
 
 
@@ -3931,9 +4030,8 @@ var btnProofOfTemp = function () {
 
     $(".btnProofOfTemp").on("click", function () {
         var tblRowsCount = $("#tblShipmentDetail").attr("data-row-no");
-        console.log("tblRowsCount: ", tblRowsCount);
         SendTempReport();
-     
+
         setTimeout(function () {
             if (isFormValid('divProofOfTemp')) {
                 var url = window.location.pathname;
@@ -4074,15 +4172,13 @@ var btnProofOfTemp = function () {
                                     }
                                     //data.append("filesObj", JSON.stringify(draggedFiles));
                                 }
-                                //var tblRowsCount = $("#tblShipmentDetail").attr("data-row-no");
-                                console.log("tblRowsCount: ", tblRowsCount);
+
                                 var rowindex = Number(tblRowsCount) - 1;
-                                console.log("rowindex: ", rowindex);
                                 var routeStops = glbRouteStops[rowindex];
                                 console.log("routeStops: ", routeStops);
                                 data.append("ActualTemperature", actualTemp);
 
-                                //console.log("rowindex: ", rowindex);
+                                console.log("rowindex: ", rowindex);
                                 // data.append("DeliveryTemp", deliveryTemp);
                                 data.append("FumigationRouteId", routeStops.FumigationRoutsId);
                                 console.log("FumigationRouteId", routeStops.FumigationRoutsId);
@@ -4180,11 +4276,9 @@ function bindProofOfTempTbl() {
 
     var routeNo = $("input[name='rdSelectedRoute']:checked").val();
     var routeStops = glbRouteStops.filter(x => x.RouteNo == routeNo);
-    console.log("proof routeStops: ", glbProofOfTemprature);
     if (routeStops[0].FumigationRoutsId > 0) {
 
         var proofoftemp = glbProofOfTemprature.filter(x => x.FumigationRouteId == routeStops[0].FumigationRoutsId);
-        console.log("proofoftemp: ", proofoftemp);
         if (proofoftemp.length > 0) {
             for (var i = 0; i < proofoftemp.length; i++) {
                 var imgUrl = proofoftemp[i].ImageUrl;
@@ -4432,7 +4526,6 @@ function OpenModel(_this) {
 
 
     var fileUrl = $(_this).attr("data-file-url");
-    console.log("fileUrl: ",fileUrl);
     if (fileUrl != undefined) {
         var extn = fileUrl.substring(fileUrl.lastIndexOf('.') + 1);
 
