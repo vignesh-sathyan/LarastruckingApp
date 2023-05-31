@@ -441,6 +441,7 @@
     <Content Include="CustomScript\shipmentjs\shipment.js" />
     <Content Include="CustomScript\shipmentjs\uploadShipment.js" />
     <Content Include="CustomScript\shipmentjs\viewAllShipment.js" />
+    <Content Include="CustomScript\shipmentjs\MainShipment.js" />
     <Content Include="CustomScript\shipmentjs\viewShipmentList.js" />
     <Content Include="CustomScript\TimeCard\MainTimeCard.js" />
     <Content Include="CustomScript\TimeCard\TimeCard.js" />

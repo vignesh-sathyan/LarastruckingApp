@@ -38,9 +38,9 @@
     <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.colVis.min.js"></script>
     <script type="text/javascript">
             var isInsert =  @permissions.IsInsert.ToString().ToLower();
-            var isView = @permissions.IsView.ToString().ToLower();
-            var isUpdate = @permissions.IsUpdate.ToString().ToLower();
-            var isDelete = @permissions.IsDelete.ToString().ToLower();
+            var isView =true;
+            var isUpdate = true;
+            var isDelete = true;
             var IsPricingMethod =  @permissions.IsPricingMethod.ToString().ToLower();
     </script>
 </head>
@@ -143,8 +143,8 @@
     <div class="section">
         <div class="aside">
             <div class="sprogress">
-                <label> SHIPMENTS PROGRESS<span style="margin-Left:30px; font-weight:normal;">13</span></label>
-                <p style=" margin-top:20px;">SHIPMENT PIPELINE <span style="margin-Left:43px; font-weight:normal;">13</span></pstyle="font-weight:normal;>
+                <label> SHIPMENTS PROGRESS<span style="margin-Left:30px; font-weight:normal;" id="shipmentOrder">13</span></label>
+                <p style=" margin-top:20px;">SHIPMENT PIPELINE <span style="margin-Left:43px; font-weight:normal;" id="shipmentProgress">13</span></p>
             </div>
             <div class="fprogress">
                 FUMIGATION PROGRESS
@@ -162,7 +162,39 @@
                 </ul>
             </div>
         </div>
-        <div class="article">
+        <table id="CustomerProfile">
+            <tr>
+                <td>
+                    <h6 style="text-align: center; font-weight: 600; font-size: 12px; margin-bottom: 10px;">Customer Profile</h6>
+                    <table>
+                        <tr>
+                            <td style="display: table-cell;width: 25%;">Name: </td>
+                            <td id="cName" style="display: table-cell;width: 100%;"></td>
+                        </tr>
+                        <tr>
+                            <td style="display: table-cell;width: 25%;">Address: </td>
+                            <td id="cAddress" style="display: table-cell;width: 100%;"></td>
+                        </tr>
+                        <tr>
+                            <td style="display: table-cell;width: 25%;">Contact</td>
+                            <td id="cContact" style="display: table-cell;width: 100%;"></td>
+                        </tr>
+                        <tr>
+                            <td style="display: table-cell;width: 25%;">Phone:</td>
+                            <td id="cPhone" style="display: table-cell;width: 100%;"></td>
+                        </tr>
+                        <tr>
+                            <td style="display: table-cell;width:25%;">Email: </td>
+                            <td id="cEmail" style="display: table-cell;width: 100%;"></td>
+                        </tr>
+                    </table>
+                </td>
+
+               
+                
+            </tr>
+        </table>
+        @*<div class="article">
             CUSTOMER PROFILE
             <ul class="article-items">
                 <li>Name</li>
@@ -172,15 +204,16 @@
                 <li>E-Mail</li>
             </ul>
             <ul class="article-items1">
-                <li>Raj</li>
-                <li>chennai</li>
-                <li>9098766563</li>
-                <li>7878987654</li>
-                <li>drt@gmail.com</li>
+                <li id="cName"></li>
+                <li id="cAddress"></li>
+                <li id="cContact"></li>
+                <li id="cPhone"></li>
+                <li id="cEmail"></li>
             </ul>
-        </div>
+        </div>*@
         <div>
             SHIPMENTS ADVICE
+            <iframe id="ShipmentNotify" src=""></iframe>
         </div>
         <div>
             GPS LIVE TRACKING

@@ -14,6 +14,7 @@ using System.Data.Entity;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -3437,5 +3438,83 @@ namespace LarastruckingApp.Repository.Repository
             sw.Flush();
             sw.Close();
         }
+
+        #region Get OrderTaken
+        public int GetOrderTaken()
+        {
+            try
+            {
+                //int result = 0;
+                int records = shipmentContext.tblShipments.Count(x => x.StatusId==1 && x.IsDeleted==false); 
+                //var count = records.Count();
+                
+                return records;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        #endregion
+
+        #region Get ShipmentInProgress
+        public int GetShipmentInProgress()
+        {
+            try
+            {
+                //int result = 0;
+                int records = shipmentContext.tblShipments.Count(x => x.StatusId != 1 && x.StatusId != 8 && x.StatusId != 11 && x.IsDeleted == false);
+                //var count = records.Count();
+
+                return records;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        #endregion
+
+        #region Get CustomerDetail
+        public CustomerDetailDTO CustomerDetail(int shipmentid)
+        {
+            try
+            {
+                //int result = 0;
+                CustomerDetailDTO shipmentDetail = new CustomerDetailDTO();
+                shipmentDetail = (from shipment in shipmentContext.tblShipments
+                                  join customer in shipmentContext.tblCustomerRegistrations on shipment.CustomerId equals customer.CustomerID                                  
+                                  join Address in shipmentContext.tblCustomerContacts on shipment.CustomerId equals Address.CustomerId                                  
+                                  join BaseAddress in shipmentContext.tblBaseAddresses on shipment.CustomerId equals BaseAddress.CustomerId                                  
+                                  join State in shipmentContext.tblStates on BaseAddress.BillingStateId equals State.ID                                  
+                                  join Country in shipmentContext.tblCountries on BaseAddress.BillingCountryId equals Country.ID                                  
+                                  where shipment.ShipmentId == shipmentid 
+                                  select new CustomerDetailDTO
+                                  {
+                                      CustomerName = customer.CustomerName,
+                                      Address = BaseAddress.BillingAddress1 + " , "+ BaseAddress.BillingCity + " , "  + State.Name + " , " + Country.Name,
+                                      Contact = Address.ContactFirstName + " " +Address.ContactLastName,
+                                      Phone= Address.ContactPhone,
+                                      Email = Address.ContactEmail,
+                                      //EstDeliveryArrival = routes.DeliveryDateTime,
+                                      //CustomerId = shipment.CustomerId,
+                                      //CustomerName = customer.CustomerName,
+                                      //AWB = shipment.AirWayBill,
+                                  }
+                                  ).FirstOrDefault();
+                int records = shipmentContext.tblShipments.Count(x => x.StatusId != 1 && x.StatusId != 8 && x.StatusId != 11 && x.IsDeleted == false);
+                //var count = records.Count();
+
+                return shipmentDetail;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        #endregion
     }
 }

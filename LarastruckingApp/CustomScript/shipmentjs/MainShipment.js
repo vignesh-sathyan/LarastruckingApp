@@ -3,14 +3,22 @@
     $(".divSearchBox").hide();
     GetOrderTakenShipmentList();
     //setTimeout(function () { GetOtherStatusShipmentList(); }, 1000);
+   // var length = table.page.info().recordsTotal;
+  
+
+    // Call the function initially
+   
     GetOtherStatusShipmentList();
     //bindCustomerDropdown();
     //bindCustomerDropdown2();
     btnViewShipment();
     btnViewShipment2();
     startEndDate();
+    updateOrderTakenCount();
+    updateInProgressCount();
     //GetFreightType();
     $('#tblShipmentDetails input').unbind();
+
 });
 
 
@@ -32,11 +40,97 @@ $("table").on("mouseout", 'tr', function () {
     $(this).find(".fa-trash-alt").css('color', 'red');
     //$(this).find(".fa-bell").css('color', 'red');
 });
+var table = $('#tblShipmentDetails').dataTable();
+
+function updateOrderTakenCount() {
+    var count = 0;
+    $.ajax({
+        type: 'GET',
+        url: baseUrl + "/Shipment/Shipment/GetOrderTaken",
+        //data: { "driverid": driverid },
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        async: false,
+        success: function (msg) {
+            // Do something interesting here.
+            //console.log("count order taken", msg);
+            count = msg;
+            $("#shipmentOrder").text(count);
+        },
+        error: function (xhr, err) {
+            console.log("error : " + err);
+        }
+    })
+   
+}
+
+function CustomerDetail(shipmentid) {
+    var count = 0;
+    $.ajax({
+        type: 'GET',
+        url: baseUrl + "/Shipment/Shipment/CustomerDetail",
+        data: { "shipmentid": shipmentid },
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        async: false,
+        success: function (msg) {
+            // Do something interesting here.
+            console.log("customer Detail: ", msg);
+            count = msg;
+            $("#cName").text(msg.CustomerName);
+            $("#cAddress").text(msg.Address);
+            $("#cContact").text(msg.Contact);
+            $("#cEmail").text(msg.Email);
+            $("#cPhone").text(msg.Phone);
+            //$("#shipmentOrder").text(count);
+        },
+        error: function (xhr, err) {
+            console.log("error : " + err);
+        }
+    })
+
+}
+
+function updateInProgressCount() {
+    var count = 0;
+    $.ajax({
+        type: 'GET',
+        url: baseUrl + "/Shipment/Shipment/GetShipmentInProgress",
+        //data: { "driverid": driverid },
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        async: false,
+        success: function (msg) {
+            // Do something interesting here.
+          
+            count = msg;
+            $("#shipmentProgress").text(count);
+        },
+        error: function (xhr, err) {
+            console.log("error : " + err);
+        }
+    })
+
+}
 
 $('#tblShipmentDetails').on('dblclick', 'tbody tr', function () {
     var table = $('#tblShipmentDetails').DataTable();
     var data_row = table.row($(this).closest('tr')).data();
     window.location.href = baseUrl + '/Shipment/Shipment/Index/' + data_row.ShipmentId;
+   // updateRowCount();
+});
+$('#tblShipmentDetails').on('click', 'tbody tr', function () {
+    var table = $('#tblShipmentDetails').DataTable();
+    var data_row = table.row($(this).closest('tr')).data();
+    console.log("data_row: ", data_row.ShipmentId);
+    CustomerDetail(data_row.ShipmentId);
+    $("#ShipmentNotify").css("display","block");
+    var iframe = $('#ShipmentNotify');
+
+    // Set the src attribute
+    iframe.attr('src', baseUrl + '/Shipment/Shipment/ViewShipmentNotification/' + data_row.ShipmentId);
+    //window.location.href = baseUrl + '/Shipment/Shipment/Index/' + data_row.ShipmentId;
+    
 });
 //#endregion
 
@@ -75,7 +169,7 @@ function GetOrderTakenShipmentList() {
 
 
 
-  //  console.log('Values : ' ,values);
+   // console.log('Mainshipment Values : ' ,values);
     
     $('#tblShipmentDetails').DataTable({
         //"bInfo": false,
@@ -170,7 +264,7 @@ function GetOrderTakenShipmentList() {
                 "targets": 2,
                 "autoWidth": true,
                 "render": function (data, type, row, meta) {
-                    //   console.log("row :",row);
+                   // console.log("shipment Order Taken: ", row);
                     if (row.PickupLocation != null && row.PickupLocation != '') {
                         var pickupList = row.PickupLocation.split('$');
 
@@ -366,7 +460,8 @@ function GetOrderTakenShipmentList() {
         ],
 
     });
-
+    //document.getElementById("shipmentProgress").innerHTML = row.length;
+    //console.log("Mainshipment row count :", data);
     //var oTable1 = $('#tblShipmentDetails').DataTable();
 
     //$("input[input='search']").keyup(function () {
@@ -387,8 +482,10 @@ function GetOrderTakenShipmentList() {
             }, 700);
         });
 
-    var table = $("#tblShipmentDetails").DataTable();
-    var currentOrder = table.order();
+    //var table = $("#tblShipmentDetails").DataTable();
+    //var currentOrder = table.order();
+    //console.log("currentOrder: ", currentOrder);
+ 
    
     // Add a click event listener to the table headers
     //$('#tblShipmentDetails th').click(function () {
@@ -398,6 +495,10 @@ function GetOrderTakenShipmentList() {
     //});
 
 }
+
+//var table = $('#tblShipmentDetails').DataTable();
+//var rowCount = table.rows().count();
+//console.log("MainPage shipment row count :", rowCount);   
 
 //#endregion
 
@@ -761,69 +862,69 @@ function GetOtherStatusShipmentList() {
     $('#tblShipmentDetails2').DataTable({
         // "bInfo": false,
         serverSide: true,
-        dom: 'Blfrtip',
-        buttons: [
-            {
-                extend: 'print',
-                //className:'btn btn-primary btn-sm',
-                //orientation: 'landscape',
-                //pageSize: 'LEGAL',
-                text: '<img src="../../Assets/images/printer.png" style="height:18px;margin-right: 5px;width:16px;"> Print',
-                title: "",
-                messageBottom: datetime,
-                exportOptions: {
-                    columns: ':visible',
-                    stripHtml: false,
-                    columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13,14]
-                },
-                customize: function (win) {
+        dom: 'rtip',
+        //buttons: [
+        //    {
+        //        extend: 'print',
+        //        //className:'btn btn-primary btn-sm',
+        //        //orientation: 'landscape',
+        //        //pageSize: 'LEGAL',
+        //        text: '<img src="../../Assets/images/printer.png" style="height:18px;margin-right: 5px;width:16px;"> Print',
+        //        title: "",
+        //        messageBottom: datetime,
+        //        exportOptions: {
+        //            columns: ':visible',
+        //            stripHtml: false,
+        //            columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13,14]
+        //        },
+        //        customize: function (win) {
                     
-                    //$(win.document.body).find('table')
-                    //.widths = ['8%', '8%', '8%', '8%', '8%', '8%', '12%', '8%', '8%', '8%', '8%', '8%'];
-                    //win.content[0].table.widths = ['8%', '8%', '8%', '8%', '8%', '8%', '12%', '8%', '8%', '8%', '8%', '8%'];
-                    var last = null;
-                    var current = null;
-                    var bod = [];
+        //            //$(win.document.body).find('table')
+        //            //.widths = ['8%', '8%', '8%', '8%', '8%', '8%', '12%', '8%', '8%', '8%', '8%', '8%'];
+        //            //win.content[0].table.widths = ['8%', '8%', '8%', '8%', '8%', '8%', '12%', '8%', '8%', '8%', '8%', '8%'];
+        //            var last = null;
+        //            var current = null;
+        //            var bod = [];
 
-                    var css = '@page { size: landscape; }',
-                        head = win.document.head || win.document.getElementsByTagName('head')[0],
-                        style = win.document.createElement('style');
+        //            var css = '@page { size: landscape; }',
+        //                head = win.document.head || win.document.getElementsByTagName('head')[0],
+        //                style = win.document.createElement('style');
 
-                    style.type = 'text/css';
-                    style.media = 'print';
+        //            style.type = 'text/css';
+        //            style.media = 'print';
 
-                    if (style.styleSheet) {
-                        style.styleSheet.cssText = css;
-                    }
-                    else {
-                        style.appendChild(win.document.createTextNode(css));
-                    }
+        //            if (style.styleSheet) {
+        //                style.styleSheet.cssText = css;
+        //            }
+        //            else {
+        //                style.appendChild(win.document.createTextNode(css));
+        //            }
                   
             
 
-                    head.appendChild(style);
-                    $(win.document.body)
-                        .css('font-size', '10pt')
-                        .prepend(
-                            "<table id='checkheader'><tr><td width='80%' ><b>SHIPMENTS IN PROGRESS</b></td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
-                        );
-                },
-                //customize: function (doc) {
-                //    doc.styles['td:nth-child(7)'] = {
-                //        'width': '100px',
-                //        'max-width': '100px'
-                //    }
-                //}
-                //messageTop: function () {
+        //            head.appendChild(style);
+        //            $(win.document.body)
+        //                .css('font-size', '10pt')
+        //                .prepend(
+        //                    "<table id='checkheader'><tr><td width='80%' ><b>SHIPMENTS IN PROGRESS</b></td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
+        //                );
+        //        },
+        //        //customize: function (doc) {
+        //        //    doc.styles['td:nth-child(7)'] = {
+        //        //        'width': '100px',
+        //        //        'max-width': '100px'
+        //        //    }
+        //        //}
+        //        //messageTop: function () {
 
 
-                //        return '<b style="color:red;">Hello How are you?</b>';
+        //        //        return '<b style="color:red;">Hello How are you?</b>';
 
-                //},
-                //messageBottom: null
-            },
+        //        //},
+        //        //messageBottom: null
+        //    },
 
-        ],
+        //],
 
         select: 'single',
         "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
@@ -832,7 +933,7 @@ function GetOtherStatusShipmentList() {
         OrderMulti:true,
         processing: true,
         serverSide: true,
-        searching: true,
+        searching: false,
         bDestroy: true,
         stateSave: true,
         "language": {

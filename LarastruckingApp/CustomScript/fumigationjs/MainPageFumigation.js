@@ -1094,7 +1094,7 @@ var GetOtherFumigationList = function () {
                 "autoWidth": true,
 
                 "render": function (data, type, row, meta) {
-                    console.log("tblotherrow : ",row);
+                   // console.log("tblotherrow : ",row);
                     return StatusCheckForShipment(row.StatusName)
                 }
             },

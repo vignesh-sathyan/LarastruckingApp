@@ -1824,6 +1824,57 @@ namespace LarastruckingApp.Areas.Shipment.Controllers
             sw.Flush();
             sw.Close();
         }
+
+        #region Get GetOrderTaken
+        public ActionResult GetOrderTaken()
+        {
+            try
+            {
+                var IsSuccess = shipmentBAL.GetOrderTaken();
+                return Json(IsSuccess, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region Get ShipmentInProgress
+        public ActionResult GetShipmentInProgress()
+        {
+            try
+            {
+                var IsSuccess = shipmentBAL.GetShipmentInProgress();
+                return Json(IsSuccess, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region Get CustomerDetail
+        public ActionResult CustomerDetail(int shipmentid)
+        {
+            try
+            {
+                var IsSuccess = shipmentBAL.CustomerDetail(shipmentid);
+                return Json(IsSuccess, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        #endregion
     }
 
 }

@@ -35,6 +35,13 @@ a:any-link {
     cursor: pointer;
 }
 
+#CustomerProfile td{
+    height:30px;
+}
+#ShipmentNotify{
+    border:none;
+    display:none;
+}
 .header {
     height: 40px;
 }

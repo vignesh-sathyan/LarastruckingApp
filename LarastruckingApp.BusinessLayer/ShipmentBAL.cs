@@ -593,6 +593,30 @@ namespace LarastruckingApp.BusinessLayer
 
 
         #endregion
+
+        #region Get OrderTaken
+        public int GetOrderTaken()
+        {
+            return shipmentDAL.GetOrderTaken();
+        }
+
+        #endregion
+
+        #region Get ShipmentInProgress
+        public int GetShipmentInProgress()
+        {
+            return shipmentDAL.GetShipmentInProgress();
+        }
+
+        #endregion
+
+        #region Get CustomerDetail
+        public CustomerDetailDTO CustomerDetail(int shipmentid)
+        {
+            return shipmentDAL.CustomerDetail(shipmentid);
+        }
+
+        #endregion
     }
 
 }

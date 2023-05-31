@@ -500,6 +500,31 @@ namespace LarastruckingApp.DAL
 
         }
         #endregion
+
+        #region Get OrderTaken
+
+        public int GetOrderTaken()
+        {
+            return shipmentRepository.GetOrderTaken();
+        }
+        #endregion
+
+        #region Get ShipmentInProgress
+
+        public int GetShipmentInProgress()
+        {
+            return shipmentRepository.GetShipmentInProgress();
+        }
+        #endregion
+
+
+        #region Get CustomerDetail
+        public CustomerDetailDTO CustomerDetail(int shipmentid)
+        {
+            return shipmentRepository.CustomerDetail(shipmentid);
+        }
+
+        #endregion
     }
 }
 #endregion

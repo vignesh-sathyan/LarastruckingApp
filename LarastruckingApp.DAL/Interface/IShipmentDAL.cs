@@ -52,6 +52,10 @@ namespace LarastruckingApp.DAL.Interface
         DateTime? GetCheckInTime(int driverId);
         string DriverPhone(int driverid);
         string CustomerName(int CustomerID);
+
+        int GetOrderTaken();
+        int GetShipmentInProgress();
+        CustomerDetailDTO CustomerDetail(int shipmentid);
         TemperatureEmailSipmentDTO GetTemperatureEmailDetail(int shipmentId);
     }
 }

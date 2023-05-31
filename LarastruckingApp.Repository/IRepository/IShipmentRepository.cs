@@ -52,5 +52,10 @@ namespace LarastruckingApp.Repository.IRepository
         string DriverPhone(int driverid);
         string CustomerName(int CustomerID);
         TemperatureEmailSipmentDTO GetTemperatureEmailDetail(int shipmentId);
+
+        int GetOrderTaken();
+        int GetShipmentInProgress();
+
+        CustomerDetailDTO CustomerDetail(int shipmentid);
     }
 }
