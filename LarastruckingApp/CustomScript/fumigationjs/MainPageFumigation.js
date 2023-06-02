@@ -43,7 +43,7 @@ function CustomerDetail(shipmentid) {
         async: false,
         success: function (msg) {
             // Do something interesting here.
-            console.log("customer Detail fum: ", msg);
+           // console.log("customer Detail fum: ", msg);
             count = msg;
             $("#cName").text(msg.CustomerName);
             $("#cAddress").text(msg.Address);
@@ -95,7 +95,13 @@ $('#tblOtherFumigation').on('dblclick', 'tbody tr', function () {
 });
 $('#tblOrderTakenFumigation').on('click', 'tbody tr', function () {
     var table = $('#tblOrderTakenFumigation').DataTable();
-    var data_row = table.row($(this).parent().closest('tr')).data();
+    var data_row;
+    if (table.row($(this).parent().closest('tr')).data() != undefined) {
+        data_row = table.row($(this).parent().closest('tr')).data();
+    }
+    else {
+        data_row = table.row($(this).closest('tr')).data();
+    }
     console.log("data_row: ", data_row);
     CustomerDetail(data_row.FumigationId);
     $("#shipmentnotify").css("display", "block");
@@ -109,7 +115,13 @@ $('#tblOrderTakenFumigation').on('click', 'tbody tr', function () {
 
 $('#tblOtherFumigation').on('click', 'tbody tr', function () {
     var table = $('#tblOtherFumigation').DataTable();
-    var data_row = table.row($(this).parent().closest('tr')).data();
+    var data_row ;
+    if (table.row($(this).parent().closest('tr')).data() != undefined) {
+        data_row = table.row($(this).parent().closest('tr')).data();
+    }
+    else {
+        data_row = table.row($(this).closest('tr')).data();
+    }
     //console.log("data_row: ", data_row);
 
    

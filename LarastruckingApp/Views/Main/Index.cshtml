@@ -45,6 +45,27 @@
             var isDelete = true;
             var IsPricingMethod =  @permissions.IsPricingMethod.ToString().ToLower();
     </script>
+    <style>
+        .articleTable tbody .cDetails {
+            padding:0 0 0 10px;
+        }
+
+        .sprogressTable, .sprogressTable tr, .sprogressTable th, .sprogressTable td {
+            padding: 10px 10px 10px 20px;
+        }
+        .driver-listTable tr, .driver-listTable th, .driver-listTable td {
+            padding: 0 10px 10px 20px;
+        }
+
+            .sprogressTable tr .box {
+                border-right: 1px solid black;
+            }
+        .driver-list table {
+            width: 435px;
+            margin-top: 8px;
+        }
+
+    </style>
 </head>
 <body>
     <div class="header">
@@ -143,146 +164,92 @@
 
     </div>
     <div class="section">
-
-        <table class="">
-           <tr>
-               <td>
-                   <table class="">
-                       <tr>
-                           <td>
-                               SHIPMENTS PROGRESS
-                           </td>
-                           <td>
-                               <span style="margin-Left:30px; font-weight:normal;" id="shipmentOrder"></span>
-                           </td>
-                       </tr>
-                       <tr>
-                           <td>
-                               SHIPMENT PIPELINE
-                           </td>
-                           <td>
-                               <span style="margin-Left:43px; font-weight:normal;" id="shipmentProgress"></span>
-                           </td>
-                       </tr>
-
-                   </table>
-
-                   <table class="">
-                       <tr>
-                           <td>
-                               FUMIGATION PROGRESS
-                           </td>
-                          
-                       </tr>
-                       <tr>
-                           <td>
-                               LOADING
-                           </td>
-                           <td>
-                               <span style="margin-Left:43px; font-weight:normal;" id="fumigationOrder"></span>
-                           </td>
-                       </tr>
-                       <tr>
-                           <td>
-                               DELIVERY
-                           </td>
-                           <td>
-                               <span style="margin-Left:43px; font-weight:normal;" id="fumigationProgress"></span>
-                           </td>
-                       </tr>
-
-                   </table>
-
-                 
-               </td>
-           </tr>
-          <tr>
-              <td>
-                  <table class="driver" style="width: 100%;">
-                      <tr><td style="text-align: center;">DRIVER WAITING ROOM</td></tr>
-                  </table>
-                  <table style="width:100%;" id="DeliveryDet">
-                      <tr>
-                          <th>Name</th>
-                          <th>Status</th>
-                          <th>DeliveryLocation</th>
-                      </tr>
-                      @*<tr>
-
-
-                    <td id="DriverName"></td>
-                    <td id="Status"></td>
-                    <td id="DeliveryLoc"></td>
-
-
-            </tr>*@
-                  </table>
-              </td>
-          </tr>
-           
-
-          
-            @*<div class="driver-list">
-                    <ul class="list-items">
-                        <li>Name</li>
-                        <li>Status</li>
-                        <li>DeliveryLocation</li>
-                    </ul>
-                </div>*@
-        </table>
-        <table id="CustomerProfile">
-            <tr>
-                <td>
-                    <h6 style="text-align: center; font-weight: 600; font-size: 12px; margin-bottom: 10px;">Customer Profile</h6>
-                    <table>
+        <div class="aside">
+            <table class="sprogressTable table-responsive-lg" style="width: 400px;">
+                <thead>
+                    <tr>
+                        <th scope="col">SHIPMENTS PROGRESS</th>
+                        <td scope="col" class="box" id="shipmentOrder">13</td>
+                        <th scope="col" colspan="3"> FUMIGATION PROGRESS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row" colspan="2" class="box"></th>
+                        <th scope="row" class="boxData">LOADING</th>
+                        <th id="fumigationOrder"></th>
+                    </tr>
+                    <tr>
+                        <th scope="row">SHIPMENT PIPELINE</th>
+                        <th class="box" id="shipmentProgress"></th>
+                        <th scope="row" class="boxData">DELIVERY</th>
+                        <th id="fumigationProgress">13</th>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="driver">
+                DRIVER WAITING ROOM
+            </div>
+            <div class="driver-list">
+                <table class="driver-listTable  table-bordered" id="DeliveryDet" >
+                    <thead>
                         <tr>
-                            <td style="display: table-cell;width: 25%;">Name: </td>
-                            <td id="cName" style="display: table-cell;width: 100%;"></td>
+                            <th scope="col">Name</th>
+                            <th scope="col">Status</th>
+                            <th scope="col"> DeliveryLocation</th>
                         </tr>
-                        <tr>
-                            <td style="display: table-cell;width: 25%;">Address: </td>
-                            <td id="cAddress" style="display: table-cell;width: 100%;"></td>
-                        </tr>
-                        <tr>
-                            <td style="display: table-cell;width: 25%;">Contact</td>
-                            <td id="cContact" style="display: table-cell;width: 100%;"></td>
-                        </tr>
-                        <tr>
-                            <td style="display: table-cell;width: 25%;">Phone:</td>
-                            <td id="cPhone" style="display: table-cell;width: 100%;"></td>
-                        </tr>
-                        <tr>
-                            <td style="display: table-cell;width:25%;">Email: </td>
-                            <td id="cEmail" style="display: table-cell;width: 100%;"></td>
-                        </tr>
-                    </table>
-                </td>
-
-
-
-            </tr>
-        </table>
-        @*<div class="article">
-                CUSTOMER PROFILE
-                <ul class="article-items">
-                    <li>Name</li>
-                    <li>Address</li>
-                    <li>Cantact No</li>
-                    <li>phone</li>
-                    <li>E-Mail</li>
-                </ul>
-                <ul class="article-items1">
-                    <li id="cName"></li>
-                    <li id="cAddress"></li>
-                    <li id="cContact"></li>
-                    <li id="cPhone"></li>
-                    <li id="cEmail"></li>
-                </ul>
-            </div>*@
-        <div>
-            SHIPMENTS ADVICE
-            <iframe id="ShipmentNotify" src=""></iframe>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
         </div>
+        <div class="article">
+           
+            <table class="articleTable" id="CustomerProfile" style="width: 300px;margin-bottom:12px;">
+                <thead>
+               
+                </thead>
+                <tbody>
+                    <tr><th colspan="2" style="text-align: center;">CUSTOMER PROFILE</th></tr>
+                    <tr>
+                        <td scope="row">Name</td>
+                        <td id="cName" class="cDetails"></td>
+                    </tr>
+                    <tr>
+                        <td scope="row">Address</td>
+                        <td id="cAddress" class="cDetails"></td>
+                    </tr>
+                    <tr>
+                        <td scope="row">Contact</td>
+                        <td id="cContact" class="cDetails"></td>
+                    </tr>
+                    <tr>
+                        <td scope="row">phone</td>
+                        <td id="cPhone" class="cDetails"></td>
+                    </tr>
+                    <tr>
+                        <td scope="row">E-Mail</td>
+                        <td id="cEmail" class="cDetails"></td>
+                    </tr>
+
+                </tbody>
+            </table>
+           
+        </div>
+        <div id="ShipmetAdvice">
+           <table>
+               <tr>
+                   <th colspan="2" style="text-align:center;">SHIPMENTS ADVICE</th>
+               </tr>
+               <tr>
+                   <td>
+                       <iframe id="ShipmentNotify" src="" style="width:100%;border:none;"></iframe>
+                   </td>
+               </tr>
+           </table>
+             
+</div>
         <div>
             GPS LIVE TRACKING
         </div>
@@ -331,10 +298,6 @@
             </thead>
             <tbody></tbody>
         </table>
-    </div>
-
-    </div>
-    </div>
     </div>
 
     <div class="row">

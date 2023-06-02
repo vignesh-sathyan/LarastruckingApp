@@ -114,6 +114,8 @@ function updateShipmentInProgressCount() {
 
 }
 
+
+
 function GetDriverShipment() {
     var count = 0;
     var eq;
@@ -129,7 +131,18 @@ function GetDriverShipment() {
             //console.log("Driver detail box: ",msg);
             count = msg;
             for (let x = 0; x < msg.length; x++) {
-                eq += '<tr><td>' + msg[x].DriverName + '</td><td>' + msg[x].Status + '</td><td>' + msg[x].DeliveryLocation + '</td></tr>';
+                if (msg[x].DriverName != null) {
+                    //console.log("driverName: ", msg[x].DriverName);
+                    var DeliveryLocation = msg[x].DeliveryLocation.split("|");
+                    var DriverName = msg[x].DriverName.split("$");
+                    //console.log("DeliveryLocation: ", DeliveryLocation.length);
+                    for (let v = 0; v < DeliveryLocation.length; v++) {
+                       // console.log("DeliveryLocation Address: ", GetCAddressNew(DeliveryLocation[v]));
+                        eq += '<tr><td>' + DriverName[v] + '</td><td>' + msg[x].Status + '</td><td>' + DeliveryLocation[v].replace('$',', ') + '</td></tr>';
+                    }
+                    
+                }
+               
                
                // $("#DriverName").text(msg[x].DriverName);
             }
@@ -159,6 +172,7 @@ $('#tblShipmentDetails').on('click', 'tbody tr', function () {
 
     // Set the src attribute
     iframe.attr('src', baseUrl + '/Shipment/Shipment/ViewShipmentNotification/' + data_row.ShipmentId);
+
     //window.location.href = baseUrl + '/Shipment/Shipment/Index/' + data_row.ShipmentId;
     
 });

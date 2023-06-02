@@ -1,7 +1,7 @@
 body {
     width: auto;
     height: 800px;
-    overflow-x: scroll;
+    overflow-x: hidden;
     margin: auto;
 }
 
@@ -18,20 +18,12 @@ body {
     margin: 0;
     padding: 0;
 }
-#DeliveryDet, #DeliveryDet th, #DeliveryDet td{
-    border:1px solid #000;
+
+a {
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
 }
-    #DeliveryDet th{
-        text-align:center;
-    }
-    #DeliveryDet td {
-        padding:5px;
-    }
-        a {
-        color: #007bff;
-        text-decoration: none;
-        background-color: transparent;
-    }
 
 .menu-items li a:active,
 .menu-items li a:hover {
@@ -43,13 +35,6 @@ a:any-link {
     cursor: pointer;
 }
 
-#CustomerProfile td{
-    height:30px;
-}
-#ShipmentNotify{
-    border:none;
-    display:none;
-}
 .header {
     height: 40px;
 }
@@ -230,15 +215,19 @@ a:hover {
         -webkit-transition: all 0.3s ease-in-out;
     }
 }
-
+#CustomerProfile td:hover, #CustomerProfile tr:hover td{
+    background: none;
+    color: #000;
+}
 
 .section {
     margin-top: 20px;
     display: grid;
+    height: 300px;
     grid-template-columns: 2fr 1.5fr 1.5fr 2fr;
 }
 
-/*    .section div {
+    .section div {
         display: grid;
         max-width: 100%;
         overflow: hidden;
@@ -250,7 +239,7 @@ a:hover {
         justify-content: center;
         position: relative;
         font-family: 'Nunito Sans', sans-serif;
-    }*/
+    }
 
 
 .article-items {
@@ -258,17 +247,20 @@ a:hover {
     font-size: 12px;
     padding: 0;
 }
-
+.article
+{
+    overflow-y:auto;
+}
 .section .article .article-items {
     position: absolute;
     left: 10px;
     top: 12%;
-    font-weight:normal;
+    font-weight: normal;
 }
 
 .section .article .article-items1 {
     position: absolute;
-    left: 80px;
+    left: 120px;
     top: 12%;
     list-style: none;
     font-size: 12px;
@@ -294,25 +286,29 @@ a:hover {
     }
 
     .section .aside .driver {
-        grid-area: m;
+        grid-area: m;padding-left:20px;
         justify-content: start;
         align-items: center;
         font-weight: 400;
     }
 
-    .section .aside .driver-list {
-        display: grid;
-        font-size: 12px;
-        grid-template-columns: 1fr 1fr 1fr;
-        grid-area: v;
-        align-items: start;
-    }
+            .section .aside .driver-list {
+                display: grid;
+                font-size: 11px;
+                padding-left:15px;
+                font-weight: 400;
+                grid-template-columns: 1fr 1fr 1fr;
+                grid-area: v;
+                font-weight: normal;
+                overflow-y:auto;
+                align-items: start;
+            }
 
         .section .aside .driver-list .list-items {
             list-style-type: none;
             display: flex;
             grid-template-columns: 1fr 1fr 1fr;
-            margin-right: 100px;
+         
             font-weight: normal;
         }
 

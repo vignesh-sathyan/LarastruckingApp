@@ -8,6 +8,7 @@ using LarastruckingApp.Repository.EF;
 using LarastruckingApp.Repository.IRepository;
 using LarastruckingApp.Resource;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -3525,6 +3526,7 @@ namespace LarastruckingApp.Repository.Repository
             {
                 //int result = 0;
                 List<ShipmentDriverDetailDTO> shipmentDetail = new List<ShipmentDriverDetailDTO>();
+                List<ShipmentDriverDetailDTO> FumDetails = new List<ShipmentDriverDetailDTO>();
                 shipmentDetail = (from shipment in shipmentContext.tblShipments
                                   join status in shipmentContext.tblShipmentStatus on shipment.StatusId equals status.StatusId
                                   join shipmntRoute in shipmentContext.tblShipmentRoutesStops on shipment.ShipmentId equals shipmntRoute.ShippingId
@@ -3549,6 +3551,14 @@ namespace LarastruckingApp.Repository.Repository
                 //shipmentDetail = shipmentDetail.ToList();
                 //int records = shipmentContext.tblShipments.Count(x => x.StatusId != 1 && x.StatusId != 8 && x.StatusId != 11 && x.IsDeleted == false);
                 //var count = records.Count();
+                var totalCount = new SqlParameter
+                {
+                    ParameterName = "null", 
+                    Value = 0,
+                    Direction = ParameterDirection.Output
+                };
+                FumDetails =  sp_dbContext.Database.SqlQuery<ShipmentDriverDetailDTO>("usp_GetFumigationDriverList").ToList();
+                shipmentDetail = shipmentDetail.Concat(FumDetails).ToList(); 
 
                 return shipmentDetail;
             }
