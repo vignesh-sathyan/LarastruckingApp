@@ -3,6 +3,7 @@ using LarastruckingApp.Entities.Common;
 using LarastruckingApp.Entities.Fumigation;
 using LarastruckingApp.Entities.ShipmentDTO;
 using LarastruckingApp.Repository.IRepository;
+using LarastruckingApp.Repository.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -332,5 +333,31 @@ namespace LarastruckingApp.DAL
             return iFumigationRepository.DeleteComments(entity);
 
         }
+
+        #region Get OrderTaken
+        public int GetOrderTaken()
+        {
+            return iFumigationRepository.GetOrderTaken();
+        }
+
+        #endregion
+
+        #region Get FumigationInProgress
+        public int GetFumigationInProgress()
+        {
+            return iFumigationRepository.GetFumigationInProgress();
+        }
+
+        #endregion
+
+        #region Get CustomerDetail
+        public CustomerDetailDTO CustomerDetail(int fumigationid)
+        {
+            return iFumigationRepository.CustomerDetail(fumigationid);
+        }
+
+        #endregion
+
+
     }
 }

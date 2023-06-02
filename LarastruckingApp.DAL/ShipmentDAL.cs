@@ -525,6 +525,14 @@ namespace LarastruckingApp.DAL
         }
 
         #endregion
+
+        #region Get DriverDetails
+        public List<ShipmentDriverDetailDTO> DriverDetail()
+        {
+            return shipmentRepository.DriverDetail();
+        }
+
+        #endregion
     }
 }
 #endregion

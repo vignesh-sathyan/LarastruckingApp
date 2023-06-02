@@ -56,6 +56,8 @@ namespace LarastruckingApp.DAL.Interface
         int GetOrderTaken();
         int GetShipmentInProgress();
         CustomerDetailDTO CustomerDetail(int shipmentid);
+
+        List<ShipmentDriverDetailDTO> DriverDetail();
         TemperatureEmailSipmentDTO GetTemperatureEmailDetail(int shipmentId);
     }
 }

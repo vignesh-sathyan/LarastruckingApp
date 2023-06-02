@@ -63,5 +63,10 @@ namespace LarastruckingApp.BusinessLayer.Interface
         #endregion
         IList<FumigationViewAllListDTO> ViewAllFumigation(AllShipmentDTO entity);
         IList<FumigationOtherList> GetOtherFumigationList(DataTableFilterDto entity);
+
+        int GetOrderTaken();
+        int GetFumigationInProgress();
+
+        CustomerDetailDTO CustomerDetail(int fumigationid);
     }
 }

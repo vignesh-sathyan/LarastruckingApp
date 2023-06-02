@@ -54,6 +54,7 @@ namespace LarastruckingApp.BusinessLayer.Interface
         int GetOrderTaken();
         int GetShipmentInProgress();
        CustomerDetailDTO CustomerDetail(int shipmentid);
+        List<ShipmentDriverDetailDTO> DriverDetail();
         TemperatureEmailSipmentDTO GetTemperatureEmailDetail(int shipmentId);
     }
 }

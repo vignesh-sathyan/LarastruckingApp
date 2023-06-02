@@ -18,12 +18,20 @@ body {
     margin: 0;
     padding: 0;
 }
-
-a {
-    color: #007bff;
-    text-decoration: none;
-    background-color: transparent;
+#DeliveryDet, #DeliveryDet th, #DeliveryDet td{
+    border:1px solid #000;
 }
+    #DeliveryDet th{
+        text-align:center;
+    }
+    #DeliveryDet td {
+        padding:5px;
+    }
+        a {
+        color: #007bff;
+        text-decoration: none;
+        background-color: transparent;
+    }
 
 .menu-items li a:active,
 .menu-items li a:hover {
@@ -230,7 +238,7 @@ a:hover {
     grid-template-columns: 2fr 1.5fr 1.5fr 2fr;
 }
 
-    .section div {
+/*    .section div {
         display: grid;
         max-width: 100%;
         overflow: hidden;
@@ -242,7 +250,7 @@ a:hover {
         justify-content: center;
         position: relative;
         font-family: 'Nunito Sans', sans-serif;
-    }
+    }*/
 
 
 .article-items {

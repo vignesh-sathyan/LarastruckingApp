@@ -66,5 +66,10 @@ namespace LarastruckingApp.Repository.IRepository
         bool FumigationWTReady(int fumigationId, bool ready);
         bool FumigationSTReady(int fumigationId, bool ready);
         bool DeleteComments(FumigationDTO entity);
+
+        int GetOrderTaken();
+        int GetFumigationInProgress();
+
+        CustomerDetailDTO CustomerDetail(int fumigationId);
     }
 }

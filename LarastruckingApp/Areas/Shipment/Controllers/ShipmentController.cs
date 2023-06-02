@@ -1875,6 +1875,23 @@ namespace LarastruckingApp.Areas.Shipment.Controllers
         }
 
         #endregion
+
+        #region Get DriverDetails
+        public ActionResult DriverDetail()
+        {
+            try
+            {
+                var IsSuccess = shipmentBAL.DriverDetail();
+                return Json(IsSuccess, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        #endregion
     }
 
 }

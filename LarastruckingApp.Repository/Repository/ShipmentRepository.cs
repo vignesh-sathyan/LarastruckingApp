@@ -3516,5 +3516,49 @@ namespace LarastruckingApp.Repository.Repository
             }
         }
         #endregion
+
+
+        #region Get DriverDetail
+        public List<ShipmentDriverDetailDTO> DriverDetail()
+        {
+            try
+            {
+                //int result = 0;
+                List<ShipmentDriverDetailDTO> shipmentDetail = new List<ShipmentDriverDetailDTO>();
+                shipmentDetail = (from shipment in shipmentContext.tblShipments
+                                  join status in shipmentContext.tblShipmentStatus on shipment.StatusId equals status.StatusId
+                                  join shipmntRoute in shipmentContext.tblShipmentRoutesStops on shipment.ShipmentId equals shipmntRoute.ShippingId
+                                  join Address in shipmentContext.tblAddresses on shipmntRoute.DeliveryLocationId equals Address.AddressId
+                                  join Equipment in shipmentContext.tblShipmentEquipmentNdrivers on shipment.ShipmentId equals Equipment.ShipmentId
+                                  join Driver in shipmentContext.tblDrivers on Equipment.DriverId equals Driver.DriverID
+                                  join State in shipmentContext.tblStates on Address.State equals State.ID
+                                  //join Country in shipmentContext.tblCountries on Address.Country equals Country.ID
+                                  where shipment.IsDeleted == false && shipment.StatusId!=1 && shipment.StatusId != 8 && shipment.StatusId != 11
+                                  select new ShipmentDriverDetailDTO
+                                  {
+                                      DriverName = Driver.FirstName +  " "+ Driver.LastName,
+                                     ShipmentId = shipment.ShipmentId,
+                                      Status = status.StatusAbbreviation,
+                                      DeliveryLocation = Address.CompanyName + ", " + Address.Address1 + ", " + Address.City + ", " + State.Name
+                                      //EstDeliveryArrival = routes.DeliveryDateTime,
+                                      //CustomerId = shipment.CustomerId,
+                                      //CustomerName = customer.CustomerName,
+                                      //AWB = shipment.AirWayBill,
+                                  }
+                                  ).OrderBy(e => e.ShipmentId).ToList();
+                //shipmentDetail = shipmentDetail.ToList();
+                //int records = shipmentContext.tblShipments.Count(x => x.StatusId != 1 && x.StatusId != 8 && x.StatusId != 11 && x.IsDeleted == false);
+                //var count = records.Count();
+
+                return shipmentDetail;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        #endregion
+
     }
 }

@@ -79,6 +79,7 @@
     <Compile Include="Fumigation\FumigationCommentDTO.cs" />
     <Compile Include="Fumigation\FumigationReadyDTO.cs" />
     <Compile Include="MainPage\Main.cs" />
+    <Compile Include="ShipmentDTO\ShipmentDriverDetailDTO.cs" />
     <Compile Include="ShipmentDTO\CustomerDetailDTO.cs" />
     <Compile Include="TimeCardDTO\DailyReportDTO.cs" />
     <Compile Include="TimeCardDTO\LaborReportDTO.cs" />

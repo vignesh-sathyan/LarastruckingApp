@@ -56,6 +56,7 @@ namespace LarastruckingApp.Repository.IRepository
         int GetOrderTaken();
         int GetShipmentInProgress();
 
+        List<ShipmentDriverDetailDTO> DriverDetail();
         CustomerDetailDTO CustomerDetail(int shipmentid);
     }
 }

@@ -3,10 +3,83 @@ $(function () {
     GetOrderTakenFumigationList();
     $('#tblOrderTakenFumigation').DataTable().columns.adjust();
     GetOtherFumigationList();
+    updateOrderTakenCount();
+    updateInProgressCount();
     
 
 });
 //#endregion
+
+function updateOrderTakenCount() {
+    var count = 0;
+    $.ajax({
+        type: 'GET',
+        url: baseUrl + "/Fumigation/Fumigation/GetOrderTaken",
+        //data: { "driverid": driverid },
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        async: false,
+        success: function (msg) {
+            // Do something interesting here.
+            //console.log("count order taken", msg);
+            count = msg;
+            $("#fumigationOrder").text(count);
+        },
+        error: function (xhr, err) {
+            console.log("error : " + err);
+        }
+    })
+
+}
+
+function CustomerDetail(shipmentid) {
+    var count = 0;
+    $.ajax({
+        type: 'GET',
+        url: baseUrl + "/Fumigation/Fumigation/CustomerDetail",
+        data: { "fumigationid": shipmentid },
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        async: false,
+        success: function (msg) {
+            // Do something interesting here.
+            console.log("customer Detail fum: ", msg);
+            count = msg;
+            $("#cName").text(msg.CustomerName);
+            $("#cAddress").text(msg.Address);
+            $("#cContact").text(msg.Contact);
+            $("#cEmail").text(msg.Email);
+            $("#cPhone").text(msg.Phone);
+            //$("#shipmentOrder").text(count);
+        },
+        error: function (xhr, err) {
+            console.log("error : " + err);
+        }
+    })
+
+}
+
+function updateInProgressCount() {
+    var count = 0;
+    $.ajax({
+        type: 'GET',
+        url: baseUrl + "/Fumigation/Fumigation/GetFumigationInProgress",
+        //data: { "driverid": driverid },
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        async: false,
+        success: function (msg) {
+            // Do something interesting here.
+
+            count = msg;
+            $("#fumigationProgress").text(count);
+        },
+        error: function (xhr, err) {
+            console.log("error : " + err);
+        }
+    })
+
+}
 
 $('#tblOrderTakenFumigation').on('dblclick', 'tbody tr', function () {
     var table = $('#tblOrderTakenFumigation').DataTable();
@@ -17,8 +90,44 @@ $('#tblOrderTakenFumigation').on('dblclick', 'tbody tr', function () {
 $('#tblOtherFumigation').on('dblclick', 'tbody tr', function () {
     var table = $('#tblOtherFumigation').DataTable();
     var data_row = table.row($(this).closest('tr')).data();
+    console.log("data_row: ", data_row);
     window.location.href = baseUrl + '/Fumigation/Fumigation/Index/' + data_row.FumigationId;
 });
+$('#tblOrderTakenFumigation').on('click', 'tbody tr', function () {
+    var table = $('#tblOrderTakenFumigation').DataTable();
+    var data_row = table.row($(this).parent().closest('tr')).data();
+    console.log("data_row: ", data_row);
+    CustomerDetail(data_row.FumigationId);
+    $("#shipmentnotify").css("display", "block");
+    var iframe = $('#shipmentnotify');
+
+    // set the src attribute
+    iframe.attr('src', baseurl + '/Fumigation/Fumigation/ViewFumigationNotification/' + data_row.FumigationId);
+    //window.location.href = baseUrl + '/Shipment/Shipment/Index/' + data_row.ShipmentId;
+
+});
+
+$('#tblOtherFumigation').on('click', 'tbody tr', function () {
+    var table = $('#tblOtherFumigation').DataTable();
+    var data_row = table.row($(this).parent().closest('tr')).data();
+    //console.log("data_row: ", data_row);
+
+   
+    CustomerDetail(data_row.FumigationId);
+    $("#ShipmentNotify").css("display", "block");
+    var iframe = $('#ShipmentNotify');
+
+    // Set the src attribute
+    iframe.attr('src', baseUrl + '/Fumigation/Fumigation/ViewFumigationNotification/' + data_row.FumigationId);
+    // $("#ShipmentNotify").css("display", "block");
+    //var iframe = $('#ShipmentNotify');
+
+    // Set the src attribute
+    // iframe.attr('src', baseUrl + '/Shipment/Shipment/ViewShipmentNotification/' + data_row.ShipmentId);
+    //window.location.href = baseUrl + '/Shipment/Shipment/Index/' + data_row.ShipmentId;
+
+});
+
 
 var d = new Date();
 var month = d.getMonth() + 1;
@@ -1135,10 +1244,10 @@ var GetOtherFumigationList = function () {
                                     if (ftype.length > 1) {
                                         for (var i = 0; i < ftype.length; i++) {
                                             if (ActFumigationRelease[0] != "NA") {
-                                                tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top" title="">' + ConvertSqlDateTimeNew(ActFumigationRelease[0], true) + '</label></td></tr>';
+                                                tabCon += '<tr><td><label class="dtclick" data-toggle="tooltip" data-placement="top" title="">' + ConvertSqlDateTimeNew(ActFumigationRelease[0], true) + '</label></td></tr>';
                                             }
                                             else {
-                                                tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top" title="">NA</label></td></tr>';
+                                                tabCon += '<tr><td><label class="dtclick" data-toggle="tooltip" data-placement="top" title="">NA</label></td></tr>';
                                             }
 
                                         }
@@ -1146,10 +1255,10 @@ var GetOtherFumigationList = function () {
                                     }
                                     else {
                                         if (ActFumigationRelease[0] != "NA") {
-                                            return '<label data-toggle="tooltip" data-placement="top" title="">' + ConvertSqlDateTimeNew(ActFumigationRelease[0], true) + '</label>'
+                                            return '<label class="dtclick" data-toggle="tooltip" data-placement="top" title="">' + ConvertSqlDateTimeNew(ActFumigationRelease[0], true) + '</label>'
                                         }
                                         else {
-                                            return '<label data-toggle="tooltip" data-placement="top" title="">NA</label>'
+                                            return '<label class="dtclick" data-toggle="tooltip" data-placement="top" title="">NA</label>'
                                         }
                                     }
                                     //  return '<label data-toggle="tooltip" data-placement="top">' + fumigationTypesList[0] + '</label>'
@@ -1160,10 +1269,10 @@ var GetOtherFumigationList = function () {
                                     var tabBottom = '</table>';
                                     for (let i = 0; i < ActFumigationRelease.length; i++) {
                                         if (ActFumigationRelease[i] != "NA") {
-                                            tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top">' + ConvertSqlDateTimeNew(ActFumigationRelease[i], true) + '</label></td></tr>';
+                                            tabCon += '<tr><td><label class="dtclick" data-toggle="tooltip" data-placement="top">' + ConvertSqlDateTimeNew(ActFumigationRelease[i], true) + '</label></td></tr>';
                                         }
                                         else {
-                                            tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top">NA</label></td></tr>';
+                                            tabCon += '<tr><td><label class="dtclick" data-toggle="tooltip" data-placement="top">NA</label></td></tr>';
                                         }
                                     }
                                     return tabTop + tabCon + tabBottom

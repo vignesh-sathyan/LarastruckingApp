@@ -1,4 +1,5 @@
 ﻿using LarastruckingApp.BusinessLayer.Interface;
+using LarastruckingApp.DAL;
 using LarastruckingApp.DAL.Interface;
 using LarastruckingApp.Entities.Common;
 using LarastruckingApp.Entities.Fumigation;
@@ -407,6 +408,32 @@ namespace LarastruckingApp.BusinessLayer
             return iFumigationDAL.DeleteComments(entity);
         }
 
+
+        #endregion
+
+        #region Get OrderTaken
+        public int GetOrderTaken()
+        {
+            return iFumigationDAL.GetOrderTaken();
+        }
+
+        #endregion
+
+        #region Get FumigationInProgress
+        public int GetFumigationInProgress()
+        {
+            return iFumigationDAL.GetFumigationInProgress();
+        }
+
+        #endregion
+
+
+
+        #region Get CustomerDetail
+        public CustomerDetailDTO CustomerDetail(int fumigationid)
+        {
+            return iFumigationDAL.CustomerDetail(fumigationid);
+        }
 
         #endregion
     }

@@ -1811,6 +1811,82 @@ namespace LarastruckingApp.Repository.Repository
         }
         #endregion
 
+        #region Get OrderTaken
+        public int GetOrderTaken()
+        {
+            try
+            {
+                //int result = 0;
+                int records = fumigationContext.tblFumigations.Count(x => x.StatusId == 1 && x.IsDeleted == false);
+                //var count = records.Count();
 
+                return records;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        #endregion
+
+        #region Get FumigationInProgress
+        public int GetFumigationInProgress()
+        {
+            try
+            {
+                //int result = 0;
+                int records = fumigationContext.tblFumigations.Count(x => x.StatusId != 1 && x.StatusId != 8 && x.StatusId != 11 && x.IsDeleted == false);
+                //var count = records.Count();
+
+                return records;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        #endregion
+
+        #region Get CustomerDetail
+        public CustomerDetailDTO CustomerDetail(int fumigationid)
+        {
+            try
+            {
+                //int result = 0;
+                CustomerDetailDTO shipmentDetail = new CustomerDetailDTO();
+                shipmentDetail = (from shipment in fumigationContext.tblFumigations
+                                  join customer in fumigationContext.tblCustomerRegistrations on shipment.CustomerId equals customer.CustomerID
+                                  join Address in fumigationContext.tblCustomerContacts on shipment.CustomerId equals Address.CustomerId
+                                  join BaseAddress in fumigationContext.tblBaseAddresses on shipment.CustomerId equals BaseAddress.CustomerId
+                                  join State in fumigationContext.tblStates on BaseAddress.BillingStateId equals State.ID
+                                  join Country in fumigationContext.tblCountries on BaseAddress.BillingCountryId equals Country.ID
+                                  where shipment.FumigationId == fumigationid
+                                  select new CustomerDetailDTO
+                                  {
+                                      CustomerName = customer.CustomerName,
+                                      Address = BaseAddress.BillingAddress1 + " , " + BaseAddress.BillingCity + " , " + State.Name + " , " + Country.Name,
+                                      Contact = Address.ContactFirstName + " " + Address.ContactLastName,
+                                      Phone = Address.ContactPhone,
+                                      Email = Address.ContactEmail,
+                                      //EstDeliveryArrival = routes.DeliveryDateTime,
+                                      //CustomerId = shipment.CustomerId,
+                                      //CustomerName = customer.CustomerName,
+                                      //AWB = shipment.AirWayBill,
+                                  }
+                                  ).FirstOrDefault();
+                //int records = shipmentContext.tblShipments.Count(x => x.StatusId != 1 && x.StatusId != 8 && x.StatusId != 11 && x.IsDeleted == false);
+                //var count = records.Count();
+
+                return shipmentDetail;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        #endregion
     }
 }

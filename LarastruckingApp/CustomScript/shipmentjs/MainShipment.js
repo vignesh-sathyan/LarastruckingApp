@@ -14,8 +14,9 @@
     btnViewShipment();
     btnViewShipment2();
     startEndDate();
-    updateOrderTakenCount();
-    updateInProgressCount();
+    updateShipmentOrderTakenCount();
+    updateShipmentInProgressCount();
+    GetDriverShipment();
     //GetFreightType();
     $('#tblShipmentDetails input').unbind();
 
@@ -42,7 +43,7 @@ $("table").on("mouseout", 'tr', function () {
 });
 var table = $('#tblShipmentDetails').dataTable();
 
-function updateOrderTakenCount() {
+function updateShipmentOrderTakenCount() {
     var count = 0;
     $.ajax({
         type: 'GET',
@@ -64,7 +65,7 @@ function updateOrderTakenCount() {
    
 }
 
-function CustomerDetail(shipmentid) {
+function ShipmentCustomerDetail(shipmentid) {
     var count = 0;
     $.ajax({
         type: 'GET',
@@ -91,7 +92,7 @@ function CustomerDetail(shipmentid) {
 
 }
 
-function updateInProgressCount() {
+function updateShipmentInProgressCount() {
     var count = 0;
     $.ajax({
         type: 'GET',
@@ -113,6 +114,35 @@ function updateInProgressCount() {
 
 }
 
+function GetDriverShipment() {
+    var count = 0;
+    var eq;
+    $.ajax({
+        type: 'GET',
+        url: baseUrl + "/Shipment/Shipment/DriverDetail",
+        //data: { "driverid": driverid },
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        async: false,
+        success: function (msg) {
+            // Do something interesting here.
+            //console.log("Driver detail box: ",msg);
+            count = msg;
+            for (let x = 0; x < msg.length; x++) {
+                eq += '<tr><td>' + msg[x].DriverName + '</td><td>' + msg[x].Status + '</td><td>' + msg[x].DeliveryLocation + '</td></tr>';
+               
+               // $("#DriverName").text(msg[x].DriverName);
+            }
+            $("#DeliveryDet").append(eq);
+           // $("#shipmentProgress").text(count);
+        },
+        error: function (xhr, err) {
+            console.log("error : " + err);
+        }
+    })
+
+}
+
 $('#tblShipmentDetails').on('dblclick', 'tbody tr', function () {
     var table = $('#tblShipmentDetails').DataTable();
     var data_row = table.row($(this).closest('tr')).data();
@@ -123,7 +153,7 @@ $('#tblShipmentDetails').on('click', 'tbody tr', function () {
     var table = $('#tblShipmentDetails').DataTable();
     var data_row = table.row($(this).closest('tr')).data();
     console.log("data_row: ", data_row.ShipmentId);
-    CustomerDetail(data_row.ShipmentId);
+    ShipmentCustomerDetail(data_row.ShipmentId);
     $("#ShipmentNotify").css("display","block");
     var iframe = $('#ShipmentNotify');
 
@@ -131,6 +161,20 @@ $('#tblShipmentDetails').on('click', 'tbody tr', function () {
     iframe.attr('src', baseUrl + '/Shipment/Shipment/ViewShipmentNotification/' + data_row.ShipmentId);
     //window.location.href = baseUrl + '/Shipment/Shipment/Index/' + data_row.ShipmentId;
     
+});
+
+$('#tblShipmentDetails2').on('click', 'tbody tr', function () {
+    var table = $('#tblShipmentDetails2').DataTable();
+    var data_row = table.row($(this).closest('tr')).data();
+    console.log("data_row: ", data_row.ShipmentId);
+    ShipmentCustomerDetail(data_row.ShipmentId);
+    $("#ShipmentNotify").css("display", "block");
+    var iframe = $('#ShipmentNotify');
+
+    // Set the src attribute
+    iframe.attr('src', baseUrl + '/Shipment/Shipment/ViewShipmentNotification/' + data_row.ShipmentId);
+    //window.location.href = baseUrl + '/Shipment/Shipment/Index/' + data_row.ShipmentId;
+
 });
 //#endregion
 

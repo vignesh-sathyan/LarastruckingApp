@@ -1453,5 +1453,56 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
         }
         #endregion
 
+        #region Get GetOrderTaken
+        public ActionResult GetOrderTaken()
+        {
+            try
+            {
+                var IsSuccess = fumigationBAL.GetOrderTaken();
+                return Json(IsSuccess, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region Get ShipmentInProgress
+        public ActionResult GetFumigationInProgress()
+        {
+            try
+            {
+                var IsSuccess = fumigationBAL.GetFumigationInProgress();
+                return Json(IsSuccess, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region Get CustomerDetail
+        public ActionResult CustomerDetail(int fumigationid)
+        {
+            try
+            {
+                var IsSuccess = fumigationBAL.CustomerDetail(fumigationid);
+                return Json(IsSuccess, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        #endregion
+
     }
 }

@@ -4,6 +4,8 @@
     Layout = null;
     PermissionsDto permissions = IsPermited.HasPermission();
 }
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -141,27 +143,93 @@
 
     </div>
     <div class="section">
-        <div class="aside">
-            <div class="sprogress">
-                <label> SHIPMENTS PROGRESS<span style="margin-Left:30px; font-weight:normal;" id="shipmentOrder">13</span></label>
-                <p style=" margin-top:20px;">SHIPMENT PIPELINE <span style="margin-Left:43px; font-weight:normal;" id="shipmentProgress">13</span></p>
-            </div>
-            <div class="fprogress">
-                FUMIGATION PROGRESS
-                <p style="font-weight:normal; margin-top:10px;">LOADING <span style="margin-Left:34px; font-weight:normal;">13</span></p>
-                <p style="font-weight:normal;">DELIVERY <span style="margin-Left:30px; font-weight:normal;">13</span></p>
-            </div>
-            <div class="driver">
-                DRIVER WAITING ROOM
-            </div>
-            <div class="driver-list">
-                <ul class="list-items">
-                    <li>Name</li>
-                    <li>Status</li>
-                    <li>DeliveryLocation</li>
-                </ul>
-            </div>
-        </div>
+
+        <table class="">
+           <tr>
+               <td>
+                   <table class="">
+                       <tr>
+                           <td>
+                               SHIPMENTS PROGRESS
+                           </td>
+                           <td>
+                               <span style="margin-Left:30px; font-weight:normal;" id="shipmentOrder"></span>
+                           </td>
+                       </tr>
+                       <tr>
+                           <td>
+                               SHIPMENT PIPELINE
+                           </td>
+                           <td>
+                               <span style="margin-Left:43px; font-weight:normal;" id="shipmentProgress"></span>
+                           </td>
+                       </tr>
+
+                   </table>
+
+                   <table class="">
+                       <tr>
+                           <td>
+                               FUMIGATION PROGRESS
+                           </td>
+                          
+                       </tr>
+                       <tr>
+                           <td>
+                               LOADING
+                           </td>
+                           <td>
+                               <span style="margin-Left:43px; font-weight:normal;" id="fumigationOrder"></span>
+                           </td>
+                       </tr>
+                       <tr>
+                           <td>
+                               DELIVERY
+                           </td>
+                           <td>
+                               <span style="margin-Left:43px; font-weight:normal;" id="fumigationProgress"></span>
+                           </td>
+                       </tr>
+
+                   </table>
+
+                 
+               </td>
+           </tr>
+          <tr>
+              <td>
+                  <table class="driver" style="width: 100%;">
+                      <tr><td style="text-align: center;">DRIVER WAITING ROOM</td></tr>
+                  </table>
+                  <table style="width:100%;" id="DeliveryDet">
+                      <tr>
+                          <th>Name</th>
+                          <th>Status</th>
+                          <th>DeliveryLocation</th>
+                      </tr>
+                      @*<tr>
+
+
+                    <td id="DriverName"></td>
+                    <td id="Status"></td>
+                    <td id="DeliveryLoc"></td>
+
+
+            </tr>*@
+                  </table>
+              </td>
+          </tr>
+           
+
+          
+            @*<div class="driver-list">
+                    <ul class="list-items">
+                        <li>Name</li>
+                        <li>Status</li>
+                        <li>DeliveryLocation</li>
+                    </ul>
+                </div>*@
+        </table>
         <table id="CustomerProfile">
             <tr>
                 <td>
@@ -190,27 +258,27 @@
                     </table>
                 </td>
 
-               
-                
+
+
             </tr>
         </table>
         @*<div class="article">
-            CUSTOMER PROFILE
-            <ul class="article-items">
-                <li>Name</li>
-                <li>Address</li>
-                <li>Cantact No</li>
-                <li>phone</li>
-                <li>E-Mail</li>
-            </ul>
-            <ul class="article-items1">
-                <li id="cName"></li>
-                <li id="cAddress"></li>
-                <li id="cContact"></li>
-                <li id="cPhone"></li>
-                <li id="cEmail"></li>
-            </ul>
-        </div>*@
+                CUSTOMER PROFILE
+                <ul class="article-items">
+                    <li>Name</li>
+                    <li>Address</li>
+                    <li>Cantact No</li>
+                    <li>phone</li>
+                    <li>E-Mail</li>
+                </ul>
+                <ul class="article-items1">
+                    <li id="cName"></li>
+                    <li id="cAddress"></li>
+                    <li id="cContact"></li>
+                    <li id="cPhone"></li>
+                    <li id="cEmail"></li>
+                </ul>
+            </div>*@
         <div>
             SHIPMENTS ADVICE
             <iframe id="ShipmentNotify" src=""></iframe>
