@@ -317,7 +317,8 @@ namespace LarastruckingApp.Controllers
             string areaName = userdetail.Select(x => x.AreaName).FirstOrDefault() ?? string.Empty;
             if (userdetail.ToList().Count() > 0)
             {
-                return RedirectToAction(actionName, controllerName, new { area = areaName });
+               // return RedirectToAction(actionName, controllerName, new { area = areaName });
+                return RedirectToAction("Index", "Main");
             }
 
             else

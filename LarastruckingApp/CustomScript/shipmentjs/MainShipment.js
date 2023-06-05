@@ -165,18 +165,28 @@ $('#tblShipmentDetails').on('dblclick', 'tbody tr', function () {
 $('#tblShipmentDetails').on('click', 'tbody tr', function () {
     var table = $('#tblShipmentDetails').DataTable();
     var data_row = table.row($(this).closest('tr')).data();
-    console.log("data_row: ", data_row.ShipmentId);
+   // console.log("data_row: ", data_row.ShipmentId);
     ShipmentCustomerDetail(data_row.ShipmentId);
     $("#ShipmentNotify").css("display","block");
     var iframe = $('#ShipmentNotify');
 
     // Set the src attribute
-    iframe.attr('src', baseUrl + '/Shipment/Shipment/ViewShipmentNotification/' + data_row.ShipmentId);
+    iframe.attr('src', baseUrl + '/Shipment/Shipment/ShipmentNotificationMaster/' + data_row.ShipmentId);
 
+ 
+    
     //window.location.href = baseUrl + '/Shipment/Shipment/Index/' + data_row.ShipmentId;
     
 });
-
+$('#driver-list').on('scroll', function () {
+    var scrollTop = $(this).scrollTop();
+    console.log("scrolling");
+    if (scrollTop > 0) {
+        $('#DeliveryDet th').addClass('sticky-header');
+    } else {
+        $('#DeliveryDet th').removeClass('sticky-header');
+    }
+});
 $('#tblShipmentDetails2').on('click', 'tbody tr', function () {
     var table = $('#tblShipmentDetails2').DataTable();
     var data_row = table.row($(this).closest('tr')).data();
@@ -186,7 +196,7 @@ $('#tblShipmentDetails2').on('click', 'tbody tr', function () {
     var iframe = $('#ShipmentNotify');
 
     // Set the src attribute
-    iframe.attr('src', baseUrl + '/Shipment/Shipment/ViewShipmentNotification/' + data_row.ShipmentId);
+    iframe.attr('src', baseUrl + '/Shipment/Shipment/ShipmentNotificationMaster/' + data_row.ShipmentId);
     //window.location.href = baseUrl + '/Shipment/Shipment/Index/' + data_row.ShipmentId;
 
 });

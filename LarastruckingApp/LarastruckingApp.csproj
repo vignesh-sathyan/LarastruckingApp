@@ -643,6 +643,7 @@
     <Content Include="Areas\TimeCard\Views\TimeCard\ViewTimeCard.cshtml" />
     <Content Include="Areas\TimeCard\Views\TimeCard\MyTimeCard.cshtml" />
     <Content Include="Areas\TimeCard\Views\TimeCard\_DailyReport.cshtml" />
+    <Content Include="Areas\Shipment\Views\Shipment\ShipmentNotificationMaster.cshtml" />
     <None Include="MvcSiteMapSchema.xsd">
       <SubType>Designer</SubType>
     </None>

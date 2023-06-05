@@ -233,15 +233,21 @@ a:hover {
         overflow: hidden;
         white-space: normal;
         text-overflow: ellipsis;
-        border: 1px solid black;
+        /*border: 1px solid black;*/
         font-size: 11px;
         font-weight: 600;
         justify-content: center;
         position: relative;
         font-family: 'Nunito Sans', sans-serif;
     }
-
-
+.sticky-header {
+    background-color: #f2f2f2; /* desired background color */
+    /* any other styles you want to apply to the sticky header */
+}
+#DeliveryDet th{
+    position:sticky;
+    top:0;
+}
 .article-items {
     list-style: none;
     font-size: 12px;

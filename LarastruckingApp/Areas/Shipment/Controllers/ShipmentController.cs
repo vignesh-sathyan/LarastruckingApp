@@ -1576,6 +1576,43 @@ namespace LarastruckingApp.Areas.Shipment.Controllers
         }
         #endregion
 
+
+        #region view shipment notification
+        /// <summary>
+        /// view shipment notification
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult ShipmentNotificationMaster(int id)
+        {
+            ShipmentEmailDTO model = new ShipmentEmailDTO();
+            model.ShipmentId = id;
+
+            var customerDetail = shipmentBAL.GetCustomerDetail(model);
+            bool IsValid = true;
+            if (!string.IsNullOrEmpty(customerDetail.AirWayBill))
+            {
+
+                customerDetail.AWBPoOrderNO = " AWB # " + customerDetail.AirWayBill;
+                IsValid = false;
+            }
+            if (IsValid && !string.IsNullOrEmpty(customerDetail.CustomerPO))
+            {
+
+                customerDetail.AWBPoOrderNO = " PO # " + customerDetail.CustomerPO;
+                IsValid = false;
+            }
+            if (IsValid && !string.IsNullOrEmpty(customerDetail.OrderNo))
+            {
+
+                customerDetail.AWBPoOrderNO = " Order # " + customerDetail.OrderNo;
+                IsValid = false;
+            }
+
+            return View(customerDetail);
+        }
+        #endregion
+
         #region Get max route no.
         /// <summary>
         /// Get max route no.
