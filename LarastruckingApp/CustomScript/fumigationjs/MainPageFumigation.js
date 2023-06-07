@@ -108,7 +108,7 @@ $('#tblOrderTakenFumigation').on('click', 'tbody tr', function () {
     var iframe = $('#shipmentnotify');
 
     // set the src attribute
-    iframe.attr('src', baseurl + '/Fumigation/Fumigation/ViewFumigationNotification/' + data_row.FumigationId);
+    iframe.attr('src', baseUrl + '/Fumigation/Fumigation/ViewFumigationNotification/' + data_row.FumigationId);
     //window.location.href = baseUrl + '/Shipment/Shipment/Index/' + data_row.ShipmentId;
 
 });

@@ -16,14 +16,31 @@
     startEndDate();
     updateShipmentOrderTakenCount();
     updateShipmentInProgressCount();
+
+    
+    
     GetDriverShipment();
+
     //GetFreightType();
     $('#tblShipmentDetails input').unbind();
 
 });
 
+$("#dropdownMenuLink").click(function () {
+    console.log("clicked");
+    $("#menutab").css("z-index", "0");
+});
 
 
+$(window).scroll(function () {
+    var scrollTop = $(this).scrollTop();
+    //console.log("scrolling: ", scrollTop);
+    if (scrollTop > 10) {
+        $("#menutab").css("z-index", "2");
+    } else {
+        //$("#menutab").css("z-index", "0");
+    }
+});
 //#region change color on hover
 $("table").on("mouseover", 'tr', function () {
 
@@ -119,6 +136,8 @@ function updateShipmentInProgressCount() {
 function GetDriverShipment() {
     var count = 0;
     var eq;
+    var colorbg;
+    var fontcolor;
     $.ajax({
         type: 'GET',
         url: baseUrl + "/Shipment/Shipment/DriverDetail",
@@ -137,8 +156,25 @@ function GetDriverShipment() {
                     var DriverName = msg[x].DriverName.split("$");
                     //console.log("DeliveryLocation: ", DeliveryLocation.length);
                     for (let v = 0; v < DeliveryLocation.length; v++) {
+                        if (msg[x].Status == "DISPATCHED") {
+                            colorbg = "#bdd7ee";
+                            fontcolor = "#000";
+                        }
+                        else if (msg[x].Status =="IN-FUMIGATION") {
+                            colorbg = "#fe9900";
+                            fontcolor = "#fff";
+                        }
+                        else if (msg[x].Status == "IN-ROUTE") {
+                            colorbg = "#fffd01";
+                            fontcolor = "#000";
+                        }
+                        else {
+                            colorbg = "#fe9900";
+                            fontcolor = "#000";
+                        }
+                        //colorbg = "";
                        // console.log("DeliveryLocation Address: ", GetCAddressNew(DeliveryLocation[v]));
-                        eq += '<tr><td>' + DriverName[v] + '</td><td>' + msg[x].Status + '</td><td>' + DeliveryLocation[v].replace('$',', ') + '</td></tr>';
+                        eq += '<tr><td>' + DriverName[v] + '</td><td class="statusTab" style="white-space: pre;"><span style="background:' + colorbg + ';color:' + fontcolor +';padding: 2px 5px;border-radius: 5px;">' + msg[x].Status + '</span></td><td style="padding-bottom: 5px;padding-top: 5px;">' + DeliveryLocation[v].replace('$',', ') + '</td></tr>';
                     }
                     
                 }
@@ -178,7 +214,20 @@ $('#tblShipmentDetails').on('click', 'tbody tr', function () {
     //window.location.href = baseUrl + '/Shipment/Shipment/Index/' + data_row.ShipmentId;
     
 });
-$('#driver-list').on('scroll', function () {
+
+$('#ShipmentNotify').on('load', function () {
+    // Wait for the iframe to load
+    var iframeContents = $('#ShipmentNotify').contents();
+
+    // Attach a click event handler to the iframe contents
+    iframeContents.on('click', function () {
+        var iframeSrc = $('#ShipmentNotify').attr('src');
+        window.open(iframeSrc, '_blank');
+        // Perform any actions you need here
+    });
+});
+
+$('#driver-list1').on('scroll', function () {
     var scrollTop = $(this).scrollTop();
     console.log("scrolling");
     if (scrollTop > 0) {
@@ -526,7 +575,12 @@ function GetOrderTakenShipmentList() {
                 "visible": false,
             }
         ],
-
+        initComplete: function () {
+            // Task to perform after DataTable is fully loaded
+            $("#tblShipmentDetails>tbody>tr:first").trigger('click'); 
+           // console.log('DataTable is fully loaded!');
+            // Your code here...
+        }
     });
     //document.getElementById("shipmentProgress").innerHTML = row.length;
     //console.log("Mainshipment row count :", data);
@@ -545,11 +599,14 @@ function GetOrderTakenShipmentList() {
             clearTimeout(search_thread_tblShipmentDetails);
             search_thread_tblShipmentDetails = setTimeout(function () {
                 var dtable = $("#tblShipmentDetails").dataTable().api();
+                console.log("dtable: ", dtable);
                 var elem = $("#tblShipmentDetails_filter input");
                 return dtable.search($(elem).val()).draw();
             }, 700);
         });
-
+   // var search_thread_tblShipmentDetails1 = null;
+    //search_thread_tblShipmentDetails1 = 
+ 
     //var table = $("#tblShipmentDetails").DataTable();
     //var currentOrder = table.order();
     //console.log("currentOrder: ", currentOrder);

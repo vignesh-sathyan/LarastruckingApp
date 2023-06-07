@@ -3,6 +3,7 @@
 @{
     Layout = null;
     PermissionsDto permissions = IsPermited.HasPermission();
+    MemberProfile memberProfile = new MemberProfile();
 }
 
 
@@ -11,6 +12,8 @@
 <head>
     <link href="~/Assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Assets/css/Main.css" rel="stylesheet" />
+    <link rel="icon" href="~/Images/favicon.ico" sizes="16x16">
+    <title>Main Dashboard</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -44,7 +47,9 @@
             var isView =true;
             var isUpdate = true;
             var isDelete = true;
-            var IsPricingMethod =  @permissions.IsPricingMethod.ToString().ToLower();
+        var IsPricingMethod =  @permissions.IsPricingMethod.ToString().ToLower();
+
+
     </script>
     <style>
         .articleTable tbody .cDetails {
@@ -54,27 +59,111 @@
         .sprogressTable, .sprogressTable tr, .sprogressTable th, .sprogressTable td {
             padding: 10px 10px 10px 20px;
         }
+
             .pipeline tr:hover, .pipeline td:hover, .pipeline:hover, .pipeline tbody:hover, .sprogressTable td:hover, .pipeline tr:hover td, .sprogressTable tr:hover td {
                 background: none;
                 color: #000;
             }
+
         .driver-listTable tr, .driver-listTable th, .driver-listTable td {
             padding: 0 10px 10px 20px;
         }
 
         .sprogressTable tr .box {
-            border-right: 1px solid black;
+            /*border-right: 1px solid black;*/
+        }
+
+        .topBar {
+            display: block;
+            position: fixed;
+            height: 60px;
+            box-shadow: unset;
+            width: 100%;
+            margin-left: 0;
+            top: 0;
+        }
+
+        .top-right-panel {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header {
+            height: 100px;
+        }
+
+        .dropdown-menu {
+            z-index: 9999;
+        }
+
+        .menu {
+            display: flex;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            z-index: 2;
+            top: 60px;
+        }
+
+        #menuBtn {
+            display: none;
         }
 
         .driver-list table {
-            width: 435px;
+            width: 100%;
             /*margin-top: 8px;*/
         }
     </style>
 </head>
 <body>
+    <div class="topBar">
+        <button id="menuBtn" type="button" class="fas fa-bars"> </button>
+        <div class="top-right-panel">
+            <ul>
+                <li>
+                    <a href="/Main/Index" class="logo">
+                        <img src="/images/sparrow-logo.png">
+
+                    </a>
+                </li>
+            </ul>
+            <ul>
+                @*<li>
+                <a href="javascript:void(0)">
+                    <span>
+                        <i class="far fa-bell"></i>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)">
+                    <span>
+                        <i class="far fa-envelope"></i>
+                    </span>
+                </a>
+            </li>*@
+                <li class="profile">
+                    <div class="dropdown">
+                        <b> <lable>Hello @memberProfile.FullName </lable></b>
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="~/images/porfile-img.png" style="height:28px; width: 28px;" />
+
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="@Url.Action("Logout", "User", new { area = "" })"><span><i class="fas fa-sign-out-alt"></i></span>Logout</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+    </div>
     <div class="header">
-        <nav class="menu">
+        <nav class="menu" id="menutab">
             <div class="menu-toggle">
                 <label class="menu-icon">
                     <span></span>
@@ -169,29 +258,29 @@
 
     </div>
     <div class="section">
-        <div class="aside" style="display: block;border-left: 1px solid #000;border-bottom: 1px solid #000;">
-            <table class="sprogressTable table-responsive-lg" style="width: 100%;">
+        <div class="aside" style="display: block; box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;  margin: 15px; border-radius: 10px; height: 300px;">
+            <table class="sprogressTable " style="width: 100%;">
                 <tr>
                     <td style="padding: 0;">
                         <table style="float: left;width: 50%;" class="pipeline">
-                            <tr style="background: #375b93;">
+                            <tr style="background: #7ba63c; ">
                                 <th colspan="2" style="color: #fff; padding: 6px; text-align: center;">Shipment</th>
-                                
+
                             </tr>
-                            <tr>
+                            <tr style="border-right: 1px solid #000;">
                                 <td>PROGRESS</td>
                                 <td scope="col" class="box" id="shipmentOrder"></td>
 
                             </tr>
-                            <tr>
+                            <tr style="border-right: 1px solid #000;">
                                 <td>PIPELINE</td>
                                 <td class="box" id="shipmentProgress">
                                 </td>
                             </tr>
                         </table>
                         <table style="float: left;width: 50%;" class="pipeline">
-                            <tr style="background: #375b93;">
-                               
+                            <tr style="background: #7ba63c; ">
+
                                 <th colspan="2" style="color: #fff; padding: 6px; text-align: center;">FUMIGATION</th>
                             </tr>
                             <tr>
@@ -207,13 +296,46 @@
                         </table>
                     </td>
                 </tr>
-           
+
             </table>
-            <div class="driver" style="width: 100%;display: block;text-align: center;padding: 6px;background: #375b93;color: #fff;letter-spacing: 1px;border: none;font-weight: bold;">
-                DRIVER WAITING ROOM
+            <div class="driver" style="width: 100%; display: block; text-align: center; padding: 6px; background: #7ba63c; color: #fff; border: none; font-weight: bold; ">
+                CUSTOMER PROFILE
             </div>
-            <div class="driver-list" style="padding: 0; height:160px;" id="driver-list">
-                <table class="driver-listTable  table-bordered" id="DeliveryDet" >
+            <div class="driver-list" style="padding: 0; height:170px;display:block;" id="driver-list">
+                <table class="articleTable" id="CustomerProfile" style="width: 100%;  height: 100%; margin: 0 auto;">
+
+                    <tbody>
+
+                        <tr>
+                            <td scope="row" style="width: 20%;padding-left:10px;font-weight:bold;">Name:</td>
+                            <td id="cName" style="width: 80%;" class="cDetails"></td>
+                        </tr>
+                        <tr>
+                            <td scope="row" style="width: 20%; padding-left: 10px; font-weight: bold;">Address:</td>
+                            <td id="cAddress" style="width: 80%;" class="cDetails"></td>
+                        </tr>
+                        <tr>
+                            <td scope="row" style="width: 20%; padding-left: 10px; font-weight: bold;">Contact:</td>
+                            <td id="cContact" style="width: 80%;" class="cDetails"></td>
+                        </tr>
+                        <tr>
+                            <td scope="row" style="width: 20%; padding-left: 10px; font-weight: bold;">Phone:</td>
+                            <td id="cPhone" style="width: 80%;" class="cDetails"></td>
+                        </tr>
+                        <tr>
+                            <td scope="row" style="width: 20%; padding-left: 10px; font-weight: bold;">E-Mail:</td>
+                            <td id="cEmail" style="width: 80%;" class="cDetails"></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <div class="article" style="display: block; box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px; margin: 15px; border-radius: 10px;">
+            <div class="headingtab" style="width: 100%; display: block; text-align: center; padding: 6px; background: #7ba63c; color: #fff; letter-spacing: 1px; border: none; font-weight: bold;">DRIVER WAITING ROOM</div>
+            <div class="driver-list1" style="padding: 0; height: 260px; display: block; overflow: auto;" id="driver-list1">
+                <table class="driver-listTable  table-bordered" id="DeliveryDet">
                     <thead>
                         <tr>
                             <th scope="col" style="padding: 0; text-align: center; height: 30px;">Name</th>
@@ -225,42 +347,13 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-        <div class="article" style="display: block;border-left: 1px solid #000;border-bottom: 1px solid #000;">
-            <div class="headingtab" style="width: 100%; display: block; text-align: center; padding: 6px; background: #375b93; color: #fff; letter-spacing: 1px; border: none; font-weight: bold;">CUSTOMER PROFILE</div>
-            <table class="articleTable" id="CustomerProfile" style="width: 300px; margin-bottom: 12px !important; height: 90%; margin: 0 auto;">
-               
-                <tbody>
-                    
-                    <tr>
-                        <td scope="row">Name</td>
-                        <td id="cName" class="cDetails"></td>
-                    </tr>
-                    <tr>
-                        <td scope="row">Address</td>
-                        <td id="cAddress" class="cDetails"></td>
-                    </tr>
-                    <tr>
-                        <td scope="row">Contact</td>
-                        <td id="cContact" class="cDetails"></td>
-                    </tr>
-                    <tr>
-                        <td scope="row">phone</td>
-                        <td id="cPhone" class="cDetails"></td>
-                    </tr>
-                    <tr>
-                        <td scope="row">E-Mail</td>
-                        <td id="cEmail" class="cDetails"></td>
-                    </tr>
 
-                </tbody>
-            </table>
-           
+
         </div>
-        <div id="ShipmetAdvice" style="display: block;border-left: 1px solid #000;border-bottom: 1px solid #000;">
-            <div class="headingtab" style="width: 100%; display: block; text-align: center; padding: 6px; background: #375b93; color: #fff; letter-spacing: 1px; border: none; font-weight: bold;">SHIPMENTS ADVICE</div>
+        <div id="ShipmetAdvice" style="display: block; box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px; margin: 15px; border-radius: 10px;">
+            <div class="headingtab" style="width: 100%; display: block; text-align: center; padding: 6px; background: #7ba63c; color: #fff; letter-spacing: 1px; border: none; font-weight: bold;">SHIPMENTS ADVICE</div>
             <table width="100%">
-           
+
                 <tr>
                     <td>
                         <iframe id="ShipmentNotify" src="" style="width:100%;border:none;"></iframe>
@@ -269,14 +362,14 @@
             </table>
 
         </div>
-        <div style="display: block;border-left: 1px solid #000;border-bottom: 1px solid #000;">
-            <div style="width: 100%; display: block; text-align: center; padding: 6px; background: #375b93; color: #fff; letter-spacing: 1px; border: none; font-weight: bold;">GPS LIVE TRACKING</div>
-            
+        <div id="gpsTracking" style="display: block; box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px; margin: 15px; border-radius: 10px;">
+            <div style="width: 100%; display: block; text-align: center; padding: 6px; background: #7ba63c; color: #fff; letter-spacing: 1px; border: none; font-weight: bold;">GPS LIVE TRACKING</div>
+
         </div>
     </div>
-    <div class="customTableWrapper" style="margin-top:10px;padding: 1.25rem;">
-        <div class="row" style="background: #375b93;color: #fff;padding: 10px;text-align: center;display: flex;justify-content: center;margin:0;">
-            <b style="font-size: 14px;letter-spacing: 4px;">REQUESTED SHIPMENTS</b>
+    <div class="customTableWrapper" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px; margin: 15px; border-radius: 10px; padding: 10px;">
+        <div class="row" style=" background: rgb(30,185,127); background: #375b93; color: #fff; padding: 10px; text-align: center; display: flex; justify-content: center; margin: 0;">
+            <b style="font-size: 11px;letter-spacing: 1px;">REQUESTED SHIPMENTS</b>
         </div>
         <table class="table-bordered table-striped cf w-100 dataTable no-footer dtr-inline" id="tblShipmentDetails" style="margin-top:0 !important;">
             <thead>
@@ -300,112 +393,42 @@
         </table>
     </div>
 
-    <div class="row">
-        <div class="col-lg-12 col-md-12 mt-2">
-            <div class="customFormWrap  table-spacing">
 
-                <div class="col-md-12 divSearchBox">
-                    @*@Html.ActionLink("Create Shipment", "Index", "Shipment", null, new { @class = "btn green-Btn" })*@
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group row">
-                                <label for="dtStartedDate2" class="col-sm-4 col-form-label">Start Date</label>
-                                <div class="col-sm-8">
-                                    <input type="text"
-                                           required="required"
-                                           placeholder="MM-DD-YYYY"
-                                           name="dtStartedDate"
-                                           onkeypress="return onlyAlphanumeric(event)"
-                                           id="dtStartedDate"
-                                           autocomplete="off"
-                                           class="form-control jqueryui-marker-datepicker">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group  row">
-                                <label for="dtEndDate2" class="col-sm-4 col-form-label">End Date</label>
-                                <div class="col-sm-8">
-                                    <input type="text"
-                                           required="required"
-                                           placeholder="MM-DD-YYYY"
-                                           name="dtEndDate"
-                                           onkeypress="return onlyAlphanumeric(event)"
-                                           id="dtEndDate"
-                                           autocomplete="off"
-                                           class="form-control jqueryui-marker-datepicker">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group row">
-                                <label for="ddlCustomer2" class="col-sm-4 col-form-label">Customer</label>
-                                <div class="col-sm-8">
-                                    <select id="ddlCustomer2" class="form-control">
-                                        <option>SEARCH CUSTOMER</option>
-                                    </select>
 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group row">
-                                <label for="ddlFreightType" class="col-sm-4 col-form-label">Freight Type</label>
-                                <div class="col-sm-8">
-                                    <select id="ddlFreightType2" class="form-control">
-                                        <option>SELECT FREIGHT TYPE</option>
-                                    </select>
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="row">
-
-                        <div class="col-md-12 text-right py-2">
-
-                            <button type="button" id="btnViewShipment2" class="btn green-Btn pullr">Search</button>
-
-                        </div>
-                    </div>
-                </div>
-                @*<hr class="hr_add" />*@
-            <div class="customTableWrapper table-spacing" style="padding: 1.25rem;">
-                <div class="row" style="background: #375b93;color: #fff;padding: 10px;text-align: center;display: flex;justify-content: center;margin:0;">
-                    <b style="font-size: 14px;letter-spacing: 4px;">SHIPMENTS IN PROGRESS</b>
-                </div>
-                <table class="table-bordered table-striped cf w-100 dataTable no-footer dtr-inline" id="tblShipmentDetails2" style="margin-top:0 !important;">
-                    <thead>
-
-                        <tr>
-                            <th hidden="hidden">ShipmentId</th>
-                            <th>STATUS</th>
-                            <th>Pickup Date</th>
-                            <th>Pickup</th>
-                            <th>Delivery Date</th>
-                            <th>Delivery</th>
-                            <th>Customer Name</th>
-                            <th>AWB / PO / ORD</th>
-                            @*<th>Cust. PO</th>*@
-                            <th>Quantity</th>
-
-                            <th>Commodity</th>
-                            <th>TEMP(F)</th>
-                            <th>DRIVER</th>
-                            <th>Equipment</th>
-                            <th>WT</th>
-                            <th>ST</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-
-            </div>
-            </div>
+    @*<hr class="hr_add" />*@
+    <div class="customTableWrapper table-spacing" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px; margin: 15px; border-radius: 10px; padding: 10px;">
+        <div class="row" style="background: rgb(30,185,127); background: #375b93; color: #fff; padding: 10px; text-align: center; display: flex; justify-content: center; margin: 0; ">
+            <b style="font-size: 11px;letter-spacing: 1px;">SHIPMENTS IN PROGRESS</b>
         </div>
+        <table class="table-bordered table-striped cf w-100 dataTable no-footer dtr-inline" id="tblShipmentDetails2" style="margin-top:0 !important;">
+            <thead>
+
+                <tr>
+                    <th hidden="hidden">ShipmentId</th>
+                    <th>STATUS</th>
+                    <th>Pickup Date</th>
+                    <th>Pickup</th>
+                    <th>Delivery Date</th>
+                    <th>Delivery</th>
+                    <th>Customer Name</th>
+                    <th>AWB / PO / ORD</th>
+                    @*<th>Cust. PO</th>*@
+                    <th>Quantity</th>
+
+                    <th>Commodity</th>
+                    <th>TEMP(F)</th>
+                    <th>DRIVER</th>
+                    <th>Equipment</th>
+                    <th>WT</th>
+                    <th>ST</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
     </div>
+
 
 
     <div class="modal" role="dialog" id="shipmentModal">
@@ -499,104 +522,92 @@
 
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="card-body">
-                <div class="customFormWrap">
 
-                    <div id="customTableWrapper">
-                        <div class="row" style="background: #375b93;color: #fff;padding: 10px;text-align: center;display: flex;justify-content: center;margin:0;">
-                            <b style="font-size: 14px;letter-spacing: 4px;">REQUESTED FUMIGATION</b>
-                        </div>
-                        <table class="table-bordered table-striped cf w-100 collapsed" id="tblOrderTakenFumigation" style="margin-top:0 !important;">
-                            <thead>
 
-                                <tr>
-                                    <th hidden="hidden"></th>
-                                    <th>Status</th>
-                                    <th style="width: 72px !important;padding-right: 12px;">Req Loading</th>
-                                    <th>Fum Type</th>
-                                    <th>Customer</th>
-                                    <th>Pickup Location</th>
-                                    <th style="width: 106px !important; padding-right:22px !important;">AWB/PO/Container</th>
-                                    <th>Consignee</th>
-                                    <th>Box Count</th>
-                                    <th>Pallet Count</th>
-                                    <th>Position</th>
-                                    <th>Temp F</th>
-                                    <th>Fumigation Site</th>
-                                    <th style="width: 28px !important;padding-right: 8px;">Pickup Equ</th>
-                                    <th>Pickup Driver</th>
-                                    <th>Delivery Location</th>
-                                    <th>Comments</th>
-                                    @*<th>Delivery Driver</th>
-                    <th>Delivery Equipment</th>
-                    <th>Delivery Arrival</th>*@
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+    <div id="customTableWrapper" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px; margin: 15px; border-radius: 10px; padding: 10px;">
+        <div class="row" style="background: rgb(121,9,103); background: #375b93; color: #fff; padding: 10px; text-align: center; display: flex; justify-content: center; margin: 0;">
+            <b style="font-size: 11px;letter-spacing: 1px;">REQUESTED FUMIGATION</b>
         </div>
+        <table class="table-bordered table-striped cf w-100 collapsed" id="tblOrderTakenFumigation" style="margin-top:0 !important;">
+            <thead>
+
+                <tr>
+                    <th hidden="hidden"></th>
+                    <th>Status</th>
+                    <th style="width: 72px !important;padding-right: 12px;">Req Loading</th>
+                    <th>Fum Type</th>
+                    <th>Customer</th>
+                    <th>Pickup Location</th>
+                    <th style="width: 106px !important; padding-right:22px !important;">AWB/PO/Container</th>
+                    <th>Consignee</th>
+                    <th>Box Count</th>
+                    <th>Pallet Count</th>
+                    <th>Position</th>
+                    <th>Temp F</th>
+                    <th>Fumigation Site</th>
+                    <th style="width: 28px !important;padding-right: 8px;">Pickup Equ</th>
+                    <th>Pickup Driver</th>
+                    <th>Delivery Location</th>
+                    <th>Comments</th>
+                    @*<th>Delivery Driver</th>
+                        <th>Delivery Equipment</th>
+                        <th>Delivery Arrival</th>*@
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="card-body">
-                <div class="customFormWrap">
-                    <div class="row" style="background: #375b93;color: #fff;padding: 10px;text-align: center;display: flex;justify-content: center;margin:0;">
-                        <b style="font-size: 14px;letter-spacing: 4px;">FUMIGATION IN PROGRESS</b>
-                    </div>
-                    <div id="customTableWrapper">
-                        <table class="table-bordered table-striped cf w-100" id="tblOtherFumigation">
-                            <thead>
-                           
-                                <tr>
-                                    <th hidden="hidden"></th>
-                                    <th>Status</th>
-                                    <th>Fum Release</th>
-
-                                    <th>Fum Type</th>
-                                    <th>Customer</th>
-                                    <th>Pickup Location</th>
-                                    <th>AWB/PO/Container</th>
-                                    <th>Consignee</th>
-
-                                    <th>Box Count</th>
-                                    <th>Pallet Count</th>
-                                    <th>Position</th>
-                                    <th>Fumigation Site</th>
-                                    <th>Pickup Equipment</th>
-                                    <th>Pickup Driver</th>
-
-                                    <th>Actual Start</th>
-                                    <th>Actual Finish</th>
-                                    <th>Temp F</th>
 
 
-                                    @*<th>Actual Fum In</th>
+    <div id="customTableWrapper" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px; margin: 15px; border-radius: 10px; padding: 10px;">
+        <div class="row" style="background: rgb(121,9,103); background: #375b93; color: #fff; padding: 10px; text-align: center; display: flex; justify-content: center; margin: 0;">
+            <b style="font-size: 11px;letter-spacing: 1px;">FUMIGATION IN PROGRESS</b>
+        </div>
+        <table class="table-bordered table-striped cf w-100" id="tblOtherFumigation">
+            <thead>
+
+                <tr>
+                    <th hidden="hidden"></th>
+                    <th>Status</th>
+                    <th>Fum Release</th>
+
+                    <th>Fum Type</th>
+                    <th>Customer</th>
+                    <th>Pickup Location</th>
+                    <th>AWB/PO/Container</th>
+                    <th>Consignee</th>
+
+                    <th>Box Count</th>
+                    <th>Pallet Count</th>
+                    <th>Position</th>
+                    <th>Fumigation Site</th>
+                    <th>Pickup Equipment</th>
+                    <th>Pickup Driver</th>
+
+                    <th>Actual Start</th>
+                    <th>Actual Finish</th>
+                    <th>Temp F</th>
+
+
+                    @*<th>Actual Fum In</th>
 
                         <th>Act. Fum Departure</th>*@
-                                    <th>Equipment</th>
-                                    <th>Delivery Driver</th>
-                                    <th>Delivery Location</th>
-                                    <th>WT</th>
-                                    <th>ST</th>
-                                    @*<th>Actual Arrival</th>
+                    <th>Equipment</th>
+                    <th>Delivery Driver</th>
+                    <th>Delivery Location</th>
+                    <th>WT</th>
+                    <th>ST</th>
+                    @*<th>Actual Arrival</th>
                         <th>Actual Departure</th>*@
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
+
 
     <div class="modal" role="dialog" id="fumigationModal">
         <div class="modal-dialog modal-lg" role="document">
@@ -714,7 +725,7 @@
 
         </div>
     </div>
- 
+
     @Scripts.Render("~/bundles/MainShipment")
     @Scripts.Render("~/bundles/MainFumigation")
 </body>

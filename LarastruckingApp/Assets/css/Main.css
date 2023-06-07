@@ -18,6 +18,9 @@ body {
     margin: 0;
     padding: 0;
 }
+#gpsTracking{
+    min-height:300px;
+}
 
 a {
     color: #007bff;
@@ -82,6 +85,8 @@ span.leftIc {
     display: flex;
     align-items: center;
     height: 100%;
+    width: 8%;
+    justify-content: center;
 }
 
     .menu-items li a {
@@ -95,7 +100,10 @@ span.leftIc {
         display: flex;
         align-items: center;
         height: 100%;
-        padding: 0px 8.28px;
+        padding: 0px 0px 0px 5px;
+        white-space: nowrap;
+        width: 100%;
+        justify-content: center;
     }
 
 a:hover {
@@ -222,14 +230,16 @@ a:hover {
 
 .section {
     margin-top: 20px;
-    display: grid;
-    height: 300px;
+    display: flex;
+    /*height: 300px;*/
     grid-template-columns: 2fr 1.5fr 1.5fr 2fr;
+   
 }
 
     .section div {
-        display: grid;
-        max-width: 100%;
+        display: flex;
+        width: 100%;
+        /*min-width: 350px;*/
         overflow: hidden;
         white-space: normal;
         text-overflow: ellipsis;
@@ -321,3 +331,15 @@ a:hover {
             .section .aside .driver-list .list-items li {
                 margin: 0 40px 0 20px;
             }
+@media (max-width: 1200px) {
+    .section {
+        flex-wrap: wrap;
+    }
+    .statusTab{
+        padding:0 !important;
+        text-align:center;
+    }
+    #DeliveryDet{
+        width:100%;
+    }
+}

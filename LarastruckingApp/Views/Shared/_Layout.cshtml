@@ -185,7 +185,44 @@
         .TimeBorder label {
             border: 1px solid #ced4da;
         }
-      
+        .topBar {
+            display: block;
+            position: fixed;
+            height: 60px;
+            box-shadow: unset;
+            width: 100%;
+            margin-left: 0;
+            top: 0;
+        }
+
+        .top-right-panel {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header {
+            height: 100px;
+        }
+
+        .dropdown-menu {
+            z-index: 9999;
+        }
+
+        .menu {
+            display: flex;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            z-index: 2;
+            top: 60px;
+        }
+
+        #menuBtn {
+            display: none;
+        }
     </style>
 
 </head>
@@ -203,20 +240,28 @@
             <button id="menuBtn" type="button" class="fas fa-bars"> </button>
             <div class="top-right-panel">
                 <ul>
-                    @*<li>
-                        <a href="javascript:void(0)">
-                            <span>
-                                <i class="far fa-bell"></i>
-                            </span>
+                    <li>
+                        <a href="/Main/Index" class="logo">
+                            <img src="/images/sparrow-logo.png">
+
                         </a>
                     </li>
-                    <li>
-                        <a href="javascript:void(0)">
-                            <span>
-                                <i class="far fa-envelope"></i>
-                            </span>
-                        </a>
-                    </li>*@
+                </ul>
+                <ul>
+                    @*<li>
+                            <a href="javascript:void(0)">
+                                <span>
+                                    <i class="far fa-bell"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <span>
+                                    <i class="far fa-envelope"></i>
+                                </span>
+                            </a>
+                        </li>*@
                     <li class="profile">
                         <div class="dropdown">
                             <b> <lable>Hello @memberProfile.FullName </lable></b>
@@ -235,135 +280,135 @@
         </div>
         <!-- Top Bar end -->
         <!-- LeftAsideBar panel start -->
-        
-            <div class="header">
-                <nav class="menu">
-                    <div class="menu-toggle">
-                        <label class="menu-icon">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </label>
-                    </div>
-                    <ul class="menu-items">
-                        @{
-                            MemberProfile mp = new MemberProfile();
-                            var controllerName = ViewContext.RouteData.Values["Controller"].ToString();
-                            var actionName = ViewContext.RouteData.Values["Action"].ToString();
-                            var areaName = Convert.ToString(ViewContext.RouteData.DataTokens["area"]);
-                            areaName = (areaName == null) ? "" : areaName.ToString();
 
-                            var id = Convert.ToString(ViewContext.RouteData.Values["id"]);
+        <div class="header">
+            <nav class="menu"  id="menutab">
+                <div class="menu-toggle">
+                    <label class="menu-icon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </label>
+                </div>
+                <ul class="menu-items">
+                    @{
+                        MemberProfile mp = new MemberProfile();
+                        var controllerName = ViewContext.RouteData.Values["Controller"].ToString();
+                        var actionName = ViewContext.RouteData.Values["Action"].ToString();
+                        var areaName = Convert.ToString(ViewContext.RouteData.DataTokens["area"]);
+                        areaName = (areaName == null) ? "" : areaName.ToString();
 
-                            if (mp.Permissions != null)
+                        var id = Convert.ToString(ViewContext.RouteData.Values["id"]);
+
+                        if (mp.Permissions != null)
+                        {
+                            if (mp.UserRole == "Customer")
                             {
-                                if (mp.UserRole == "Customer")
-                                {
-                                    <li>
+                                <li>
 
-                                        <div>
-                                            <span class="leftIc">
-                                                <i class="fas fa-tachometer-alt"></i>
-                                            </span>
-                                            <span class="leftText">Live Shipment</span>
-                                        </div>
-                                        <ul>
-                                            <li>
-                                                <a href="javascript:void(0)">
-                                                    @*<span class="leftIc">
+                                    <div>
+                                        <span class="leftIc">
+                                            <i class="fas fa-tachometer-alt"></i>
+                                        </span>
+                                        <span class="leftText">Live Shipment</span>
+                                    </div>
+                                    <ul>
+                                        <li>
+                                            <a href="javascript:void(0)">
+                                                @*<span class="leftIc">
                                                         <i class="fas fa-tachometer-alt"></i>
                                                     </span>*@
-                                                    @*<span class="leftText"> Shipment</span>*@
+                                                @*<span class="leftText"> Shipment</span>*@
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                </li>
+                            }
+                            foreach (var data in mp.Permissions)
+                            {
+                                if (data.IsMenu)
+                                {
+                                    if (data.CanView)
+                                    {
+                                        if (data.ControllerName == "Shipment" || data.ControllerName == "Fumigation" || data.ControllerName == "TrailerRental" || data.ControllerName == "Driver" || data.ControllerName == "Customer")
+                                        {
+                                            if ((data.ControllerName == "Driver" && actionName == "FumigationDetails") || (data.ControllerName == "Driver" && actionName == "Detail"))
+                                            {
+                                                actionName = "Dashboard";
+                                            }
+
+                                            <li>
+                                                <a class="@(controllerName == data.ControllerName && actionName == data.ActionName && areaName == data.AreaName ? "active" : "")"
+                                                   @*<a class="@(controllerName == data.ControllerName && actionName== data.ActionName ? "active" : "")"*@
+                                                   href="@Url.Action(data.ActionName, data.ControllerName, new { area = data.AreaName })">
+                                                    <span title="@data.PageName.ToUpper()" class="leftIc">
+                                                        <i class="@data.DisplayIcon"></i>
+                                                    </span>
+                                                    <span class="leftText">
+                                                        @data.PageName
+                                                    </span>
                                                 </a>
                                             </li>
-                                        </ul>
-
-                                    </li>
-                                }
-                                foreach (var data in mp.Permissions)
-                                {
-                                    if (data.IsMenu)
-                                    {
-                                        if (data.CanView)
+                                        }
+                                        else
                                         {
-                                            if (data.ControllerName == "Shipment" || data.ControllerName == "Fumigation" || data.ControllerName == "TrailerRental" || data.ControllerName == "Driver" || data.ControllerName == "Customer")
-                                            {
-                                                if ((data.ControllerName == "Driver" && actionName == "FumigationDetails") || (data.ControllerName == "Driver" && actionName == "Detail"))
-                                                {
-                                                    actionName = "Dashboard";
-                                                }
-
-                                                <li>
-                                                    <a class="@(controllerName == data.ControllerName && actionName == data.ActionName && areaName == data.AreaName ? "active" : "")"
-                                                       @*<a class="@(controllerName == data.ControllerName && actionName== data.ActionName ? "active" : "")"*@
-                                                       href="@Url.Action(data.ActionName, data.ControllerName, new { area = data.AreaName })">
-                                                        <span title="@data.PageName.ToUpper()" class="leftIc">
-                                                            <i class="@data.DisplayIcon"></i>
-                                                        </span>
-                                                        <span class="leftText">
-                                                            @data.PageName
-                                                        </span>
-                                                    </a>
-                                                </li>
-                                            }
-                                            else
-                                            {
-                                                <li>
-                                                    @*<a class="@(controllerName == data.ControllerName && actionName== data.ActionName && areaName == data.AreaName ? "active" : "")"*@
-                                                    <a class="@(controllerName == data.ControllerName && actionName == data.ActionName ? "active" : "")"
-                                                       href="@Url.Action(data.ActionName, data.ControllerName, new { area = data.AreaName })">
-                                                        <span title="@data.PageName.ToUpper()" class="leftIc">
-                                                            <i class="@data.DisplayIcon"></i>
-                                                        </span>
-                                                        <span class="leftText">
-                                                            @data.PageName
-                                                        </span>
-                                                    </a>
-                                                </li>
-                                            }
+                                            <li>
+                                                @*<a class="@(controllerName == data.ControllerName && actionName== data.ActionName && areaName == data.AreaName ? "active" : "")"*@
+                                                <a class="@(controllerName == data.ControllerName && actionName == data.ActionName ? "active" : "")"
+                                                   href="@Url.Action(data.ActionName, data.ControllerName, new { area = data.AreaName })">
+                                                    <span title="@data.PageName.ToUpper()" class="leftIc">
+                                                        <i class="@data.DisplayIcon"></i>
+                                                    </span>
+                                                    <span class="leftText">
+                                                        @data.PageName
+                                                    </span>
+                                                </a>
+                                            </li>
                                         }
                                     }
                                 }
                             }
                         }
+                    }
 
-                    </ul>
-                </nav>
+                </ul>
+            </nav>
 
-            </div>
-                            
-            <!-- LeftAsideBar panel end -->
-            <!-- right Body Start -->
-            <div class="rightBody">
-                <!-- Tabs html start -->
-                <div class="tabWrapper">
-                    <div class="">
-                        <div class="tabContainerWrapper">
-                            <div id="content" class="tab-content" role="tablist">
-                                <div id="pane-A" class="tab-pane fade show active" role="tabpanel" aria-labelledby="tab-A">
-                                    <!-- Note: New place of `data-parent` -->
-                                    <div class="collapse show">
-                                        @RenderBody()
-                                    </div>
+        </div>
+
+        <!-- LeftAsideBar panel end -->
+        <!-- right Body Start -->
+        <div class="rightBody">
+            <!-- Tabs html start -->
+            <div class="tabWrapper">
+                <div class="">
+                    <div class="tabContainerWrapper">
+                        <div id="content" class="tab-content" role="tablist">
+                            <div id="pane-A" class="tab-pane fade show active" role="tabpanel" aria-labelledby="tab-A">
+                                <!-- Note: New place of `data-parent` -->
+                                <div class="collapse show">
+                                    @RenderBody()
                                 </div>
                             </div>
                         </div>
-                        <!-- Tabs html end -->
                     </div>
-                    <!-- right Body end -->
+                    <!-- Tabs html end -->
                 </div>
-
-
-                <div class="overLay"></div>
+                <!-- right Body end -->
             </div>
+
+
+            <div class="overLay"></div>
         </div>
+    </div>
 
     <div class="modal" role="dialog" id="modalSession">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header prelative">
 
-                <div class="text-center"> <img src="~/Images/logo-350.png" /></div>
+                    <div class="text-center"> <img src="~/Images/logo-350.png" /></div>
                     <div class="modal-title text-center fs-18">Session Expired</div>
                     <button type="button" class="close setCorner" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -374,7 +419,7 @@
                 </div>
                 <div class="modal-footer row m-0">
                     <div class="col-md-12 text-center">
-                    <button type="button" id="btnOk" class="btn btn-primary" data-dismiss="modal">Sign In </button>
+                        <button type="button" id="btnOk" class="btn btn-primary" data-dismiss="modal">Sign In </button>
                     </div>
                 </div>
             </div>
@@ -383,7 +428,7 @@
 
 
     @RenderSection("scripts", required: false)
-
+  
 
 </body>
 </html>
@@ -395,5 +440,18 @@
     };
     $(document).ready(WindowsSize);
     $(window).resize(WindowsSize);
+    $("#dropdownMenuLink").click(function () {
+        console.log("clicked");
+        $("#menutab").css("z-index", "0");
+    });
 
+    $(window).scroll(function () {
+        var scrollTop = $(this).scrollTop();
+        //console.log("scrolling: ", scrollTop);
+        if (scrollTop > 10) {
+            $("#menutab").css("z-index", "2");
+        } else {
+            //$("#menutab").css("z-index", "0");
+        }
+    });
 </script>
