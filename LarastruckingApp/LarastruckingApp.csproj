@@ -427,6 +427,7 @@
     <Content Include="CustomScript\fumigationjs\ViewAllFumigation.js" />
     <Content Include="CustomScript\globalJs.js" />
     <Content Include="CustomScript\GpsTracker\FumigationGpsTracker.js" />
+    <Content Include="CustomScript\GpsTracker\MainGpsTracker.js" />
     <Content Include="CustomScript\GpsTracker\GpsTracker.js" />
     <Content Include="CustomScript\jquery.floatingscroll.css" />
     <Content Include="CustomScript\jquery.floatingscroll.min.js" />
@@ -644,6 +645,7 @@
     <Content Include="Areas\TimeCard\Views\TimeCard\MyTimeCard.cshtml" />
     <Content Include="Areas\TimeCard\Views\TimeCard\_DailyReport.cshtml" />
     <Content Include="Areas\Shipment\Views\Shipment\ShipmentNotificationMaster.cshtml" />
+    <Content Include="Areas\GpsTracker\Views\GpsTracker\MainGpsTracker.cshtml" />
     <None Include="MvcSiteMapSchema.xsd">
       <SubType>Designer</SubType>
     </None>

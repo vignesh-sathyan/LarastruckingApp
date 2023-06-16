@@ -3532,16 +3532,18 @@ namespace LarastruckingApp.Repository.Repository
                                   join shipmntRoute in shipmentContext.tblShipmentRoutesStops on shipment.ShipmentId equals shipmntRoute.ShippingId
                                   join Address in shipmentContext.tblAddresses on shipmntRoute.DeliveryLocationId equals Address.AddressId
                                   join Equipment in shipmentContext.tblShipmentEquipmentNdrivers on shipment.ShipmentId equals Equipment.ShipmentId
+                                  join EquipmentNo in shipmentContext.tblEquipmentDetails on Equipment.EquipmentId equals EquipmentNo.EDID
                                   join Driver in shipmentContext.tblDrivers on Equipment.DriverId equals Driver.DriverID
                                   join State in shipmentContext.tblStates on Address.State equals State.ID
                                   //join Country in shipmentContext.tblCountries on Address.Country equals Country.ID
-                                  where shipment.IsDeleted == false && shipment.StatusId!=1 && shipment.StatusId != 8 && shipment.StatusId != 11
+                                  where shipment.IsDeleted == false && shipment.StatusId!=1 && shipment.StatusId != 8 && shipment.StatusId != 11 orderby status.FumigationDisplayOrderCustomer
                                   select new ShipmentDriverDetailDTO
                                   {
                                       DriverName = Driver.FirstName +  " "+ Driver.LastName,
-                                     ShipmentId = shipment.ShipmentId,
+                                       ShipmentId = status.FumigationDisplayOrderCustomer,
                                       Status = status.StatusAbbreviation,
-                                      DeliveryLocation = Address.CompanyName + ", " + Address.Address1 + ", " + Address.City + ", " + State.Name
+                                      DeliveryLocation = Address.CompanyName + ", " + Address.Address1 + ", " + Address.City + ", " + State.Name,
+                                      Equipment = EquipmentNo.EquipmentNo,
                                       //EstDeliveryArrival = routes.DeliveryDateTime,
                                       //CustomerId = shipment.CustomerId,
                                       //CustomerName = customer.CustomerName,
@@ -3551,24 +3553,21 @@ namespace LarastruckingApp.Repository.Repository
                 //shipmentDetail = shipmentDetail.ToList();
                 //int records = shipmentContext.tblShipments.Count(x => x.StatusId != 1 && x.StatusId != 8 && x.StatusId != 11 && x.IsDeleted == false);
                 //var count = records.Count();
-                var totalCount = new SqlParameter
-                {
-                    ParameterName = "null", 
-                    Value = 0,
-                    Direction = ParameterDirection.Output
-                };
+                
                 FumDetails =  sp_dbContext.Database.SqlQuery<ShipmentDriverDetailDTO>("usp_GetFumigationDriverList").ToList();
-                shipmentDetail = shipmentDetail.Concat(FumDetails).ToList(); 
-
+                shipmentDetail = shipmentDetail.Concat(FumDetails).OrderByDescending(e=>e.ShipmentId).ToList();
+                var shipementDt = shipmentDetail;
                 return shipmentDetail;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                ErrorLog(ex.Message.ToString());
                 throw;
             }
         }
         #endregion
+
+
 
     }
 }

@@ -4,7 +4,9 @@ body {
     overflow-x: hidden;
     margin: auto;
 }
-
+/*.removeBoby .logo {
+    display: none;
+}*/
 .menu-items {
     display: flex;
     justify-content: space-between;
@@ -21,7 +23,12 @@ body {
 #gpsTracking{
     min-height:300px;
 }
-
+.leftAsideBar{
+    display:none;
+}
+#myPipeLineBar {
+    background-color: #fe9900 !important;
+}
 a {
     color: #007bff;
     text-decoration: none;
@@ -88,7 +95,51 @@ span.leftIc {
     width: 8%;
     justify-content: center;
 }
+#myProgress, #myShipProgress, #myFumOrder, #myFumProgress {
+    position: relative;
+    width: 70px;
+    height: 20px;
+    background-color: #375b93;
+    display: none;
+}
+.progressBar{
+    display:none;
+}
+.Master #tblShipmentDetails_length, .Master #tblShipmentDetails2_length, .Master #tblOtherFumigation_length, .Master #tblOrderTakenFumigation_length {
+    margin-top: 0;
+}
+.Master div.dt-buttons {
+    right: 277px;
+}
+.Master #tblShipmentDetails_filter, .Master #tblShipmentDetails2_filter, .Master #tblOtherFumigation_filter, .Master #tblOrderTakenFumigation_filter {
+    margin-top: 12px;
+}
+#myBar, #myPipeLineBar, #myFumOrderLineBar, #myFumProgressLineBar {
+    /*position: absolute;*/
+    width: 0%;
+    height: 100%;
+    background-color: #7ba63c;
+    align-items: center;
+}
+#totalCount, #ShipmenttotalCount, #FumigationtotalCount, #FumigationProgresstotalCount {
+    color: #fff;
+    font-size: 10px;
+}
+#total, #totalPipe, #FumOrdertotalPipe, #FumProgresstotalPipe {
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    float: left;
+    display: none;
+}
 
+#label {
+    text-align: center;
+    line-height: 30px;
+    color: #000;
+    font-size: 10px;
+    align-items: center;
+}
     .menu-items li a {
         text-decoration: none;
         color: #fff;
@@ -100,7 +151,9 @@ span.leftIc {
         display: flex;
         align-items: center;
         height: 100%;
-        padding: 0px 0px 0px 5px;
+        padding: 0 9.99px 0 8.19px;
+        margin-left: -1px;
+        margin-right: -1px;
         white-space: nowrap;
         width: 100%;
         justify-content: center;
@@ -341,5 +394,45 @@ a:hover {
     }
     #DeliveryDet{
         width:100%;
+    }
+}
+
+@media (max-width: 1528px) {
+    .menu-items {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+        .menu-items li {
+            height: 0;
+            width:auto;
+        }
+}
+
+@media (max-width: 796px) {
+    .menu-items li {
+        width: 20%;
+    }
+}
+
+@media (max-width: 640px) {
+    #menutab {
+        display: none;
+    }
+
+    .menu-toggle {
+        z-index: 2;
+        display: flex;
+        position: absolute;
+        top: 65px;
+        left: 25px;
+    }
+
+    .top-right-panel ul > li:last-child > a {
+        margin-left: 20px;
+    }
+
+    .section {
+        margin-top: -40px;
     }
 }

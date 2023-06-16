@@ -14,10 +14,12 @@
     btnViewShipment();
     btnViewShipment2();
     startEndDate();
+
     updateShipmentOrderTakenCount();
     updateShipmentInProgressCount();
-
-    
+    $("#shipmentProgress").text(updateShipmentOrderTakenCount() + updateShipmentInProgressCount());
+    $("#shipmentOrder").text(updateShipmentOrderTakenCount() + updateShipmentInProgressCount());
+    //console.log("shipment order count: ", updateShipmentOrderTakenCount());
     
     GetDriverShipment();
 
@@ -73,12 +75,14 @@ function updateShipmentOrderTakenCount() {
             // Do something interesting here.
             //console.log("count order taken", msg);
             count = msg;
-            $("#shipmentOrder").text(count);
+           
+          //  $("#shipmentOrder").text(count);
         },
         error: function (xhr, err) {
             console.log("error : " + err);
         }
     })
+    return count;
    
 }
 
@@ -93,7 +97,7 @@ function ShipmentCustomerDetail(shipmentid) {
         async: false,
         success: function (msg) {
             // Do something interesting here.
-            console.log("customer Detail: ", msg);
+            //console.log("customer Detail: ", msg);
             count = msg;
             $("#cName").text(msg.CustomerName);
             $("#cAddress").text(msg.Address);
@@ -122,12 +126,13 @@ function updateShipmentInProgressCount() {
             // Do something interesting here.
           
             count = msg;
-            $("#shipmentProgress").text(count);
+            //$("#shipmentProgress").text(count);
         },
         error: function (xhr, err) {
             console.log("error : " + err);
         }
     })
+    return count;
 
 }
 
@@ -164,6 +169,10 @@ function GetDriverShipment() {
                             colorbg = "#fe9900";
                             fontcolor = "#fff";
                         }
+                        else if (msg[x].Status == "DELIVERED") {
+                            colorbg = "#92d14f";
+                            fontcolor = "#000";
+                        }
                         else if (msg[x].Status == "IN-ROUTE") {
                             colorbg = "#fffd01";
                             fontcolor = "#000";
@@ -176,10 +185,10 @@ function GetDriverShipment() {
                        // console.log("DeliveryLocation Address: ", GetCAddressNew(DeliveryLocation[v]));
                         eq += '<tr><td>' + DriverName[v] + '</td><td class="statusTab" style="white-space: pre;"><span style="background:' + colorbg + ';color:' + fontcolor +';padding: 2px 5px;border-radius: 5px;">' + msg[x].Status + '</span></td><td style="padding-bottom: 5px;padding-top: 5px;">' + DeliveryLocation[v].replace('$',', ') + '</td></tr>';
                     }
-                    
+
                 }
-               
-               
+
+
                // $("#DriverName").text(msg[x].DriverName);
             }
             $("#DeliveryDet").append(eq);
@@ -192,6 +201,49 @@ function GetDriverShipment() {
 
 }
 
+//function GetDriverShipment() {                             //Gokul S (8-6-2023)
+//    var count = 0;
+//    var eq = ""; // Initialize eq variable as an empty string
+//    var eqDispatch = ""; // Initialize eqDispatch variable as an empty string
+//    var colorbg;
+//    var fontcolor;
+//    $.ajax({
+//        type: 'GET',
+//        url: baseUrl + "/Shipment/Shipment/DriverDetail",
+//        //data: { "driverid": driverid },
+//        contentType: 'application/json; charset=utf-8',
+//        dataType: 'json',
+//        async: false,
+//        success: function (msg) {
+//            count = msg;
+//            for (let x = msg.length - 1; x >= 0; x--) { // Iterate in reverse order
+//                if (msg[x].DriverName != null) {
+//                    var DeliveryLocation = msg[x].DeliveryLocation.split("|");
+//                    var DriverName = msg[x].DriverName.split("$");
+//                    for (let v = 0; v < DeliveryLocation.length; v++) {
+//                        if (msg[x].Status == "DISPATCHED") {
+//                            colorbg = "#bdd7ee";
+//                            fontcolor = "#000";
+//                            eqDispatch += '<tr><td>' + DriverName[v] + '</td><td class="statusTab" style="white-space: pre;"><span style="background:' + colorbg + ';color:' + fontcolor +';padding: 2px 5px;border-radius: 5px;">' + msg[x].Status + '</span></td><td style="padding-bottom: 5px;padding-top: 5px;">' + DeliveryLocation[v].replace('$',', ') + '</td></tr>';
+//                        }
+//                        else {
+//                            colorbg = "#fe9900";
+//                            fontcolor = "#000";
+//                            eq += '<tr><td>' + DriverName[v] + '</td><td class="statusTab" style="white-space: pre;"><span style="background:' + colorbg + ';color:' + fontcolor +';padding: 2px 5px;border-radius: 5px;">' + msg[x].Status + '</span></td><td style="padding-bottom: 5px;padding-top: 5px;">' + DeliveryLocation[v].replace('$',', ') + '</td></tr>';
+//                        }
+//                    }
+//                }
+//            }
+//            $("#DeliveryDet").append(eq);
+//            $("#DeliveryDet").append(eqDispatch); // Append the "DISPATCH" entries after the other entries
+//        },
+//        error: function (xhr, err) {
+//            console.log("error : " + err);
+//        }
+//    });
+//}
+
+
 $('#tblShipmentDetails').on('dblclick', 'tbody tr', function () {
     var table = $('#tblShipmentDetails').DataTable();
     var data_row = table.row($(this).closest('tr')).data();
@@ -201,11 +253,12 @@ $('#tblShipmentDetails').on('dblclick', 'tbody tr', function () {
 $('#tblShipmentDetails').on('click', 'tbody tr', function () {
     var table = $('#tblShipmentDetails').DataTable();
     var data_row = table.row($(this).closest('tr')).data();
-   // console.log("data_row: ", data_row.ShipmentId);
+    console.log("data_row: ", data_row);
     ShipmentCustomerDetail(data_row.ShipmentId);
     $("#ShipmentNotify").css("display","block");
     var iframe = $('#ShipmentNotify');
-
+    var iframes = $('#gpsLive');
+    iframes.attr('src', baseUrl + '/GpsTracker/GpsTracker/MainGpsTracker/' + data_row.ShipmentId + '?Equipment=' + data_row.Equipment);
     // Set the src attribute
     iframe.attr('src', baseUrl + '/Shipment/Shipment/ShipmentNotificationMaster/' + data_row.ShipmentId);
 
@@ -229,7 +282,7 @@ $('#ShipmentNotify').on('load', function () {
 
 $('#driver-list1').on('scroll', function () {
     var scrollTop = $(this).scrollTop();
-    console.log("scrolling");
+   // console.log("scrolling");
     if (scrollTop > 0) {
         $('#DeliveryDet th').addClass('sticky-header');
     } else {
@@ -239,13 +292,15 @@ $('#driver-list1').on('scroll', function () {
 $('#tblShipmentDetails2').on('click', 'tbody tr', function () {
     var table = $('#tblShipmentDetails2').DataTable();
     var data_row = table.row($(this).closest('tr')).data();
-    console.log("data_row: ", data_row.ShipmentId);
+    console.log("data_row for progress: ", data_row);
     ShipmentCustomerDetail(data_row.ShipmentId);
     $("#ShipmentNotify").css("display", "block");
     var iframe = $('#ShipmentNotify');
 
     // Set the src attribute
     iframe.attr('src', baseUrl + '/Shipment/Shipment/ShipmentNotificationMaster/' + data_row.ShipmentId);
+    var iframes = $('#gpsLive');
+    iframes.attr('src', baseUrl + '/GpsTracker/GpsTracker/MainGpsTracker/' + data_row.ShipmentId + '?Equipment=' + data_row.Equipment);
     //window.location.href = baseUrl + '/Shipment/Shipment/Index/' + data_row.ShipmentId;
 
 });
@@ -290,7 +345,7 @@ function GetOrderTakenShipmentList() {
     
     $('#tblShipmentDetails').DataTable({
         //"bInfo": false,
-        dom: 'rtip',
+        dom: 'Blfrtip',
 
         //buttons: [
         //    {
@@ -344,7 +399,7 @@ function GetOrderTakenShipmentList() {
         responsive: true,
         processing: true,
         serverSide: true,
-        searching: false,
+        searching: true,
         bDestroy: true,
         stateSave: true,
         "language": {
@@ -578,6 +633,8 @@ function GetOrderTakenShipmentList() {
         initComplete: function () {
             // Task to perform after DataTable is fully loaded
             $("#tblShipmentDetails>tbody>tr:first").trigger('click'); 
+            GetBarGraph();
+            GetPipeBarGraph();
            // console.log('DataTable is fully loaded!');
             // Your code here...
         }
@@ -987,7 +1044,7 @@ function GetOtherStatusShipmentList() {
     $('#tblShipmentDetails2').DataTable({
         // "bInfo": false,
         serverSide: true,
-        dom: 'rtip',
+        dom: 'Blfrtip',
         //buttons: [
         //    {
         //        extend: 'print',
@@ -1058,7 +1115,7 @@ function GetOtherStatusShipmentList() {
         OrderMulti:true,
         processing: true,
         serverSide: true,
-        searching: false,
+        searching: true,
         bDestroy: true,
         stateSave: true,
         "language": {
@@ -1259,7 +1316,7 @@ function GetOtherStatusShipmentList() {
                     var btnEdit = '<a href="' + baseUrl + '/Shipment/Shipment/Index/' + row.ShipmentId + '" data-toggle="tooltip" title="Edit" class="edit_icon">' +
                         '<i class="far fa-edit"></i>' +
                         '</a>';
-                    var btnMap = '| <a href="javascript: void(0)" class="Map_icon" data-toggle="tooltip" id="redirectButton" title="Map" onclick="javascript:fn_RedirectToGpsTracker(' + row.ShipmentId + ');" >' +
+                    var btnMap = '| <a href="javascript: void(0)" class="Map_icon" data-toggle="tooltip" id="redirectButton" title="Map" onclick="javascript:fn_RedirectToGpsTrackers(' + row.ShipmentId + ');" >' +
                         '<i class="fas fa-map-marked-alt"></i>' +
                         '</a>';
                     var btnDelete = ' | <a href="javascript: void(0)" class="delete_icon" data-toggle="tooltip" title="Delete" onclick="javascript:DeleteShipment(' + row.ShipmentId + ');" >' +
@@ -1562,7 +1619,7 @@ function GetOtherStatusShipmentList1() {
                     var btnEdit = '<a href="' + baseUrl + '/Shipment/Shipment/Index/' + row.ShipmentId + '" data-toggle="tooltip" title="Edit" class="edit_icon">' +
                         '<i class="far fa-edit"></i>' +
                         '</a>';
-                    var btnMap = '| <a href="javascript: void(0)" class="Map_icon" data-toggle="tooltip" id="redirectButton" title="Map" onclick="javascript:fn_RedirectToGpsTracker(' + row.ShipmentId + ');" >' +
+                    var btnMap = '| <a href="javascript: void(0)" class="Map_icon" data-toggle="tooltip" id="redirectButton" title="Map" onclick="javascript:fn_RedirectToGpsTrackers(' + row.ShipmentId + ');" >' +
                         '<i class="fas fa-map-marked-alt"></i>' +
                         '</a>';
                     var btnDelete = ' | <a href="javascript: void(0)" class="delete_icon" data-toggle="tooltip" title="Delete" onclick="javascript:DeleteShipment(' + row.ShipmentId + ');" >' +
@@ -1612,7 +1669,7 @@ function GetOtherStatusShipmentList1() {
 //#endregion
 
 //#region Redirect to Gps Tracker
-var fn_RedirectToGpsTracker = function (ShipmentId) {
+var fn_RedirectToGpsTrackers = function (ShipmentId) {
     window.open(baseUrl + '/GpsTracker/GpsTracker/Index/' + ShipmentId + ' ');
 }
 //#endregion
@@ -2081,3 +2138,85 @@ function ShipmenetSTReady(shipmentId, event) {
 
 }
 //#endregion
+function GetBarGraph() {
+   //var x = setInterval(function(){
+        var currentCount = updateShipmentOrderTakenCount() + updateShipmentInProgressCount();
+		//if(currentCount!=undefined){
+		//clearInterval(x);
+        //console.log("currentCount shipmentorder: ", currentCount);
+            var progress = (updateShipmentOrderTakenCount() / currentCount) * 100;
+        var mydiv = 100 - progress;
+    //console.log(progress);
+    if (updateShipmentOrderTakenCount() == currentCount) {
+        $('#total').css('padding', '0');
+    }
+    else {
+        $('#total').css('padding', '0 8px');
+    }
+         $('#myProgress').css('display', 'flex');
+         $('.progressBar').css('display', 'flex');
+        $("#myBar").width(progress + '%');
+        $('#total').width(mydiv + '%');
+        $('#total').css('display', 'flex');
+        $('#total').css('float', 'right');
+       
+        $('#label').css('color', '#fff');
+            $("#label").text(updateShipmentOrderTakenCount());
+         $("#totalCount").text();
+		// }
+		// else{
+			// console.log("value not found");
+		// }
+	// },100);
+}
+
+function GetPipeBarGraph() {
+	//var x = setInterval(function(){
+        var currentCount = updateShipmentOrderTakenCount() + updateShipmentInProgressCount();
+	//if(currentCount!=undefined){
+	//	clearInterval(x);
+		//console.log("currentCount shipment progres: ", currentCount);
+        var progress = (updateShipmentInProgressCount() / currentCount) * 100;
+    var mydiv = 100 - progress;
+    //console.log("progress shipemtn: ",progress);
+    if (updateShipmentInProgressCount() > 0) {
+        $("#myPipeLineBar").css('padding', '0 8px');
+      
+        $('#Pipelabel').css('display', 'flex');
+        $('#Pipelabel').css('color', '#fff');
+        $("#Pipelabel").text(updateShipmentInProgressCount());
+    }
+    else {
+        $("#myPipeLineBar").css('padding', '0');
+        $('#Pipelabel').css('display', 'none');
+    }
+    if (progress > 10) {
+        $("#myPipeLineBar").css('width', progress + '%');
+        $('#Pipelabel').css('overflow', 'inherit');
+        $('#myShipProgress').css('overflow', 'inherit');
+        $('#myPipeLineBar').css('overflow', 'inherit');
+    }
+    else {
+       
+        $("#myPipeLineBar").css('width', progress + '%');
+        $('#Pipelabel').css('overflow', 'inherit');
+        $('#myShipProgress').css('overflow', 'inherit');
+        $('#myPipeLineBar').css('overflow', 'inherit');
+    }
+    $('#myShipProgress').css('display', 'flex');
+    $('.progressBar').css('display', 'flex');
+   // $("#myPipeLineBar").width(progress + '%');
+    $('#totalPipe').width(mydiv + '%');
+    $('#totalPipe').css('display', 'flex');
+    $('#totalPipe').css('float', 'right');
+    $('#totalPipe').css('padding', '0 10px');
+   
+    
+    $("#ShipmenttotalCount").text();
+	//}
+   /*  else{
+		console.log("value not found");
+	}
+	},100); */
+
+}

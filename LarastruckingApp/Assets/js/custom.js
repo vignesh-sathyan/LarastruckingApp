@@ -1,12 +1,16 @@
 $(document).ready(function(){
     $("#menuBtn").click(function(){
 		$("body").toggleClass("removeBoby");
+		$(".leftAsideBar").css("display","block");
+		$("#mainLogo").css("display","none");
 		$(".overLay").fadeToggle();
 	  });
 
 	  
 	  $(".overLay").click(function(){
-		$("body").removeClass("removeBoby");
+		  $("body").removeClass("removeBoby");
+		  $("#mainLogo").css("display", "block");
+		  $(".leftAsideBar").css("display", "none");
 		$(this).fadeToggle();
 			});
 			

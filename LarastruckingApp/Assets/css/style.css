@@ -33,7 +33,9 @@ button {
 a:hover {
     text-decoration: none;
 }
-
+#menuBtn,.leftAsideBar{
+    display:none;
+}
 ul {
     list-style: none;
     margin: 0;
@@ -57,7 +59,7 @@ ul {
     background: rgba(0, 0, 0, 0.7);
     top: 0;
     left: 0;
-    z-index: 100;
+    z-index: 0;
     display: none;
 }
 
@@ -2697,3 +2699,19 @@ div#modalSession .modal-content .modal-header img {
             margin-top: 15px !important;
         }
     }
+@media screen and (max-width: 640px) {
+    #menuBtn {
+        display: block;
+        float:left;
+    }
+    .top-right-panel{
+        width:95% !important;
+    }
+  /*  .header {
+        height: 35px !important;
+        
+    }*/
+    body.removeBoby .leftAsideBar .sidenavBar{
+        padding:0 15px !important;
+    }
+}

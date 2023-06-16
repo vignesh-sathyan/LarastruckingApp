@@ -5,7 +5,8 @@ $(function () {
     GetOtherFumigationList();
     updateOrderTakenCount();
     updateInProgressCount();
-    
+    $("#fumigationProgress").text(updateInProgressCount() + updateOrderTakenCount());
+    $("#fumigationOrder").text(updateOrderTakenCount() + updateInProgressCount());
 
 });
 //#endregion
@@ -23,12 +24,13 @@ function updateOrderTakenCount() {
             // Do something interesting here.
             //console.log("count order taken", msg);
             count = msg;
-            $("#fumigationOrder").text(count);
+           // $("#fumigationOrder").text(count);
         },
         error: function (xhr, err) {
             console.log("error : " + err);
         }
     })
+    return count;
 
 }
 
@@ -72,13 +74,13 @@ function updateInProgressCount() {
             // Do something interesting here.
 
             count = msg;
-            $("#fumigationProgress").text(count);
+            //$("#fumigationProgress").text(count);
         },
         error: function (xhr, err) {
             console.log("error : " + err);
         }
     })
-
+    return count;
 }
 
 $('#tblOrderTakenFumigation').on('dblclick', 'tbody tr', function () {
@@ -159,7 +161,7 @@ var GetOrderTakenFumigationList = function () {
   
     $('#tblOrderTakenFumigation').DataTable({
         // "bInfo": true,
-       dom: 'rtip',
+       dom: 'Blfrtip',
         //buttons: [
         //    {
         //        extend: 'print',
@@ -222,7 +224,7 @@ var GetOrderTakenFumigationList = function () {
         orderMulti: true,
         processing: true,
         serverSide: true,
-        searching: false,
+        searching: true,
         bDestroy: true,
         stateSave: true,
         "language": {
@@ -265,7 +267,7 @@ var GetOrderTakenFumigationList = function () {
                 "autoWidth": true,
                 "render": function (data, type, row, meta) {
                   
-                    console.log("tblorder row: ", row);
+                   // console.log("tblorder row: ", row);
                     ///console.log("tblorder row: ", row);
                     var isSame = false;
                     if (row.PickUpArrival != null && row.PickUpArrival != '') {
@@ -1092,7 +1094,7 @@ var GetOrderTakenFumigationList = function () {
 
         ],
         "order": [[0, "asc"]],
-
+     
 
     });
 
@@ -1125,7 +1127,7 @@ var GetOrderTakenFumigationList = function () {
 var GetOtherFumigationList = function () {
     $('#tblOtherFumigation').DataTable({
         "bInfo": true,
-        dom: 'rtip',
+        dom: 'Blfrtip',
         //buttons: [
         //    {
         //        extend: 'print',
@@ -1183,7 +1185,7 @@ var GetOtherFumigationList = function () {
         orderMulti: true,
         processing: true,
         serverSide: true,
-        searching: false,
+        searching: true,
         bDestroy: true,
         stateSave: true,
         "language": {
@@ -2332,6 +2334,15 @@ var GetOtherFumigationList = function () {
 
         ],
         "order": [[0, "desc"]],
+        initComplete: function () {
+            // Task to perform after DataTable is fully loaded
+            // $("#tblShipmentDetails>tbody>tr:first").trigger('click');
+            //  GetBarGraph();
+            GetFumPipeBarGraph();
+            FumProgressPipeBarGraph();
+            // console.log('DataTable is fully loaded!');
+            // Your code here...
+        }
     });
 
     //oTable = $('#tblOtherFumigation').DataTable();
@@ -2967,3 +2978,79 @@ $("table").on("mouseout", 'tr', function () {
     $(this).find(".fa-trash-alt").css('color', 'red');
 
 });
+
+function GetFumPipeBarGraph() {
+//var x = setInterval(function(){
+    var currentCount = updateInProgressCount() + updateOrderTakenCount();
+	// if(currentCount!=undefined){
+		// clearInterval(x);
+    //console.log("currentCoun fumt: ", currentCount);
+        var progress = (updateOrderTakenCount() / currentCount) * 100;
+    var mydiv = 100 - progress;
+    //console.log(progress);
+        if (updateOrderTakenCount() >0) {
+        $("#FumOrderPipelabel").css('display', 'flex');
+    }
+    else {
+        $('#FumOrderPipelabel').css('display', 'none');
+    }
+        
+        $("#myFumOrderLineBar").css('width', progress + '%');
+        $('#FumOrderPipelabel').css('overflow', 'inherit');
+        $('#myFumOrder').css('overflow', 'inherit');
+        $('#myFumOrderLineBar').css('overflow', 'inherit');
+    
+    $('#myFumOrder').css('display', 'flex');
+    $('.progressBar').css('display', 'flex');
+    // $("#myPipeLineBar").width(progress + '%');
+    $('#FumOrdertotalPipe').width(mydiv + '%');
+    $('#FumOrdertotalPipe').css('display', 'flex');
+    $('#FumOrdertotalPipe').css('float', 'right');
+    
+    $('#FumOrderPipelabel').css('color', '#fff');
+        $("#FumOrderPipelabel").text(updateOrderTakenCount());
+    $("#FumigationtotalCount").text();
+// }
+	// else{
+		// console.log("value not found");
+	// }
+// },100);
+}
+
+function FumProgressPipeBarGraph() {
+	//var x = setInterval(function(){
+        var currentCount = updateInProgressCount() + updateOrderTakenCount();
+	// if(currentCount!=undefined){
+		// clearInterval(x);
+    //console.log("currentCoun fumt: ", currentCount);
+        var progress = (updateInProgressCount() / currentCount) * 100;
+    var mydiv = 100 - progress;
+    //console.log(progress);
+        if (updateOrderTakenCount() > 0) {
+        $("#FumProgressPipelabel").css('display', 'flex');
+    }
+    else {
+      //  $('#FumProgressPipelabel').css('display', 'none');
+    }
+
+    $("#myFumProgressLineBar").css('width', progress + '%');
+    $('#FumProgressPipelabel').css('overflow', 'inherit');
+    $('#myFumProgress').css('overflow', 'inherit');
+    $('#myFumProgressLineBar').css('overflow', 'inherit');
+
+    $('#myFumProgress').css('display', 'flex');
+    $('.progressBar').css('display', 'flex');
+    // $("#myPipeLineBar").width(progress + '%');
+    $('#FumProgresstotalPipe').width(mydiv + '%');
+    $('#FumProgresstotalPipe').css('display', 'flex');
+    $('#FumProgresstotalPipe').css('float', 'right');
+
+    $('#FumProgressPipelabel').css('color', '#fff');
+        $("#FumProgressPipelabel").text(updateInProgressCount());
+    $("#FumigationProgresstotalCount").text();
+	// }
+	// else{
+		// console.log("value not found");
+	// }
+// },100);
+}

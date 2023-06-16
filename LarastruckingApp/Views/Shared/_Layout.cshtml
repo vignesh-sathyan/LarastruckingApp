@@ -186,7 +186,7 @@
             border: 1px solid #ced4da;
         }
         .topBar {
-            display: block;
+            display: flex;
             position: fixed;
             height: 60px;
             box-shadow: unset;
@@ -220,9 +220,9 @@
             top: 60px;
         }
 
-        #menuBtn {
+       /* #menuBtn {
             display: none;
-        }
+        }*/
     </style>
 
 </head>
@@ -238,6 +238,113 @@
         <!-- Top Bar start -->
         <div class="topBar">
             <button id="menuBtn" type="button" class="fas fa-bars"> </button>
+            <!-- LeftAsideBar panel start -->
+            <div class="leftAsideBar">
+                <a href="" class="logo">
+                    <img src="~/images/sparrow-logo.png">
+
+                </a>
+
+                <div class="sidenavBar" style="overflow-y: auto;overflow-x:hidden;">
+                    <ul>
+                        @{
+                            MemberProfile mps = new MemberProfile();
+                            var controllerNames = ViewContext.RouteData.Values["Controller"].ToString();
+                            var actionNames = ViewContext.RouteData.Values["Action"].ToString();
+                            var areaNames = Convert.ToString(ViewContext.RouteData.DataTokens["area"]);
+                            areaNames = (areaNames == null) ? "" : areaNames.ToString();
+
+                            var ids = Convert.ToString(ViewContext.RouteData.Values["id"]);
+
+                            <li>
+                                <a class=""
+                                   href="/Main/Index">
+                                    <span title="dashboard" class="leftIc">
+                                        <i class="far fa-file-alt"></i>
+                                    </span>
+                                    <span class="leftText">
+                                        DASHBOARD
+                                    </span>
+                                </a>
+                            </li>
+
+                            if (mps.Permissions != null)
+                            {
+                                if (mps.UserRole == "Customer")
+                                {
+                                    <li class="sidenavsubBar">
+
+                                        <div>
+                                            <span class="leftIc">
+                                                <i class="fas fa-tachometer-alt"></i>
+                                            </span>
+                                            <span class="leftText">Live Shipment</span>
+                                        </div>
+                                        <ul class="sub">
+                                            <li>
+                                                <a href="javascript:void(0)">
+                                                    @*<span class="leftIc">
+                                        <i class="fas fa-tachometer-alt"></i>
+                                    </span>*@
+                                                    @*<span class="leftText"> Shipment</span>*@
+                                                </a>
+                                            </li>
+                                        </ul>
+
+                                    </li>
+                                }
+                                foreach (var data in mps.Permissions)
+                                {
+                                    if (data.IsMenu)
+                                    {
+                                        if (data.CanView)
+                                        {
+                                            if (data.ControllerName == "Shipment" || data.ControllerName == "Fumigation" || data.ControllerName == "TrailerRental" || data.ControllerName == "Driver" || data.ControllerName == "Customer")
+                                            {
+                                                if ((data.ControllerName == "Driver" && actionNames == "FumigationDetails") || (data.ControllerName == "Driver" && actionNames == "Detail"))
+                                                {
+                                                    actionNames = "Dashboard";
+                                                }
+
+                                                <li>
+                                                    <a class="@(controllerNames == data.ControllerName && actionNames == data.ActionName && areaNames == data.AreaName ? "active" : "")"
+                                                       @*<a class="@(controllerName == data.ControllerName && actionName== data.ActionName ? "active" : "")"*@
+                                                       href="@Url.Action(data.ActionName, data.ControllerName, new { area = data.AreaName })">
+                                                        <span title="@data.PageName.ToUpper()" class="leftIc">
+                                                            <i class="@data.DisplayIcon"></i>
+                                                        </span>
+                                                        <span class="leftText">
+                                                            @data.PageName
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    @*<a class="@(controllerName == data.ControllerName && actionName== data.ActionName && areaName == data.AreaName ? "active" : "")"*@
+                                                    <a class="@(controllerNames == data.ControllerName && actionNames==data.ActionName ? "active" : "")"
+                                                       href="@Url.Action(data.ActionName, data.ControllerName, new { area = data.AreaName })">
+                                                        <span title="@data.PageName.ToUpper()" class="leftIc">
+                                                            <i class="@data.DisplayIcon"></i>
+                                                        </span>
+                                                        <span class="leftText">
+                                                            @data.PageName
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    </ul>
+                </div>
+
+            </div>
+            <!-- LeftAsideBar panel end -->
             <div class="top-right-panel">
                 <ul>
                     <li>
@@ -249,19 +356,19 @@
                 </ul>
                 <ul>
                     @*<li>
-                            <a href="javascript:void(0)">
-                                <span>
-                                    <i class="far fa-bell"></i>
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <span>
-                                    <i class="far fa-envelope"></i>
-                                </span>
-                            </a>
-                        </li>*@
+                    <a href="javascript:void(0)">
+                        <span>
+                            <i class="far fa-bell"></i>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)">
+                        <span>
+                            <i class="far fa-envelope"></i>
+                        </span>
+                    </a>
+                </li>*@
                     <li class="profile">
                         <div class="dropdown">
                             <b> <lable>Hello @memberProfile.FullName </lable></b>
@@ -300,6 +407,18 @@
 
                         var id = Convert.ToString(ViewContext.RouteData.Values["id"]);
 
+                        <li>
+                            <a class=""
+                               href="/Main/Index">
+                                <span title="dashboard" class="leftIc">
+                                    <i class="far fa-file-alt"></i>
+                                </span>
+                                <span class="leftText">
+                                    DASHBOARD
+                                </span>
+                            </a>
+                        </li>
+
                         if (mp.Permissions != null)
                         {
                             if (mp.UserRole == "Customer")
@@ -316,8 +435,8 @@
                                         <li>
                                             <a href="javascript:void(0)">
                                                 @*<span class="leftIc">
-                                                        <i class="fas fa-tachometer-alt"></i>
-                                                    </span>*@
+                                        <i class="fas fa-tachometer-alt"></i>
+                                    </span>*@
                                                 @*<span class="leftText"> Shipment</span>*@
                                             </a>
                                         </li>

@@ -20,6 +20,7 @@ function init() {
 }
 
 
+
 var vehicleId;
 var VehicleIcon;
 var Description;

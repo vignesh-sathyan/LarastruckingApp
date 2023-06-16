@@ -57,7 +57,7 @@
         }
 
         .sprogressTable, .sprogressTable tr, .sprogressTable th, .sprogressTable td {
-            padding: 10px 10px 10px 20px;
+            padding: 10px 5px 10px 5px;
         }
 
             .pipeline tr:hover, .pipeline td:hover, .pipeline:hover, .pipeline tbody:hover, .sprogressTable td:hover, .pipeline tr:hover td, .sprogressTable tr:hover td {
@@ -74,7 +74,7 @@
         }
 
         .topBar {
-            display: block;
+            display: flex;
             position: fixed;
             height: 60px;
             box-shadow: unset;
@@ -109,7 +109,7 @@
         }
 
         #menuBtn {
-            display: none;
+            /*display: none;*/
         }
 
         .driver-list table {
@@ -118,13 +118,119 @@
         }
     </style>
 </head>
-<body>
+<body class="bodyBg Master">
     <div class="topBar">
         <button id="menuBtn" type="button" class="fas fa-bars"> </button>
+        <!-- LeftAsideBar panel start -->
+        <div class="leftAsideBar">
+            <a href="" class="logo">
+                <img src="~/images/sparrow-logo.png">
+
+            </a>
+
+            <div class="sidenavBar" style="overflow-y: auto;overflow-x:hidden;">
+                <ul>
+                    @{
+                        MemberProfile mps = new MemberProfile();
+                        var controllerNames = ViewContext.RouteData.Values["Controller"].ToString();
+                        var actionNames = ViewContext.RouteData.Values["Action"].ToString();
+                        var areaNames = Convert.ToString(ViewContext.RouteData.DataTokens["area"]);
+                        areaNames = (areaNames == null) ? "" : areaNames.ToString();
+
+                        var ids = Convert.ToString(ViewContext.RouteData.Values["id"]);
+                        <li>
+                            <a class=""
+                               href="/Main/Index">
+                                <span title="dashboard" class="leftIc">
+                                    <i class="far fa-file-alt"></i>
+                                </span>
+                                <span class="leftText">
+                                    DASHBOARD
+                                </span>
+                            </a>
+                        </li>
+
+                        if (mps.Permissions != null)
+                        {
+                            if (mps.UserRole == "Customer")
+                            {
+                                <li class="sidenavsubBar">
+
+                                    <div>
+                                        <span class="leftIc">
+                                            <i class="fas fa-tachometer-alt"></i>
+                                        </span>
+                                        <span class="leftText">Live Shipment</span>
+                                    </div>
+                                    <ul class="sub">
+                                        <li>
+                                            <a href="javascript:void(0)">
+                                                @*<span class="leftIc">
+                                        <i class="fas fa-tachometer-alt"></i>
+                                    </span>*@
+                                                @*<span class="leftText"> Shipment</span>*@
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                </li>
+                            }
+                            foreach (var data in mps.Permissions)
+                            {
+                                if (data.IsMenu)
+                                {
+                                    if (data.CanView)
+                                    {
+                                        if (data.ControllerName == "Shipment" || data.ControllerName == "Fumigation" || data.ControllerName == "TrailerRental" || data.ControllerName == "Driver" || data.ControllerName == "Customer")
+                                        {
+                                            if ((data.ControllerName == "Driver" && actionNames == "FumigationDetails") || (data.ControllerName == "Driver" && actionNames == "Detail"))
+                                            {
+                                                actionNames = "Dashboard";
+                                            }
+
+                                            <li>
+                                                <a class="@(controllerNames == data.ControllerName && actionNames == data.ActionName && areaNames == data.AreaName ? "active" : "")"
+                                                   @*<a class="@(controllerName == data.ControllerName && actionName== data.ActionName ? "active" : "")"*@
+                                                   href="@Url.Action(data.ActionName, data.ControllerName, new { area = data.AreaName })">
+                                                    <span title="@data.PageName.ToUpper()" class="leftIc">
+                                                        <i class="@data.DisplayIcon"></i>
+                                                    </span>
+                                                    <span class="leftText">
+                                                        @data.PageName
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li>
+                                                @*<a class="@(controllerName == data.ControllerName && actionName== data.ActionName && areaName == data.AreaName ? "active" : "")"*@
+                                                <a class="@(controllerNames == data.ControllerName && actionNames==data.ActionName ? "active" : "")"
+                                                   href="@Url.Action(data.ActionName, data.ControllerName, new { area = data.AreaName })">
+                                                    <span title="@data.PageName.ToUpper()" class="leftIc">
+                                                        <i class="@data.DisplayIcon"></i>
+                                                    </span>
+                                                    <span class="leftText">
+                                                        @data.PageName
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                </ul>
+            </div>
+
+        </div>
+        <!-- LeftAsideBar panel end -->
         <div class="top-right-panel">
             <ul>
                 <li>
-                    <a href="/Main/Index" class="logo">
+                    <a href="/Main/Index" class="logo" id="mainLogo">
                         <img src="/images/sparrow-logo.png">
 
                     </a>
@@ -132,19 +238,19 @@
             </ul>
             <ul>
                 @*<li>
-                <a href="javascript:void(0)">
-                    <span>
-                        <i class="far fa-bell"></i>
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a href="javascript:void(0)">
-                    <span>
-                        <i class="far fa-envelope"></i>
-                    </span>
-                </a>
-            </li>*@
+                        <a href="javascript:void(0)">
+                            <span>
+                                <i class="far fa-bell"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)">
+                            <span>
+                                <i class="far fa-envelope"></i>
+                            </span>
+                        </a>
+                    </li>*@
                 <li class="profile">
                     <div class="dropdown">
                         <b> <lable>Hello @memberProfile.FullName </lable></b>
@@ -163,14 +269,15 @@
         </div>
     </div>
     <div class="header">
+        @*<div class="menu-toggle">
+            <label class="menu-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+        </div>*@
         <nav class="menu" id="menutab">
-            <div class="menu-toggle">
-                <label class="menu-icon">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </label>
-            </div>
+
             <ul class="menu-items">
                 @{
                     MemberProfile mp = new MemberProfile();
@@ -180,6 +287,17 @@
                     areaName = (areaName == null) ? "" : areaName.ToString();
 
                     var id = Convert.ToString(ViewContext.RouteData.Values["id"]);
+                    <li>
+                        <a class=""
+                           href="/Main/Index">
+                            <span title="dashboard" class="leftIc">
+                                <i class="far fa-file-alt"></i>
+                            </span>
+                            <span class="leftText">
+                                DASHBOARD
+                            </span>
+                        </a>
+                    </li>
 
                     if (mp.Permissions != null)
                     {
@@ -205,13 +323,17 @@
                                 </ul>
 
                             </li>
+
                         }
                         foreach (var data in mp.Permissions)
                         {
+
                             if (data.IsMenu)
                             {
                                 if (data.CanView)
+
                                 {
+
                                     if (data.ControllerName == "Shipment" || data.ControllerName == "Fumigation" || data.ControllerName == "TrailerRental" || data.ControllerName == "Driver" || data.ControllerName == "Customer")
                                     {
                                         if ((data.ControllerName == "Driver" && actionName == "FumigationDetails") || (data.ControllerName == "Driver" && actionName == "Detail"))
@@ -264,16 +386,41 @@
                     <td style="padding: 0;">
                         <table style="float: left;width: 50%;" class="pipeline">
                             <tr style="background: #7ba63c; ">
-                                <th colspan="2" style="color: #fff; padding: 6px; text-align: center;">Shipment</th>
+                                <th colspan="3" style="color: #fff; padding: 6px; text-align: center;">Shipments</th>
 
                             </tr>
                             <tr style="border-right: 1px solid #000;">
                                 <td>PROGRESS</td>
+                                <td class="progressBar">
+                                    <div id="myProgress">
+
+                                        <div id="myBar">
+                                            <div id="label"></div>
+
+                                        </div>
+                                        <div id="total">
+                                            <label id="totalCount"></label>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td scope="col" class="box" id="shipmentOrder"></td>
 
                             </tr>
+
                             <tr style="border-right: 1px solid #000;">
                                 <td>PIPELINE</td>
+                                <td class="progressBar">
+                                    <div id="myShipProgress">
+
+                                        <div id="myPipeLineBar">
+                                            <div id="Pipelabel"></div>
+
+                                        </div>
+                                        <div id="totalPipe">
+                                            <label id="ShipmenttotalCount"></label>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td class="box" id="shipmentProgress">
                                 </td>
                             </tr>
@@ -281,15 +428,39 @@
                         <table style="float: left;width: 50%;" class="pipeline">
                             <tr style="background: #7ba63c; ">
 
-                                <th colspan="2" style="color: #fff; padding: 6px; text-align: center;">FUMIGATION</th>
+                                <th colspan="3" style="color: #fff; padding: 6px; text-align: center;">FUMIGATIONS</th>
                             </tr>
                             <tr>
                                 <td>LOADING</td>
-                                <td scope="col" class="box" id="fumigationOrder">13</td>
+                                <td class="progressBar">
+                                    <div id="myFumOrder">
+
+                                        <div id="myFumOrderLineBar">
+                                            <div id="FumOrderPipelabel"></div>
+
+                                        </div>
+                                        <div id="FumOrdertotalPipe">
+                                            <label id="FumigationtotalCount"></label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td scope="col" class="box" id="fumigationOrder"></td>
 
                             </tr>
                             <tr>
                                 <td>DELIVERY</td>
+                                <td class="progressBar">
+                                    <div id="myFumProgress">
+
+                                        <div id="myFumProgressLineBar">
+                                            <div id="FumProgressPipelabel"></div>
+
+                                        </div>
+                                        <div id="FumProgresstotalPipe">
+                                            <label id="FumigationProgresstotalCount"></label>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td class="box" id="fumigationProgress">
                                 </td>
                             </tr>
@@ -302,7 +473,7 @@
                 CUSTOMER PROFILE
             </div>
             <div class="driver-list" style="padding: 0; height:170px;display:block;" id="driver-list">
-                <table class="articleTable" id="CustomerProfile" style="width: 100%;  height: 100%; margin: 0 auto;">
+                <table class="articleTable" id="CustomerProfile" style="width: 100%;  height: 95%; margin: 0 auto;">
 
                     <tbody>
 
@@ -334,8 +505,8 @@
         </div>
         <div class="article" style="display: block; box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px; margin: 15px; border-radius: 10px;">
             <div class="headingtab" style="width: 100%; display: block; text-align: center; padding: 6px; background: #7ba63c; color: #fff; letter-spacing: 1px; border: none; font-weight: bold;">DRIVER WAITING ROOM</div>
-            <div class="driver-list1" style="padding: 0; height: 260px; display: block; overflow: auto;" id="driver-list1">
-                <table class="driver-listTable  table-bordered" id="DeliveryDet">
+            <div class="driver-list1" style="padding: 0; height:260px;display: block; overflow: auto;" id="driver-list1">
+                <table class="driver-listTable  table-bordered" id="DeliveryDet" width="100%">
                     <thead>
                         <tr>
                             <th scope="col" style="padding: 0; text-align: center; height: 30px;">Name</th>
@@ -351,7 +522,7 @@
 
         </div>
         <div id="ShipmetAdvice" style="display: block; box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px; margin: 15px; border-radius: 10px;">
-            <div class="headingtab" style="width: 100%; display: block; text-align: center; padding: 6px; background: #7ba63c; color: #fff; letter-spacing: 1px; border: none; font-weight: bold;">SHIPMENTS ADVICE</div>
+            <div class="headingtab" style="width: 100%; display: block; text-align: center; padding: 6px; background: #7ba63c; color: #fff; letter-spacing: 1px; border: none; font-weight: bold;">SHIPMENT ADVICE</div>
             <table width="100%">
 
                 <tr>
@@ -364,7 +535,7 @@
         </div>
         <div id="gpsTracking" style="display: block; box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px; margin: 15px; border-radius: 10px;">
             <div style="width: 100%; display: block; text-align: center; padding: 6px; background: #7ba63c; color: #fff; letter-spacing: 1px; border: none; font-weight: bold;">GPS LIVE TRACKING</div>
-
+            <div  style="width:100%;height:100%;"><iframe id="gpsLive" src="" style="width: 100%; border: none; height: 275px;"></iframe></div>
         </div>
     </div>
     <div class="customTableWrapper" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px; margin: 15px; border-radius: 10px; padding: 10px;">
@@ -393,7 +564,7 @@
         </table>
     </div>
 
-
+    <div class="overLay"></div>
 
     @*<hr class="hr_add" />*@
     <div class="customTableWrapper table-spacing" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px; margin: 15px; border-radius: 10px; padding: 10px;">
