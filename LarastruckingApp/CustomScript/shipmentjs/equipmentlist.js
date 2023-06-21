@@ -208,48 +208,55 @@ btnContinue = function () {
 
         //    })
         //});
+        if (equipment.length < 2) {
+            if (equipment.length > 0) {
+                //#region usable code in future
+                //var data = glbRouteStops;
+                //var value = {};
+                //value.ShipmentId = $("#hdnShipmentId").val();
+                //value.CustomerId = $("#ddlCustomer").val();
+                //if (data.length > 0) {
 
-        if (equipment.length > 0) {
-            //#region usable code in future
-            //var data = glbRouteStops;
-            //var value = {};
-            //value.ShipmentId = $("#hdnShipmentId").val();
-            //value.CustomerId = $("#ddlCustomer").val();
-            //if (data.length > 0) {
+                //    value.FirstPickupArrivalDate = data[0].PickDateTime;
+                //    value.LastPickupArrivalDate = data[data.length - 1].DeliveryDateTimeTo;
+                //}
+                //value.ShipmentEquipmentNdriver = equipment;
+                //$.ajax({
+                //    url: baseUrl + 'Shipment/Shipment/ValidateEquipmentNDriver',
+                //    data: JSON.stringify(value),
+                //    type: "POST",
+                //    async: false,
+                //    contentType: "application/json; charset=utf-8",
+                //    dataType: "json",
+                //    // cache: false,
+                //    success: function (data) { },
+                //    error: function () { }
+                //});
+                //#endregion
+                getEquipmentNDrier();
 
-            //    value.FirstPickupArrivalDate = data[0].PickDateTime;
-            //    value.LastPickupArrivalDate = data[data.length - 1].DeliveryDateTimeTo;
-            //}
-            //value.ShipmentEquipmentNdriver = equipment;
-            //$.ajax({
-            //    url: baseUrl + 'Shipment/Shipment/ValidateEquipmentNDriver',
-            //    data: JSON.stringify(value),
-            //    type: "POST",
-            //    async: false,
-            //    contentType: "application/json; charset=utf-8",
-            //    dataType: "json",
-            //    // cache: false,
-            //    success: function (data) { },
-            //    error: function () { }
-            //});
-            //#endregion
-            getEquipmentNDrier();
+                if ($("#hdnShipmentId").val() > 0) {
 
-            if ($("#hdnShipmentId").val() > 0) {
-                
-                if ($("#ddlStatus").val() == 1)//ORDER TAKEN
-                {
-                    $("#ddlStatus").val(2);//DISPATCHED 
+                    if ($("#ddlStatus").val() == 1)//ORDER TAKEN
+                    {
+                        $("#ddlStatus").val(2);//DISPATCHED 
+                    }
+
                 }
 
+                $("#modalEquipment").modal('toggle');
             }
-
-            $("#modalEquipment").modal('toggle');
+            else {
+                //toastr.warning("Please select Equipment Number(s) & Driver(s).")
+                AlertPopup("Please select Equipment Number(s) & Driver(s).");
+            }
         }
         else {
             //toastr.warning("Please select Equipment Number(s) & Driver(s).")
-            AlertPopup("Please select Equipment Number(s) & Driver(s).");
+            AlertPopup("More than One Equipment Selected. Please select any one equipment.");
         }
+        //console.log("equipment Lenght: ", equipment.length);
+        
     })
 }
 //#endregion
