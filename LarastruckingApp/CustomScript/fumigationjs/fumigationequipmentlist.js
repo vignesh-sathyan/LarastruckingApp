@@ -86,7 +86,7 @@ function GetEquipmentList() {
                         var pickUpEquipmentNdriver = glbEquipmentNdriver.filter(x => (tblRowsCount > 0 ? (x.RouteNo > 0 ? x.RouteNo == RouteNo : x.RouteNo == 0) : x.RouteNo == 0) && x.EquipmentId == row.EDID && (x.IsPickUp == true || x.IsPickUp == "true"));
                         if (pickUpEquipmentNdriver.length > 0) {
 
-                            return '<input type="checkbox" onchange="CheckEquipment(this)" id="chkEquipment" name="chkEquipment" checked="checked" data-equipment-name="' + row.EquipmentNo + '" value="' + row.EDID + '"/>'
+                            return '<input type="checkbox" onchange="CheckEquipment(this)" id="chkEquipment" class="chkEquipment" name="chkEquipment" checked="checked" data-equipment-name="' + row.EquipmentNo + '" value="' + row.EDID + '"/>'
                         }
                         else {
                             return '<input type="checkbox" onchange="CheckEquipment(this)" id="chkEquipment" name="chkEquipment" data-equipment-name="' + row.EquipmentNo + '" value="' + row.EDID + '"/>'
@@ -97,10 +97,10 @@ function GetEquipmentList() {
                     else {
                         var DeliveryEquipmentNdriver = glbEquipmentNdriver.filter(x => (tblRowsCount > 0 ? (x.RouteNo > 0 ? x.RouteNo == RouteNo : x.RouteNo == 0) : x.RouteNo == 0) && x.EquipmentId == row.EDID && (x.IsPickUp == false || x.IsPickUp == "false"));
                         if (DeliveryEquipmentNdriver.length > 0) {
-                            return '<input type="checkbox"onchange="CheckEquipment(this)" id="chkEquipment"  name="chkEquipment" checked="checked" data-equipment-name="' + row.EquipmentNo + '" value="' + row.EDID + '"/>'
+                            return '<input type="checkbox"onchange="CheckEquipment(this)" id="chkEquipment" class="chkEquipment"  name="chkEquipment" checked="checked" data-equipment-name="' + row.EquipmentNo + '" value="' + row.EDID + '"/>'
                         }
                         else {
-                            return '<input type="checkbox" onchange="CheckEquipment(this)" id="chkEquipment" name="chkEquipment" data-equipment-name="' + row.EquipmentNo + '" value="' + row.EDID + '"/>'
+                            return '<input type="checkbox" onchange="CheckEquipment(this)" id="chkEquipment" class="chkEquipment" name="chkEquipment" data-equipment-name="' + row.EquipmentNo + '" value="' + row.EDID + '"/>'
                         }
                     }
                 }
@@ -292,22 +292,29 @@ btnPickUpContinue = function () {
             tblRowsCount = JSON.parse($("#tblShipmentDetail").attr("data-row-no"));
         }
         GetJsonValue(); //Added by DART to prefill the equipment in delivery popup.
-        if (glbEquipmentNdriver.filter(x => (x.IsPickUp == "true" || x.IsPickUp == true) && (tblRowsCount > 0 ? (x.RouteNo > 0 ? x.RouteNo == RouteNo : x.RouteNo == 0) : x.RouteNo == 0)).length > 0) {
-            if ($("#hdnfumigationId").val() > 0) {
-               
-                if ($("#ddlStatus").val() == 1)//ORDER TAKEN
-                {
-                    $("#ddlStatus").val(2);//DISPATCHED 
-                }
+        if (glbEquipmentNdriver.filter(x => (x.IsPickUp == "true" || x.IsPickUp == true) && (tblRowsCount > 0 ? (x.RouteNo > 0 ? x.RouteNo == RouteNo : x.RouteNo == 0) : x.RouteNo == 0)).length < 2) {
+            if (glbEquipmentNdriver.filter(x => (x.IsPickUp == "true" || x.IsPickUp == true) && (tblRowsCount > 0 ? (x.RouteNo > 0 ? x.RouteNo == RouteNo : x.RouteNo == 0) : x.RouteNo == 0)).length > 0) {
+                if ($("#hdnfumigationId").val() > 0) {
 
+                    if ($("#ddlStatus").val() == 1)//ORDER TAKEN
+                    {
+                        $("#ddlStatus").val(2);//DISPATCHED 
+                    }
+
+                }
+                GetPickUpEquipmentNDrier()
+                $("#modalEquipment").modal('toggle');
             }
-            GetPickUpEquipmentNDrier()
-            $("#modalEquipment").modal('toggle');
+            else {
+                // toastr.warning("Please select Equipment Number(s) & Driver(s).")
+                AlertPopup("Please select Equipment Number(s) & Driver(s).")
+            }
         }
         else {
             // toastr.warning("Please select Equipment Number(s) & Driver(s).")
-            AlertPopup("Please select Equipment Number(s) & Driver(s).")
+            AlertPopup("More than One Equipment Selected. Please select any one equipment.")
         }
+       
     })
 }
 //#endregion
@@ -315,7 +322,19 @@ btnPickUpContinue = function () {
 //#region geting delivery location driver and equipment detail in textbox 
 btnDeliveryContinue = function () {
     $("#btnDeliveryContinue").on('click', function () {
-        
+        var selectedCount = 0;
+        var selectedIDs = [];
+
+        // Loop through each checkbox with the class "checkbox"
+        $('.chkEquipment').each(function () {
+            if ($(this).is(':checked')) {
+                var id = $(this).data('id');
+                selectedCount++;
+                selectedIDs.push(id);
+            }
+        });
+
+       // console.log("selectedCount: ", selectedCount);
 
         var rowNo = $("#tblShipmentDetail").attr("data-row-no");
         var tblRowsCount = 0;
@@ -324,18 +343,32 @@ btnDeliveryContinue = function () {
         }
 
         var RouteNo = $("input[name='rdSelectedRoute']:checked").val();
-        if (glbEquipmentNdriver.filter(x => (x.IsPickUp == false || x.IsPickUp == "false") && (tblRowsCount > 0 ? (x.RouteNo > 0 ? x.RouteNo == RouteNo : x.RouteNo == 0) : x.RouteNo == 0)).length > 0) {
+
+         //var coutnofbox = glbEquipmentNdriver.filter(x => (x.IsPickUp == false || x.IsPickUp == "false") && (tblRowsCount > 0 ? (x.RouteNo > 0 ? x.RouteNo == RouteNo : x.RouteNo == 0) : x.RouteNo == 0)).length;
+              //  console.log("coutnofbox: ", coutnofbox);
+
+        if (glbEquipmentNdriver.filter(x => (x.IsPickUp == false || x.IsPickUp == "false") && (tblRowsCount > 0 ? (x.RouteNo > 0 ? x.RouteNo == RouteNo : x.RouteNo == 0) : x.RouteNo == 0)).length < 2) {
+
+            if (glbEquipmentNdriver.filter(x => (x.IsPickUp == false || x.IsPickUp == "false") && (tblRowsCount > 0 ? (x.RouteNo > 0 ? x.RouteNo == RouteNo : x.RouteNo == 0) : x.RouteNo == 0)).length > 0) {
+               
+
+                GetDeliveryEquipmentNDrier()
+                $("#modalEquipment").modal('toggle');
+            }
+            else {
+                //  toastr.warning("Please select Equipment Number(s) & Driver(s).")
+                AlertPopup("Please select Equipment Number(s) & Driver(s).")
 
 
-            GetDeliveryEquipmentNDrier()
-            $("#modalEquipment").modal('toggle');
+            }
         }
         else {
             //  toastr.warning("Please select Equipment Number(s) & Driver(s).")
-            AlertPopup("Please select Equipment Number(s) & Driver(s).")
+            AlertPopup("More than One Equipment Selected. Please select any one equipment.")
 
 
         }
+       
     })
 }
 //#endregion
@@ -740,10 +773,12 @@ function ValidateDriver(_this) {
 }
 
 function CheckEquipment(_this) {
-    
-    if ($(_this).is(":checked")) {
-        var table = $('#tblEquipmentDetails').DataTable();
 
+
+    if ($(_this).is(":checked")) {
+        //var selectedCount = $('.chkEquipment:checked').length;
+        var table = $('#tblEquipmentDetails').DataTable();
+       // console.log("selectedCount: ", selectedCount);
         var data_row = table.row($(_this).closest('tr')).data();
 
         
