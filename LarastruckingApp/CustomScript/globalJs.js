@@ -157,10 +157,10 @@ function ConvertDateEdit(jsondate, time = false) {
         hr = hr < 10 ? '0' + hr : hr;
 
         if (time) {
-            return mnt + '-' + dt + '-' + yr + ' ' + hr + ':' + min;
+            return mnt + '/' + dt + '/' + yr + ' ' + hr + ':' + min;
         }
         else {
-            return mnt + '-' + dt + '-' + yr;
+            return mnt + '/' + dt + '/' + yr;
         }
     }
 }
@@ -262,7 +262,6 @@ function addZero(val){
 	}
 	
 }
-
 
 //#endregion
 function parseDate(input) {
@@ -455,9 +454,9 @@ var dateTimeActivate = function () {
     var defaultDate = now - 1000 * 60 * 60 * 24 * 1;
 
     var options = {
-        format: 'm-d-Y H:i',
+        format: 'm/d/Y H:i',
         formatTime: 'H:i',
-        formatDate: 'm-d-Y',
+        formatDate: 'm/d/Y',
         startDate: new Date(),
         minDate: false,
         minTime: false,

@@ -116,6 +116,28 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
         }
         #endregion
 
+        #region Driver Shipment Status
+        /// <summary>
+        /// shipment status
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult GetDriverFumStatus()
+        {
+            try
+            {
+                var statusList = fumigationBAL.GetDriverStatusList();
+                return Json(statusList, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+        #endregion
+
         #region Shipment Substatus
         /// <summary>
         /// Shipment Sub Status

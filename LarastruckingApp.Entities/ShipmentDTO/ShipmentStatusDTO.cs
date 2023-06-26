@@ -17,5 +17,6 @@ namespace LarastruckingApp.Entities.ShipmentDTO
         public bool IsDeleted { get; set; }
         public string GrayImageURL { get; set; }
         public string SpanishStatusAbbreviation { get; set; }
+        public int? DriverAssignOrder { get; set; }
     }
 }

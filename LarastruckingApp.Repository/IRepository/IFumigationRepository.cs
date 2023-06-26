@@ -27,6 +27,7 @@ namespace LarastruckingApp.Repository.IRepository
         FumigationEmailDTO GetCustomerDetail(FumigationEmailDTO fumigationEmailDTO);
         List<GetFumigationRouteDTO> FumigationProofOfDelivery(string fumigationId);
         List<ShipmentStatusDTO> GetStatusList();
+       ShipmentStatusDTO GetDriverStatusList();
         bool ApprovedProofOFTemp(ProofOfTemperatureDTO entity);
         bool ApprovedDamageImage(FumigationDamageImages entity);
 

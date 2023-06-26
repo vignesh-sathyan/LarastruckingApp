@@ -243,6 +243,27 @@ function GetDriverShipment() {
 //    });
 //}
 
+// For Redirecting to respective dashboard on double clicking the blue stripes 
+$('#ShipmentRequest').on('dblclick',  function () {
+
+    window.location.href = baseUrl + '/Shipment/Shipment/ViewShipmentList';
+    
+});
+$('#ShipmentInProgress').on('dblclick', function () {
+
+    window.location.href = baseUrl + '/Shipment/Shipment/ViewShipmentList';
+
+});
+$('#FumigationRequest').on('dblclick', function () {
+
+    window.location.href = baseUrl + '/Fumigation/Fumigation/ViewFumigationList';
+
+});
+$('#FumigationInProgress').on('dblclick', function () {
+
+    window.location.href = baseUrl + '/Fumigation/Fumigation/ViewFumigationList';
+
+});
 
 $('#tblShipmentDetails').on('dblclick', 'tbody tr', function () {
     var table = $('#tblShipmentDetails').DataTable();

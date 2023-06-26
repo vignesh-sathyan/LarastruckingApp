@@ -28,6 +28,7 @@ namespace LarastruckingApp.BusinessLayer.Interface
         TemperatureEmailDTO GetTemperatureEmailDetail(int fumigationId);
         List<GetFumigationRouteDTO> FumigationProofOfDelivery(string fumigationId);
         List<ShipmentStatusDTO> GetStatusList();
+        ShipmentStatusDTO GetDriverStatusList();
         bool ApprovedProofOFTemp(ProofOfTemperatureDTO entity);
         bool ApprovedDamageImage(FumigationDamageImages entity);
 

@@ -12,6 +12,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -70,6 +71,42 @@ namespace LarastruckingApp.Repository.Repository
 
                 var statuslist = fumigationContext.tblShipmentStatus.Where(x => x.IsActive && x.IsDeleted == false && x.IsFumigation == true).OrderBy(x => x.FumigationDisplayOrder);
                 return AutoMapperServices<tblShipmentStatu, ShipmentStatusDTO>.ReturnObjectList(statuslist.ToList());
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        #endregion
+
+        #region Driver Delivery fumigation status list
+        /// <summary>
+        /// get status list
+        /// </summary>
+        /// <returns></returns>
+        public ShipmentStatusDTO GetDriverStatusList()
+        {
+            try
+            {
+
+                ShipmentStatusDTO statuslist = new ShipmentStatusDTO();
+
+                statuslist = ((ShipmentStatusDTO)(from shipment in fumigationContext.tblShipmentStatus
+                              where shipment.IsActive==true && shipment.IsDeleted == false
+                              select new ShipmentStatusDTO
+                              {
+                                  StatusId = shipment.StatusId,
+                                  StatusAbbreviation = shipment.StatusAbbreviation,
+                                  StatusName = shipment.StatusName,
+                                  DriverAssignOrder = shipment.DriverAssignOrder,
+                              })
+                   );
+                    //fumigationContext.tblShipmentStatus.Where(x => x.IsActive && x.IsDeleted == false ).OrderBy(x => x.DriverAssignOrder).ToList();
+
+
+                return statuslist;
 
             }
             catch (Exception)

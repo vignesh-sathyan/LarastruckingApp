@@ -247,6 +247,18 @@ namespace LarastruckingApp.DAL
 
         #endregion
 
+        #region fumigation Driver status list
+        /// <summary>
+        /// get status list
+        /// </summary>
+        /// <returns></returns>
+        public ShipmentStatusDTO GetDriverStatusList()
+        {
+            return iFumigationRepository.GetDriverStatusList();
+        }
+
+        #endregion
+
         #region Approve Proof Of Temprature
         /// <summary>
         /// Approve Proof Of Temprature

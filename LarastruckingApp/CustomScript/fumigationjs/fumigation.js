@@ -31,6 +31,7 @@ function goodbye(e) {
 }
 window.onbeforeunload = goodbye;
 
+
 $(function () {
     $(".divShipmentRefNo").hide();
     //$(".divProofOfTemp").hide();
@@ -115,7 +116,11 @@ $(function () {
     btnDamageDocument();
 
     convertActualTemp();
+
+   
 });
+
+
 
 
 var GetValues = function () {
@@ -299,7 +304,7 @@ function GetFumigationById() {
                         objRouteStop.PickUpLocation = response.GetFumigationRouteDetail[i].PickUpLocation;
                         objRouteStop.PickUpLocationText = response.GetFumigationRouteDetail[i].PickUpLocationText;
                         objRouteStop.PickUpArrival = response.GetFumigationRouteDetail[i].PickUpArrival == null ? "" : ConvertDateEdit(response.GetFumigationRouteDetail[i].PickUpArrival, true);
-                        //console.log("objRouteStop.PickUpArrival: ", ConvertDateEdit(response.GetFumigationRouteDetail[i].PickUpArrival,true));
+                        console.log("objRouteStop.PickUpArrival: ", ConvertDateEdit(response.GetFumigationRouteDetail[i].PickUpArrival,true));
                         //console.log("response.GetFumigationRouteDetail[i].PickUpArrival: ", ConvertDate(response.GetFumigationRouteDetail[i].PickUpArrival,true));
                         objRouteStop.FumigationSite = response.GetFumigationRouteDetail[i].FumigationSite;
                         objRouteStop.FumigationSiteText = response.GetFumigationRouteDetail[i].FumigationSiteText;
@@ -333,6 +338,7 @@ function GetFumigationById() {
 
                         objRouteStop.DriverPickupArrival = response.GetFumigationRouteDetail[i].DriverPickupArrival == null ? "" : ConvertDateEdit(response.GetFumigationRouteDetail[i].DriverPickupArrival, true);
                         //console.log("DriverPickupArrival " + ConvertDateEdit(response.GetFumigationRouteDetail[i].DriverPickupArrival, true));
+                       // console.log("DriverPickupArrival " +response.GetFumigationRouteDetail[i].DriverPickupArrival);
                         objRouteStop.DriverLoadingStartTime = response.GetFumigationRouteDetail[i].DriverLoadingStartTime == null ? "" : ConvertDateEdit(response.GetFumigationRouteDetail[i].DriverLoadingStartTime, true);
                         objRouteStop.DriverLoadingFinishTime = response.GetFumigationRouteDetail[i].DriverLoadingFinishTime == null ? "" : ConvertDateEdit(response.GetFumigationRouteDetail[i].DriverLoadingFinishTime, true);
                         objRouteStop.DriverPickupDeparture = response.GetFumigationRouteDetail[i].DriverPickupDeparture == null ? "" : ConvertDateEdit(response.GetFumigationRouteDetail[i].DriverPickupDeparture, true);
@@ -516,12 +522,12 @@ function CalculateTrailerDays() {
 //#region shipment status
 function shipmentStatus() {
     $.ajax({
-        url: baseUrl + 'Fumigation/Fumigation/GetShipmentStatus',
+        url: baseUrl + 'Fumigation/Fumigation/GetDriverFumStatus',
         data: {},
         type: "GET",
         async: false,
         success: function (data) {
-
+            console.log("data from new Driver order: ",data);
             var ddlValue = "";
             $("#ddlStatus").empty();
             for (var i = 0; i < data.length; i++) {
@@ -2353,7 +2359,7 @@ function GetJsonValue() {
     var tempLen = glbEquipmentNdriver.length;
     var delObjExists = false;
     var chkEquipment = $("#chkEquipment").val();
-    console.log("chkEquipment: ", chkEquipment);
+  
     //if(chkEquipment==null || chkEquipment=="null"){
     for (let i = 0; i < tempLen; i++) {
         //delObjExists = false;
@@ -2361,6 +2367,7 @@ function GetJsonValue() {
             console.log("delobject: ", glbEquipmentNdriver[i].RouteNo);
             delObjExists = true;
         }
+        console.log("glbEquipmentNdriver before push: ", glbEquipmentNdriver);
         console.log("delObjExists: " + glbEquipmentNdriver[i].IsPickUp + " : " + glbEquipmentNdriver[i].RouteNo + " : " + delObjExists);
         if (glbEquipmentNdriver.length >= 1 && glbEquipmentNdriver[i].IsPickUp == true && glbEquipmentNdriver.length <= 2) {
             var deliveryObj = {
@@ -3251,7 +3258,7 @@ var btnSave = function () {
                                     if (values.FumigationEquipmentNdriver.length > 0 && prevalues.length > 0) {
                                         for (let i = 0; i < values.FumigationEquipmentNdriver.length; i++) {
                                             if (values.FumigationEquipmentNdriver[i].IsPickUp == false) {
-                                                if (values.FumigationEquipmentNdriver[i].DriverName != "" && values.FumigationEquipmentNdriver[i].DriverName != "undefined" && values.FumigationEquipmentNdriver[i].DriverName != undefined) {
+                                                if (values.FumigationEquipmentNdriver[i].DriverName != "" && values.FumigationEquipmentNdriver[i].DriverName != "undefined" && values.FumigationEquipmentNdriver[i].DriverName != undefined && values.FumigationEquipmentNdriver[i].DriverName !="Select Driver") {
                                                     deliveryDriver = values.FumigationEquipmentNdriver[i].DriverName;
                                                     //pickupDriver = values.FumigationEquipmentNdriver[i].DriverName;
                                                 }
@@ -3981,6 +3988,7 @@ $(document).ready(function () {
 
 
     //$("#progress").hide();
+
 
     $("#fileBasket").on("dragenter", function (evt) {
         evt.preventDefault();
