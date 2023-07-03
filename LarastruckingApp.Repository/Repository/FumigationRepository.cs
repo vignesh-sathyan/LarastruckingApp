@@ -100,7 +100,7 @@ namespace LarastruckingApp.Repository.Repository
                                   StatusId = shipment.StatusId,
                                   StatusAbbreviation = shipment.StatusAbbreviation,
                                   StatusName = shipment.StatusName,
-                                  DriverAssignOrder = shipment.DriverAssignOrder,
+                                  //DriverAssignOrder = shipment.DriverAssignOrder,
                               })
                    );
                     //fumigationContext.tblShipmentStatus.Where(x => x.IsActive && x.IsDeleted == false ).OrderBy(x => x.DriverAssignOrder).ToList();

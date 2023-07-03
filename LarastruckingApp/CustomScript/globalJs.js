@@ -599,6 +599,9 @@ function StatusCheckForShipment(status) {
     if ($.trim(status).toLowerCase() == $.trim("IN STORAGE").toLowerCase()) {
         PreStatus = '<span class="badge" style="background-color:#fe9900;color:black">' + status + '</span>'
     }
+    if ($.trim(status).toLowerCase() == $.trim("DRIVER ASSIGNED").toLowerCase()) {
+        PreStatus = '<span class="badge" style="background-color:#385687;color:#fff">' + status + '</span>'
+    }
     return PreStatus;
 }
 

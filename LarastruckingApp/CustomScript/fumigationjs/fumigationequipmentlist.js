@@ -350,7 +350,14 @@ btnDeliveryContinue = function () {
         if (glbEquipmentNdriver.filter(x => (x.IsPickUp == false || x.IsPickUp == "false") && (tblRowsCount > 0 ? (x.RouteNo > 0 ? x.RouteNo == RouteNo : x.RouteNo == 0) : x.RouteNo == 0)).length < 2) {
 
             if (glbEquipmentNdriver.filter(x => (x.IsPickUp == false || x.IsPickUp == "false") && (tblRowsCount > 0 ? (x.RouteNo > 0 ? x.RouteNo == RouteNo : x.RouteNo == 0) : x.RouteNo == 0)).length > 0) {
-               
+                if ($("#hdnfumigationId").val() > 0) {
+
+                    if ($("#ddlStatus").val() == 9)//ORDER TAKEN
+                    {
+                        $("#ddlStatus").val(16);//DISPATCHED 
+                    }
+
+                }
 
                 GetDeliveryEquipmentNDrier()
                 $("#modalEquipment").modal('toggle');

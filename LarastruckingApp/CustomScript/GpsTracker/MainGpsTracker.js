@@ -35,11 +35,11 @@ function GetDriverShipment() {
         async: false,
         success: function (msg) {
             // Do something interesting here.
-            console.log("DriverLsit: ", msg);
+            //console.log("DriverLsit: ", msg);
             for (let k = 0; k < msg.length; k++) {
                 if (msg[k].DriverName != null) {
                     var Equipments = msg[k].Equipment.split("$");
-                    console.log("Equipment: ", msg[k].Equipment.split("$"));
+                    //console.log("Equipment: ", msg[k].Equipment.split("$"));
                     for (let f = 0; f < Equipments.length; f++) {
                         EquipmentList.push(Equipments[f]);
                     }
@@ -58,7 +58,7 @@ function GetDriverShipment() {
     })
 
     var str = EquipmentList;
-    console.log("EquipmentList: ", str);
+   // console.log("EquipmentList: ", str);
     return str;
 
 
@@ -66,9 +66,9 @@ function GetDriverShipment() {
 
 var urlParams = new URLSearchParams(window.location.search);
 var param1Value = urlParams.get('Equipment');
-console.log("param1Value: ", param1Value);
+//console.log("param1Value: ", param1Value);
 var metaValue = $('meta[name="baseUrl"]').attr('content');
-console.log("metavalue: ", metaValue);
+//console.log("metavalue: ", metaValue);
 baseUrl = metaValue;
 
 var vehicleId;
@@ -283,7 +283,7 @@ function checkDriverRadionButton() {
         $($("#tblDriver tbody tr")[0]).find("input[type=radio]").prop("checked", true);
 
         message = $("#lblEquipmentName").text();
-        console.log("labeltext checked: " + message);
+        //console.log("labeltext checked: " + message);
         GetFumigationGpsTrackerDetails();
     } else {
         alert("Fumigation details are not available as Driver or Equipment details are missing...")
@@ -295,11 +295,11 @@ function checkDriverRadionButton() {
 function GetRadionButton(_this) {
     currMarker = "";
     var row = _this.parentNode.parentNode;
-    console.log("row: " + row);
+   // console.log("row: " + row);
     //Determine the Row Index.
     message = row.cells[2].textContent;
 
-    console.log("labeltext: " + message);
+   // console.log("labeltext: " + message);
     GetFumigationGpsTrackerDetails();
     // GetGpsTrackerDetails(_this.value);
 }
@@ -393,8 +393,8 @@ GetGpsTrakingMapDetails = function (shipmentLatLong) {
     //var mapOptions=[];
     var myLatlng = [];
     var getEquipment = GetDriverShipment();
-    console.log("vehicleDetails: ", vehicleDetails);
-    console.log("currVehicleID: ", getEquipment);
+   // console.log("vehicleDetails: ", vehicleDetails);
+   // console.log("currVehicleID: ", getEquipment);
     for (let j = 0; j < getEquipment.length; j++) {
 
 
@@ -406,7 +406,7 @@ GetGpsTrakingMapDetails = function (shipmentLatLong) {
                 currMarker = vehicleDetails[g];
                 shipLat.push(currMarker);
 
-                console.log("currMarker: ", currMarker);
+               // console.log("currMarker: ", currMarker);
                 if (currMarker == null || currMarker == undefined) {
                     //alert("Current vehicle details not available in Quatrix...");
                     $("#ErrorMsgGPS").show();
@@ -415,11 +415,11 @@ GetGpsTrakingMapDetails = function (shipmentLatLong) {
                 }
                 //
 
-                console.log("shipLat: ", shipLat);
+               // console.log("shipLat: ", shipLat);
                 shipmentLatLong = currMarker;
                 // var markers = shipmentLatLong;
                 var markers = shipLat;
-                console.log("markers: ", markers);
+               // console.log("markers: ", markers);
                 //console.log("DATA: ", shipmentLatLong.Latitude);
 
                 //if (shipmentLatLong.Latitude == undefined) {
@@ -438,7 +438,7 @@ GetGpsTrakingMapDetails = function (shipmentLatLong) {
                         mapTypeId: google.maps.MapTypeId.ROADMAP
                     };
 
-                    console.log("DATA: ", markers)
+                    //console.log("DATA: ", markers)
 
 
                     var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
@@ -449,23 +449,23 @@ GetGpsTrakingMapDetails = function (shipmentLatLong) {
                     //for (i = 0; i < markers.length; i++) {
                     let icons = [];
                     var data = markers;
-                    console.log("DATA markers: ", data);
+                    //console.log("DATA markers: ", data);
                     for (let c = 0; c < data.length; c++) {
-                        console.log("Loop Count: ", data[c].Latitude)
+                       // console.log("Loop Count: ", data[c].Latitude)
                         myLatlng.push({ lat: data[c].Latitude, lng: data[c].Longitude, description: data[c].Description, icon: data[c].VehicleIcon });
 
                     }
-
-                    console.log("DATA myLatlng : ", myLatlng);
+                      
+                  //  console.log("DATA myLatlng : ", myLatlng);
                     lat_lng.push(myLatlng);
-                    console.log("data[0].VehicleIcon: ", data[0].VehicleIcon);
+                    //console.log("data[0].VehicleIcon: ", data[0].VehicleIcon);
 
 
                     var marker;
 
-                    console.log("data.length: ", data.length);
+                   // console.log("data.length: ", data.length);
                     for (let v = 0; v < data.length; v++) {
-                        console.log("data.Description: ", data[v].Longitude);
+                      //  console.log("data.Description: ", data[v].Longitude);
 
                         marker = new google.maps.Marker({
                             position: { lat: data[v].Latitude, lng: data[v].Longitude },
@@ -481,7 +481,7 @@ GetGpsTrakingMapDetails = function (shipmentLatLong) {
                             },
 
                         });
-                        console.log("marker: ", marker);
+                       // console.log("marker: ", marker);
                         latlngbounds.extend(marker.position);
 
                         (function (marker, data) {
@@ -532,9 +532,9 @@ GetGpsTrakingMapDetails = function (shipmentLatLong) {
                     var poly = new google.maps.Polyline({ map: map, strokeColor: '#4986E7' });
 
 
-                    console.log("lat_lng for check: ", lat_lng);
+                   // console.log("lat_lng for check: ", lat_lng);
                     //console.log("lat_lngs for check: ", lat_lngs);
-                    console.log("lat_lng for check: ", lat_lng[0][1]);
+                   // console.log("lat_lng for check: ", lat_lng[0][1]);
                     //Loop and Draw Path Route between the Points on MAP
                     for (var i = 0; i < lat_lng.length; i++) {
 
@@ -551,7 +551,7 @@ GetGpsTrakingMapDetails = function (shipmentLatLong) {
                                 destination: des,
                                 travelMode: google.maps.DirectionsTravelMode.DRIVING
                             }, function (result, status) {
-                                console.log("result routes: ", result);
+                                //console.log("result routes: ", result);
                                 if (status == google.maps.DirectionsStatus.OK) {
                                     for (var i = 0, len = result.routes[0].overview_path.length; i < len; i++) {
                                         path.push(result.routes[0].overview_path[i]);

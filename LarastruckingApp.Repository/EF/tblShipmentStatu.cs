@@ -40,9 +40,11 @@ namespace LarastruckingApp.Repository.EF
         public string FontColor { get; set; }
         public Nullable<int> DisplayOrderCustomer { get; set; }
         public Nullable<int> FumigationDisplayOrderCustomer { get; set; }
-        public Nullable<int> DriverAssignOrder { get; set; }
+      
         public string GrayImageURL { get; set; }
         public string SpanishStatusAbbreviation { get; set; }
+
+        public string DriverAssign { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblFumigation> tblFumigations { get; set; }

@@ -522,7 +522,7 @@ function CalculateTrailerDays() {
 //#region shipment status
 function shipmentStatus() {
     $.ajax({
-        url: baseUrl + 'Fumigation/Fumigation/GetDriverFumStatus',
+        url: baseUrl + 'Fumigation/Fumigation/GetShipmentStatus',
         data: {},
         type: "GET",
         async: false,
@@ -3255,6 +3255,7 @@ var btnSave = function () {
                                     // console.log("pickup Drive btnsave: ","FumigationEquipmentNdriver" in values);
                                     var deliveryDriver = "";
                                     var pickupDriver = "";
+                                    const ddlstatus = $("#ddlStatus option:selected").text();
                                     if (values.FumigationEquipmentNdriver.length > 0 && prevalues.length > 0) {
                                         for (let i = 0; i < values.FumigationEquipmentNdriver.length; i++) {
                                             if (values.FumigationEquipmentNdriver[i].IsPickUp == false) {
@@ -3267,9 +3268,11 @@ var btnSave = function () {
 
                                         // console.log("deliver: ", deliveryDriver);
                                         if (deliveryDriver != "") {
-                                            console.log("sending delivery");
-                                            SendDeliveryMessage();
-                                        }
+                                            if (ddlstatus == "DRIVER ASSIGNED") {
+                                                console.log("sending delivery");
+                                                SendDeliveryMessage();
+                                            }
+                                        }                                      
                                         else {
 
                                             SendEditMessage();

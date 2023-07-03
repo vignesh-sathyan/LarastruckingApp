@@ -13,6 +13,7 @@ namespace LarastruckingApp.Entities.ShipmentDTO
         public string Status { get; set; }
         public string DeliveryLocation { get; set; }
         public string Equipment { get; set; }
+        public string DashboardName { get; set; }
 
     }
 }

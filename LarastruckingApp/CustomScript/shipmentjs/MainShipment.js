@@ -152,13 +152,15 @@ function GetDriverShipment() {
         async: false,
         success: function (msg) {
             // Do something interesting here.
-            //console.log("Driver detail box: ",msg);
+            console.log("Driver detail box: ",msg);
             count = msg;
             for (let x = 0; x < msg.length; x++) {
                 if (msg[x].DriverName != null) {
                     //console.log("driverName: ", msg[x].DriverName);
                     var DeliveryLocation = msg[x].DeliveryLocation.split("|");
                     var DriverName = msg[x].DriverName.split("$");
+                    var DashBoardName = msg[x].DashboardName.split("$")[0];
+                    var DashBoardId = msg[x].DashboardName.split("$")[1];
                     //console.log("DeliveryLocation: ", DeliveryLocation.length);
                     for (let v = 0; v < DeliveryLocation.length; v++) {
                         if (msg[x].Status == "DISPATCHED") {
@@ -177,13 +179,17 @@ function GetDriverShipment() {
                             colorbg = "#fffd01";
                             fontcolor = "#000";
                         }
+                        else if (msg[x].Status == "DRIVER ASSIGNED") {
+                            colorbg = "#385687";
+                            fontcolor = "#fff";
+                        }
                         else {
                             colorbg = "#fe9900";
                             fontcolor = "#000";
                         }
                         //colorbg = "";
                        // console.log("DeliveryLocation Address: ", GetCAddressNew(DeliveryLocation[v]));
-                        eq += '<tr><td>' + DriverName[v] + '</td><td class="statusTab" style="white-space: pre;"><span style="background:' + colorbg + ';color:' + fontcolor +';padding: 2px 5px;border-radius: 5px;">' + msg[x].Status + '</span></td><td style="padding-bottom: 5px;padding-top: 5px;">' + DeliveryLocation[v].replace('$',', ') + '</td></tr>';
+                        eq += '<tr><td style="padding: 0;text-align: center;"><a href="' + baseUrl + '/' + DashBoardName + '/' + DashBoardName + '/Index/' + DashBoardId +'" style="color: #000;padding:10px;display:block;" class="DriverDashboard" target="_blank">' + DriverName[v] + '</a></td><td class="statusTab" style="white-space: pre;"><span style="background:' + colorbg + ';color:' + fontcolor +';padding: 2px 5px;border-radius: 5px;">' + msg[x].Status + '</span></td><td style="padding-bottom: 5px;padding-top: 5px;">' + DeliveryLocation[v].replace('$',', ') + '</td></tr>';
                     }
 
                 }
@@ -679,7 +685,9 @@ function GetOrderTakenShipmentList() {
                 var dtable = $("#tblShipmentDetails").dataTable().api();
                 console.log("dtable: ", dtable);
                 var elem = $("#tblShipmentDetails_filter input");
-                return dtable.search($(elem).val()).draw();
+				var replacedStr = $(elem).val().replace(/\//g, "-");
+                console.log("elem value: ", replacedStr);
+                return dtable.search(replacedStr).draw();
             }, 700);
         });
    // var search_thread_tblShipmentDetails1 = null;
@@ -1378,7 +1386,9 @@ function GetOtherStatusShipmentList() {
             search_thread_tblShipmentDetails2 = setTimeout(function () {
                 var dtable = $("#tblShipmentDetails2").dataTable().api();
                 var elem = $("#tblShipmentDetails2_filter input");
-                return dtable.search($(elem).val()).draw();
+				var replacedStr = $(elem).val().replace(/\//g, "-");
+                console.log("elem value: ", replacedStr);
+                return dtable.search(replacedStr).draw();
             }, 700);
         });
 

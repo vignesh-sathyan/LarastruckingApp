@@ -1115,7 +1115,9 @@ var GetOrderTakenFumigationList = function () {
             search_thread_tblOrderTakenFumigation = setTimeout(function () {
                 var dtable = $("#tblOrderTakenFumigation").dataTable().api();
                 var elem = $("#tblOrderTakenFumigation_filter input");
-                return dtable.search($(elem).val()).draw();
+                var replacedStr = $(elem).val().replace(/\//g, "-");
+                console.log("elem value: ", replacedStr);
+                return dtable.search(replacedStr).draw();
             }, 700);
         });
 
@@ -1222,7 +1224,7 @@ var GetOtherFumigationList = function () {
                 }
             },
             {
-                // "data": "PickUpDriver",
+                 "data": "ActFumigationRelease",
                 "name": "ActFumigationRelease",
                // "orderable": false,
                 "autoWidth": true,
@@ -2040,7 +2042,7 @@ var GetOtherFumigationList = function () {
                 "name": "DeliveryEquipment",
                 "autoWidth": true,
                 "render": function (data, type, row, meta) {
-                    //console.log("row: ",row);
+                    console.log("other row: ",row);
                     var isSame = false;
                     if (row.DeliveryEquipment != null && row.DeliveryEquipment != '') {
 
@@ -2359,7 +2361,9 @@ var GetOtherFumigationList = function () {
             search_thread_tblOtherFumigation = setTimeout(function () {
                 var dtable = $("#tblOtherFumigation").dataTable().api();
                 var elem = $("#tblOtherFumigation_filter input");
-                return dtable.search($(elem).val()).draw();
+                var replacedStr = $(elem).val().replace(/\//g, "-");
+                console.log("elem value: ", replacedStr);
+                return dtable.search(replacedStr).draw();
             }, 700);
         });
 

@@ -12,6 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.SqlServer;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -3537,13 +3538,15 @@ namespace LarastruckingApp.Repository.Repository
                                   join State in shipmentContext.tblStates on Address.State equals State.ID
                                   //join Country in shipmentContext.tblCountries on Address.Country equals Country.ID
                                   where shipment.IsDeleted == false && shipment.StatusId!=1 && shipment.StatusId != 8 && shipment.StatusId != 11 orderby status.FumigationDisplayOrderCustomer
-                                  select new ShipmentDriverDetailDTO
+                                   select new ShipmentDriverDetailDTO
                                   {
+
                                       DriverName = Driver.FirstName +  " "+ Driver.LastName,
                                        ShipmentId = status.FumigationDisplayOrderCustomer,
                                       Status = status.StatusAbbreviation,
                                       DeliveryLocation = Address.CompanyName + ", " + Address.Address1 + ", " + Address.City + ", " + State.Name,
                                       Equipment = EquipmentNo.EquipmentNo,
+                                      DashboardName = "Shipment$"+SqlFunctions.StringConvert((double)shipment.ShipmentId).Trim(),
                                       //EstDeliveryArrival = routes.DeliveryDateTime,
                                       //CustomerId = shipment.CustomerId,
                                       //CustomerName = customer.CustomerName,

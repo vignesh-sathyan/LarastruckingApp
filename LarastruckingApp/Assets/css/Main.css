@@ -44,7 +44,10 @@ a {
 a:any-link {
     cursor: pointer;
 }
-
+.DriverDashboard:hover{
+    color:#fff !important;
+    background:none;
+}
 .header {
     height: 40px;
 }
