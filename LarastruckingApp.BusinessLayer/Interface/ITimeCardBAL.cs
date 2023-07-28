@@ -18,6 +18,7 @@ namespace LarastruckingApp.BusinessLayer.Interface
         GetTimeCardCalculationDTO GetTimeCardData(TimeCardDTO entity);
         TimeCardDTO GetDriverTimeCardDetail(TimeCardDTO entity);
         bool SaveTimeCardAmount(TimeCardCalculationDTO entity);
+        bool SaveIncentiveCardAmount(IncentiveCardCalculation entity);
         List<TimeCardCalculationDTO> GetWeekDates();
         List<LaborReportDTO> GetLaborReport(SearchTimeCardDTO modal);
         List<DailyReportDTOList> GetDailyReport(SearchTimeCardDTO modal);

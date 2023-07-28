@@ -419,6 +419,19 @@ namespace LarastruckingApp.Controllers
         }
         #endregion
 
+        #region DriverIncentive
+        /// <summary>
+        /// Action method for showing Driver Detail
+        /// </summary>
+        /// <returns></returns>
+        [CustomAuthorize]
+        public ActionResult DriverIncentive()
+        {
+            return View();
+
+        }
+        #endregion
+
         #region LoadData
         /// <summary>
         /// Acction Method for bind driver table

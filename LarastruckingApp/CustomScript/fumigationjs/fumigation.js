@@ -117,7 +117,7 @@ $(function () {
 
     convertActualTemp();
 
-   
+
 });
 
 
@@ -274,7 +274,7 @@ function GetFumigationById() {
 
                     //#region for binding equipment and driver
                     for (let i = 0; i < response.FumigationEquipmentNDriver.length; i++) {
-                        console.log("response.FumigationEquipmentNDriver: ", response.FumigationEquipmentNDriver);
+                        // console.log("response.FumigationEquipmentNDriver: ", response.FumigationEquipmentNDriver);
                         var equipmentNdriver = {};
                         equipmentNdriver.RouteNo = response.FumigationEquipmentNDriver[i].RouteNo;
                         equipmentNdriver.FumigationEquipmentNDriverId = response.FumigationEquipmentNDriver[i].FumigationEquipmentNDriverId;
@@ -288,9 +288,9 @@ function GetFumigationById() {
                         equipmentNdriver.IsDeleted = response.FumigationEquipmentNDriver[i].IsDeleted;
                         equipmentNdriver.FumigationRoutsId = response.FumigationEquipmentNDriver[i].FumigationRoutsId;
                         glbEquipmentNdriver.push(equipmentNdriver);
-                        console.log("glbEquipmentNdriver by ID: ", glbEquipmentNdriver);
-                    }
 
+                    }
+                    console.log("glbEquipmentNdriver by ID: ", glbEquipmentNdriver);
                     for (var i = 0; i < response.GetFumigationRouteDetail.length; i++) {
 
                         var objRouteStop = {};
@@ -304,7 +304,7 @@ function GetFumigationById() {
                         objRouteStop.PickUpLocation = response.GetFumigationRouteDetail[i].PickUpLocation;
                         objRouteStop.PickUpLocationText = response.GetFumigationRouteDetail[i].PickUpLocationText;
                         objRouteStop.PickUpArrival = response.GetFumigationRouteDetail[i].PickUpArrival == null ? "" : ConvertDateEdit(response.GetFumigationRouteDetail[i].PickUpArrival, true);
-                        console.log("objRouteStop.PickUpArrival: ", ConvertDateEdit(response.GetFumigationRouteDetail[i].PickUpArrival,true));
+                        console.log("objRouteStop.PickUpArrival: ", ConvertDateEdit(response.GetFumigationRouteDetail[i].PickUpArrival, true));
                         //console.log("response.GetFumigationRouteDetail[i].PickUpArrival: ", ConvertDate(response.GetFumigationRouteDetail[i].PickUpArrival,true));
                         objRouteStop.FumigationSite = response.GetFumigationRouteDetail[i].FumigationSite;
                         objRouteStop.FumigationSiteText = response.GetFumigationRouteDetail[i].FumigationSiteText;
@@ -338,7 +338,7 @@ function GetFumigationById() {
 
                         objRouteStop.DriverPickupArrival = response.GetFumigationRouteDetail[i].DriverPickupArrival == null ? "" : ConvertDateEdit(response.GetFumigationRouteDetail[i].DriverPickupArrival, true);
                         //console.log("DriverPickupArrival " + ConvertDateEdit(response.GetFumigationRouteDetail[i].DriverPickupArrival, true));
-                       // console.log("DriverPickupArrival " +response.GetFumigationRouteDetail[i].DriverPickupArrival);
+                        // console.log("DriverPickupArrival " +response.GetFumigationRouteDetail[i].DriverPickupArrival);
                         objRouteStop.DriverLoadingStartTime = response.GetFumigationRouteDetail[i].DriverLoadingStartTime == null ? "" : ConvertDateEdit(response.GetFumigationRouteDetail[i].DriverLoadingStartTime, true);
                         objRouteStop.DriverLoadingFinishTime = response.GetFumigationRouteDetail[i].DriverLoadingFinishTime == null ? "" : ConvertDateEdit(response.GetFumigationRouteDetail[i].DriverLoadingFinishTime, true);
                         objRouteStop.DriverPickupDeparture = response.GetFumigationRouteDetail[i].DriverPickupDeparture == null ? "" : ConvertDateEdit(response.GetFumigationRouteDetail[i].DriverPickupDeparture, true);
@@ -352,15 +352,17 @@ function GetFumigationById() {
                         // console.log("DriverDeliveryDeparture " + ConvertDateEdit(response.GetFumigationRouteDetail[i].DriverDeliveryDeparture, true));
                         var PickUpEquipmentNdriver = glbEquipmentNdriver.filter(x => x.RouteNo == objRouteStop.RouteNo && x.FumigationRoutsId == objRouteStop.FumigationRoutsId && x.IsPickUp);
                         objRouteStop.PickUpEquipmentNdriver = PickUpEquipmentNdriver;
-                        // console.log("PickUpEquipmentNdriver ", PickUpEquipmentNdriver);
+                        console.log("PickUpEquipmentNdriver ", PickUpEquipmentNdriver);
                         if (PickUpEquipmentNdriver.length > 0) {
 
 
                             var equpments = "";
                             var drivers = "";
                             $.each(PickUpEquipmentNdriver, function (index, message) {
+
                                 equpments = equpments + message.EquipmentName + ","
                                 if (message.DriverId > 0) {
+
                                     drivers = drivers + message.DriverName + ","
                                 }
                             });
@@ -527,7 +529,7 @@ function shipmentStatus() {
         type: "GET",
         async: false,
         success: function (data) {
-            console.log("data from new Driver order: ",data);
+            console.log("data from new Driver order: ", data);
             var ddlValue = "";
             $("#ddlStatus").empty();
             for (var i = 0; i < data.length; i++) {
@@ -1275,9 +1277,9 @@ function AddRouteStops() {
                     var DeliveryEQuipmentDriver = [];
                     // PickupEQuipmentDriver = JSON.parse($.trim($("#hdnPickUpEquipment").val()));
                     // DeliveryEQuipmentDriver = JSON.parse($.trim($("#hdnDeliveryEquipment").val()));
-
+                    console.log("route no check: ", glbRouteStops[rowindex]);
                     if (glbEquipmentNdriver.length > 0) {
-                        var EquipmentD = glbEquipmentNdriver.find((element) => element.RouteNo == 1 && element.IsPickUp == true);
+                        var EquipmentD = glbEquipmentNdriver.find((element) => element.RouteNo == glbRouteStops[rowindex].RouteNo && element.IsPickUp == true);
                         var pickOb = {
                             FumigationEquipmentNDriverId: 0,
                             IsPickUp: EquipmentD.IsPickUp,
@@ -1289,10 +1291,10 @@ function AddRouteStops() {
                             IsDeleted: false
 
                         };
-                        var equipCheck = glbEquipmentNdriver.find((element) => element.RouteNo == 1 && element.IsPickUp == false);
+                        var equipCheck = glbEquipmentNdriver.find((element) => element.RouteNo == glbRouteStops[rowindex].RouteNo && element.IsPickUp == false);
                         if (equipCheck == undefined) {
                             console.log("equipCheck: " + equipCheck);
-                            var EquipmentDel = glbEquipmentNdriver.find((element) => element.RouteNo == 1 && element.IsPickUp == true);
+                            var EquipmentDel = glbEquipmentNdriver.find((element) => element.RouteNo == glbRouteStops[rowindex].RouteNo && element.IsPickUp == true);
 
                             //console.log("glbEquipmentNdriver[1].IsPickUp: ", glbEquipmentNdriver[1].IsPickUp);
                             var delOb = {
@@ -1312,7 +1314,7 @@ function AddRouteStops() {
                             DeliveryEQuipmentDriver.push(delOb);
                         }
                         else {
-                            var EquipmentDel = glbEquipmentNdriver.find((element) => element.RouteNo == 1 && element.IsPickUp == false);
+                            var EquipmentDel = glbEquipmentNdriver.find((element) => element.RouteNo == glbRouteStops[rowindex].RouteNo && element.IsPickUp == false);
 
                             //console.log("glbEquipmentNdriver[1].IsPickUp: ", glbEquipmentNdriver[1].IsPickUp);
                             var delOb = {
@@ -1334,16 +1336,16 @@ function AddRouteStops() {
                         //console.log("PickupEQuipmentDriver: ",PickupEQuipmentDriver);
                     }
                     for (let h = 0; h < glbRouteStops.length; h++) {
-                        console.log("glbRouteStops.length * 2: ", glbRouteStops.length * 2 + "glbEquipmentNdriver.length : ", glbEquipmentNdriver.length);
+                        console.log("glbRouteStops.length * 2: ", glbRouteStops.length * 2 + " : glbEquipmentNdriver.length : ", glbEquipmentNdriver.length);
                         if ((glbRouteStops.length * 2) == (glbEquipmentNdriver.length)) {
-                            //console.log("driver and equipment count is coorect");
+                            console.log("driver and equipment count is coorect");
                             for (let k = 0; k < glbEquipmentNdriver.length; k++) {
                                 if (glbEquipmentNdriver[k].RouteNo > 1) {
                                     // glbEquipmentNdriver[k].push(pickOb);
                                     // glbEquipmentNdriver[k].IsPickUp = glbEquipmentNdriver[0].IsPickUp;
                                     // console.log("glbEquipmentNdriver greater than 1: ", glbEquipmentNdriver[k]);
                                     if (glbEquipmentNdriver[k].IsPickUp == false) {
-                                        var EquipmentD = glbEquipmentNdriver.find((element) => element.RouteNo == 1 && element.IsPickUp == false);
+                                        var EquipmentD = glbEquipmentNdriver.find((element) => element.RouteNo == glbRouteStops[rowindex].RouteNo && element.IsPickUp == false);
                                         // console.log("EquipmentD delivery: ",EquipmentD);
                                         console.log("glbEquipmentNdriver[k].IsPickUp: ", glbEquipmentNdriver[k].IsPickUp);
                                         glbEquipmentNdriver[k].EquipmentId = EquipmentD.EquipmentId;
@@ -1354,7 +1356,7 @@ function AddRouteStops() {
                                     else {
                                         //console.log("glbEquipmentNdriver[k].IsPickUp: ", glbEquipmentNdriver[k].IsPickUp);
                                         // glbEquipmentNdriver[k].IsPickUp = glbEquipmentNdriver[1].IsPickUp;
-                                        var EquipmentD = glbEquipmentNdriver.find((element) => element.RouteNo == 1 && element.IsPickUp == true);
+                                        var EquipmentD = glbEquipmentNdriver.find((element) => element.RouteNo == glbRouteStops[rowindex].RouteNo && element.IsPickUp == true);
                                         console.log("EquipmentD pickup : ", EquipmentD);
                                         glbEquipmentNdriver[k].EquipmentId = EquipmentD.EquipmentId;
                                         glbEquipmentNdriver[k].EquipmentName = EquipmentD.EquipmentName;
@@ -1381,8 +1383,8 @@ function AddRouteStops() {
                             // console.log("routeNo: ",routeNo);
                             for (let l = 1; l <= glbRouteStops.length; l++) {
                                 if (l != 1) {
-                                    var EquipmentD = glbEquipmentNdriver.find((element) => element.RouteNo == 1 && element.IsPickUp == true);
-                                    var EquipmentDel = glbEquipmentNdriver.find((element) => element.RouteNo == 1 && element.IsPickUp == false);
+                                    var EquipmentD = glbEquipmentNdriver.find((element, index) => element.RouteNo == glbRouteStops[rowindex].RouteNo && element.IsPickUp == true);
+                                    var EquipmentDel = glbEquipmentNdriver.find((element, index) => element.RouteNo == glbRouteStops[rowindex].RouteNo && element.IsPickUp == false);
                                     console.log("EquipmentD: ", EquipmentD);
                                     console.log("EquipmentDel: ", EquipmentDel);
                                     if (EquipmentD != undefined && EquipmentDel != undefined) {
@@ -1413,6 +1415,7 @@ function AddRouteStops() {
                                         };
                                         pickOb.RouteNo = l;
                                         delOb.RouteNo = l;
+										console.log("length of l: ",l);
                                         glbEquipmentNdriver.push(pickOb);
                                         glbEquipmentNdriver.push(delOb);
                                     }
@@ -1430,6 +1433,7 @@ function AddRouteStops() {
                     //else {
                     //    routedetail.PickUpEquipmentNdriver = $.trim($("#hdnPickUpEquipment").val());
                     //}
+                    console.log("PickupEQuipmentDriver: ", PickupEQuipmentDriver);
                     routedetail.PickUpEquipmentNdriver = PickupEQuipmentDriver;
                     routedetail.DeliveryEquipmentNdriver = DeliveryEQuipmentDriver;
                     routedetail.DeliveryEquipment = $.trim($("#txtDeliveryEquipment").val());
@@ -1768,10 +1772,16 @@ function AddRouteStops() {
             $("#dtActFumRelease").val(glbRouteStops[0].DriverFumigationRelease);
             $("#dtDeparture").val(glbRouteStops[0].DepartureDate);
 
+
             // Delivery Time Stamp //
             $("#dtDeliveryArrival").val(glbRouteStops[0].DeliveryArrival);
             $("#dtActDeliveryArrival").val(glbRouteStops[0].DriverDeliveryArrival);
             $("#dtActDeliveryDeparture").val(glbRouteStops[0].DriverDeliveryDeparture);
+            var pickup_eq = glbRouteStops[0].PickUpEquipment;
+            var checkbox = $('input[type="checkbox"][data-equipment-name="' + pickup_eq + '"]');
+            checkbox.prop('checked', true);
+            console.log("glbRouteStops[0]: ", glbRouteStops[0]);
+            console.log("pickup_eq: ", pickup_eq);
 
 
         }
@@ -2359,7 +2369,7 @@ function GetJsonValue() {
     var tempLen = glbEquipmentNdriver.length;
     var delObjExists = false;
     var chkEquipment = $("#chkEquipment").val();
-  
+
     //if(chkEquipment==null || chkEquipment=="null"){
     for (let i = 0; i < tempLen; i++) {
         //delObjExists = false;
@@ -3247,81 +3257,187 @@ var btnSave = function () {
                     if (glbRouteStops.length > 0) {
                         if (values.FumigationId > 0) {
                             //console.log("Picks: " , values.DriverPickupArrival);
-                            $.ajax({
-                                url: baseUrl + "/Fumigation/Fumigation/EditFumigation",
-                                type: "POST",
-                                beforeSend: function () {
-                                    showLoader();
-                                    // console.log("pickup Drive btnsave: ","FumigationEquipmentNdriver" in values);
-                                    var deliveryDriver = "";
-                                    var pickupDriver = "";
-                                    const ddlstatus = $("#ddlStatus option:selected").text();
-                                    if (values.FumigationEquipmentNdriver.length > 0 && prevalues.length > 0) {
-                                        for (let i = 0; i < values.FumigationEquipmentNdriver.length; i++) {
-                                            if (values.FumigationEquipmentNdriver[i].IsPickUp == false) {
-                                                if (values.FumigationEquipmentNdriver[i].DriverName != "" && values.FumigationEquipmentNdriver[i].DriverName != "undefined" && values.FumigationEquipmentNdriver[i].DriverName != undefined && values.FumigationEquipmentNdriver[i].DriverName !="Select Driver") {
-                                                    deliveryDriver = values.FumigationEquipmentNdriver[i].DriverName;
-                                                    //pickupDriver = values.FumigationEquipmentNdriver[i].DriverName;
-                                                }
-                                            }
-                                        }
+                            if ($("#ddlStatus").val() == 7)//ORDER TAKEN
+                            {
+                                $.confirm({
+                                    title: 'Confirm!',
+                                    content: 'DO YOU WANT TO COMPLETE THIS FUMIGATION NOW?',
+                                    type: 'green',
+                                    typeAnimated: true,
+                                    buttons: {
+                                        confirm: function () {
+                                            //$.alert('Confirmed!');
+                                            $("#ddlStatus").val(11);
+                                            values.StatusId = 11;
+                                            $.ajax({
+                                                url: baseUrl + "/Fumigation/Fumigation/EditFumigation",
+                                                type: "POST",
+                                                beforeSend: function () {
+                                                    showLoader();
+                                                    // console.log("pickup Drive btnsave: ","FumigationEquipmentNdriver" in values);
+                                                    var deliveryDriver = "";
+                                                    var pickupDriver = "";
+                                                    const ddlstatus = $("#ddlStatus option:selected").text();
+                                                    if (values.FumigationEquipmentNdriver.length > 0 && prevalues.length > 0) {
+                                                        for (let i = 0; i < values.FumigationEquipmentNdriver.length; i++) {
+                                                            if (values.FumigationEquipmentNdriver[i].IsPickUp == false) {
+                                                                if (values.FumigationEquipmentNdriver[i].DriverName != "" && values.FumigationEquipmentNdriver[i].DriverName != "undefined" && values.FumigationEquipmentNdriver[i].DriverName != undefined && values.FumigationEquipmentNdriver[i].DriverName != "Select Driver") {
+                                                                    deliveryDriver = values.FumigationEquipmentNdriver[i].DriverName;
+                                                                    //pickupDriver = values.FumigationEquipmentNdriver[i].DriverName;
+                                                                }
+                                                            }
+                                                        }
 
-                                        // console.log("deliver: ", deliveryDriver);
-                                        if (deliveryDriver != "") {
-                                            if (ddlstatus == "DRIVER ASSIGNED") {
-                                                console.log("sending delivery");
-                                                SendDeliveryMessage();
-                                            }
-                                        }                                      
-                                        else {
+                                                        // console.log("deliver: ", deliveryDriver);
+                                                        if (deliveryDriver != "") {
+                                                            if (ddlstatus == "DRIVER ASSIGNED") {
+                                                                console.log("sending delivery");
+                                                                SendDeliveryMessage();
+                                                            }
+                                                        }
+                                                        else {
 
-                                            SendEditMessage();
-                                        }
-                                    }
+                                                            SendEditMessage();
+                                                        }
+                                                    }
 
-                                },
-                                data: JSON.stringify(values),
-                                contentType: "application/json; charset=utf-8",
-                                dataType: "json",
 
-                                success: function (response) {
-                                    isNeedToloaded = false;
-                                    hideLoader();
-                                    if (response.IsSuccess) {
-                                        //toastr.success(response.Message);
-                                        //setTimeout(function () {
-                                        //    window.location.href = baseUrl + "/Fumigation/Fumigation/ViewFumigationList";
-                                        //}, 1000)
-                                        $.alert({
-                                            title: 'Success!',
-                                            content: "<b>" + response.Message + "</b>",
-                                            type: 'green',
-                                            typeAnimated: true,
-                                            buttons: {
-                                                Ok: {
-                                                    btnClass: 'btn-green',
-                                                    action: function () {
-                                                        window.location.href = baseUrl + "/Fumigation/Fumigation/ViewFumigationList";
+                                                },
+                                                data: JSON.stringify(values),
+                                                contentType: "application/json; charset=utf-8",
+                                                dataType: "json",
+
+                                                success: function (response) {
+                                                    isNeedToloaded = false;
+                                                    hideLoader();
+                                                    if (response.IsSuccess) {
+                                                        //toastr.success(response.Message);
+                                                        //setTimeout(function () {
+                                                        //    window.location.href = baseUrl + "/Fumigation/Fumigation/ViewFumigationList";
+                                                        //}, 1000)
+
+                                                        $.alert({
+                                                            title: 'Success!',
+                                                            content: "<b>" + response.Message + "</b>",
+                                                            type: 'green',
+                                                            typeAnimated: true,
+                                                            buttons: {
+                                                                Ok: {
+                                                                    btnClass: 'btn-green',
+                                                                    action: function () {
+                                                                        window.location.href = baseUrl + "/Fumigation/Fumigation/ViewFumigationList";
+                                                                    }
+                                                                },
+                                                            }
+                                                        });
+
+                                                    }
+                                                    else {
+                                                        hideLoader();
+                                                        //toastr.error(response.Message);
+                                                        //AlertPopup(response.Message);
+                                                        AlertPopup("Email Failed...");
                                                     }
                                                 },
+                                                error: function () {
+                                                    hideLoader();
+                                                    // toastr.error("Something went wrong.");
+                                                    AlertPopup("Something went wrong.");
+
+                                                }
+                                            });
+
+                                        },
+                                        cancel: function () {
+                                           /// $.alert('Canceled!');
+
+                                        },
+
+                                    }
+                                });
+
+                                //DISPATCHED 
+                            }
+                            else {
+                                $.ajax({
+                                    url: baseUrl + "/Fumigation/Fumigation/EditFumigation",
+                                    type: "POST",
+                                    beforeSend: function () {
+                                        showLoader();
+                                        // console.log("pickup Drive btnsave: ","FumigationEquipmentNdriver" in values);
+                                        var deliveryDriver = "";
+                                        var pickupDriver = "";
+                                        const ddlstatus = $("#ddlStatus option:selected").text();
+                                        if (values.FumigationEquipmentNdriver.length > 0 && prevalues.length > 0) {
+                                            for (let i = 0; i < values.FumigationEquipmentNdriver.length; i++) {
+                                                if (values.FumigationEquipmentNdriver[i].IsPickUp == false) {
+                                                    if (values.FumigationEquipmentNdriver[i].DriverName != "" && values.FumigationEquipmentNdriver[i].DriverName != "undefined" && values.FumigationEquipmentNdriver[i].DriverName != undefined && values.FumigationEquipmentNdriver[i].DriverName != "Select Driver") {
+                                                        deliveryDriver = values.FumigationEquipmentNdriver[i].DriverName;
+                                                        //pickupDriver = values.FumigationEquipmentNdriver[i].DriverName;
+                                                    }
+                                                }
                                             }
-                                        });
 
-                                    }
-                                    else {
+                                            // console.log("deliver: ", deliveryDriver);
+                                            if (deliveryDriver != "") {
+                                                if (ddlstatus == "DRIVER ASSIGNED") {
+                                                    console.log("sending delivery");
+                                                    SendDeliveryMessage();
+                                                }
+                                            }
+                                            else {
+
+                                                SendEditMessage();
+                                            }
+                                        }
+
+
+                                    },
+                                    data: JSON.stringify(values),
+                                    contentType: "application/json; charset=utf-8",
+                                    dataType: "json",
+
+                                    success: function (response) {
+                                        isNeedToloaded = false;
                                         hideLoader();
-                                        //toastr.error(response.Message);
-                                        //AlertPopup(response.Message);
-                                        AlertPopup("Email Failed...");
-                                    }
-                                },
-                                error: function () {
-                                    hideLoader();
-                                    // toastr.error("Something went wrong.");
-                                    AlertPopup("Something went wrong.");
+                                        if (response.IsSuccess) {
+                                            //toastr.success(response.Message);
+                                            //setTimeout(function () {
+                                            //    window.location.href = baseUrl + "/Fumigation/Fumigation/ViewFumigationList";
+                                            //}, 1000)
 
-                                }
-                            });
+                                            $.alert({
+                                                title: 'Success!',
+                                                content: "<b>" + response.Message + "</b>",
+                                                type: 'green',
+                                                typeAnimated: true,
+                                                buttons: {
+                                                    Ok: {
+                                                        btnClass: 'btn-green',
+                                                        action: function () {
+                                                            window.location.href = baseUrl + "/Fumigation/Fumigation/ViewFumigationList";
+                                                        }
+                                                    },
+                                                }
+                                            });
+
+                                        }
+                                        else {
+                                            hideLoader();
+                                            //toastr.error(response.Message);
+                                            //AlertPopup(response.Message);
+                                            AlertPopup("Email Failed...");
+                                        }
+                                    },
+                                    error: function () {
+                                        hideLoader();
+                                        // toastr.error("Something went wrong.");
+                                        AlertPopup("Something went wrong.");
+
+                                    }
+                                });
+                            }
+
                         }
 
                         else {

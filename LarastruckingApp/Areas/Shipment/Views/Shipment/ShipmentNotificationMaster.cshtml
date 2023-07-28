@@ -97,22 +97,22 @@
                 </td>
             </tr>
             <tr>
-                <td style="text-align: center;display: flex;margin: 20px 0;">
+                <td style="text-align: center; display: flex; margin: 20px 0; flex-wrap: wrap; align-items: center;">
                     @{
                         bool isValid = false;
                         foreach (var status in Model.ShipmentStatusHistory)
                         {
                             if (isValid == false)
                             {
-                                <img style="width:auto;" src="@status.ImageUrl" />
+                                <img  src="@status.ImageUrl" />
                                 isValid = true;
                             }
                             else
                             {
 
-                                <img style="margin-bottom:0px;width:40px;" src="@Model.StatusDotPath" />
+                                <img  src="@Model.StatusDotPath" />
 
-                                <img style="width: 30px;" src="@status.ImageUrl" />
+                                <img  src="@status.ImageUrl" />
                             }
 
 
@@ -122,10 +122,10 @@
                             if (isValid == true)
                             {
 
-                                <img style="margin-bottom: 0px; width: 40px;" src="@Model.StatusGrayDotPath" />
+                                <img  src="@Model.StatusGrayDotPath" />
                             }
 
-                            <img style="width: 30px;" src="@status.GrayImageURL" />
+                            <img  src="@status.GrayImageURL" />
                             isValid = true;
 
 

@@ -444,6 +444,7 @@
     <Content Include="CustomScript\shipmentjs\viewAllShipment.js" />
     <Content Include="CustomScript\shipmentjs\MainShipment.js" />
     <Content Include="CustomScript\shipmentjs\viewShipmentList.js" />
+    <Content Include="CustomScript\TimeCard\DriverIncentive.js" />
     <Content Include="CustomScript\TimeCard\MainTimeCard.js" />
     <Content Include="CustomScript\TimeCard\TimeCard.js" />
     <Content Include="CustomScript\TimeCard\ViewTimeCard.js" />
@@ -735,6 +736,8 @@
     <Content Include="Views\Shared\_prTimeCardPrintNEmail.cshtml" />
     <Content Include="Views\Shared\_TemperatureEmail.cshtml" />
     <Content Include="Views\Main\Index.cshtml" />
+    <Content Include="Views\Driver\DriverIncentive.cshtml" />
+    <Content Include="Views\Shared\_IncentiveCard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Dispatcher\Models\" />

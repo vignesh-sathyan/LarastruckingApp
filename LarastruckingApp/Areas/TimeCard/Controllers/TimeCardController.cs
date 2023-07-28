@@ -313,6 +313,23 @@ namespace LarastruckingApp.Areas.TimeCard.Controllers
         }
         #endregion
 
+
+        #region Save Incentive Card Amount
+        /// <summary>
+        /// Save Time Card Amount
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+
+        [HttpPost]
+        public ActionResult SaveIncentiveCardAmount(IncentiveCardCalculation entity)
+        {
+            MemberProfile mp = new MemberProfile();
+            var result = timeCardBAL.SaveIncentiveCardAmount(entity);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
         #region my time card
         /// <summary>
         /// my time card

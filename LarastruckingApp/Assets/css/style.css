@@ -24,11 +24,14 @@ body {
     body.bodyBg {
         background: #f7f7f7;
     }
+    body.Master {
+        background: #fff;
+    }
 
-button {
-    background: transparent;
-    border: 0;
-}
+        button {
+            background: transparent;
+            border: 0;
+        }
 
 a:hover {
     text-decoration: none;

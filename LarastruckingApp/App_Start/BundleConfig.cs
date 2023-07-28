@@ -120,6 +120,10 @@ namespace LarastruckingApp
                     "~/CustomScript/ViewDriver.js",
                      "~/CustomScript/TimeCard/MainTimeCard.js"
                       ));
+            bundles.Add(new ScriptBundle("~/bundles/Incentive").Include(
+                     "~/CustomScript/TimeCard/IncentiveCard.js",
+                     "~/CustomScript/TimeCard/DriverIncentive.js"
+                     ));
             bundles.Add(new ScriptBundle("~/bundles/Driver").Include(
                       "~/CustomScript/Driver.js"
                   ));

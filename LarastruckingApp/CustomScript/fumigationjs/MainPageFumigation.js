@@ -158,64 +158,64 @@ var datetime = (month < 10 ? '0' : '') + month + '/' +
 var GetOrderTakenFumigationList = function () {
     $('#tblOrderTakenFumigation').DataTable().clear().destroy();
 
-  
+
     $('#tblOrderTakenFumigation').DataTable({
         // "bInfo": true,
-       dom: 'Blfrtip',
-        //buttons: [
-        //    {
-        //        extend: 'print',
-        //        orientation: 'landscape',
-        //        pageSize: 'LEGAL',
-        //        title: "",
-        //        text: '<img src="../../Assets/images/printer.png" style="height:18px;margin-right: 5px;width:16px;"/> Print',
-        //        messageBottom: datetime,
-        //        //messageTop: datetime,
-        //        exportOptions: {
+        dom: 'Blfrtip',
+        buttons: [
+            {
+                extend: 'print',
+                orientation: 'landscape',
+                pageSize: 'LEGAL',
+                title: "",
+                text: '<img src="../../Assets/images/printer.png" style="height:18px;margin-right: 5px;width:16px;"/> Print',
+                messageBottom: datetime,
+                //messageTop: datetime,
+                exportOptions: {
 
-        //            columns: ':visible',
-        //            stripHtml: false,
-        //            //columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+                    columns: ':visible',
+                    stripHtml: false,
+                    //columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
 
-        //        },
-        //        customize: function (win) {
+                },
+                customize: function (win) {
 
-        //            var last = null;
-        //            var current = null;
-        //            var bod = [];
+                    var last = null;
+                    var current = null;
+                    var bod = [];
 
-        //            var css = '@page { size: landscape;}  ',
-        //                head = win.document.head || win.document.getElementsByTagName('head')[0],
-        //                style = win.document.createElement('style');
+                    var css = '@page { size: landscape;}  ',
+                        head = win.document.head || win.document.getElementsByTagName('head')[0],
+                        style = win.document.createElement('style');
 
-        //            style.type = 'text/css';
-        //            style.media = 'print';
+                    style.type = 'text/css';
+                    style.media = 'print';
 
-        //            if (style.styleSheet) {
-        //                style.styleSheet.cssText = css;
-        //            }
-        //            else {
-        //                style.appendChild(win.document.createTextNode(css));
-        //            }
+                    if (style.styleSheet) {
+                        style.styleSheet.cssText = css;
+                    }
+                    else {
+                        style.appendChild(win.document.createTextNode(css));
+                    }
 
-        //            head.appendChild(style);
-        //            $(win.document.body)
-        //                .css('font-size', '10pt')
-        //                .prepend(
-        //                    "<table id='checkheader'><tr><td width='80%' ><h3 style='font-size: 20px;'>REQUESTED FUMIGATION</h3></td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
-        //                );
-        //        }
-        //    },
-        //    {
-        //        extend: 'colvis',
-        //        text: '<img src="../../Assets/images/info.png" style="width:17px;;margin-top: -2px;height: 17px;"/> column visibility',
-        //        columns: ':not(.noVis)',
-        //    }
+                    head.appendChild(style);
+                    $(win.document.body)
+                        .css('font-size', '10pt')
+                        .prepend(
+                            "<table id='checkheader'><tr><td width='80%' ><h3 style='font-size: 20px;'>REQUESTED FUMIGATION</h3></td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
+                        );
+                }
+            },
+            {
+                extend: 'colvis',
+                text: '<img src="../../Assets/images/info.png" style="width:17px;;margin-top: -2px;height: 17px;"/> column visibility',
+                columns: ':not(.noVis)',
+            }
 
-        //],
+        ],
 
         select: 'single',
-       // "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
         //responsive: true,
         "scrollX": true,
         "scrollCollapse": true,
@@ -266,63 +266,63 @@ var GetOrderTakenFumigationList = function () {
                 "name": "PickUpArrival",
                 "autoWidth": true,
                 "render": function (data, type, row, meta) {
-                  
-                   // console.log("tblorder row: ", row);
+
+                    console.log("tblorder row: ", row);
                     ///console.log("tblorder row: ", row);
                     var isSame = false;
                     if (row.PickUpArrival != null && row.PickUpArrival != '') {
-                       //  console.log("row.PickUpArrival: " + row.PickUpArrival);
+                        //  console.log("row.PickUpArrival: " + row.PickUpArrival);
                         var PickUpArrival = row.PickUpArrival.split("|");
 
-                      //  if (ConvertDateNew(PickUpArrival[0], true) != "NaN/NaN NaN:NaN") {
-                            if (PickUpArrival.length > 0) {
-                                var count = 0;
-                                for (var i = 0; i < PickUpArrival.length; i++) {
-                                    //console.log("UTC time: " + new Date(PickUpArrival[0]).toUTCString());
-                                    if (PickUpArrival[i] == PickUpArrival[0]) {
-                                        count = count + 1;
-                                    }
-                                }
-                                if (count == PickUpArrival.length) {
-                                    isSame = true;
-                                }
-                                if (isSame) {
-                                    var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
-                                    var tabCon = '';
-                                    var tabBottom = '</table>';
-                                    var ftype = row.FumigationTypes.split('$');
-                                    if (ftype.length > 1) {
-                                        for (var i = 0; i < ftype.length; i++) {
-
-                                            // objRouteStop.PickUpArrival = response.GetFumigationRouteDetail[i].PickUpArrival == null ? "" : ConvertDateEdit(response.GetFumigationRouteDetail[i].PickUpArrival, true);
-                                            tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top">' + ConvertSqlDateTimeNew(PickUpArrival[0]) + '</label></td></tr>';
-                                            //tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top">' + ConvertDateEdit(PickUpArrival[0], true) + '</label></td></tr>';
-                                        }
-                                        return tabTop + tabCon + tabBottom;
-                                    }
-                                    else {
-
-                                        return '<label data-toggle="tooltip" data-placement="top">' + ConvertSqlDateTimeNew(PickUpArrival[0]) + '</label>';
-                                        //return '<label data-toggle="tooltip" data-placement="top">' + ConvertDateEdit(PickUpArrival[0], true) + '</label>';
-                                    }
-                                    // var tabCon = '<label data-toggle="tooltip" data-placement="top">' + ConvertDateNew(PickUpArrival[0],true) + '</label>';
-                                    // return tabCon;
-                                }
-                                else {
-                                    var tabCon = '';
-                                    var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
-                                    // var tabCon = '';
-                                    var tabBottom = '</table>';
-                                    if (PickUpArrival.length > 0) {
-                                        for (var i = 0; i < PickUpArrival.length; i++) {
-                                            tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top">' + ConvertSqlDateTimeNew(PickUpArrival[i]) + '</label></td></tr>';
-                                            //tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top">' + ConvertDateEdit(PickUpArrival[i],true) + '</label></td></tr>';
-                                        }
-                                        return tabTop + tabCon + tabBottom
-                                    }
+                        //  if (ConvertDateNew(PickUpArrival[0], true) != "NaN/NaN NaN:NaN") {
+                        if (PickUpArrival.length > 0) {
+                            var count = 0;
+                            for (var i = 0; i < PickUpArrival.length; i++) {
+                                //console.log("UTC time: " + new Date(PickUpArrival[0]).toUTCString());
+                                if (PickUpArrival[i] == PickUpArrival[0]) {
+                                    count = count + 1;
                                 }
                             }
-                      
+                            if (count == PickUpArrival.length) {
+                                isSame = true;
+                            }
+                            if (isSame) {
+                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabCon = '';
+                                var tabBottom = '</table>';
+                                var ftype = row.FumigationTypes.split('$');
+                                if (ftype.length > 1) {
+                                    for (var i = 0; i < ftype.length; i++) {
+
+                                        // objRouteStop.PickUpArrival = response.GetFumigationRouteDetail[i].PickUpArrival == null ? "" : ConvertDateEdit(response.GetFumigationRouteDetail[i].PickUpArrival, true);
+                                        tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + ConvertSqlDateTimeNew(PickUpArrival[0]) + '</label></td></tr>';
+                                        //tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top">' + ConvertDateEdit(PickUpArrival[0], true) + '</label></td></tr>';
+                                    }
+                                    return tabTop + tabCon + tabBottom;
+                                }
+                                else {
+
+                                    return '<label data-toggle="tooltip" data-placement="top">' + ConvertSqlDateTimeNew(PickUpArrival[0]) + '</label>';
+                                    //return '<label data-toggle="tooltip" data-placement="top">' + ConvertDateEdit(PickUpArrival[0], true) + '</label>';
+                                }
+                                // var tabCon = '<label data-toggle="tooltip" data-placement="top">' + ConvertDateNew(PickUpArrival[0],true) + '</label>';
+                                // return tabCon;
+                            }
+                            else {
+                                var tabCon = '';
+                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                // var tabCon = '';
+                                var tabBottom = '</table>';
+                                if (PickUpArrival.length > 0) {
+                                    for (var i = 0; i < PickUpArrival.length; i++) {
+                                        tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + ConvertSqlDateTimeNew(PickUpArrival[i]) + '</label></td></tr>';
+                                        //tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top">' + ConvertDateEdit(PickUpArrival[i],true) + '</label></td></tr>';
+                                    }
+                                    return tabTop + tabCon + tabBottom
+                                }
+                            }
+                        }
+
 
                     } else {
                         return 'NA'
@@ -347,12 +347,12 @@ var GetOrderTakenFumigationList = function () {
                             var count = 0;
 
                             var tabCon = '';
-                            var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             // var tabCon = '';
                             var tabBottom = '</table>';
                             if (fumigationTypesList.length > 0) {
                                 for (var i = 0; i < fumigationTypesList.length; i++) {
-                                    tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top">' + fumigationTypesList[i].trim() + '</label></td></tr>';
+                                    tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + fumigationTypesList[i].trim() + '</label></td></tr>';
                                 }
                                 return tabTop + tabCon + tabBottom
                             }
@@ -414,13 +414,13 @@ var GetOrderTakenFumigationList = function () {
                                 isSame = true;
                             }
                             if (isSame) {
-                                var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 var ftype = row.FumigationTypes.split('$');
                                 if (ftype.length > 1) {
                                     for (var i = 0; i < ftype.length; i++) {
-                                        tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(pickupLocation[0]) + '" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + GetCompanyNew(pickupLocation[0]) + '</label></td></tr>';
+                                        tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(pickupLocation[0]) + '" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + GetCompanyNew(pickupLocation[0]) + '</label></td></tr>';
                                     }
                                     return tabTop + tabCon + tabBottom;
                                 }
@@ -435,9 +435,9 @@ var GetOrderTakenFumigationList = function () {
                                 var lblPickupLocation = "";
                                 if (pickupLocation.length > 1) {
                                     for (var i = 0; i < pickupLocation.length; i++) {
-                                        lblPickupLocation += '<tr><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(pickupLocation[i]) + '" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + GetCompanyNew(pickupLocation[i]) + '</label></td></tr>'
+                                        lblPickupLocation += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(pickupLocation[i]) + '" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + GetCompanyNew(pickupLocation[i]) + '</label></td></tr>'
                                     }
-                                    var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                    var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                     // var tabCon = '';
                                     var tabBottom = '</table>';
                                     //lblPickupLocation = lblPickupLocation.trim("<br/>");
@@ -464,7 +464,7 @@ var GetOrderTakenFumigationList = function () {
                 "render": function (data, type, row, meta) {
 
                     var AWB_CP_CN = "";
-                    var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                    var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                     // var tabCon = '';
                     var tabBottom = '</table>';
                     var type = row.FumigationTypes.split('$');
@@ -480,9 +480,9 @@ var GetOrderTakenFumigationList = function () {
                                     var lblPickupLocation = "";
                                     if (pickupLocation.length > 1) {
                                         for (var i = 0; i < pickupLocation.length; i++) {
-                                            AWB_CP_CN += '<tr><td><label data-toggle="tooltip" data-placement="top" title="' + pickupLocation[i] + '">' + pickupLocation[i] + '</label></td></tr>'
+                                            AWB_CP_CN += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top" title="' + pickupLocation[i] + '">' + pickupLocation[i] + '</label></td></tr>'
                                         }
-                                        var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                        var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                         // var tabCon = '';
                                         var tabBottom = '</table>';
                                         //lblPickupLocation = lblPickupLocation.trim("<br/>");
@@ -579,13 +579,13 @@ var GetOrderTakenFumigationList = function () {
                         var vendorNconsignee = row.VendorNconsignee.split("|")
 
                         if (vendorNconsignee.length > 1) {
-                            var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             // var tabCon = '';
                             var tabBottom = '</table>';
                             var lblPickupLocation = "";
                             for (var i = 0; i < vendorNconsignee.length; i++) {
                                 // console.log("vendorNconsignee: " + vendorNconsignee[i]);
-                                lblPickupLocation += '<tr><td><label data-toggle="tooltip" data-placement="top" title= "'+row.VendorNconsignee+'" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + vendorNconsignee[i] + '</label></td></tr>';
+                                lblPickupLocation += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top" title= "' + row.VendorNconsignee + '" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + vendorNconsignee[i] + '</label></td></tr>';
 
                             }
                             return tabTop + lblPickupLocation + tabBottom
@@ -593,7 +593,7 @@ var GetOrderTakenFumigationList = function () {
 
                         else {
                             var lblPickupLocation = "";
-                            return '<label data-toggle="tooltip" data-placement="top" title= "' + row.VendorNconsignee +'" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + row.VendorNconsignee + '</label>';
+                            return '<label data-toggle="tooltip" data-placement="top" title= "' + row.VendorNconsignee + '" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + row.VendorNconsignee + '</label>';
                             //return lblPickupLocation
 
                         }
@@ -615,14 +615,14 @@ var GetOrderTakenFumigationList = function () {
                         var BoxCount = row.BoxCount.split("|")
 
                         if (BoxCount.length > 1) {
-                            var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             // var tabCon = '';
                             var tabBottom = '</table>';
                             var lblPickupLocation = "";
                             for (var i = 0; i < BoxCount.length; i++) {
                                 // console.log("vendorNconsignee: " + BoxCount[i]);
                                 var boxcounts = BoxCount[i].split('.');
-                                lblPickupLocation += '<tr><td><label data-toggle="tooltip" data-placement="top">' + boxcounts[0] + '</label></td></tr>';
+                                lblPickupLocation += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + boxcounts[0] + '</label></td></tr>';
 
                             }
                             return tabTop + lblPickupLocation + tabBottom
@@ -655,14 +655,14 @@ var GetOrderTakenFumigationList = function () {
                         var PalletCount = row.PalletCount.split("|")
 
                         if (PalletCount.length > 1) {
-                            var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             // var tabCon = '';
                             var tabBottom = '</table>';
                             var lblPickupLocation = "";
                             for (var i = 0; i < PalletCount.length; i++) {
                                 var palletcounts = PalletCount[i].split('.');
                                 //console.log("vendorNconsignee: " + PalletCount[i]);
-                                lblPickupLocation += '<tr><td><label data-toggle="tooltip" data-placement="top">' + palletcounts[0] + '</label></td></tr>';
+                                lblPickupLocation += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + palletcounts[0] + '</label></td></tr>';
 
                             }
                             return tabTop + lblPickupLocation + tabBottom
@@ -693,13 +693,13 @@ var GetOrderTakenFumigationList = function () {
                         var TrailerPosition = row.TrailerPosition.split("|")
 
                         if (TrailerPosition.length > 1) {
-                            var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             // var tabCon = '';
                             var tabBottom = '</table>';
                             var lblPickupLocation = "";
                             for (var i = 0; i < TrailerPosition.length; i++) {
                                 //console.log("vendorNconsignee: " + TrailerPosition[i]);
-                                lblPickupLocation += '<tr><td><label data-toggle="tooltip" data-placement="top">' + TrailerPosition[i] + '</label></td></tr>';
+                                lblPickupLocation += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + TrailerPosition[i] + '</label></td></tr>';
 
                             }
                             return tabTop + lblPickupLocation + tabBottom
@@ -729,7 +729,7 @@ var GetOrderTakenFumigationList = function () {
                         var Temperature = row.Temperature.split("|")
 
                         if (Temperature.length > 1) {
-                            var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             // var tabCon = '';
                             var temp1 = '';
                             var tabBottom = '</table>';
@@ -745,7 +745,7 @@ var GetOrderTakenFumigationList = function () {
 
                                 }
 
-                                lblPickupLocation += '<tr><td><label data-toggle="tooltip" data-placement="top">' + temp1 + '</label></td></tr>';
+                                lblPickupLocation += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + temp1 + '</label></td></tr>';
 
                             }
                             return tabTop + lblPickupLocation + tabBottom
@@ -787,13 +787,13 @@ var GetOrderTakenFumigationList = function () {
                             }
                         }
                         if (isSame) {
-                            var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabCon = '';
                             var tabBottom = '</table>';
                             var ftype = row.FumigationTypes.split('$');
                             if (ftype.length > 1) {
                                 for (var i = 0; i < ftype.length; i++) {
-                                    tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(fumigationSite[0]) + '" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + GetCompanyNew(fumigationSite[0]) + '</label></td></tr>';
+                                    tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(fumigationSite[0]) + '" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + GetCompanyNew(fumigationSite[0]) + '</label></td></tr>';
                                 }
                                 return tabTop + tabCon + tabBottom;
                             }
@@ -805,9 +805,9 @@ var GetOrderTakenFumigationList = function () {
                             var lblfumigationSite = "";
                             if (fumigationSite.length > 1) {
                                 for (var i = 0; i < fumigationSite.length; i++) {
-                                    lblfumigationSite += '<tr><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(fumigationSite[i]) + '" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + GetCompanyNew(fumigationSite[i]) + '</label></td></tr>'
+                                    lblfumigationSite += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(fumigationSite[i]) + '" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + GetCompanyNew(fumigationSite[i]) + '</label></td></tr>'
                                 }
-                                var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 // var tabCon = '';
                                 var tabBottom = '</table>';
                                 // var tabCon = '<tr><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(fumigationSite[0]) + '">' + GetCompanyNew(fumigationSite[0]) + '</label><br/></td></tr>'; 
@@ -850,13 +850,13 @@ var GetOrderTakenFumigationList = function () {
                             }
                             if (isSame) {
                                 // console.log("count:" + PickUpEquipment.length);
-                                var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 var ftype = row.FumigationTypes.split('$');
                                 if (ftype.length > 1) {
                                     for (var i = 0; i < ftype.length; i++) {
-                                        tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top">' + PickUpEquipment[0] + '</label></td></tr>';
+                                        tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + PickUpEquipment[0] + '</label></td></tr>';
                                     }
                                     return tabTop + tabCon + tabBottom;
                                 }
@@ -869,9 +869,9 @@ var GetOrderTakenFumigationList = function () {
                                 var lblfumigationSite = "";
                                 if (PickUpEquipment.length > 1) {
                                     for (var i = 0; i < PickUpEquipment.length; i++) {
-                                        lblfumigationSite += '<tr><td><label data-toggle="tooltip" data-placement="top">' + PickUpEquipment[i] + '</label></td></tr>'
+                                        lblfumigationSite += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + PickUpEquipment[i] + '</label></td></tr>'
                                     }
-                                    var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                    var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                     // var tabCon = '';
                                     var tabBottom = '</table>';
                                     // var tabCon = '<tr><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(fumigationSite[0]) + '">' + GetCompanyNew(fumigationSite[0]) + '</label><br/></td></tr>'; 
@@ -907,14 +907,14 @@ var GetOrderTakenFumigationList = function () {
                         var PickUpDriver = row.PickUpDriver.split("$");
 
                         if (PickUpDriver.length > 1) {
-                            var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             // var tabCon = '';
                             var tabBottom = '</table>';
                             var lblPickupLocation = "";
                             for (var i = 0; i < PickUpDriver.length; i++) {
                                 //console.log("vendorNconsignee: " + PickUpDriver[i]);
                                 //var pickupeq = PickUpDriver[i].split('|');
-                                lblPickupLocation += '<tr><td><label data-toggle="tooltip" data-placement="top">' + PickUpDriver[i] + '</label></td></tr>';
+                                lblPickupLocation += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + PickUpDriver[i] + '</label></td></tr>';
 
                             }
                             return tabTop + lblPickupLocation + tabBottom
@@ -922,7 +922,7 @@ var GetOrderTakenFumigationList = function () {
 
                         else {
                             var lblPickupLocation = "";
-                            var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             // var tabCon = '';
                             var tabBottom = '</table>';
                             PickUpDriver = row.PickUpDriver.split("$");
@@ -972,9 +972,9 @@ var GetOrderTakenFumigationList = function () {
                                 var lbldeliveryLocation = "";
                                 if (deliveryLocation.length > 0) {
                                     for (var i = 0; i < deliveryLocation.length; i++) {
-                                        lbldeliveryLocation += '<tr><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(deliveryLocation[i]) + '" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + GetCompanyNew(deliveryLocation[i]) + '</label></td></tr>'
+                                        lbldeliveryLocation += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(deliveryLocation[i]) + '" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + GetCompanyNew(deliveryLocation[i]) + '</label></td></tr>'
                                     }
-                                    var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                    var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                     // var tabCon = '';
                                     var tabBottom = '</table>';
                                     //lbldeliveryLocation = lbldeliveryLocation.trim("<br/>");
@@ -1000,7 +1000,7 @@ var GetOrderTakenFumigationList = function () {
                 "name": "Comments",
                 "orderable": false,
                 "autoWidth": true,
-                "className":"comments",
+                "className": "comments",
                 "render": function (data, type, row, meta) {
 
                     if (row.Comments != "") {
@@ -1008,7 +1008,7 @@ var GetOrderTakenFumigationList = function () {
                         var comments = row.Comments.replaceAll('|', '<br/>');
                         var toolcomments = row.Comments;
                         return '<label class="two" data-toggle="tooltip" data-placement="top" title="' + toolcomments + '" style="max-width:250px;display:block;white-space: nowrap;overflow: hidden !important;text-overflow: ellipsis;margin-right: 20px;">' + comments + '</label><a href="javascript: void(0)" class="delete_icon" data-toggle="tooltip" title="Delete" onclick="javascript:DeleteComments(' + row.FumigationId + ',this);" style="font-size: 13px;">' +
-                        '<i class="fa fa-times"></i>';
+                            '<i class="fa fa-times"></i>';
                     }
                     else {
                         return '<label>NA</label>';
@@ -1094,11 +1094,18 @@ var GetOrderTakenFumigationList = function () {
 
         ],
         "order": [[0, "asc"]],
-     
+        initComplete: function () {
+            // Task to perform after DataTable is fully loaded
+           // $("#tblShipmentDetails>tbody>tr:first").trigger('click');
+            GetFumPipeBarGraph();
+            FumProgressPipeBarGraph();
+            // console.log('DataTable is fully loaded!');
+            // Your code here...
+        }
 
     });
 
-    
+
 
     //oTable = $('#tblOrderTakenFumigation').DataTable();
     //$("input[type='search']").keyup(function () {
@@ -1130,55 +1137,55 @@ var GetOtherFumigationList = function () {
     $('#tblOtherFumigation').DataTable({
         "bInfo": true,
         dom: 'Blfrtip',
-        //buttons: [
-        //    {
-        //        extend: 'print',
-        //        orientation: 'landscape',
-        //        pageSize: 'LEGAL',
-        //        title: "",
-        //        text: '<img src="../../Assets/images/printer.png" style="height:18px;margin-right: 5px;position: relative;top: 1px;width:16px;"/> Print',
-        //        messageBottom: datetime,
-        //        //messageTop: datetime,
-        //        exportOptions: {
-        //            columns: ':visible',
-        //            stripHtml: false,
-        //            columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,20,21]
-        //        },
-        //        customize: function (win) {
+        buttons: [
+            {
+                extend: 'print',
+                orientation: 'landscape',
+                pageSize: 'LEGAL',
+                title: "",
+                text: '<img src="../../Assets/images/printer.png" style="height:18px;margin-right: 5px;position: relative;top: 1px;width:16px;"/> Print',
+                messageBottom: datetime,
+                //messageTop: datetime,
+                exportOptions: {
+                    columns: ':visible',
+                    stripHtml: false,
+                    columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
+                },
+                customize: function (win) {
 
-        //            var last = null;
-        //            var current = null;
-        //            var bod = [];
+                    var last = null;
+                    var current = null;
+                    var bod = [];
 
-        //            var css = '@page { size: landscape;margin:10px;}  ',
-        //                head = win.document.head || win.document.getElementsByTagName('head')[0],
-        //                style = win.document.createElement('style');
+                    var css = '@page { size: landscape;margin:10px;}  ',
+                        head = win.document.head || win.document.getElementsByTagName('head')[0],
+                        style = win.document.createElement('style');
 
-        //            style.type = 'text/css';
-        //            style.media = 'print';
+                    style.type = 'text/css';
+                    style.media = 'print';
 
-        //            if (style.styleSheet) {
-        //                style.styleSheet.cssText = css;
-        //            }
-        //            else {
-        //                style.appendChild(win.document.createTextNode(css));
-        //            }
+                    if (style.styleSheet) {
+                        style.styleSheet.cssText = css;
+                    }
+                    else {
+                        style.appendChild(win.document.createTextNode(css));
+                    }
 
-        //            head.appendChild(style);
-        //            $(win.document.body)
-        //                .css('font-size', '10pt')
-        //                .prepend(
-        //                    "<table id='checkheader'><tr><td width='80%' ><h3 style='font-size: 20px;'>FUMIGATION IN PROGRESS</h3> </td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
-        //                );
-        //        }
-        //    },
-        //    ,
-        //    {
-        //        extend: 'colvis',
-        //        text: '<img src="../../Assets/images/info.png" style="width:17px;;margin-top: -2px;height: 17px;"/> column visibility',
-        //        columns: ':not(.noVis)',
-        //    }
-        //],
+                    head.appendChild(style);
+                    $(win.document.body)
+                        .css('font-size', '10pt')
+                        .prepend(
+                            "<table id='checkheader'><tr><td width='80%' ><h3 style='font-size: 20px;'>FUMIGATION IN PROGRESS</h3> </td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
+                        );
+                }
+            },
+            ,
+            {
+                extend: 'colvis',
+                text: '<img src="../../Assets/images/info.png" style="width:17px;;margin-top: -2px;height: 17px;"/> column visibility',
+                columns: ':not(.noVis)',
+            }
+        ],
 
         select: 'single',
         "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
@@ -1206,6 +1213,7 @@ var GetOtherFumigationList = function () {
                 "className": 'noVis'
             }
         ],
+     
         "columns": [
             {
                 "data": "FumigationId",
@@ -1219,15 +1227,15 @@ var GetOtherFumigationList = function () {
                 "autoWidth": true,
 
                 "render": function (data, type, row, meta) {
-                   // console.log("tblotherrow : ",row);
+                    // console.log("tblotherrow : ",row);
                     return StatusCheckForShipment(row.StatusName)
                 }
             },
             {
-                 "data": "ActFumigationRelease",
+                // "data": "PickUpDriver",
                 "name": "ActFumigationRelease",
-               // "orderable": false,
-                "autoWidth": true,
+                // "orderable": false,
+                "autoWidth": false,
                 "render": function (data, type, row, meta) {
 
                     //return SameDates(row.ActFumigationRelease);
@@ -1237,64 +1245,64 @@ var GetOtherFumigationList = function () {
                         var ActFumigationRelease = row.ActFumigationRelease.split("$")
 
 
-                       
-
-                            if (ActFumigationRelease.length > 0) {
-                                var count = 0;
-                                for (var i = 0; i < ActFumigationRelease.length; i++) {
-                                    //  console.log("time11: " + ConvertDateNew(ActFumigationRelease[i], true));
-                                    if (ActFumigationRelease[i] == ActFumigationRelease[0]) {
-                                        count = count + 1;
-                                    }
 
 
+                        if (ActFumigationRelease.length > 0) {
+                            var count = 0;
+                            for (var i = 0; i < ActFumigationRelease.length; i++) {
+                                //  console.log("time11: " + ConvertDateNew(ActFumigationRelease[i], true));
+                                if (ActFumigationRelease[i] == ActFumigationRelease[0]) {
+                                    count = count + 1;
                                 }
-                                if (count == ActFumigationRelease.length) {
-                                    isSame = true;
-                                }
-                                if (isSame) {
-                                    var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
-                                    var tabCon = '';
-                                    var tabBottom = '</table>';
-                                    var ftype = row.FumigationTypes.split('$');
-                                    if (ftype.length > 1) {
-                                        for (var i = 0; i < ftype.length; i++) {
-                                            if (ActFumigationRelease[0] != "NA") {
-                                                tabCon += '<tr><td><label class="dtclick" data-toggle="tooltip" data-placement="top" title="">' + ConvertSqlDateTimeNew(ActFumigationRelease[0], true) + '</label></td></tr>';
-                                            }
-                                            else {
-                                                tabCon += '<tr><td><label class="dtclick" data-toggle="tooltip" data-placement="top" title="">NA</label></td></tr>';
-                                            }
 
-                                        }
-                                        return tabTop + tabCon + tabBottom;
-                                    }
-                                    else {
+
+                            }
+                            if (count == ActFumigationRelease.length) {
+                                isSame = true;
+                            }
+                            if (isSame) {
+                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabCon = '';
+                                var tabBottom = '</table>';
+                                var ftype = row.FumigationTypes.split('$');
+                                if (ftype.length > 1) {
+                                    for (var i = 0; i < ftype.length; i++) {
                                         if (ActFumigationRelease[0] != "NA") {
-                                            return '<label class="dtclick" data-toggle="tooltip" data-placement="top" title="">' + ConvertSqlDateTimeNew(ActFumigationRelease[0], true) + '</label>'
+                                            tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top" title="">' + ConvertSqlDateTimeNew(ActFumigationRelease[0], true) + '</label></td></tr>';
                                         }
                                         else {
-                                            return '<label class="dtclick" data-toggle="tooltip" data-placement="top" title="">NA</label>'
+                                            tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top" title="">NA</label></td></tr>';
                                         }
+
                                     }
-                                    //  return '<label data-toggle="tooltip" data-placement="top">' + fumigationTypesList[0] + '</label>'
+                                    return tabTop + tabCon + tabBottom;
                                 }
                                 else {
-                                    var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
-                                    var tabCon = '';
-                                    var tabBottom = '</table>';
-                                    for (let i = 0; i < ActFumigationRelease.length; i++) {
-                                        if (ActFumigationRelease[i] != "NA") {
-                                            tabCon += '<tr><td><label class="dtclick" data-toggle="tooltip" data-placement="top">' + ConvertSqlDateTimeNew(ActFumigationRelease[i], true) + '</label></td></tr>';
-                                        }
-                                        else {
-                                            tabCon += '<tr><td><label class="dtclick" data-toggle="tooltip" data-placement="top">NA</label></td></tr>';
-                                        }
+                                    if (ActFumigationRelease[0] != "NA") {
+                                        return '<label data-toggle="tooltip" data-placement="top" title="">' + ConvertSqlDateTimeNew(ActFumigationRelease[0], true) + '</label>'
                                     }
-                                    return tabTop + tabCon + tabBottom
+                                    else {
+                                        return '<label data-toggle="tooltip" data-placement="top" title="">NA</label>'
+                                    }
                                 }
+                                //  return '<label data-toggle="tooltip" data-placement="top">' + fumigationTypesList[0] + '</label>'
                             }
-                       
+                            else {
+                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabCon = '';
+                                var tabBottom = '</table>';
+                                for (let i = 0; i < ActFumigationRelease.length; i++) {
+                                    if (ActFumigationRelease[i] != "NA") {
+                                        tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + ConvertSqlDateTimeNew(ActFumigationRelease[i], true) + '</label></td></tr>';
+                                    }
+                                    else {
+                                        tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">NA</label></td></tr>';
+                                    }
+                                }
+                                return tabTop + tabCon + tabBottom
+                            }
+                        }
+
 
 
                     } else {
@@ -1308,7 +1316,7 @@ var GetOtherFumigationList = function () {
             {
                 "data": "FumigationTypes",
                 "name": "FumigationTypes",
-                "autoWidth": true,
+                "autoWidth": false,
                 "width": "6%",
                 "render": function (data, type, row, meta) {
                     var isSame = false;
@@ -1325,13 +1333,13 @@ var GetOtherFumigationList = function () {
                                 isSame = true;
                             }
                             if (isSame) {
-                                var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 var ftype = row.FumigationTypes.split('$');
                                 if (ftype.length > 1) {
                                     for (var i = 0; i < ftype.length; i++) {
-                                        tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(fumigationTypesList[0]) + '">' + GetCompanyNew(fumigationTypesList[0]) + '</label></td></tr>';
+                                        tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(fumigationTypesList[0]) + '">' + GetCompanyNew(fumigationTypesList[0]) + '</label></td></tr>';
                                     }
                                     return tabTop + tabCon + tabBottom;
                                 }
@@ -1341,11 +1349,11 @@ var GetOtherFumigationList = function () {
                                 //  return '<label data-toggle="tooltip" data-placement="top">' + fumigationTypesList[0] + '</label>'
                             }
                             else {
-                                var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 for (let i = 0; i < fumigationTypesList.length; i++) {
-                                    tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top">' + fumigationTypesList[i] + '</label></td></tr>'
+                                    tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + fumigationTypesList[i] + '</label></td></tr>'
                                 }
                                 return tabTop + tabCon + tabBottom
                             }
@@ -1385,13 +1393,13 @@ var GetOtherFumigationList = function () {
                                 isSame = true;
                             }
                             if (isSame) {
-                                var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 var ftype = row.FumigationTypes.split('$');
                                 if (ftype.length > 1) {
                                     for (var i = 0; i < ftype.length; i++) {
-                                        tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(pickupLocation[0]) + '" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + GetCompanyNew(pickupLocation[0]) + '</label></td></tr>';
+                                        tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(pickupLocation[0]) + '" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + GetCompanyNew(pickupLocation[0]) + '</label></td></tr>';
                                     }
                                     return tabTop + tabCon + tabBottom;
                                 }
@@ -1405,11 +1413,11 @@ var GetOtherFumigationList = function () {
                                 var lblPickupLocation = "";
                                 if (pickupLocation.length > 0) {
                                     for (var i = 0; i < pickupLocation.length; i++) {
-                                        var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                        var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                         var tabCon = '';
                                         var tabBottom = '</table>';
 
-                                        lblPickupLocation += '<tr><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(pickupLocation[i]) + '" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + GetCompanyNew(pickupLocation[i]) + '</label></td></tr>'
+                                        lblPickupLocation += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(pickupLocation[i]) + '" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + GetCompanyNew(pickupLocation[i]) + '</label></td></tr>'
                                     }
                                     // lblPickupLocation = lblPickupLocation.trim("<br/>");
                                     return tabTop + lblPickupLocation + tabBottom;
@@ -1428,7 +1436,7 @@ var GetOtherFumigationList = function () {
                 "name": "AWB",
                 "autoWidth": true,
                 "render": function (data, type, row, meta) {
-                  
+
                     var isSame = false;
                     if (row.AWB != null && row.AWB != '') {
                         //var removesp = row.AWB_CP_CN.replaceAll(" ", ""); //Commented by DART to retain the space...
@@ -1445,13 +1453,13 @@ var GetOtherFumigationList = function () {
                                 isSame = true;
                             }
                             if (isSame) {
-                                var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 var ftype = row.FumigationTypes.split('$');
                                 if (ftype.length > 1) {
                                     for (var i = 0; i < ftype.length; i++) {
-                                        tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top">' + awb[0] + '</label></td></tr>';
+                                        tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + awb[0] + '</label></td></tr>';
                                     }
                                     return tabTop + tabCon + tabBottom;
                                 }
@@ -1463,10 +1471,10 @@ var GetOtherFumigationList = function () {
                             else {
                                 var awbNo = "";
                                 for (var i = 0; i < awb.length; i++) {
-                                    var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                    var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
 
                                     var tabBottom = '</table>';
-                                    awbNo += '<tr><td><label data-toggle="tooltip" data-placement="top">' + awb[i] + '</label></td></tr>'
+                                    awbNo += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + awb[i] + '</label></td></tr>'
                                 }
                                 return tabTop + awbNo + tabBottom;
 
@@ -1500,30 +1508,30 @@ var GetOtherFumigationList = function () {
                         }
                         if (isSame) {
 
-                            var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabCon = '';
                             var tabBottom = '</table>';
                             var ftype = row.FumigationTypes.split('$');
                             if (ftype.length > 1) {
                                 for (var i = 0; i < ftype.length; i++) {
-                                    tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top" title="' + vendorNconsignee[0] + '" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + vendorNconsignee[0] + '</label></td></tr>';
+                                    tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top" title="' + vendorNconsignee[0] + '" style="max-width: 150px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + vendorNconsignee[0] + '</label></td></tr>';
                                 }
                                 return tabTop + tabCon + tabBottom;
                             }
                             else {
                                 // console.log("Isame true: " + isSame);
                                 //  console.log("Isame true: " + isSame);
-                                return '<label data-toggle="tooltip" data-placement="top" title="' + row.VendorNConsignee + '" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + row.VendorNConsignee + '</label>'
+                                return '<label data-toggle="tooltip" data-placement="top" title="' + row.VendorNConsignee + '" style="max-width: 150px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + row.VendorNConsignee + '</label>'
                             }
                             // return '<label data-toggle="tooltip" data-placement="top">' + vendorNconsignee[0] + '</label>'
                         }
                         else {
 
-                            var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabCon = '';
                             var tabBottom = '</table>';
                             for (var i = 0; i < vendorNconsignee.length; i++) {
-                                tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + vendorNconsignee[i] + '</label></td></tr>'
+                                tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top" style="max-width: 150px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + vendorNconsignee[i] + '</label></td></tr>'
                             }
                             return tabTop + tabCon + tabBottom
                         }
@@ -1539,21 +1547,21 @@ var GetOtherFumigationList = function () {
                 //"data": "BoxCount",
                 "name": "BoxCount",
                 "autoWidth": true,
-              //  "orderable": false,
+                //  "orderable": false,
                 "render": function (data, type, row, meta) {
 
                     if (row.BoxCount != null && row.BoxCount != '') {
                         var BoxCount = row.BoxCount.split("|")
 
                         if (BoxCount.length > 1) {
-                            var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             // var tabCon = '';
                             var tabBottom = '</table>';
                             var lblPickupLocation = "";
                             for (var i = 0; i < BoxCount.length; i++) {
                                 // console.log("vendorNconsignee: " + BoxCount[i]);
                                 var boxcounts = BoxCount[i].split('.');
-                                lblPickupLocation += '<tr><td><label data-toggle="tooltip" data-placement="top">' + boxcounts[0] + '</label></td></tr>';
+                                lblPickupLocation += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + boxcounts[0] + '</label></td></tr>';
 
                             }
                             return tabTop + lblPickupLocation + tabBottom
@@ -1577,21 +1585,21 @@ var GetOtherFumigationList = function () {
                 //"data": "PalletCount",
                 "name": "PalletCount",
                 "autoWidth": true,
-               // "orderable": false,
+                // "orderable": false,
                 "render": function (data, type, row, meta) {
 
                     if (row.PalletCount != null && row.PalletCount != '') {
                         var PalletCount = row.PalletCount.split("|")
 
                         if (PalletCount.length > 1) {
-                            var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             // var tabCon = '';
                             var tabBottom = '</table>';
                             var lblPickupLocation = "";
                             for (var i = 0; i < PalletCount.length; i++) {
                                 // console.log("vendorNconsignee: " + BoxCount[i]);
                                 var boxcounts = PalletCount[i].split('.');
-                                lblPickupLocation += '<tr><td><label data-toggle="tooltip" data-placement="top">' + boxcounts[0] + '</label></td></tr>';
+                                lblPickupLocation += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + boxcounts[0] + '</label></td></tr>';
 
                             }
                             return tabTop + lblPickupLocation + tabBottom
@@ -1621,13 +1629,13 @@ var GetOtherFumigationList = function () {
                         var TrailerPosition = row.TrailerPosition.split("|")
 
                         if (TrailerPosition.length > 1) {
-                            var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             // var tabCon = '';
                             var tabBottom = '</table>';
                             var lblPickupLocation = "";
                             for (var i = 0; i < TrailerPosition.length; i++) {
                                 //console.log("vendorNconsignee: " + TrailerPosition[i]);
-                                lblPickupLocation += '<tr><td><label data-toggle="tooltip" data-placement="top">' + TrailerPosition[i] + '</label></td></tr>';
+                                lblPickupLocation += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + TrailerPosition[i] + '</label></td></tr>';
 
                             }
                             return tabTop + lblPickupLocation + tabBottom
@@ -1666,13 +1674,13 @@ var GetOtherFumigationList = function () {
                             }
                         }
                         if (isSame) {
-                            var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabCon = '';
                             var tabBottom = '</table>';
                             var ftype = row.FumigationTypes.split('$');
                             if (ftype.length > 1) {
                                 for (var i = 0; i < ftype.length; i++) {
-                                    tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(fumigationSite[0]) + '" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + GetCompanyNew(fumigationSite[0]) + '</label></td></tr>';
+                                    tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(fumigationSite[0]) + '" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + GetCompanyNew(fumigationSite[0]) + '</label></td></tr>';
                                 }
                                 return tabTop + tabCon + tabBottom;
                             }
@@ -1684,11 +1692,11 @@ var GetOtherFumigationList = function () {
                         else {
                             var lblfumigationSite = "";
                             if (fumigationSite.length > 0) {
-                                var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 for (var i = 0; i < fumigationSite.length; i++) {
-                                    lblfumigationSite += '<tr><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(fumigationSite[i]) + '" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + GetCompanyNew(fumigationSite[i]) + '</label></td></tr>'
+                                    lblfumigationSite += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(fumigationSite[i]) + '" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + GetCompanyNew(fumigationSite[i]) + '</label></td></tr>'
                                 }
                                 // lblfumigationSite = lblfumigationSite.trim("<br/>");
                                 return tabTop + lblfumigationSite + tabBottom;
@@ -1725,13 +1733,13 @@ var GetOtherFumigationList = function () {
                                 isSame = true;
                             }
                             if (isSame) {
-                                var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 var ftype = row.FumigationTypes.split('$');
                                 if (ftype.length > 1) {
                                     for (var i = 0; i < ftype.length; i++) {
-                                        tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top">' + pickUpEquipmentList[0] + '</label></td></tr>';
+                                        tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + pickUpEquipmentList[0] + '</label></td></tr>';
                                     }
                                     return tabTop + tabCon + tabBottom;
                                 }
@@ -1743,11 +1751,11 @@ var GetOtherFumigationList = function () {
                                 // return '<label data-toggle="tooltip" data-placement="top">' + pickUpEquipmentList[0] + '</label>'
                             }
                             else {
-                                var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 for (var i = 0; i < pickUpEquipmentList.length; i++) {
-                                    tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top">' + pickUpEquipmentList[i] + '</label></td></tr>'
+                                    tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + pickUpEquipmentList[i] + '</label></td></tr>'
                                 }
                                 return tabTop + tabCon + tabBottom;
                             }
@@ -1778,13 +1786,13 @@ var GetOtherFumigationList = function () {
                             }
                             if (isSame) {
 
-                                var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 var ftype = row.FumigationTypes.split('$');
                                 if (ftype.length > 1) {
                                     for (var i = 0; i < ftype.length; i++) {
-                                        tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top">' + pickUpDriver[0] + '</label></td></tr>';
+                                        tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + pickUpDriver[0] + '</label></td></tr>';
                                     }
                                     return tabTop + tabCon + tabBottom;
                                 }
@@ -1796,11 +1804,11 @@ var GetOtherFumigationList = function () {
                                 //return '<label data-toggle="tooltip" data-placement="top">' + pickUpDriver[0] + '</label>'
                             }
                             else {
-                                var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabBottom = '</table>';
                                 var tabCon = '';
                                 for (var i = 0; i < pickUpDriver.length; i++) {
-                                    tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top">' + pickUpDriver[i] + '</label></td></tr>'
+                                    tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + pickUpDriver[i] + '</label></td></tr>'
                                 }
                                 return tabTop + tabCon + tabBottom
                             }
@@ -1814,66 +1822,66 @@ var GetOtherFumigationList = function () {
             {
                 "name": "ActLoadingStart",
                 "autoWidth": true,
-              //  "orderable": false,
+                //  "orderable": false,
                 "render": function (data, type, row, meta) {
                     //console.log("SameDates(row.ActLoadingStart): " + SameDates(row.ActLoadingStart));
                     var isSame = false;
 
                     if (row.ActLoadingStart != null && row.ActLoadingStart != " ") {
                         var ActLoadingStart = row.ActLoadingStart.split("$")
-                       
-                            if (ActLoadingStart.length > 0) {
-                                var count = 0;
-                                for (var i = 0; i < ActLoadingStart.length; i++) {
-                                    if (ActLoadingStart[i] == ActLoadingStart[0]) {
-                                        count = count + 1;
-                                    }
-                                }
-                                if (count == ActLoadingStart.length) {
-                                    isSame = true;
-                                }
-                                if (isSame) {
-                                    var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
-                                    var tabCon = '';
-                                    var tabBottom = '</table>';
-                                    var ftype = row.FumigationTypes.split('$');
-                                    if (ftype.length > 1) {
-                                        for (var i = 0; i < ftype.length; i++) {
-                                            if (ActLoadingStart[0] != "NA") {
-                                                tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top" title="">' + ConvertSqlDateTimeNew(ActLoadingStart[0], true) + '</label></td></tr>';
-                                            }
-                                            else {
-                                                tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top" title="">NA</label></td></tr>';
-                                            }
-                                        }
-                                        return tabTop + tabCon + tabBottom;
-                                    }
-                                    else {
-                                        if (ActLoadingStart[0] != "NA") {
-                                            return '<label data-toggle="tooltip" data-placement="top" title="">' + ConvertSqlDateTimeNew(ActLoadingStart[0], true) + '</label>';
-                                        }
-                                        else {
-                                            return '<label data-toggle="tooltip" data-placement="top" title="">NA</label>';
-                                        }
-                                    }
-                                    //  return '<label data-toggle="tooltip" data-placement="top">' + fumigationTypesList[0] + '</label>'
-                                }
-                                else {
-                                    var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
-                                    var tabCon = '';
-                                    var tabBottom = '</table>';
-                                    for (let i = 0; i < ActLoadingStart.length; i++) {
-                                        if (ActLoadingStart[i] != "NA") {
-                                            tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top">' + ConvertSqlDateTimeNew(ActLoadingStart[i], true) + '</label></td></tr>';
-                                        }
-                                        else {
-                                            tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top">NA</label></td></tr>';
-                                        }
-                                    }
-                                    return tabTop + tabCon + tabBottom
+
+                        if (ActLoadingStart.length > 0) {
+                            var count = 0;
+                            for (var i = 0; i < ActLoadingStart.length; i++) {
+                                if (ActLoadingStart[i] == ActLoadingStart[0]) {
+                                    count = count + 1;
                                 }
                             }
-                     
+                            if (count == ActLoadingStart.length) {
+                                isSame = true;
+                            }
+                            if (isSame) {
+                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabCon = '';
+                                var tabBottom = '</table>';
+                                var ftype = row.FumigationTypes.split('$');
+                                if (ftype.length > 1) {
+                                    for (var i = 0; i < ftype.length; i++) {
+                                        if (ActLoadingStart[0] != "NA") {
+                                            tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top" title="">' + ConvertSqlDateTimeNew(ActLoadingStart[0], true) + '</label></td></tr>';
+                                        }
+                                        else {
+                                            tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top" title="">NA</label></td></tr>';
+                                        }
+                                    }
+                                    return tabTop + tabCon + tabBottom;
+                                }
+                                else {
+                                    if (ActLoadingStart[0] != "NA") {
+                                        return '<label data-toggle="tooltip" data-placement="top" title="">' + ConvertSqlDateTimeNew(ActLoadingStart[0], true) + '</label>';
+                                    }
+                                    else {
+                                        return '<label data-toggle="tooltip" data-placement="top" title="">NA</label>';
+                                    }
+                                }
+                                //  return '<label data-toggle="tooltip" data-placement="top">' + fumigationTypesList[0] + '</label>'
+                            }
+                            else {
+                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabCon = '';
+                                var tabBottom = '</table>';
+                                for (let i = 0; i < ActLoadingStart.length; i++) {
+                                    if (ActLoadingStart[i] != "NA") {
+                                        tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + ConvertSqlDateTimeNew(ActLoadingStart[i], true) + '</label></td></tr>';
+                                    }
+                                    else {
+                                        tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top">NA</label></td></tr>';
+                                    }
+                                }
+                                return tabTop + tabCon + tabBottom
+                            }
+                        }
+
 
                     } else {
                         return 'NA'
@@ -1887,66 +1895,66 @@ var GetOtherFumigationList = function () {
             {
                 "name": "ActLoadingFinish",
                 "autoWidth": true,
-              //  "orderable": false,
+                //  "orderable": false,
                 "render": function (data, type, row, meta) {
                     // console.log("ActLoadingFinish ", ConvertDateNew(ActLoadingFinish[0], true))
                     var isSame = false;
 
                     if (row.ActLoadingFinish != null && row.ActLoadingFinish != " ") {
                         var ActLoadingFinish = row.ActLoadingFinish.split("$")
-                       
-                            if (ActLoadingFinish.length > 0) {
-                                var count = 0;
-                                for (var i = 0; i < ActLoadingFinish.length; i++) {
-                                    if (ActLoadingFinish[i] == ActLoadingFinish[0]) {
-                                        count = count + 1;
-                                    }
-                                }
-                                if (count == ActLoadingFinish.length) {
-                                    isSame = true;
-                                }
-                                if (isSame) {
-                                    var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
-                                    var tabCon = '';
-                                    var tabBottom = '</table>';
-                                    var ftype = row.FumigationTypes.split('$');
-                                    if (ftype.length > 1) {
-                                        for (var i = 0; i < ftype.length; i++) {
-                                            if (ActLoadingFinish[0]!= "NA") {
-                                                tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top" title="">' + ConvertSqlDateTimeNew(ActLoadingFinish[0], true) + '</label></td></tr>';
-                                            }
-                                            else {
-                                                tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top" title="">NA</label></td></tr>';
-                                            }
-                                        }
-                                        return tabTop + tabCon + tabBottom;
-                                    }
-                                    else {
-                                        if (ActLoadingFinish[0] != "NA") {
-                                            return '<label data-toggle="tooltip" data-placement="top" title="">' + ConvertSqlDateTimeNew(ActLoadingFinish[0], true) + '</label>';
-                                        }
-                                        else {
-                                            return '<label data-toggle="tooltip" data-placement="top" title="">NA</label>';
-                                        }
-                                    }
-                                    //  return '<label data-toggle="tooltip" data-placement="top">' + fumigationTypesList[0] + '</label>'
-                                }
-                                else {
-                                    var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
-                                    var tabCon = '';
-                                    var tabBottom = '</table>';
-                                    for (let i = 0; i < ActLoadingFinish.length; i++) {
-                                        if (ActLoadingFinish[i] != "NA") {
-                                            tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top">' + ConvertSqlDateTimeNew(ActLoadingFinish[i], true) + '</label></td></tr>';
-                                        }
-                                        else {
-                                            tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top">NA</label></td></tr>';
-                                        }
-                                    }
-                                    return tabTop + tabCon + tabBottom
+
+                        if (ActLoadingFinish.length > 0) {
+                            var count = 0;
+                            for (var i = 0; i < ActLoadingFinish.length; i++) {
+                                if (ActLoadingFinish[i] == ActLoadingFinish[0]) {
+                                    count = count + 1;
                                 }
                             }
-                        
+                            if (count == ActLoadingFinish.length) {
+                                isSame = true;
+                            }
+                            if (isSame) {
+                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabCon = '';
+                                var tabBottom = '</table>';
+                                var ftype = row.FumigationTypes.split('$');
+                                if (ftype.length > 1) {
+                                    for (var i = 0; i < ftype.length; i++) {
+                                        if (ActLoadingFinish[0] != "NA") {
+                                            tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top" title="">' + ConvertSqlDateTimeNew(ActLoadingFinish[0], true) + '</label></td></tr>';
+                                        }
+                                        else {
+                                            tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top" title="">NA</label></td></tr>';
+                                        }
+                                    }
+                                    return tabTop + tabCon + tabBottom;
+                                }
+                                else {
+                                    if (ActLoadingFinish[0] != "NA") {
+                                        return '<label data-toggle="tooltip" data-placement="top" title="">' + ConvertSqlDateTimeNew(ActLoadingFinish[0], true) + '</label>';
+                                    }
+                                    else {
+                                        return '<label data-toggle="tooltip" data-placement="top" title="">NA</label>';
+                                    }
+                                }
+                                //  return '<label data-toggle="tooltip" data-placement="top">' + fumigationTypesList[0] + '</label>'
+                            }
+                            else {
+                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabCon = '';
+                                var tabBottom = '</table>';
+                                for (let i = 0; i < ActLoadingFinish.length; i++) {
+                                    if (ActLoadingFinish[i] != "NA") {
+                                        tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + ConvertSqlDateTimeNew(ActLoadingFinish[i], true) + '</label></td></tr>';
+                                    }
+                                    else {
+                                        tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">NA</label></td></tr>';
+                                    }
+                                }
+                                return tabTop + tabCon + tabBottom
+                            }
+                        }
+
 
                     } else {
                         return 'NA'
@@ -1976,7 +1984,7 @@ var GetOtherFumigationList = function () {
 
             {
                 "name": "Temperature",
-             //   "orderable": false,
+                //   "orderable": false,
                 "autoWidth": true,
                 "render": function (data, type, row, meta) {
 
@@ -2001,13 +2009,13 @@ var GetOtherFumigationList = function () {
 
 
                         if (isSame) {
-                            var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabCon = '';
                             var tabBottom = '</table>';
                             var ftype = row.FumigationTypes.split('$');
                             if (ftype.length > 1) {
                                 for (var i = 0; i < ftype.length; i++) {
-                                    tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top">' + temperature[i] + '</label></td></tr>';
+                                    tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + temperature[i] + '</label></td></tr>';
                                 }
                                 return tabTop + tabCon + tabBottom;
                             }
@@ -2018,13 +2026,13 @@ var GetOtherFumigationList = function () {
                             //return '<label>' + temperature[0] + '</label>'
                         }
                         else {
-                            var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabCon = '';
                             var tabBottom = '</table>';
                             for (var i = 0; i < temperature.length; i++) {
 
 
-                                tabCon += '<tr><td><label>' + temperature[i] + '</label></td></tr>';
+                                tabCon += '<tr style="background: none;"><td><label>' + temperature[i] + '</label></td></tr>';
                             }
                             return tabTop + tabCon + tabBottom
                         }
@@ -2042,7 +2050,7 @@ var GetOtherFumigationList = function () {
                 "name": "DeliveryEquipment",
                 "autoWidth": true,
                 "render": function (data, type, row, meta) {
-                    console.log("other row: ",row);
+                    //console.log("row: ",row);
                     var isSame = false;
                     if (row.DeliveryEquipment != null && row.DeliveryEquipment != '') {
 
@@ -2061,13 +2069,13 @@ var GetOtherFumigationList = function () {
 
 
                         if (isSame) {
-                            var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabCon = '';
                             var tabBottom = '</table>';
                             var ftype = row.FumigationTypes.split('$');
                             if (ftype.length > 1) {
                                 for (var i = 0; i < ftype.length; i++) {
-                                    tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top">' + deliveryEquipment[0] + '</label></td></tr>';
+                                    tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + deliveryEquipment[0] + '</label></td></tr>';
                                 }
                                 return tabTop + tabCon + tabBottom;
                             }
@@ -2078,11 +2086,11 @@ var GetOtherFumigationList = function () {
                             // return '<label data-toggle="tooltip" data-placement="top">' + deliveryEquipment[0] + '</label>'
                         }
                         else {
-                            var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabBottom = '</table>';
                             var tabCon = '';
                             for (var i = 0; i < deliveryEquipment.length; i++) {
-                                tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top">' + deliveryEquipment[i] + '</label></td></tr>'
+                                tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + deliveryEquipment[i] + '</label></td></tr>'
                             }
                             return tabTop + tabCon + tabBottom
 
@@ -2144,13 +2152,13 @@ var GetOtherFumigationList = function () {
 
 
                         if (isSame) {
-                            var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabCon = '';
                             var tabBottom = '</table>';
                             var ftype = row.FumigationTypes.split('$');
                             if (ftype.length > 1) {
                                 for (var i = 0; i < ftype.length; i++) {
-                                    tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top">' + deliveryDriver[0] + '</label></td></tr>';
+                                    tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + deliveryDriver[0] + '</label></td></tr>';
                                 }
                                 return tabTop + tabCon + tabBottom;
                             }
@@ -2161,11 +2169,11 @@ var GetOtherFumigationList = function () {
                             // return '<label data-toggle="tooltip" data-placement="top">' + deliveryDriver[0] + '</label>'
                         }
                         else {
-                            var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabBottom = '</table>';
                             var tabCon = '';
                             for (var i = 0; i < deliveryDriver.length; i++) {
-                                tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top">' + deliveryDriver[i] + '</label></td></tr>'
+                                tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + deliveryDriver[i] + '</label></td></tr>'
                             }
                             return tabTop + tabCon + tabBottom
                         }
@@ -2199,30 +2207,30 @@ var GetOtherFumigationList = function () {
                             }
 
                             if (isSame) {
-                                var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 var ftype = row.FumigationTypes.split('$');
                                 if (ftype.length > 1) {
                                     for (var i = 0; i < ftype.length; i++) {
-                                        tabCon += '<tr><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(deliveryLocation[0]) + '" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + GetCompanyNew(deliveryLocation[0]) + '</label></td></tr>';
+                                        tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(deliveryLocation[0]) + '" style="max-width: 150px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + GetCompanyNew(deliveryLocation[0]) + '</label></td></tr>';
                                     }
                                     return tabTop + tabCon + tabBottom;
                                 }
                                 else {
 
-                                    return '<label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(deliveryLocation[0]) + '" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + GetCompanyNew(deliveryLocation[0]) + '</label>'
+                                    return '<label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(deliveryLocation[0]) + '" style="max-width: 150px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + GetCompanyNew(deliveryLocation[0]) + '</label>'
                                 }
                                 // return '<label data-toggle="tooltip" data-placement="top" title="' + GetCAddress(deliveryLocation[0]) + '">' + GetCompany(deliveryLocation[0]) + '</label><br/>'
                             }
                             else {
                                 var lbldeliveryLocation = "";
                                 if (deliveryLocation.length > 0) {
-                                    var tabTop = '<table class="table table-bordered" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                    var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                     var tabCon = '';
                                     var tabBottom = '</table>';
                                     for (var i = 0; i < deliveryLocation.length; i++) {
-                                        lbldeliveryLocation += '<tr><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(deliveryLocation[i]) + '" style="max-width: 100px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + GetCompanyNew(deliveryLocation[i]) + '</label></td></tr>'
+                                        lbldeliveryLocation += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(deliveryLocation[i]) + '" style="max-width: 150px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">' + GetCompanyNew(deliveryLocation[i]) + '</label></td></tr>'
                                     }
                                     //lbldeliveryLocation = lbldeliveryLocation.trim("<br/>");
                                     return tabTop + lbldeliveryLocation + tabBottom;
@@ -2241,10 +2249,10 @@ var GetOtherFumigationList = function () {
 
             {
                 "name": "WT",
-             //   "orderable": false,
+                //   "orderable": false,
                 "autoWidth": true,
                 "render": function (data, type, row, meta) {
-                   // console.log("row.WT: ", row.FumigationId);
+                    // console.log("row.WT: ", row.FumigationId);
                     if (row.WTReady) {
                         return '<input sy type="checkbox" checked="' + row.WTReady + '" onchange="FumigationWTReady(' + row.FumigationId + ',this)" >';
                     }
@@ -2258,7 +2266,7 @@ var GetOtherFumigationList = function () {
             },
             {
                 "name": "ST",
-              //  "orderable": false,
+                //  "orderable": false,
                 "autoWidth": true,
                 "render": function (data, type, row, meta) {
                     if (row.STReady) {
@@ -2336,15 +2344,6 @@ var GetOtherFumigationList = function () {
 
         ],
         "order": [[0, "desc"]],
-        initComplete: function () {
-            // Task to perform after DataTable is fully loaded
-            // $("#tblShipmentDetails>tbody>tr:first").trigger('click');
-            //  GetBarGraph();
-            GetFumPipeBarGraph();
-            FumProgressPipeBarGraph();
-            // console.log('DataTable is fully loaded!');
-            // Your code here...
-        }
     });
 
     //oTable = $('#tblOtherFumigation').DataTable();
@@ -3031,7 +3030,7 @@ function FumProgressPipeBarGraph() {
     var mydiv = 100 - progress;
     //console.log(progress);
         if (updateOrderTakenCount() > 0) {
-        $("#FumProgressPipelabel").css('display', 'flex');
+       // $("#FumProgressPipelabel").css('display', 'none');
     }
     else {
       //  $('#FumProgressPipelabel').css('display', 'none');

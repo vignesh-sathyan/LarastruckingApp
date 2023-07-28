@@ -128,6 +128,7 @@
     <Compile Include="ShipmentDTO\ShipmentDriverDetailDTO.cs" />
     <Compile Include="ShipmentDTO\CustomerDetailDTO.cs" />
     <Compile Include="TimeCardDTO\DailyReportDTO.cs" />
+    <Compile Include="TimeCardDTO\IncentiveCardCalculation.cs" />
     <Compile Include="TimeCardDTO\LaborReportDTO.cs" />
     <Compile Include="TimeCardDTO\SearchTimeCardDTO.cs" />
     <Compile Include="TimeCardDTO\TimeCardCalculationDTO.cs" />

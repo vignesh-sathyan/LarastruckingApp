@@ -73,7 +73,7 @@ function CheckTime() {
         if (showRedirect)
 
             // $("#session_msg").text("Session expired. You will be redirected to login page ");
-            $("#session_msg").text("You will be redirected to login page ");
+            $("#session_msg").text("Your session has expired. Please login again to continue working. ");
         $('#modalSession').modal('show');
     }
     if (showRedirect == false)

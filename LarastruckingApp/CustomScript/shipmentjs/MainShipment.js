@@ -302,7 +302,8 @@ $('#ShipmentNotify').on('load', function () {
     // Attach a click event handler to the iframe contents
     iframeContents.on('click', function () {
         var iframeSrc = $('#ShipmentNotify').attr('src');
-        window.open(iframeSrc, '_blank');
+        var changeSrc = iframeSrc.replace('ShipmentNotificationMaster', 'ViewShipmentNotification');
+        window.open(changeSrc, '_blank');
         // Perform any actions you need here
     });
 });
@@ -374,50 +375,50 @@ function GetOrderTakenShipmentList() {
         //"bInfo": false,
         dom: 'Blfrtip',
 
-        //buttons: [
-        //    {
-        //        extend: 'print',
-        //        title: "",
-        //        text: '<img src="../../Assets/images/printer.png" style="height:18px;margin-right: 5px;width:16px;"/> Print',
-        //        messageBottom: datetime,
-        //        exportOptions: {
-        //            // columns: ':visible',
-        //            stripHtml: false,
-        //            columns: [1, 2, 3, 4, 5, 6, 7, 8]
-        //        },
-        //        customize: function (win) {
-        //            var last = null;
-        //            var current = null;
-        //            var bod = [];
+        buttons: [
+            {
+                extend: 'print',
+                title: "",
+                text: '<img src="../../Assets/images/printer.png" style="height:18px;margin-right: 5px;width:16px;"/> Print',
+                messageBottom: datetime,
+                exportOptions: {
+                    // columns: ':visible',
+                    stripHtml: false,
+                    columns: [1, 2, 3, 4, 5, 6, 7, 8]
+                },
+                customize: function (win) {
+                    var last = null;
+                    var current = null;
+                    var bod = [];
 
 
-        //            var css = '@page { size: landscape; }',
-        //                head = win.document.head || win.document.getElementsByTagName('head')[0],
-        //                style = win.document.createElement('style');
+                    var css = '@page { size: landscape; }',
+                        head = win.document.head || win.document.getElementsByTagName('head')[0],
+                        style = win.document.createElement('style');
 
-        //            style.type = 'text/css';
-        //            style.media = 'print';
+                    style.type = 'text/css';
+                    style.media = 'print';
 
-        //            if (style.styleSheet) {
-        //                style.styleSheet.cssText = css;
-        //            }
-        //            else {
-        //                style.appendChild(win.document.createTextNode(css));
-        //            }
+                    if (style.styleSheet) {
+                        style.styleSheet.cssText = css;
+                    }
+                    else {
+                        style.appendChild(win.document.createTextNode(css));
+                    }
 
-        //            head.appendChild(style);
-        //            $(win.document.body)
-        //                .css('font-size', '10pt')
-        //                .prepend(
-        //                    "<table id='9'><tr><td width='80%' ><b>REQUESTED SHIPMENTS</b></td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
-        //                );
+                    head.appendChild(style);
+                    $(win.document.body)
+                        .css('font-size', '10pt')
+                        .prepend(
+                            "<table id='9'><tr><td width='80%' ><b>REQUESTED SHIPMENTS</b></td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
+                        );
 
 
-        //        }
+                }
 
-        //    },
+            },
 
-        //],
+        ],
 
         select: 'single',
         "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
@@ -1074,68 +1075,68 @@ function GetOtherStatusShipmentList() {
         // "bInfo": false,
         serverSide: true,
         dom: 'Blfrtip',
-        //buttons: [
-        //    {
-        //        extend: 'print',
-        //        //className:'btn btn-primary btn-sm',
-        //        //orientation: 'landscape',
-        //        //pageSize: 'LEGAL',
-        //        text: '<img src="../../Assets/images/printer.png" style="height:18px;margin-right: 5px;width:16px;"> Print',
-        //        title: "",
-        //        messageBottom: datetime,
-        //        exportOptions: {
-        //            columns: ':visible',
-        //            stripHtml: false,
-        //            columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13,14]
-        //        },
-        //        customize: function (win) {
+        buttons: [
+            {
+                extend: 'print',
+                //className:'btn btn-primary btn-sm',
+                //orientation: 'landscape',
+                //pageSize: 'LEGAL',
+                text: '<img src="../../Assets/images/printer.png" style="height:18px;margin-right: 5px;width:16px;"> Print',
+                title: "",
+                messageBottom: datetime,
+                exportOptions: {
+                    columns: ':visible',
+                    stripHtml: false,
+                    columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13,14]
+                },
+                customize: function (win) {
                     
-        //            //$(win.document.body).find('table')
-        //            //.widths = ['8%', '8%', '8%', '8%', '8%', '8%', '12%', '8%', '8%', '8%', '8%', '8%'];
-        //            //win.content[0].table.widths = ['8%', '8%', '8%', '8%', '8%', '8%', '12%', '8%', '8%', '8%', '8%', '8%'];
-        //            var last = null;
-        //            var current = null;
-        //            var bod = [];
+                    //$(win.document.body).find('table')
+                    //.widths = ['8%', '8%', '8%', '8%', '8%', '8%', '12%', '8%', '8%', '8%', '8%', '8%'];
+                    //win.content[0].table.widths = ['8%', '8%', '8%', '8%', '8%', '8%', '12%', '8%', '8%', '8%', '8%', '8%'];
+                    var last = null;
+                    var current = null;
+                    var bod = [];
 
-        //            var css = '@page { size: landscape; }',
-        //                head = win.document.head || win.document.getElementsByTagName('head')[0],
-        //                style = win.document.createElement('style');
+                    var css = '@page { size: landscape; }',
+                        head = win.document.head || win.document.getElementsByTagName('head')[0],
+                        style = win.document.createElement('style');
 
-        //            style.type = 'text/css';
-        //            style.media = 'print';
+                    style.type = 'text/css';
+                    style.media = 'print';
 
-        //            if (style.styleSheet) {
-        //                style.styleSheet.cssText = css;
-        //            }
-        //            else {
-        //                style.appendChild(win.document.createTextNode(css));
-        //            }
+                    if (style.styleSheet) {
+                        style.styleSheet.cssText = css;
+                    }
+                    else {
+                        style.appendChild(win.document.createTextNode(css));
+                    }
                   
             
 
-        //            head.appendChild(style);
-        //            $(win.document.body)
-        //                .css('font-size', '10pt')
-        //                .prepend(
-        //                    "<table id='checkheader'><tr><td width='80%' ><b>SHIPMENTS IN PROGRESS</b></td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
-        //                );
-        //        },
-        //        //customize: function (doc) {
-        //        //    doc.styles['td:nth-child(7)'] = {
-        //        //        'width': '100px',
-        //        //        'max-width': '100px'
-        //        //    }
-        //        //}
-        //        //messageTop: function () {
+                    head.appendChild(style);
+                    $(win.document.body)
+                        .css('font-size', '10pt')
+                        .prepend(
+                            "<table id='checkheader'><tr><td width='80%' ><b>SHIPMENTS IN PROGRESS</b></td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
+                        );
+                },
+                //customize: function (doc) {
+                //    doc.styles['td:nth-child(7)'] = {
+                //        'width': '100px',
+                //        'max-width': '100px'
+                //    }
+                //}
+                //messageTop: function () {
 
 
-        //        //        return '<b style="color:red;">Hello How are you?</b>';
+                //        return '<b style="color:red;">Hello How are you?</b>';
 
-        //        //},
-        //        //messageBottom: null
-        //    },
+                //},
+                //messageBottom: null
+            },
 
-        //],
+        ],
 
         select: 'single',
         "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],

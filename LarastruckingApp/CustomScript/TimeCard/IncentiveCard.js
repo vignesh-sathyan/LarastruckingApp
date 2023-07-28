@@ -1,4 +1,4 @@
-﻿var currentDate = new Date();
+var currentDate = new Date();
 var isPrevious = false;
 
 $(document).ready(function () {
@@ -10,10 +10,12 @@ $(document).ready(function () {
         userId = $("#hdnUserId").val();
         ShowTimeCard(userId);
     }
+    console.log("userId: ", userId);
 });
 
 function ShowTimeCard(UserId) {
     userId = UserId;
+    console.log("Timecard UserId: ", userId);
     currentDate = new Date();
     isPrevious = false;
     GetTimeCardData();
@@ -913,6 +915,9 @@ function GetTimeCardData() {
         success: function (data) {
             // if (data.length > 0) {
             BindTimeCardList(data);
+            var HoursWorked = $("#spnGradTotal").text();
+            HoursWorked = HoursWorked.split(':')[0];           
+            $("#txtHoursWorked").val(HoursWorked);
             //}
 
         }
@@ -920,7 +925,8 @@ function GetTimeCardData() {
 }
 var removeIcon = "";
 function BindTimeCardList(_data) {
-    console.log("BIND DATA: ",_data);
+    console.log("BIND DATA: ", _data);
+   // $("#modalTimeCard").modal("show");
     //console.log(_data);
     if (_data != null) {
         //$("#txtHourlyRate").attr('value', _data.HourlyRate);
@@ -931,6 +937,7 @@ function BindTimeCardList(_data) {
 
         ////DART commented the above and added the below block to fix the issue of same text field values appearing for all driver Time Cards...
         //console.log("Hourly Rate: " + _data.HourlyRate);
+
         $("#txtHourlyRate").val(_data.HourlyRate);
         $("#txtTotalPay").val(_data.TotalPay);
         $("#txtLoan").val(_data.Loan);
@@ -947,16 +954,9 @@ function BindTimeCardList(_data) {
     }
     $("#spnDriverName").text(_data.UsernName);
     $("#spnPrintDriverName").text(_data.UsernName);
-
-    var timeCard = "";
-    var timCardPrint = "";
-    //$("#spnDriverName").text(driverName);
-    $("#timeCard tbody").empty();
+ 
+    $("#IncentiveCard tbody").empty();
     $("#tblTimeCardPrint tbody").empty();
-    var weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    var totalSec = 0;
-    var totalHour = 0;
-    var totalMin = 0;
     for (let i = 0; i <= 6; i++) {
         let curr = currentDate;
         let first = curr.getDate() - (curr.getDay() < 4 ? (curr.getDay() + 7) : curr.getDay()) + (i + 4);
@@ -967,21 +967,14 @@ function BindTimeCardList(_data) {
         //var timeCardDate = new Date(f);
 
         var todayDate = new Date();
-        var rquired = "";
-        var inOnfocusout = "";
-        var outOnfocusout = "";
-        var dtpicker = "";
+
         var userRole = $("#hdnUserRole").val();
         if ($.trim(userRole).toLowerCase() == "Dispatcher".toLocaleLowerCase()) {
             if (timeCardDate != todayDate) {
                 rquired = 'readonly="readonly"';
             }
             else {
-                //inOnfocusout = 'onfocusout="SaveTime(this,true)"';
-                //outOnfocusout = 'onfocusout="SaveTime(this,false)"';
-                inOnfocusout = 'onfocusout="RecalculateHourAndprice(this)"';
-                outOnfocusout = 'onfocusout="RecalculateHourAndprice(this)"';
-                dtpicker = 'jqueryui-marker-datepicker';
+
             }
         }
         else if ($.trim(userRole).toLowerCase() == "Management".toLocaleLowerCase()) {
@@ -990,11 +983,7 @@ function BindTimeCardList(_data) {
                 rquired = 'readonly="readonly"';
             }
             else {
-                //inOnfocusout = 'onfocusout="SaveTime(this,true)"';
-                //outOnfocusout = 'onfocusout="SaveTime(this,false)"';
-                inOnfocusout = 'onfocusout="RecalculateHourAndprice(this)"';
-                outOnfocusout = 'onfocusout="RecalculateHourAndprice(this)"';
-                dtpicker = 'jqueryui-marker-datepicker';
+
             }
         }
         else {
@@ -1009,200 +998,43 @@ function BindTimeCardList(_data) {
             $("#spnEndtDate").text(dateFormat(timeCardDate, "mm/dd/yyyy"));
             $("#spnPrintEndtDate").text(dateFormat(timeCardDate, "mm/dd/yyyy"));
         }
-
-        var timeCardList = _data.TimeCardList.filter(x => $.trim(x.Day.toUpperCase()) == $.trim(weekday[timeCardDate.getDay()]).toUpperCase());
-
-        var addIcon = "";
-        removeIcon = ""
-        if (rquired.length == 0 && timeCardList.length < 2) {
-            addIcon = "<span id='addIcon'  onclick='BindNewTimecard(this,true); return false;'><i class='fas fa-plus'><span>";
-        }
-
-        if (timeCardList.length > 0) {
-
-            for (var j = 0; j < timeCardList.length; j++) {
-                //alert("timeCardList.length: "+timeCardList.length);
-                var inDate = ConvertDate(timeCardList[j].InDateTime, true);
-                if (rquired.length == 0 && j > 0) {
-                    removeIcon = "<span id='removeIcon' onclick='RemoveTimecard(this,true); return false;'><i class='fas fa-minus'><span>";
-                } else {
-                    removeIcon = "";
-                }
-
-                var inHrs = "";
-                var inMin = "";
-                if (inDate != undefined) {
-                    console.log("inDate: ", inDate);
-                    console.log("InHRS: ", dateFormat(inDate, "HH"));
-                    inHrs = dateFormat(inDate, "HH");
-                    inMin = dateFormat(inDate, "MM");
-                }
-
-
-                var outHrs = "";
-                var outMin = "";
-                var outDate = ConvertDate(timeCardList[j].OutDateTime, true);
-                var outDateyear = ConvertDate(timeCardList[j].OutDateTime, false);
-                console.log("outDate: " + timeCardList[j].InDateTime + " : " + inDate + " : " + outDate + " : " + timeCardList[j].OutDateTime);
-                /*console.log(new  Date().getTime());
-                console.log(new Date(timeCardList[j].OutDateTime));
-                console.log(timeCardDate);*/
-                var diffHrs = "00";
-                var diffMins = "00";
-                if (outDate != undefined) {
-                    outHrs = dateFormat(outDate, "HH");
-                    outMin = dateFormat(outDate, "MM");
-
-                    inDate = new Date(inDate);
-                    outDate = new Date(outDate);
-                    console.log("inDate: " + inDate + " : " + outDate);
-                    var diffMs = (outDate - inDate); // milliseconds between now & Christmas\
-                    var inDateStr = String(timeCardList[j].InDateTime).substring(String(timeCardList[j].InDateTime).indexOf("(") + 1, String(timeCardList[j].InDateTime).lastIndexOf(")"));
-                    var outDateStr = String(timeCardList[j].OutDateTime).substring(String(timeCardList[j].OutDateTime).indexOf("(") + 1, String(timeCardList[j].OutDateTime).lastIndexOf(")"));
-                    console.log("inDateStr: " + parseInt(inDateStr) + " : " + parseInt(outDateStr));
-                    diffMs = (parseInt(outDateStr) - parseInt(inDateStr)); //DART: Added this to solve additional 1 hour due to time conversion from EDT to EST...
-                    console.log("diffMs: " + diffMs);
-                    totalSec = totalSec + diffMs;
-                    var diffDays = Math.floor(diffMs / 86400000); // days
-                    //diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
-                    if (diffMs >= 0) {
-
-                        diffHrs = Math.floor((diffMs) / 3600000); // hours
-                        diffHrs = diffHrs < 10 ? ('0' + diffHrs) : diffHrs;
-                        totalHour = totalHour + parseInt(diffHrs);
-                        //console.log("totalHour:"+totalHour);
-                        //diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
-                        diffMins = Math.round(((diffMs) % 3600000) / 60000); // minutes
-                        diffMins = diffMins < 10 ? ('0' + diffMins) : diffMins;
-                        totalMin = totalMin + parseInt(diffMins);
-                        if (totalMin > 59) {
-
-                            totalHour = totalHour + 1;
-                            totalMin = totalMin - 60;
-                            //console.log("totalHour: " + totalHour);
-                        }
-                    }
-                    else {
-                        diffHrs = "00";
-                        diffMins = "00";
-                    }
-
-                }
-                else {
-                    outDate = inDate;
-                }
-                var diffTotal = Number(diffHrs) + Number(diffMins);
-                //alert("dif: " + diffTotal);
-                /*if (diffTotal <= 0 && j>0) {
-                    addIcon = "<span id='addIcon'  onclick='BindNewTimecard(this,true); return false;'><i class='fas fa-plus'><span>";
-                    $(row).prev().find('#add-icon').html(addIcon);
-                } else*/
-                {
-                    timeCard += '<tr><td><input type="text" style="display:none"  id="hdnIsRemovalFlag" value="false"/><input type="hidden"  id="hdnTimeCardId" value="' + timeCardList[j].Id + '"/><input type="hidden" id="hdndate" value="' + date + '"/><span id="spnDay">' + weekday[timeCardDate.getDay()] + '</span></td><td class="text-center"><div class="timeWrapper d-inline-flex align-items-center">' +
-                        '<input type="text" readonly="readonly" onkeypress="return onlyNumeric(event)" id="txtInDateTime" autocomplete="off" placeholder="MM-DD-YYYY" class="form-control txtInDate dateMask" value="' + dateFormat(timeCardDate, "mm-dd-yyyy") + '" /><span>&nbsp</span> ' +
-                        '<input type="number" ' + rquired + ' onkeypress="return onlyNumeric(event)" id="txtInHrs" placeholder="HH" class="form-control hh"  ' + inOnfocusout + '  maxlength="2" value="' + inHrs + '" /><span>:</span>' +
-                        '<input type="number" ' + rquired + ' onkeypress="return onlyNumeric(event)" id="txtInMin" placeholder="MM" class="form-control mm"  ' + inOnfocusout + '  maxlength="2" value="' + inMin + '" /></div></td>' +
-                        '<td class="text-center">To</td>' +
-                        '<td class="text-center">' +
-                        '<div class="timeWrapper d-inline-flex align-items-center">' +
-                        '<input type="text" ' + rquired + ' onkeypress="return onlyNumeric(event)" id="txtOutDateTime" autocomplete="off" placeholder="MM-DD-YYYY" class="form-control txtOutDate ' + dtpicker + ' dateMask" value="' + dateFormat(outDateyear, "mm-dd-yyyy") + '" ' + outOnfocusout + ' /><span>&nbsp</span>' +
-                        '<input type="number" ' + rquired + ' onkeypress="return onlyNumeric(event)" id="txtOutHrs" placeholder="HH" class="form-control hh"  ' + outOnfocusout + ' maxlength="2" value="' + outHrs + '" /><span>:</span>' +
-                        '<input type="number" ' + rquired + ' onkeypress="return onlyNumeric(event)" id="txtOutMin" placeholder="MM" class="form-control mm"  ' + outOnfocusout + ' maxlength="2" value="' + outMin + '" /></div></td><td width="50px" id="add-icon">' + addIcon + removeIcon +
-                        '</td><td>' + diffHrs + ':' + diffMins + '</td></tr>';
-
-                    timCardPrint += '<tr >' +
-                        '<td style="text-align:left; padding-left:10px;">' +
-                        '<span style="font-size:16px;">' + weekday[timeCardDate.getDay()] + '</span>' +
-                        '</td>' +
-                        '<td style="padding:7px;text-align:center;">' +
-                        '<label style="background:#fff; height:35px; padding:5px 10px;font-size:17px; font-weight:400; line-height:1.5; color:#495057; border:1px solid #ced4da; border-radius:5px;">'
-                        + dateFormat(timeCardDate, "mm-dd-yyyy") +
-                        '</label>' +
-                        '<span>&nbsp;</span>' +
-                        '<label style="background:#fff; height:35px; padding:5px 10px; font-size:17px; font-weight:400; line-height:1.5; color:#495057; border:1px solid #ced4da; border-radius:5px;" class="form-control hh>' + inHrs + '</label>' +
-                        '<span>:</span>' +
-                        '<label style="background:#fff; height:35px; padding:5px 10px; font-size:17px; font-weight:400; line-height:1.5; color:#495057; border:1px solid #ced4da; border-radius:5px;" class="form-control mm">' + outMin + '</label>' +
-                        '</td>' +
-                        '<td style="padding:7px;font-size:16px;">To</td>' +
-                        '<td style="padding:7px;text-align:center;">' +
-                        '<label style="background:#fff; height:35px; padding:5px 10px; font-size:17px; font-weight:400; line-height:1.5; color:#495057; border:1px solid #ced4da; border-radius:5px;">' + dateFormat(outDateyear, "mm-dd-yyyy") + '</label>' +
-                        '<span>&nbsp;</span>' +
-                        '<label style="background:#fff; height:35px; padding:5px 10px; font-size:17px; font-weight:400; line-height:1.5; color:#495057; border:1px solid #ced4da; border-radius:5px;" class="form-control hh">' + outHrs + '</label>' +
-                        '<span>:</span>' +
-                        '<label style="background:#fff; height:35px; padding:5px 10px; font-size:17px; font-weight:400; line-height:1.5; color:#495057; border:1px solid #ced4da; border-radius:5px;" class="form-control mm">' + outMin + '</label>' +
-                        '</td>' +
-                        '<td style="font-size:16px;">' + diffHrs + ':' + diffMins + '</td>' +
-                        '</tr> ';
-                }
-
-            }
-        }
-        else {
-            timeCard += '<tr><td><input type="hidden"  id="hdnTimeCardId" value=""/><input type="hidden" id="hdndate" value="' + date + '"/><span id="spnDay">' + weekday[timeCardDate.getDay()] + '</span></td><td class="text-center"><div class="timeWrapper d-inline-flex align-items-center">' +
-                '<input type="text" readonly="readonly" onkeypress="return onlyNumeric(event)" id="txtInDateTime" autocomplete="off" placeholder="MM-DD-YYYY" class="form-control txtInDate dateMask" value="' + dateFormat(timeCardDate, "mm-dd-yyyy") + '" /><span>&nbsp</span>' +
-                '<input type="number" ' + rquired + ' onkeypress="return onlyNumeric(event)" id="txtInHrs" placeholder="HH" class="form-control hh"  ' + inOnfocusout + '  maxlength="2" value="" /><span>:</span>' +
-                '<input type="number" ' + rquired + ' onkeypress="return onlyNumeric(event)" id="txtInMin" placeholder="MM" class="form-control mm"  ' + inOnfocusout + '  maxlength="2" value="" /></div></td>' +
-                '<td class="text-center">To</td>' +
-                '<td class="text-center">' +
-                '<div class="timeWrapper d-inline-flex align-items-center">' +
-                '<input type="text" ' + rquired + ' onkeypress="return onlyNumeric(event)" id="txtOutDateTime" autocomplete="off" placeholder="MM-DD-YYYY" class="form-control txtOutDate ' + dtpicker + ' dateMask" value="' + dateFormat(timeCardDate, "mm-dd-yyyy") + '"  /><span>&nbsp</span>' +
-                '<input type="number" ' + rquired + ' onkeypress="return onlyNumeric(event)" id="txtOutHrs" placeholder="HH" class="form-control hh"  ' + outOnfocusout + ' maxlength="2" value="" /><span>:</span>' +
-                '<input type="number" ' + rquired + ' onkeypress="return onlyNumeric(event)" id="txtOutMin" placeholder="MM" class="form-control mm"  ' + outOnfocusout + ' maxlength="2" value="" /></div></td><td width="50px" id="add-icon">' + addIcon + removeIcon +
-                '</td><td>00:00</td></tr>';
-
-            timCardPrint += '<tr class="trbackground">' +
-                '<td style="text-align:left; padding-left:10px;">' +
-                '<span style="font-size:16px;">' + weekday[timeCardDate.getDay()] + '</span>' +
-                '</td>' +
-                '<td style="padding:7px;text-align:center;">' +
-                '<label style="background:#fff; height:35px; padding:5px 10px; font-size:16px; font-weight:400; line-height:1.5; color:#495057; border:1px solid #ced4da; border-radius:5px;">'
-                + dateFormat(timeCardDate, "mm-dd-yyyy") +
-                '</label>' +
-                '<span>&nbsp;</span>' +
-                '<label style="background:#fff; height:35px; padding:5px 10px; font-size:16px; font-weight:400; line-height:1.5; color:#495057; border:1px solid #ced4da; border-radius:5px;" class="form-control hh">HH</label>' +
-                '<span>:</span>' +
-                '<label style="background:#fff; height:35px; padding:5px 10px; font-size:16px; font-weight:400; line-height:1.5; color:#495057; border:1px solid #ced4da; border-radius:5px;" class="form-control mm">MM</label>' +
-                '</td>' +
-                '<td style="padding:7px;font-size:16px;">To</td>' +
-                '<td style="padding:7px;text-align:center;">' +
-                '<label style="background:#fff; height:35px; padding:5px 10px; font-size:16px; font-weight:400; line-height:1.5; color:#495057; border:1px solid #ced4da; border-radius:5px;">' + dateFormat(timeCardDate, "mm-dd-yyyy") + '</label>' +
-                '<span>&nbsp;</span>' +
-                '<label style="background:#fff; height:35px; padding:5px 10px; font-size:16px; font-weight:400; line-height:1.5; color:#495057; border:1px solid #ced4da; border-radius:5px;" class="form-control hh">HH</label>' +
-                '<span>:</span>' +
-                '<label style="background:#fff; height:35px; padding:5px 10px; font-size:16px; font-weight:400; line-height:1.5; color:#495057; border:1px solid #ced4da; border-radius:5px;" class="form-control mm">MM</label>' +
-                '</td>' +
-                '<td style="font-size:16px;">00:00</td>' +
-                '</tr> ';
-        }
     }
-    if (totalSec > 0 || totalHour > 0 || totalMin > 0) {
-        //console.log("totalSec: "+totalSec);
-        // var TdiffHrs = Math.floor((totalSec / (1000 * 60 * 60))); // hours
-        var TdiffHrs = totalHour; // hours
-        //console.log("TdiffHrs: " + TdiffHrs);
-        TdiffHrs = TdiffHrs < 10 ? ('0' + TdiffHrs) : TdiffHrs;
+    var timeCard="";
+    var timCardPrint="";
 
-        //var TdiffMins = Math.floor((totalSec / (1000 * 60)) % 60); // minutes
-        var TdiffMins = totalMin; // minutes
-        TdiffMins = TdiffMins < 10 ? ('0' + TdiffMins) : TdiffMins;
+    
+        timeCard =
 
-        $("#spnGradTotal").text(TdiffHrs + ':' + TdiffMins);
-        $("#spnPrintGrandTotal").text(TdiffHrs + ':' + TdiffMins);
+            '<tr style="color:#fff;"><th style="background:#7ca337 !important">PRODUCTIVITY RECORD</th><th style="background:#7ca337 !important">QUANTITY</th><th style="background:#7ca337 !important">RATE</th><th style="background:#7ca337 !important">TOTAL</th></tr>' +
+            '<tr><td style="font-weight: bold;">PALLETS</td><td></td><td></td><td></td></tr>' +
+            '<tr><td style="font-weight: bold;">BOXES</td><td></td><td></td><td></td></tr>' +
+            '<tr><td style="font-weight: bold;">WEIGHT KGS</td><td></td><td></td><td></td></tr>' +
+            '<tr><td style="font-weight: bold;">WEIGHT LBS</td><td></td><td></td><td></td></tr>' +
+            '<tr><td style="font-weight: bold;">SHIPMENT MIA</td><td></td><td></td><td></td></tr>' +
+            '<tr><td style="font-weight: bold;">SHIPMENT POM</td><td></td><td></td><td></td></tr>' +
+            '<tr><td style="font-weight: bold;">SHIPMENT HTD</td><td></td><td></td><td></td></tr>' +
+            '<tr><td style="font-weight: bold;">SHIPMENT WPB</td><td></td><td></td><td></td></tr>' +
+            '<tr><td style="font-weight: bold;">SHIPMENT RBCH</td><td></td><td></td><td></td></tr>' +
+            '<tr><td style="font-weight: bold;">FUMIGATION MIA</td><td></td><td></td><td></td></tr>' +
+            '<tr><td style="font-weight: bold;">FUMIGATION POM</td><td></td><td></td><td></td></tr>' +
+            '<tr><td style="font-weight: bold;">FUMIGATION HTD</td><td></td><td></td><td></td></tr>' +
+            '<tr><td style="font-weight: bold;">FUMIGATION WPB</td><td></td><td></td><td></td></tr>' +
+            '<tr><td style="font-weight: bold;">FUMIGATION RBCH</td><td></td><td></td><td></td></tr>' +
+            '<tr><td style="font-weight: bold;">OTHER</td><td></td><td></td><td></td></tr>'
 
-    }
-    else {
-        $("#spnGradTotal").text('00:00');
-        $("#spnPrintGrandTotal").text('00:00');
-    }
-
-    $("#timeCard tbody").append(timeCard);
-    $("#tblTimeCardPrint tbody").append(timCardPrint);
+        timCardPrint = '<tr><td></td></tr>';
+    
+    
+        $("#IncentiveCard tbody").append(timeCard);
+        $("#tblTimeCardPrint tbody").append(timCardPrint);
+    
+  
     if ($.trim(userRole).toLowerCase() == "Management".toLocaleLowerCase()) {
         CalculateTotalPrice();
     }
 
-
-    $("#modalTimeCard").modal("show");
+    $("#modalIncentiveCard").modal("show");
+    
     startEndDate();
 }
 
@@ -1253,7 +1085,12 @@ function btnClear() {
     $("#txtTotalPay").val("");
     $("#txtLoan").val("");
     $("#txtDeductions").val("");
-    $("#txtDescription").val("");
+    $("#txtHoursWorked").val("");
+    $("#txtTotalCheck").val("");
+    $("#txtRemaining").val("");
+    $("#txtGrossPay").val("");
+    $("#txtIncentive").val("");
+    $("#txtDailyRate").val("");
 }
 
 function SaveTimeCardAmount() {
@@ -1293,14 +1130,64 @@ function CalculateTotalPrice() {
     var deduction = $("#txtDeductions").val() == "" ? 0 : $("#txtDeductions").val();
     var reimbursement = $("#txtReimbursements").val() == "" ? 0 : $("#txtReimbursements").val();
 
+    //ADDED FOR INCENTIVE
+    var hoursWorked = $("#txtHoursWorked").val();
+    var grossPay = $("#txtGrossPay").val();
+    var incentive = $("#txtIncentive").val();
+    var dailyRate = $("#txtDailyRate").val();
+
     if (Loan > 0) {
         $("#txtDeductions").prop('disabled', false);
     }
     else {
         $("#txtDeductions").prop('disabled', true);
     }
+    
+
+    grandTotal = grandTotal.split(':');
+    var grossPay = hoursWorked * hourlyRate;
+    if (parseInt(dailyRate) > 0) {
+        grossPay = grossPay + parseInt(dailyRate);
+    }
+    else {
+        grossPay = grossPay + parseInt(0);
+    }
+    
+    //totalPay = totalPay + ((hourlyRate / 60) * grandTotal[1]);
+    console.log("grossPay: " + grossPay);
+
+    
+    if (grossPay >0) {
+        $("#txtGrossPay").val(ConvertStringToFloat(grossPay));
+    }
+    if (parseInt(incentive) > 0) {
+        totalPay = grossPay + parseInt(incentive);
+    }
+    else {
+        totalPay = grossPay + parseInt(0);
+    }
+    //if (totalPay > 0) {
+    //    if (parseFloat(totalPay) >= parseFloat(deduction)) {
+    //        // console.log("totalPay: " + totalPay + " deduction: " + deduction);
+    //        totalPay = parseFloat(totalPay) - parseFloat(deduction);
+    //    }
+    //    else {
+    //        //console.log("totalPay: " + totalPay + " deduction: " + deduction);
+    //        AlertPopup("Deduction amount should be less than or equal to Total Pay.");
+    //        $("#txtDeductions").val("");
+    //        deduction = 0;
+    //    }
+    //}
+    if (parseInt(grossPay) > 0) {
+        $("#txtTotalPay").val(ConvertStringToFloat(totalPay));
+    }
+    else {
+        $("#txtTotalPay").val(0);
+    }
+    var totalRemaining = 0;
+    
     if (parseFloat(Loan) >= parseFloat(deduction)) {
-        var totalRemaining = Loan - deduction;
+         totalRemaining = Loan - deduction;
         $("#txtRemaining").val(ConvertStringToFloat(totalRemaining));
         $("#lblPrintRemaining").text(ConvertStringToFloat(totalRemaining));
     }
@@ -1308,48 +1195,26 @@ function CalculateTotalPrice() {
         $("#txtDeductions").val("");
         deduction = 0;
     }
-
-    grandTotal = grandTotal.split(':');
-    var totalPay = hourlyRate * grandTotal[0];
-
-    totalPay = totalPay + ((hourlyRate / 60) * grandTotal[1]);
-
-    if (parseFloat(totalPay) >= parseFloat(deduction)) {
-        totalPay = parseFloat(totalPay) - parseFloat(deduction);
+    var totalCheck = totalPay;
+    if (parseInt(Loan)>0) {
+        totalCheck = totalCheck + parseInt(Loan) - deduction;
     }
-    else {
-        AlertPopup("Deduction amount should be less than or equal to Total Pay.");
-        $("#txtDeductions").val("");
-        deduction = 0;
-    }
-    if (parseFloat(reimbursement) >= 0) {
-        totalPay = parseFloat(totalPay) + parseFloat(reimbursement);
-        //console.log("Reimbusrsement Success: " + reimbursement);
-    }
-    else {
-        AlertPopup("Reimbursement amount should be less than or equal to Total Pay.");
-        //console.log("Reimbusrsement failure: " + reimbursement);
-        //$("#txtReimbursements").val("");
-        //reimbursement = 0;
-    }
-    $("#txtTotalPay").val(ConvertStringToFloat(totalPay));
-
+    $("#txtTotalCheck").val(totalCheck);
     var hourlyRate = $("#txtHourlyRate").val();
     var totalPay = $("#txtTotalPay").val();
     var loan = $("#txtLoan").val();
     var deduction = $("#txtDeductions").val();
     var reimbursement = $("#txtReimbursements").val();
-
     var totalRemaining = $("#txtRemaining").val();
-
+    var totalCheck = $("#txtTotalCheck").val();
 
     $("#txtHourlyRate").attr('value', hourlyRate);
     $("#txtTotalPay").attr('value', totalPay);
     $("#txtLoan").attr('value', loan);
     $("#txtDeductions").attr('value', deduction);
     $("#txtReimbursements").attr('value', reimbursement);
-
     $("#txtRemaining").attr('value', totalRemaining);
+    $("#txtTotalCheck").attr('value', totalCheck);
 
 }
 
@@ -1400,7 +1265,7 @@ function PrintDiv() {
     window.print();
 
     document.body.innerHTML = originalContents;
-    
+
 
 }
 
@@ -1417,11 +1282,11 @@ if (window.matchMedia) {
             console.log('mql did NOT match');
             //closePopup();
             //$("body").removeClass("modal-open");
-            
+
             //location.reload();
             $("td").each(function () {
                 $(this).removeClass("blueremove");
-                
+
             });
         }
     });
@@ -1443,7 +1308,7 @@ function ShowEmailPopup() {
     $('#modalEmail').show();
 
     $("#modalEmail").modal("show");
-    
+
     var textSub = $("#spnDriverName").text() + " | TIMECARD WEEK [" + $("#spnStartDate").text() + " To " + $("#spnEndtDate").text() + "]";
     $("#txtSubject").val(textSub);
     $("#txtBody").val("TIMECARD ATTACHED.");
@@ -1512,7 +1377,7 @@ function btnSendEmail() {
         console.log("Screen size: ", $(window).width());
     }
     else {
-       // console.log("Screen size below: ", $(window).width());
+        // console.log("Screen size below: ", $(window).width());
     }
 
     html2canvas(document.querySelector("#modalTimeCard1"), {
@@ -1569,10 +1434,10 @@ function btnSendEmail() {
 
 
         var canva = document.querySelector("#theimage9").src;
- 
-       // console.log("imgPrint: ", imgPrint);
+
+        // console.log("imgPrint: ", imgPrint);
         var to = $.trim($("#txtTo").val());
-        console.log("TO Address: ",to);
+        console.log("TO Address: ", to);
         var subject = $.trim($("#txtSubject").val());
         console.log("subject: ", subject);
         var description = $.trim($("#txtBody").val());
@@ -1647,10 +1512,10 @@ function btnSendEmail() {
                         $(".modal-dialog").css("width", "auto");
                     }
                     if (data == true) {
-                       $("#btnSendEmail").prop('disabled', false);
-                       // hideLoader();
+                        $("#btnSendEmail").prop('disabled', false);
+                        // hideLoader();
                     }
-                    
+
 
                 },
                 complete: function () {
@@ -1658,7 +1523,7 @@ function btnSendEmail() {
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     //alert("Status: " + textStatus);
-                    
+
                     console.log("Error: " + errorThrown);
                 }
 

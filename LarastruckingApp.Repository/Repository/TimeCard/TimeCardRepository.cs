@@ -508,6 +508,52 @@ namespace LarastruckingApp.Repository.Repository.TimeCard
         }
         #endregion
 
+        #region Save Incentive Card Amount
+        /// <summary>
+        /// Save Time Card Amount
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public bool SaveIncentiveCardAmount(IncentiveCardCalculation entity)
+        {
+           
+            var timeCardCalculationData = timeCardContext.tblIncentiveCardCalculations.Where(x => DbFunctions.TruncateTime(x.WeekStartDay) == DbFunctions.TruncateTime(entity.WeekStartDay) && x.UserId == entity.UserId).FirstOrDefault();
+            if (timeCardCalculationData != null)
+            {
+                timeCardCalculationData.HourlyRate = entity.HourlyRate;
+                timeCardCalculationData.TotalPay = entity.TotalPay;
+                timeCardCalculationData.Loan = entity.Loan;
+                timeCardCalculationData.Deduction = entity.Deduction;
+                timeCardCalculationData.Description = entity.Description;
+                timeCardCalculationData.Remaining = entity.Remaining;
+                timeCardCalculationData.Reimbursement = entity.Reimbursement;
+                timeCardContext.Entry(timeCardCalculationData).State = EntityState.Modified;
+                return timeCardContext.SaveChanges() > 0;
+
+            }
+            else
+            {
+
+                tblTimeCardCalculation tblTimeCardCalculation = new tblTimeCardCalculation();
+                tblTimeCardCalculation.UserId = entity.UserId;
+                tblTimeCardCalculation.WeekStartDay = entity.WeekStartDay;
+                tblTimeCardCalculation.WeekEndDay = entity.WeekEndDay;
+                tblTimeCardCalculation.HourlyRate = entity.HourlyRate;
+                tblTimeCardCalculation.TotalPay = entity.TotalPay;
+                tblTimeCardCalculation.Loan = entity.Loan;
+                tblTimeCardCalculation.Deduction = entity.Deduction;
+                tblTimeCardCalculation.Reimbursement = entity.Reimbursement;
+                tblTimeCardCalculation.Description = entity.Description;
+                tblTimeCardCalculation.Remaining = entity.Remaining;
+                tblTimeCardCalculation.CreatedOn = Configurations.TodayDateTime;
+                tblTimeCardCalculation.CreatedBy = entity.UserId;
+                timeCardContext.tblTimeCardCalculations.Add(tblTimeCardCalculation);
+                return timeCardContext.SaveChanges() > 0;
+            }
+
+        }
+        #endregion
+
         #region get week dates
         /// <summary>
         /// GetWeekDates

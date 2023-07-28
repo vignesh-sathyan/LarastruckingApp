@@ -317,6 +317,55 @@ namespace LarastruckingApp.Areas.Shipment.Controllers
         }
         #endregion
 
+        #region LoadData
+        /// <summary>
+        /// Load J query Data Grid
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult LoadAllData(ValidateDriverNEquipmentDTO model)
+        {
+            try
+            {
+                string search = "";
+                var draw = 1;
+               // var start = Request.Form.GetValues("start").FirstOrDefault();
+                //var length = Request.Form.GetValues("length").FirstOrDefault();
+
+                // Find Order Column
+                var sortColumn = "";
+                var sortColumnDir = "asc";
+                //int pageSize = length != null ? Convert.ToInt32(length) : 0;
+                //int skip = start != null ? Convert.ToInt32(start) : 0;
+                int recordsTotal = 0;
+                var lstEquipmentDTO = shipmentBAL.EquipmnetList(model);
+                if (!string.IsNullOrEmpty(search))
+                {
+                    lstEquipmentDTO = lstEquipmentDTO.Where(x => x.VehicleType.ToUpper().Contains(search.ToUpper()) ||
+                                                                    x.EquipmentNo.Contains(search.ToUpper()) ||
+                                                                    x.EquipmentNo.ToUpper().Contains(search.ToUpper()) ||
+                                                                    x.MaxLoad.ToUpper().Contains(search.ToUpper()) ||
+                                                                    x.Bed.ToUpper().Contains(search.ToUpper())).ToList();
+                }
+                recordsTotal = lstEquipmentDTO.Count();
+                var data = lstEquipmentDTO.ToList();
+                List<ShipmentEquipmentDTO> shipmentEquipmentList = new List<ShipmentEquipmentDTO>();
+                
+                if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+                {
+                    //data = sortColumnDir == "asc" ? data.OrderBy(x => x.GetType().GetProperty(sortColumn).GetValue(x, null)).ToList() : data.OrderByDescending(x => x.GetType().GetProperty(sortColumn).GetValue(x, null)).ToList();
+                    data = data.Skip(0).Take(lstEquipmentDTO.Count).ToList();
+                    shipmentEquipmentList = data;
+                }
+                return Json(shipmentEquipmentList, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        #endregion
+
         #region bind driver dropdown
         /// <summary>
         /// get driver list

@@ -1,16 +1,17 @@
 ﻿var glbDriver = [];
-
+var textBoxVal;
+var rowNo;
+var PreviousEquipment = "";
 $(document).ready(function () {
     
     // GetEquipmentList();
     btnPickUpContinue();
-    btnDeliveryContinue();
+    //btnDeliveryContinue();
     btnCancel();
-
+  
 
 });
-
-
+textBoxVal = $("#txtPickUpEquipment").val();
 
 $("table").on("mouseover", 'tr', function () {
     $(this).find("select").css('color', 'white');
@@ -23,6 +24,11 @@ $("table").on("mouseout", 'tr', function () {
 
     $(this).find('option').css('background-color', 'transparent');
 });
+
+
+
+
+
 //#region bind equipment popup
 function GetEquipmentList() {
     
@@ -47,7 +53,7 @@ function GetEquipmentList() {
 
     value.FumigationId = $("#hdnfumigationId").val();
     value.CustomerId = $("#ddlCustomer").val();
-
+    console.log("values Equipment List: ",value);
     $('#tblEquipmentDetails').DataTable({
         "bInfo": false,
         select: 'single',
@@ -84,7 +90,8 @@ function GetEquipmentList() {
                     if ($("#hdnIsPickUpLocation").val() == "true") {
                         
                         var pickUpEquipmentNdriver = glbEquipmentNdriver.filter(x => (tblRowsCount > 0 ? (x.RouteNo > 0 ? x.RouteNo == RouteNo : x.RouteNo == 0) : x.RouteNo == 0) && x.EquipmentId == row.EDID && (x.IsPickUp == true || x.IsPickUp == "true"));
-                        if (pickUpEquipmentNdriver.length > 0) {
+                        console.log("Equipment Session: ", sessionStorage.getItem("equipmentid") == row.EDID);
+                        if (pickUpEquipmentNdriver.length > 0 || sessionStorage.getItem("equipmentid") == row.EDID) {
 
                             return '<input type="checkbox" onchange="CheckEquipment(this)" id="chkEquipment" class="chkEquipment" name="chkEquipment" checked="checked" data-equipment-name="' + row.EquipmentNo + '" value="' + row.EDID + '"/>'
                         }
@@ -111,6 +118,7 @@ function GetEquipmentList() {
                 "autoWidth": true,
                 "render": function (data, type, row, meta) {
                     if (row.EquipmentNo != null) {
+                       // console.log("Equipment List table: ",row);
                         // return '<label data-toggle="tooltip" data-placement="top" title="' + row.EquipmentNo + '">' + SplitString(row.EquipmentNo, 5, true) + '</label>'
                         if (row.IsAssigned) {
                             return '<label data-toggle="tooltip" onclick="ValidateEquipment(' + row.EDID + ',' + row.EquipmentNo + ')" data-placement="top" title="' + row.EquipmentNo + '">' + SplitString(row.EquipmentNo, 8, true) + ' <i style="color:red;font-size: 1.5em;" class="fa fa-info-circle" aria-hidden="true"></i></label>'
@@ -189,12 +197,12 @@ function GetEquipmentList() {
                     if (rowNo != "") {
                         tblRowsCount = JSON.parse($("#tblShipmentDetail").attr("data-row-no"));
                     }
-
+                    console.log("Equipment row: ",row);
                     
                     if ($("#hdnIsPickUpLocation").val() == "true") {
                         
                         var pickUpEquipmentNdriver = glbEquipmentNdriver.filter(x => (tblRowsCount > 0 ? (x.RouteNo > 0 ? x.RouteNo == RouteNo : x.RouteNo == 0) : x.RouteNo == 0) && x.EquipmentId == row.EDID && x.IsPickUp && x.DriverId > 0);
-                        if (pickUpEquipmentNdriver.length > 0 && pickUpEquipmentNdriver[0].DriverId > 0) {
+                        if (pickUpEquipmentNdriver.length > 0 && pickUpEquipmentNdriver[0].DriverId > 0 || sessionStorage.getItem("equipmentid") == row.EDID) {
                             return '<div class="action-ic">' +
                                 '<input type=hidden id="EqId" name="EqId" value = "" />' +
                                 '<select id="ddldriver" onchange="ValidateDriver(this)" style="width:130px;border:none;background-color:transparent;" name="ddldriver">' + GetDriverList(pickUpEquipmentNdriver[0].DriverId) + '</select>'
@@ -283,8 +291,43 @@ function Equipmentdata(equipmentid, equipmentno) {
 
 //#region geting pickup location driver and equipment detail in textbox 
 btnPickUpContinue = function () {
+
+    
+   
+   // console.log("txtPickUpEquipment: ", routedetail.PickUpEquipment);
+    //var SelectedEquipment = $(_this).attr("data-equipment-name");
+    
+  
     $("#btnPickUpContinue").on('click', function () {
 
+        var selectedCount = 0;
+        var selectedIDs = [];
+        //if (PreviousEquipment != null && PreviousEquipment != "") {
+        //    console.log("PreviousEquipment pickup: ", PreviousEquipment);
+        //    $('#tblEquipmentDetails tbody tr').each(function () {
+        //        var checkbox = $(this).find('input[type = "checkbox"][name = "chkEquipment"]');
+
+        //        if (checkbox.prop('checked')) {
+        //            console.log("make false");
+        //            checkbox.prop('checked',false);
+        //        }
+        //    });
+        //    AlertPopup("More than one equipment selected.");
+        //} 
+
+        // Loop through each checkbox with the class "checkbox"
+        var bank_table = $('#tblEquipmentDetails').DataTable();
+
+        $(bank_table.$('input[name="chkEquipment"]:checked').each(function () {
+
+            selectedCount++;
+
+        }));
+
+     
+        
+
+        console.log("selectedCount: ", selectedCount);
         var RouteNo = $("input[name='rdSelectedRoute']:checked").val();
         var rowNo = $("#tblShipmentDetail").attr("data-row-no");
         var tblRowsCount = 0;
@@ -292,6 +335,7 @@ btnPickUpContinue = function () {
             tblRowsCount = JSON.parse($("#tblShipmentDetail").attr("data-row-no"));
         }
         GetJsonValue(); //Added by DART to prefill the equipment in delivery popup.
+        console.log("CountOfCheckBox: ", glbEquipmentNdriver.filter(x => (x.IsPickUp == "true" || x.IsPickUp == true) && (tblRowsCount > 0 ? (x.RouteNo > 0 ? x.RouteNo == RouteNo : x.RouteNo == 0) : x.RouteNo == 0)).length );
         if (glbEquipmentNdriver.filter(x => (x.IsPickUp == "true" || x.IsPickUp == true) && (tblRowsCount > 0 ? (x.RouteNo > 0 ? x.RouteNo == RouteNo : x.RouteNo == 0) : x.RouteNo == 0)).length < 2) {
             if (glbEquipmentNdriver.filter(x => (x.IsPickUp == "true" || x.IsPickUp == true) && (tblRowsCount > 0 ? (x.RouteNo > 0 ? x.RouteNo == RouteNo : x.RouteNo == 0) : x.RouteNo == 0)).length > 0) {
                 if ($("#hdnfumigationId").val() > 0) {
@@ -347,7 +391,7 @@ btnDeliveryContinue = function () {
          //var coutnofbox = glbEquipmentNdriver.filter(x => (x.IsPickUp == false || x.IsPickUp == "false") && (tblRowsCount > 0 ? (x.RouteNo > 0 ? x.RouteNo == RouteNo : x.RouteNo == 0) : x.RouteNo == 0)).length;
               //  console.log("coutnofbox: ", coutnofbox);
 
-        if (glbEquipmentNdriver.filter(x => (x.IsPickUp == false || x.IsPickUp == "false") && (tblRowsCount > 0 ? (x.RouteNo > 0 ? x.RouteNo == RouteNo : x.RouteNo == 0) : x.RouteNo == 0)).length < 2) {
+       // if (glbEquipmentNdriver.filter(x => (x.IsPickUp == false || x.IsPickUp == "false") && (tblRowsCount > 0 ? (x.RouteNo > 0 ? x.RouteNo == RouteNo : x.RouteNo == 0) : x.RouteNo == 0)).length < 2) {
 
             if (glbEquipmentNdriver.filter(x => (x.IsPickUp == false || x.IsPickUp == "false") && (tblRowsCount > 0 ? (x.RouteNo > 0 ? x.RouteNo == RouteNo : x.RouteNo == 0) : x.RouteNo == 0)).length > 0) {
                 if ($("#hdnfumigationId").val() > 0) {
@@ -368,13 +412,13 @@ btnDeliveryContinue = function () {
 
 
             }
-        }
-        else {
-            //  toastr.warning("Please select Equipment Number(s) & Driver(s).")
-            AlertPopup("More than One Equipment Selected. Please select any one equipment.")
+       // }
+        //else {
+        //    //  toastr.warning("Please select Equipment Number(s) & Driver(s).")
+        //    AlertPopup("More than One Equipment Selected. Please select any one equipment.")
 
 
-        }
+        //}
        
     })
 }
@@ -779,16 +823,27 @@ function ValidateDriver(_this) {
     BindCheckInTime(_this);
 }
 
+
+
+
 function CheckEquipment(_this) {
+
+    rowNo = $("#tblShipmentDetail").attr("data-row-no");
+    console.log("textBoxVal: ", textBoxVal);
+    console.log("rowNo: ", rowNo);
+    var routedetail = glbRouteStops[rowNo];
+    PreviousEquipment = routedetail.PickUpEquipment;
+    console.log("PreviousEquipment: ", PreviousEquipment);
 
 
     if ($(_this).is(":checked")) {
+      
         //var selectedCount = $('.chkEquipment:checked').length;
         var table = $('#tblEquipmentDetails').DataTable();
-       // console.log("selectedCount: ", selectedCount);
+        // console.log("selectedCount: ", selectedCount);
         var data_row = table.row($(_this).closest('tr')).data();
 
-        
+
 
         var data = glbRouteStops;
         var value = {};
@@ -857,7 +912,7 @@ function CheckEquipment(_this) {
                             Continue: {
                                 btnClass: 'btn-blue',
                                 action: function () {
-                                    
+
                                     row = $(_this).closest("tr");
                                     console.log("Equipment Id: ", JSON.parse($(row).find("input[name=chkEquipment]").val()));
                                     var pickObj = {
@@ -888,7 +943,7 @@ function CheckEquipment(_this) {
                     })
                 }
                 else {
-                    
+
                     row = $(_this).closest("tr");
                     glbEquipmentNdriver.push({
                         FumigationEquipmentNDriverId: 0,
@@ -907,7 +962,7 @@ function CheckEquipment(_this) {
 
     }
     else {
-        
+        PreviousEquipment = "";
         row = $(_this).closest("tr");
         var routeNo = $("input[name='rdSelectedRoute']:checked").val();
         var equipmentId = JSON.parse($(row).find("input[name=chkEquipment]").val());
@@ -924,4 +979,6 @@ function CheckEquipment(_this) {
         }
 
     }
+
+
 }
