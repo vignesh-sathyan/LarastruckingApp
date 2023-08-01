@@ -129,11 +129,11 @@ namespace LarastruckingApp.DAL
         #endregion     
 
         #region Save Incentive Card Amount
-        /// <summary>
-        /// Save Time Card Amount
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        // <summary>
+        // Save Time Card Amount
+        // </summary>
+        // <param name="entity"></param>
+        // <returns></returns>
         public bool SaveIncentiveCardAmount(IncentiveCardCalculation entity)
         {
             return iTimeCardRepository.SaveIncentiveCardAmount(entity);

@@ -916,7 +916,7 @@ function GetTimeCardData() {
             // if (data.length > 0) {
             BindTimeCardList(data);
             var HoursWorked = $("#spnGradTotal").text();
-            HoursWorked = HoursWorked.split(':')[0];           
+            HoursWorked = HoursWorked.split(':')[0];
             $("#txtHoursWorked").val(HoursWorked);
             //}
 
@@ -926,7 +926,7 @@ function GetTimeCardData() {
 var removeIcon = "";
 function BindTimeCardList(_data) {
     console.log("BIND DATA: ", _data);
-   // $("#modalTimeCard").modal("show");
+    // $("#modalTimeCard").modal("show");
     //console.log(_data);
     if (_data != null) {
         //$("#txtHourlyRate").attr('value', _data.HourlyRate);
@@ -954,7 +954,7 @@ function BindTimeCardList(_data) {
     }
     $("#spnDriverName").text(_data.UsernName);
     $("#spnPrintDriverName").text(_data.UsernName);
- 
+
     $("#IncentiveCard tbody").empty();
     $("#tblTimeCardPrint tbody").empty();
     for (let i = 0; i <= 6; i++) {
@@ -999,42 +999,42 @@ function BindTimeCardList(_data) {
             $("#spnPrintEndtDate").text(dateFormat(timeCardDate, "mm/dd/yyyy"));
         }
     }
-    var timeCard="";
-    var timCardPrint="";
+    var timeCard = "";
+    var timCardPrint = "";
 
-    
-        timeCard =
 
-            '<tr style="color:#fff;"><th style="background:#7ca337 !important">PRODUCTIVITY RECORD</th><th style="background:#7ca337 !important">QUANTITY</th><th style="background:#7ca337 !important">RATE</th><th style="background:#7ca337 !important">TOTAL</th></tr>' +
-            '<tr><td style="font-weight: bold;">PALLETS</td><td></td><td></td><td></td></tr>' +
-            '<tr><td style="font-weight: bold;">BOXES</td><td></td><td></td><td></td></tr>' +
-            '<tr><td style="font-weight: bold;">WEIGHT KGS</td><td></td><td></td><td></td></tr>' +
-            '<tr><td style="font-weight: bold;">WEIGHT LBS</td><td></td><td></td><td></td></tr>' +
-            '<tr><td style="font-weight: bold;">SHIPMENT MIA</td><td></td><td></td><td></td></tr>' +
-            '<tr><td style="font-weight: bold;">SHIPMENT POM</td><td></td><td></td><td></td></tr>' +
-            '<tr><td style="font-weight: bold;">SHIPMENT HTD</td><td></td><td></td><td></td></tr>' +
-            '<tr><td style="font-weight: bold;">SHIPMENT WPB</td><td></td><td></td><td></td></tr>' +
-            '<tr><td style="font-weight: bold;">SHIPMENT RBCH</td><td></td><td></td><td></td></tr>' +
-            '<tr><td style="font-weight: bold;">FUMIGATION MIA</td><td></td><td></td><td></td></tr>' +
-            '<tr><td style="font-weight: bold;">FUMIGATION POM</td><td></td><td></td><td></td></tr>' +
-            '<tr><td style="font-weight: bold;">FUMIGATION HTD</td><td></td><td></td><td></td></tr>' +
-            '<tr><td style="font-weight: bold;">FUMIGATION WPB</td><td></td><td></td><td></td></tr>' +
-            '<tr><td style="font-weight: bold;">FUMIGATION RBCH</td><td></td><td></td><td></td></tr>' +
-            '<tr><td style="font-weight: bold;">OTHER</td><td></td><td></td><td></td></tr>'
+    timeCard =
 
-        timCardPrint = '<tr><td></td></tr>';
-    
-    
-        $("#IncentiveCard tbody").append(timeCard);
-        $("#tblTimeCardPrint tbody").append(timCardPrint);
-    
-  
+        '<tr style="color:#fff;"><th style="background:#7ca337 !important">PRODUCTIVITY RECORD</th><th style="background:#7ca337 !important">QUANTITY</th><th style="background:#7ca337 !important">RATE</th><th style="background:#7ca337 !important">TOTAL</th></tr>' +
+        '<tr><td style="font-weight: bold;">PALLETS</td><td></td><td></td><td></td></tr>' +
+        '<tr><td style="font-weight: bold;">BOXES</td><td></td><td></td><td></td></tr>' +
+        '<tr><td style="font-weight: bold;">WEIGHT KGS</td><td></td><td></td><td></td></tr>' +
+        '<tr><td style="font-weight: bold;">WEIGHT LBS</td><td></td><td></td><td></td></tr>' +
+        '<tr><td style="font-weight: bold;">SHIPMENT MIA</td><td></td><td></td><td></td></tr>' +
+        '<tr><td style="font-weight: bold;">SHIPMENT POM</td><td></td><td></td><td></td></tr>' +
+        '<tr><td style="font-weight: bold;">SHIPMENT HTD</td><td></td><td></td><td></td></tr>' +
+        '<tr><td style="font-weight: bold;">SHIPMENT WPB</td><td></td><td></td><td></td></tr>' +
+        '<tr><td style="font-weight: bold;">SHIPMENT RBCH</td><td></td><td></td><td></td></tr>' +
+        '<tr><td style="font-weight: bold;">FUMIGATION MIA</td><td></td><td></td><td></td></tr>' +
+        '<tr><td style="font-weight: bold;">FUMIGATION POM</td><td></td><td></td><td></td></tr>' +
+        '<tr><td style="font-weight: bold;">FUMIGATION HTD</td><td></td><td></td><td></td></tr>' +
+        '<tr><td style="font-weight: bold;">FUMIGATION WPB</td><td></td><td></td><td></td></tr>' +
+        '<tr><td style="font-weight: bold;">FUMIGATION RBCH</td><td></td><td></td><td></td></tr>' +
+        '<tr><td style="font-weight: bold;">OTHER</td><td></td><td></td><td></td></tr>'
+
+    timCardPrint = '<tr><td></td></tr>';
+
+
+    $("#IncentiveCard tbody").append(timeCard);
+    $("#tblTimeCardPrint tbody").append(timCardPrint);
+
+
     if ($.trim(userRole).toLowerCase() == "Management".toLocaleLowerCase()) {
         CalculateTotalPrice();
     }
 
     $("#modalIncentiveCard").modal("show");
-    
+
     startEndDate();
 }
 
@@ -1061,15 +1061,15 @@ var startEndDate = function () {
 function btnCaculate() {
     $.confirm({
         title: 'Confirmation!',
-        content: '<b>Are you sure to finalize Timecard for the week?</b>',
+        content: '<b>Are you sure to finalize Incentivecard for the week?</b>',
         type: 'blue',
         typeAnimated: true,
         buttons: {
             OK: {
                 btnClass: 'btn-blue',
                 action: function () {
-                    saveAllTime();
-                    SaveTimeCardAmount();
+                   // saveAllTime();
+                    SaveIncentiveCardAmount();
                 }
             },
             cancel: {
@@ -1093,7 +1093,7 @@ function btnClear() {
     $("#txtDailyRate").val("");
 }
 
-function SaveTimeCardAmount() {
+function SaveIncentiveCardAmount() {
     var values = {};
     values.WeekStartDay = $("#spnStartDate").text();
     values.WeekEndDay = $("#spnEndtDate").text();
@@ -1101,14 +1101,16 @@ function SaveTimeCardAmount() {
     values.TotalPay = $("#txtTotalPay").val();
     values.Loan = $("#txtLoan").val();
     values.Deduction = $("#txtDeductions").val();
-    values.Reimbursement = $("#txtReimbursements").val();
-    values.Description = $("#txtDescription").val();
+    values.TotalCheck = $("#txtTotalCheck").val();
+    values.Incentive = $("#txtIncentive").val();
+    values.DailyRate = $("#txtDailyRate").val();
+    values.GrossPay = $("#txtGrossPay").val();
     values.Remaining = $("#txtRemaining").val();
     values.UserId = userId;
-    //console.log(values);
+    console.log(values);
     //return false;
     $.ajax({
-        url: baseUrl + '/TimeCard/TimeCard/SaveTimeCardAmount',
+        url: baseUrl + '/TimeCard/TimeCard/SaveIncentiveCardAmount',
         data: JSON.stringify(values),
         type: "POST",
         contentType: "application/json; charset=utf-8",
@@ -1118,6 +1120,11 @@ function SaveTimeCardAmount() {
                 //console.log("data: ", JSON.stringify(values));
                 SuccessPopup("Success! Your data has been saved!");
             }
+        },
+        error:function(XMLHttpRequest, textStatus, errorThrown) {
+            //alert("Status: " + textStatus);
+
+            console.log("Error: " + errorThrown);
         }
     });
 }
@@ -1142,7 +1149,7 @@ function CalculateTotalPrice() {
     else {
         $("#txtDeductions").prop('disabled', true);
     }
-    
+
 
     grandTotal = grandTotal.split(':');
     var grossPay = hoursWorked * hourlyRate;
@@ -1152,12 +1159,12 @@ function CalculateTotalPrice() {
     else {
         grossPay = grossPay + parseInt(0);
     }
-    
+
     //totalPay = totalPay + ((hourlyRate / 60) * grandTotal[1]);
     console.log("grossPay: " + grossPay);
 
-    
-    if (grossPay >0) {
+
+    if (grossPay > 0) {
         $("#txtGrossPay").val(ConvertStringToFloat(grossPay));
     }
     if (parseInt(incentive) > 0) {
@@ -1185,9 +1192,9 @@ function CalculateTotalPrice() {
         $("#txtTotalPay").val(0);
     }
     var totalRemaining = 0;
-    
+
     if (parseFloat(Loan) >= parseFloat(deduction)) {
-         totalRemaining = Loan - deduction;
+        totalRemaining = Loan - deduction;
         $("#txtRemaining").val(ConvertStringToFloat(totalRemaining));
         $("#lblPrintRemaining").text(ConvertStringToFloat(totalRemaining));
     }
@@ -1196,7 +1203,7 @@ function CalculateTotalPrice() {
         deduction = 0;
     }
     var totalCheck = totalPay;
-    if (parseInt(Loan)>0) {
+    if (parseInt(Loan) > 0) {
         totalCheck = totalCheck + parseInt(Loan) - deduction;
     }
     $("#txtTotalCheck").val(totalCheck);

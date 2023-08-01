@@ -116,6 +116,9 @@
     <Compile Include="EF\FreightPricingMapping.cs">
       <DependentUpon>LarastruckingModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EF\fun_GetShipmentList_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EF\fun_GetShipmentQuantity_Result.cs">
       <DependentUpon>LarastruckingModel.tt</DependentUpon>
     </Compile>
@@ -129,6 +132,12 @@
       <DependentUpon>LarastruckingModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EF\GetFumigationDeliveryLocation_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\GetFumigationLocationArchive_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\GetFumigationLocationOld_Result.cs">
       <DependentUpon>LarastruckingModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EF\GetFumigationLocation_22Feb_Result.cs">
@@ -300,6 +309,9 @@
       <DependentUpon>LarastruckingModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EF\tblFumigationWaitingNotification.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\tblIncentiveCardCalculation.cs">
       <DependentUpon>LarastruckingModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EF\tblLanguage.cs">
@@ -485,7 +497,13 @@
     <Compile Include="EF\usp_GetFumigationById_Result.cs">
       <DependentUpon>LarastruckingModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EF\usp_GetFumigationDriverList_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EF\usp_GetFumigationList_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_GetFumigationList_Test_Result.cs">
       <DependentUpon>LarastruckingModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EF\usp_GetFumigationWaitingTimeDetails_Result.cs">
@@ -506,6 +524,12 @@
     <Compile Include="EF\usp_GetPricingMethod_Result.cs">
       <DependentUpon>LarastruckingModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EF\usp_GetShipmentLists_20201021_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_GetShipmentLists_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EF\usp_GetShipmentList_New_Result.cs">
       <DependentUpon>LarastruckingModel.tt</DependentUpon>
     </Compile>
@@ -518,10 +542,19 @@
     <Compile Include="EF\usp_GetShipment_NotOrderTaken_List_Result.cs">
       <DependentUpon>LarastruckingModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EF\usp_GetShipment_NotOrderTaken_List_Text_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EF\usp_GetShipment_NotOrderTaken_List_Updated_18Dec_Result.cs">
       <DependentUpon>LarastruckingModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EF\usp_GetShipment_OrderTaken_List_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_GetShipment_OrderTaken_List_Text_Result.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\usp_GetShipment_OrderTaken_List_Updated_18Dec_Result.cs">
       <DependentUpon>LarastruckingModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EF\usp_GetTimeCardCalculation_Result.cs">
@@ -551,22 +584,55 @@
     <Compile Include="EF\usp_User_Result.cs">
       <DependentUpon>LarastruckingModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EF\view_AllShipmentQuantity.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EF\view_DriverDashboard.cs">
       <DependentUpon>LarastruckingModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EF\View_DriverShipmentDetail.cs">
       <DependentUpon>LarastruckingModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EF\view_FreightTypeId.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EF\view_GetAllShipment.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\view_GetAllShipment_Updated_18Dec.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\view_GetAllShipment_Update_18Dec.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\view_GetAllShipment__test1.cs">
       <DependentUpon>LarastruckingModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EF\view_GetOrderNotTakenShipment.cs">
       <DependentUpon>LarastruckingModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EF\view_GetOrderNotTakenShipment_Text.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EF\View_GetOrderNotTakenShipment_Updated_18Dec.cs">
       <DependentUpon>LarastruckingModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EF\View_GetOrderNotTakenShipment_Updated_22Dec.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\view_GetOrderTakenFumigation.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EF\view_GetOrderTakenShipment.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\view_GetOrderTakenShipment_Text.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\View_GetOrderTakenShipment_Updated_18Dec.cs">
+      <DependentUpon>LarastruckingModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\view_GetOtherFumigation.cs">
       <DependentUpon>LarastruckingModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EF\view_ShipmentQuantity.cs">

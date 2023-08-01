@@ -143,20 +143,21 @@ namespace LarastruckingApp.BusinessLayer
             return iTimeCardDAL.SaveTimeCardAmount(entity);
         }
 
-        #endregion      
-        
+        #endregion
+
         #region Save Incentive Card Amount
-        /// <summary>
-        /// Save Time Card Amount
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        // <summary>
+        // Save Time Card Amount
+        // </summary>
+        // <param name="entity"></param>
+        // <returns></returns>
         public bool SaveIncentiveCardAmount(IncentiveCardCalculation entity)
         {
             return iTimeCardDAL.SaveIncentiveCardAmount(entity);
         }
 
         #endregion
+
         #region Get Week Date
         /// <summary>
         /// Get Week Date

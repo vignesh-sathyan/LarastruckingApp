@@ -516,40 +516,56 @@ namespace LarastruckingApp.Repository.Repository.TimeCard
         /// <returns></returns>
         public bool SaveIncentiveCardAmount(IncentiveCardCalculation entity)
         {
-           
-            var timeCardCalculationData = timeCardContext.tblIncentiveCardCalculations.Where(x => DbFunctions.TruncateTime(x.WeekStartDay) == DbFunctions.TruncateTime(entity.WeekStartDay) && x.UserId == entity.UserId).FirstOrDefault();
-            if (timeCardCalculationData != null)
+            try
             {
-                timeCardCalculationData.HourlyRate = entity.HourlyRate;
-                timeCardCalculationData.TotalPay = entity.TotalPay;
-                timeCardCalculationData.Loan = entity.Loan;
-                timeCardCalculationData.Deduction = entity.Deduction;
-                timeCardCalculationData.Description = entity.Description;
-                timeCardCalculationData.Remaining = entity.Remaining;
-                timeCardCalculationData.Reimbursement = entity.Reimbursement;
-                timeCardContext.Entry(timeCardCalculationData).State = EntityState.Modified;
-                return timeCardContext.SaveChanges() > 0;
+                //var IncentiveCardCalculationnData = timeCardContext.tblIncentiveCardCalculations.Where(x => DbFunctions.TruncateTime(x.WeekStartDay) == DbFunctions.TruncateTime(entity.WeekStartDay) && x.UserId == entity.UserId).FirstOrDefault();
+                var IncentiveCardCalculationnData = timeCardContext.tblIncentiveCardCalculations.Where(x => DbFunctions.TruncateTime(x.WeekStartDay) == DbFunctions.TruncateTime(entity.WeekStartDay) && x.UserId == entity.UserId).FirstOrDefault();
+                if (IncentiveCardCalculationnData != null)
+                {
+                    IncentiveCardCalculationnData.HourlyRate = entity.HourlyRate;
+                    IncentiveCardCalculationnData.TotalPay = entity.TotalPay;
+                    IncentiveCardCalculationnData.Loan = entity.Loan;
+                    IncentiveCardCalculationnData.Deduction = entity.Deduction;
+                    IncentiveCardCalculationnData.Description = entity.Description;
+                    IncentiveCardCalculationnData.Remaining = entity.Remaining;
+                    IncentiveCardCalculationnData.Reimbursement = entity.Reimbursement;
+                    IncentiveCardCalculationnData.DailyRate = entity.DailyRate;
+                    IncentiveCardCalculationnData.GrossPay = entity.GrossPay;
+                    IncentiveCardCalculationnData.TotalCheck = entity.TotalCheck;
+                    IncentiveCardCalculationnData.Incentive = entity.Incentive;
+                    timeCardContext.Entry(IncentiveCardCalculationnData).State = EntityState.Modified;
+                    return timeCardContext.SaveChanges() > 0;
 
+                }
+                else
+                {
+
+                    tblIncentiveCardCalculation tblIncentiveCardCalculation = new tblIncentiveCardCalculation();
+                    tblIncentiveCardCalculation.UserId = entity.UserId;
+                    tblIncentiveCardCalculation.WeekStartDay = entity.WeekStartDay;
+                    tblIncentiveCardCalculation.WeekEndDay = entity.WeekEndDay;
+                    tblIncentiveCardCalculation.HourlyRate = entity.HourlyRate;
+                    tblIncentiveCardCalculation.DailyRate = entity.DailyRate;
+                    tblIncentiveCardCalculation.TotalPay = entity.TotalPay;
+                    tblIncentiveCardCalculation.Incentive = entity.Incentive;
+                    tblIncentiveCardCalculation.TotalCheck = entity.TotalCheck;
+                    tblIncentiveCardCalculation.GrossPay = entity.GrossPay;
+                    tblIncentiveCardCalculation.Loan = entity.Loan;
+                    tblIncentiveCardCalculation.Deduction = entity.Deduction;
+                    tblIncentiveCardCalculation.Reimbursement = entity.Reimbursement;
+                    tblIncentiveCardCalculation.Description = entity.Description;
+                    tblIncentiveCardCalculation.Remaining = entity.Remaining;
+                    tblIncentiveCardCalculation.CreatedOn = Configurations.TodayDateTime;
+                    tblIncentiveCardCalculation.CreatedBy = entity.UserId;
+                    timeCardContext.tblIncentiveCardCalculations.Add(tblIncentiveCardCalculation);
+                    return timeCardContext.SaveChanges() > 0;
+                }
             }
-            else
+            catch (Exception ex)
             {
-
-                tblTimeCardCalculation tblTimeCardCalculation = new tblTimeCardCalculation();
-                tblTimeCardCalculation.UserId = entity.UserId;
-                tblTimeCardCalculation.WeekStartDay = entity.WeekStartDay;
-                tblTimeCardCalculation.WeekEndDay = entity.WeekEndDay;
-                tblTimeCardCalculation.HourlyRate = entity.HourlyRate;
-                tblTimeCardCalculation.TotalPay = entity.TotalPay;
-                tblTimeCardCalculation.Loan = entity.Loan;
-                tblTimeCardCalculation.Deduction = entity.Deduction;
-                tblTimeCardCalculation.Reimbursement = entity.Reimbursement;
-                tblTimeCardCalculation.Description = entity.Description;
-                tblTimeCardCalculation.Remaining = entity.Remaining;
-                tblTimeCardCalculation.CreatedOn = Configurations.TodayDateTime;
-                tblTimeCardCalculation.CreatedBy = entity.UserId;
-                timeCardContext.tblTimeCardCalculations.Add(tblTimeCardCalculation);
-                return timeCardContext.SaveChanges() > 0;
+                return false;
             }
+            
 
         }
         #endregion
