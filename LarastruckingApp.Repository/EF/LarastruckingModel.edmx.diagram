@@ -25,108 +25,119 @@
         <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Drive__3A179ED3" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Statu__14E61A24" />
         <EntityTypeShape EntityType="LarastruckingDBModel.FreightPricingMapping" Width="1.5" PointX="5.75" PointY="5.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblAccessorialFeesType" Width="1.5" PointX="11.25" PointY="74.375" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblAccidentDocument" Width="1.5" PointX="11.25" PointY="51.5" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblAccidentReport" Width="1.5" PointX="11.25" PointY="54.125" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblAccidentReportDocument" Width="1.5" PointX="13.5" PointY="54.375" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblAddress" Width="1.5" PointX="3.75" PointY="32.875" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblAccessorialFeesType" Width="1.5" PointX="5.25" PointY="69.375" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblAccidentDocument" Width="1.5" PointX="14.25" PointY="51.5" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblAccidentReport" Width="1.5" PointX="14.25" PointY="54.125" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblAccidentReportDocument" Width="1.5" PointX="16.5" PointY="54.375" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblAddress" Width="1.5" PointX="3.75" PointY="36.875" />
         <EntityTypeShape EntityType="LarastruckingDBModel.tblAddressType" Width="1.5" PointX="7.75" PointY="0.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblAssessorialPrice" Width="1.5" PointX="13.5" PointY="74.5" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblAssessorialPrice" Width="1.5" PointX="10.5" PointY="89.5" />
         <EntityTypeShape EntityType="LarastruckingDBModel.tblBaseAddress" Width="1.5" PointX="5.25" PointY="100.125" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblBaseFreightDetail" Width="1.5" PointX="6" PointY="64.375" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblBaseFreightDetail" Width="1.5" PointX="6" PointY="52.375" />
         <EntityTypeShape EntityType="LarastruckingDBModel.tblCity" Width="1.5" PointX="7.75" PointY="4.75" />
         <EntityTypeShape EntityType="LarastruckingDBModel.tblCommodity" Width="1.5" PointX="7.75" PointY="7.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblCountry" Width="1.5" PointX="6.75" PointY="43.625" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblCustomerBaseFreightDetail" Width="1.5" PointX="16.5" PointY="78.125" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblCustomerContact" Width="1.5" PointX="5.25" PointY="133.5" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblCountry" Width="1.5" PointX="6.75" PointY="41.875" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblCustomerBaseFreightDetail" Width="1.5" PointX="13.5" PointY="84.125" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblCustomerContact" Width="1.5" PointX="5.25" PointY="133.875" />
         <EntityTypeShape EntityType="LarastruckingDBModel.tblCustomerRegistration" Width="1.5" PointX="3" PointY="100.5" />
         <EntityTypeShape EntityType="LarastruckingDBModel.tblDamagedImage" Width="1.5" PointX="3" PointY="54.375" />
         <EntityTypeShape EntityType="LarastruckingDBModel.tblDelivery" Width="1.5" PointX="3" PointY="6.375" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblDocumentType" Width="1.5" PointX="12" PointY="48.375" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblDoorType" Width="1.5" PointX="9" PointY="26.5" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblDocumentType" Width="1.5" PointX="9" PointY="53.375" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblDoorType" Width="1.5" PointX="15" PointY="44.5" />
         <EntityTypeShape EntityType="LarastruckingDBModel.tblDriver" Width="1.5" PointX="9" PointY="56" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblDriverDocument" Width="1.5" PointX="14.25" PointY="59" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblDriverGpsTrakingHistory" Width="1.5" PointX="7.5" PointY="72" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblEquipmentDetail" Width="1.5" PointX="9" PointY="29.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblDriverDocument" Width="1.5" PointX="11.25" PointY="59" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblDriverGpsTrakingHistory" Width="1.5" PointX="7.5" PointY="70.125" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblEquipmentDetail" Width="1.5" PointX="12" PointY="45.75" />
         <EntityTypeShape EntityType="LarastruckingDBModel.tblEquipmentDocument" Width="1.5" PointX="9.75" PointY="0.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblEquipmentDoorType" Width="1.5" PointX="11.25" PointY="33.25" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblEquipmentFreight" Width="1.5" PointX="14.25" PointY="51.125" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblEquipmentDoorType" Width="1.5" PointX="17.25" PointY="49.25" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblEquipmentFreight" Width="1.5" PointX="17.25" PointY="61.125" />
         <EntityTypeShape EntityType="LarastruckingDBModel.tblEquipmentStatu" Width="1.5" PointX="1.5" PointY="10.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblEquipmentType" Width="1.5" PointX="6.75" PointY="33" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblEquipmentType" Width="1.5" PointX="9.75" PointY="49" />
         <EntityTypeShape EntityType="LarastruckingDBModel.tblFeedback" Width="1.5" PointX="9.75" PointY="5.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblFreightType" Width="1.5" PointX="1.5" PointY="73.625" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblFumigation" Width="1.5" PointX="5.25" PointY="84.625" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblFumigationAccessorialPrice" Width="1.5" PointX="7.5" PointY="85.875" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblFreightType" Width="1.5" PointX="3.75" PointY="73.5" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblFumigation" Width="1.5" PointX="5.25" PointY="78.375" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblFumigationAccessorialPrice" Width="1.5" PointX="7.5" PointY="74.875" />
         <EntityTypeShape EntityType="LarastruckingDBModel.tblFumigationComment" Width="1.5" PointX="9.75" PointY="8.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblFumigationDamagedImage" Width="1.5" PointX="7.5" PointY="108.625" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblFumigationEquipmentNDriver" Width="1.5" PointX="10.5" PointY="86.375" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblFumigationDamagedImage" Width="1.5" PointX="7.5" PointY="108.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblFumigationEquipmentNDriver" Width="1.5" PointX="10.5" PointY="85.375" />
         <EntityTypeShape EntityType="LarastruckingDBModel.tblFumigationEventHistory" Width="1.5" PointX="3.75" PointY="10.75" />
         <EntityTypeShape EntityType="LarastruckingDBModel.tblFumigationPreTripCheckUp" Width="1.5" PointX="5.75" PointY="10.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblFumigationProofOfTemperatureImage" Width="1.5" PointX="7.5" PointY="113.125" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblFumigationProofOfTemperatureImage" Width="1.5" PointX="7.5" PointY="113.25" />
         <EntityTypeShape EntityType="LarastruckingDBModel.tblFumigationRout" Width="1.5" PointX="5.25" PointY="107.875" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblFumigationStatusHistory" Width="1.5" PointX="13.5" PointY="70.25" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblFumigationStatusHistory" Width="1.5" PointX="10.5" PointY="69.25" />
         <EntityTypeShape EntityType="LarastruckingDBModel.tblFumigationType" Width="1.5" PointX="11.75" PointY="0.75" />
         <EntityTypeShape EntityType="LarastruckingDBModel.tblFumigationWaitingNotification" Width="1.5" PointX="11.75" PointY="3.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblLanguage" Width="1.5" PointX="6.75" PointY="47.125" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblLeave" Width="1.5" PointX="3" PointY="64.875" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblLeaveStatu" Width="1.5" PointX="7.75" PointY="11.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblLog" Width="1.5" PointX="11.75" PointY="9.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblMailHistory" Width="1.5" PointX="9.75" PointY="12.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblLanguage" Width="1.5" PointX="6.75" PointY="45.375" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblLeave" Width="1.5" PointX="3" PointY="68.5" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblLeaveStatu" Width="1.5" PointX="11.75" PointY="9.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblLog" Width="1.5" PointX="9.75" PointY="12.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblMailHistory" Width="1.5" PointX="11.75" PointY="12.75" />
         <EntityTypeShape EntityType="LarastruckingDBModel.tblPackage" Width="1.5" PointX="3" PointY="1" />
         <EntityTypeShape EntityType="LarastruckingDBModel.tblPackageType" Width="1.5" PointX="0.75" PointY="1.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblPageAction" Width="1.5" PointX="11.75" PointY="12.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblPageAuthorization" Width="1.5" PointX="9" PointY="47.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblPage" Width="1.5" PointX="6.75" PointY="29.125" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblPreTripCheckUp" Width="1.5" PointX="3" PointY="59.375" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblPricingMethod" Width="1.5" PointX="1.5" PointY="70" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblProofOfTemperatureImage" Width="1.5" PointX="6" PointY="53.875" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblQuoteAccessorialPrice" Width="1.5" PointX="13.5" PointY="79.875" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblQuoteRouteStop" Width="1.5" PointX="13.5" PointY="84.5" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblQuote" Width="1.5" PointX="8.25" PointY="79" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblRelationship" Width="1.5" PointX="13.75" PointY="0.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblRole" Width="1.5" PointX="6.75" PointY="49.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblShipment" Width="1.5" PointX="1.5" PointY="38" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblShipmentAccessorialPrice" Width="1.5" PointX="16.5" PointY="55.625" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblShipmentCommment" Width="1.5" PointX="3.75" PointY="29.5" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblShipmentEquipmentNdriver" Width="1.5" PointX="11.25" PointY="59.875" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblShipmentEventHistory" Width="1.5" PointX="13.75" PointY="3.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblShipmentFreightDetail" Width="1.5" PointX="3.75" PointY="69.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblShipmentRefNo" Width="1.5" PointX="13.75" PointY="7.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblPageAction" Width="1.5" PointX="13.75" PointY="0.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblPageAuthorization" Width="1.5" PointX="10" PointY="73.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblPage" Width="1.5" PointX="7.75" PointY="91.125" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblPreTripCheckUp" Width="1.5" PointX="3" PointY="63.375" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblPricingMethod" Width="1.5" PointX="3.75" PointY="47.125" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblProofOfTemperatureImage" Width="1.5" PointX="6" PointY="63.875" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblQuoteAccessorialPrice" Width="1.5" PointX="18.75" PointY="85.875" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblQuoteRouteStop" Width="1.5" PointX="16.5" PointY="85.5" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblQuote" Width="1.5" PointX="8.25" PointY="85" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblRelationship" Width="1.5" PointX="13.75" PointY="4.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblRole" Width="1.5" PointX="0.75" PointY="66.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblShipment" Width="1.5" PointX="1.5" PointY="37.875" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblShipmentAccessorialPrice" Width="1.5" PointX="14.5" PointY="47" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblShipmentCommment" Width="1.5" PointX="3.75" PointY="26.5" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblShipmentEquipmentNdriver" Width="1.5" PointX="14.25" PointY="59.875" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblShipmentEventHistory" Width="1.5" PointX="13.75" PointY="7.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblShipmentFreightDetail" Width="1.5" PointX="3.75" PointY="89.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblShipmentRefNo" Width="1.5" PointX="13.75" PointY="11.75" />
         <EntityTypeShape EntityType="LarastruckingDBModel.tblShipmentRoutesStop" Width="1.5" PointX="0.75" PointY="47.625" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblShipmentStatu" Width="1.5" PointX="3.75" PointY="47.625" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblShipmentStatu" Width="1.5" PointX="3.75" PointY="30.625" />
         <EntityTypeShape EntityType="LarastruckingDBModel.tblShipmentStatusHistory" Width="1.5" PointX="6" PointY="59.625" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblShipmentSubStatu" Width="1.5" PointX="3.75" PointY="42.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblShipmentTrackingHistory" Width="1.5" PointX="13.75" PointY="10.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblState" Width="1.5" PointX="6.75" PointY="39.875" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblShipmentSubStatu" Width="1.5" PointX="3.75" PointY="85.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblShipmentTrackingHistory" Width="1.5" PointX="0.75" PointY="14.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblState" Width="1.5" PointX="6.75" PointY="48.125" />
         <EntityTypeShape EntityType="LarastruckingDBModel.tblTemperature" Width="1.5" PointX="5.25" PointY="1.375" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblTermAndCondition" Width="1.5" PointX="0.75" PointY="14.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblTimeCard" Width="1.5" PointX="2.75" PointY="14.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblTimeCardCalculation" Width="1.5" PointX="4.75" PointY="14.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblTimeCardLoan" Width="1.5" PointX="6.75" PointY="14.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblTimeCardlog" Width="1.5" PointX="13.75" PointY="14.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblTrailerRental" Width="1.5" PointX="5.25" PointY="79.625" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblTrailerRentalDetail" Width="1.5" PointX="11.25" PointY="66.5" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblTermAndCondition" Width="1.5" PointX="2.75" PointY="14.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblTimeCard" Width="1.5" PointX="4.75" PointY="14.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblTimeCardCalculation" Width="1.5" PointX="13.75" PointY="14.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblTimeCardLoan" Width="1.5" PointX="15.75" PointY="0.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblTimeCardlog" Width="1.5" PointX="15.75" PointY="3.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblTrailerRental" Width="1.5" PointX="8.25" PointY="79.625" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblTrailerRentalDetail" Width="1.5" PointX="13.25" PointY="65.5" />
         <EntityTypeShape EntityType="LarastruckingDBModel.tblTransportVehical" Width="1.5" PointX="0.75" PointY="6.125" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblUploadShipmentSample" Width="1.5" PointX="15.75" PointY="0.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblUploadShipmentSample" Width="1.5" PointX="15.75" PointY="7.75" />
         <EntityTypeShape EntityType="LarastruckingDBModel.tblUser" Width="1.5" PointX="0.75" PointY="57.125" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblUserRole" Width="1.5" PointX="9" PointY="51.875" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblVendorNconsignee" Width="1.5" PointX="15.75" PointY="3.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblUserRole" Width="1.5" PointX="3" PointY="59.875" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblVendorNconsignee" Width="1.5" PointX="15.75" PointY="10.75" />
         <EntityTypeShape EntityType="LarastruckingDBModel.tblWatingNotification" Width="1.5" PointX="11.25" PointY="78.25" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblBaseAddressBackup" Width="1.5" PointX="15.75" PointY="9.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblBaseAddresstest" Width="1.5" PointX="15.75" PointY="15.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblCustomerRegistrationBackup" Width="1.5" PointX="17.75" PointY="0.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.tblShipmentStatus1" Width="1.5" PointX="17.75" PointY="5.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.view_DriverDashboard" Width="1.5" PointX="6.75" PointY="17.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.View_DriverShipmentDetail" Width="1.5" PointX="8.75" PointY="17.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.view_GetAllShipment" Width="1.5" PointX="17.75" PointY="10.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.view_GetOrderNotTakenShipment" Width="1.5" PointX="10.75" PointY="17.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.View_GetOrderNotTakenShipment_Updated_18Dec" Width="1.5" PointX="17.75" PointY="16.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.view_GetOrderTakenShipment" Width="1.5" PointX="0.75" PointY="18.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.view_ShipmentQuantity" Width="1.5" PointX="12.75" PointY="18.75" />
-        <EntityTypeShape EntityType="LarastruckingDBModel.view_tblShipmentFreightDetail" Width="1.5" PointX="19.75" PointY="0.75" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Acces__093F5D4E" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblBaseAddressBackup" Width="1.5" PointX="15.75" PointY="16.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblBaseAddresstest" Width="1.5" PointX="17.75" PointY="0.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblCustomerRegistrationBackup" Width="1.5" PointX="17.75" PointY="6.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.tblShipmentStatus1" Width="1.5" PointX="6.75" PointY="17.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.view_AllShipmentQuantity" Width="1.5" PointX="8.75" PointY="17.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.view_DriverDashboard" Width="1.5" PointX="10.75" PointY="17.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.View_DriverShipmentDetail" Width="1.5" PointX="17.75" PointY="11.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.view_FreightTypeId" Width="1.5" PointX="17.75" PointY="16.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.view_GetAllShipment" Width="1.5" PointX="0.75" PointY="18.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.view_GetAllShipment__test1" Width="1.5" PointX="2.75" PointY="18.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.view_GetAllShipment_Update_18Dec" Width="1.5" PointX="19.75" PointY="0.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.view_GetAllShipment_Updated_18Dec" Width="1.5" PointX="19.75" PointY="5.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.view_GetOrderNotTakenShipment" Width="1.5" PointX="19.75" PointY="10.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.view_GetOrderNotTakenShipment_Text" Width="1.5" PointX="12.75" PointY="19.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.View_GetOrderNotTakenShipment_Updated_18Dec" Width="1.5" PointX="19.75" PointY="17.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.View_GetOrderNotTakenShipment_Updated_22Dec" Width="1.5" PointX="21.75" PointY="0.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.view_GetOrderTakenFumigation" Width="1.5" PointX="21.75" PointY="5.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.view_GetOrderTakenShipment" Width="1.5" PointX="8.75" PointY="21.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.view_GetOrderTakenShipment_Text" Width="1.5" PointX="21.75" PointY="12.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.View_GetOrderTakenShipment_Updated_18Dec" Width="1.5" PointX="21.75" PointY="17.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.view_GetOtherFumigation" Width="1.5" PointX="5.75" PointY="22.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.view_ShipmentQuantity" Width="1.5" PointX="14.75" PointY="22.75" />
+        <EntityTypeShape EntityType="LarastruckingDBModel.view_tblShipmentFreightDetail" Width="1.5" PointX="16.75" PointY="22.75" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Acces__77DFC722" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblQuoteA__Acces__095F58DF" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Acces__2E70E1FD" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Acces__1B29035F" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblAccide__Accid__38EE7070" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblAccide__Accid__37FA4C37" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblAccide__Drive__30592A6F" />
@@ -143,8 +154,8 @@
         <AssociationConnector Association="LarastruckingDBModel.FK__tblQuoteR__Deliv__44CA3770" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblQuoteR__Picku__2DB1C7EE" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblQuoteR__Picku__45BE5BA9" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblTraile__Deliv__4B0D20AB" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblTraile__PickU__4DE98D56" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblTraile__Deliv__38B96646" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblTraile__PickU__3B95D2F1" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblAssess__Quote__19AACF41" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblAssess__Quote__1A9EF37A" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblAssess__Quote__2CF2ADDF" />
@@ -172,64 +183,64 @@
         <AssociationConnector Association="LarastruckingDBModel.FK__tblCustom__Quote__395884C4" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblCustom__Quote__3A4CA8FD" />
         <AssociationConnector Association="LarastruckingDBModel.FK_tblCustomerContact_tblCustomerRegistration" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Custo__047AA831" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Custo__740F363E" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblQuotes__Custo__308E3499" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblQuotes__Custo__489AC854" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblTraile__Custo__45544755" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblWating__Custo__52AE4273" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblTraile__Custo__33008CF0" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblWating__Custo__405A880E" />
         <AssociationConnector Association="LarastruckingDBModel.FK_tblCustomerRegistration_tblUser" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblDamage__Creat__7073AF84" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblDamage__Creat__5D2BD0E6" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblDamage__Shipm__3572E547" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblTemper__Deliv__408F9238" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblTemper__Deliv__4183B671" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblTemper__Deliv__2E3BD7D3" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblTemper__Deliv__2F2FFC0C" />
         <AssociationConnector Association="LarastruckingDBModel.FK_tblDelivery_tblTransportVehical" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblDriver__Docum__7814D14C" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblDriver__Docum__7908F585" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblDriver__Docum__65C116E7" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblDriver__Docum__66B53B20" />
         <AssociationConnector Association="LarastruckingDBModel.FK_tblEquipmentDoorType_tblDoorType" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblDriver__Drive__075714DC" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblDriver__Langu__73DA2C14" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblDriver__State__28ED12D1" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblDriver__State__3D2915A8" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Drive__324172E1" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblTraile__Deliv__4A18FC72" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblTraile__Picku__4CF5691D" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblWating__Drive__53A266AC" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Drive__1EF99443" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblTraile__Deliv__37C5420D" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblTraile__Picku__3AA1AEB8" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblWating__Drive__414EAC47" />
         <AssociationConnector Association="LarastruckingDBModel.FK_tblDriver_tblUser" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblDriver__Fumig__7AF13DF7" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblDriver__Fumig__689D8392" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblDriver__Fumig__7E77B618" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblDriver__Shipm__51DA19CB" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblDriver__Shipm__52CE3E04" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblDriver__UserI__7EC1CEDB" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblEquipm__Vehic__3F6663D5" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Equip__3335971A" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblDriver__UserI__6991A7CB" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblEquipm__Vehic__6D6238AF" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Equip__1FEDB87C" />
         <AssociationConnector Association="LarastruckingDBModel.FK_tblEquipmentDoorType_tblEquipmentDetail" />
         <AssociationConnector Association="LarastruckingDBModel.FK_tblEquipmentFreight_tblEquipmentDetail" />
         <AssociationConnector Association="LarastruckingDBModel.FK_tblPreTripCheckUp_tblEquipmentDetail" />
         <AssociationConnector Association="LarastruckingDBModel.FK_tblEquipmentFreight_tblFreightType" />
         <AssociationConnector Association="LarastruckingDBModel.FK_tblTransportVehical_tblVehicleStatus" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Freig__795DFB40" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Creat__038683F8" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Delet__056ECC6A" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Fumig__0B27A5C0" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Creat__731B1205" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Delet__75035A77" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Fumig__035179CE" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Fumig__0E04126B" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Fumig__10E07F16" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Modif__0662F0A3" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Statu__35DCF99B" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__SubSt__084B3915" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Fumig__78D3EB5B" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Modif__75F77EB0" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Statu__7226EDCC" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__SubSt__76EBA2E9" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Fumig__453F38BC" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Fumig__697C9932" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Fumig__37E53D9E" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Fumig__66A02C87" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Creat__0FEC5ADD" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Statu__36D11DD4" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Statu__3AA1AEB8" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Statu__3B95D2F1" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__SubSt__12C8C788" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Creat__025D5595" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Statu__00750D23" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Statu__0169315C" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__Statu__7F80E8EA" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblFumiga__SubSt__7E8CC4B1" />
         <AssociationConnector Association="LarastruckingDBModel.FK_tblLeave_tblUser" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblPackag__Packa__1881A0DE" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblPackag__Packa__1975C517" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblTemper__Packa__4277DAAA" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblTemper__Packa__436BFEE3" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblPackag__Packa__0539C240" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblPackag__Packa__062DE679" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblTemper__Packa__30242045" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblTemper__Packa__3118447E" />
         <AssociationConnector Association="LarastruckingDBModel.FK_tblPageAuthorization_tblPages" />
         <AssociationConnector Association="LarastruckingDBModel.FK_tblPageAuthorization_tblRole" />
         <AssociationConnector Association="LarastruckingDBModel.FK_tblPreTripCheckUp_tblShipment" />
@@ -242,33 +253,33 @@
         <AssociationConnector Association="LarastruckingDBModel.FK__tblQuoteA__Quote__086B34A6" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblQuoteR__Quote__2EA5EC27" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblQuoteR__Quote__46B27FE2" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblQuotes__Creat__2AA05119" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblQuotes__Creat__2B947552" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblQuotes__Creat__1758727B" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblQuotes__Creat__184C96B4" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblUserRo__RoleI__41EDCAC5" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Shipm__18D6A699" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Shipm__314D4EA8" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Shipm__1E05700A" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Shipm__382F5661" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Shipm__3CF40B7E" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Shipm__42ACE4D4" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Shipp__7093AB15" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Shipp__7187CF4E" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblWating__Shipm__567ED357" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblWating__Shipm__4242D080" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Shipm__7775B2CE" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Shipm__7B4643B2" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblWating__Shipm__53584DE9" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblWating__Shipm__544C7222" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Statu__37C5420D" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Statu__38B96646" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Statu__39AD8A7F" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Creat__3AD6B8E2" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__SubSt__3DB3258D" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblTraile__Creat__4460231C" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblTraile__Delet__46486B8E" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblTraile__Modif__473C8FC7" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblTraile__Trail__4EDDB18F" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblTraile__Creat__4830B400" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblTraile__Delet__4924D839" />
-        <AssociationConnector Association="LarastruckingDBModel.FK__tblTraile__Modif__4C0144E4" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Statu__278EDA44" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Statu__2882FE7D" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Statu__2C538F61" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__Creat__297722B6" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblShipme__SubSt__2A6B46EF" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblTraile__Creat__320C68B7" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblTraile__Delet__33F4B129" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblTraile__Modif__34E8D562" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblTraile__Trail__3C89F72A" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblTraile__Creat__35DCF99B" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblTraile__Delet__36D11DD4" />
+        <AssociationConnector Association="LarastruckingDBModel.FK__tblTraile__Modif__39AD8A7F" />
         <AssociationConnector Association="LarastruckingDBModel.FK__tblUserRo__UserI__40F9A68C" />
         </Diagram>
     </edmx:Diagrams>

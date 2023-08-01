@@ -311,9 +311,6 @@
     <Compile Include="EF\tblFumigationWaitingNotification.cs">
       <DependentUpon>LarastruckingModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="EF\tblIncentiveCardCalculation.cs">
-      <DependentUpon>LarastruckingModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="EF\tblLanguage.cs">
       <DependentUpon>LarastruckingModel.tt</DependentUpon>
     </Compile>
