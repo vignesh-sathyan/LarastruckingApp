@@ -1297,6 +1297,7 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
                         temperatureDetail.OrderNo = " Order # " + temperatureDetail.OrderNo;
                         IsValid = false;
                     }
+                    
                     if (IsValid)
                     {
                         subject = subject.Replace("@AWB/PO/ORD", "");

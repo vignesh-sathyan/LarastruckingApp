@@ -1753,16 +1753,22 @@ namespace LarastruckingApp.Areas.Shipment.Controllers
                         temperatureDetail.AirWayBill = " AWB # " + temperatureDetail.AirWayBill;
                         IsValid = false;
                     }
-                    if (IsValid && !string.IsNullOrEmpty(temperatureDetail.CustomerPO))
+                    if (!string.IsNullOrEmpty(temperatureDetail.CustomerPO))
                     {
                         subject = subject.Replace("@AWB/PO/ORD", temperatureDetail.CustomerPO);
                         temperatureDetail.CustomerPO = " PO # " + temperatureDetail.CustomerPO;
                         IsValid = false;
                     }
-                    if (IsValid && !string.IsNullOrEmpty(temperatureDetail.OrderNo))
+                    if (!string.IsNullOrEmpty(temperatureDetail.OrderNo))
                     {
                         subject = subject.Replace("@AWB/PO/ORD", temperatureDetail.OrderNo);
                         temperatureDetail.OrderNo = " Order # " + temperatureDetail.OrderNo;
+                        IsValid = false;
+                    }
+                    if (!string.IsNullOrEmpty(temperatureDetail.ContainerNo))
+                    {
+                        subject = subject.Replace("@AWB/PO/ORD", temperatureDetail.ContainerNo);
+                        temperatureDetail.ContainerNo = " Container # " + temperatureDetail.ContainerNo;
                         IsValid = false;
                     }
                     if (IsValid)

@@ -919,6 +919,7 @@ btnAddRoute = function () {
                 if ($("#ddlPickUpLocation").val() > 0) {
                     if ($("#ddlFumigationSite").val() > 0) {
                         if ($("#ddlDeliveryLocation").val() > 0) {
+                            console.log("isFormValid ", isFormValid("formRouteStop"));
                             if (isFormValid("formRouteStop")) {
                                 if (validateDate()) {
                                     AddRouteStops();
@@ -2369,14 +2370,18 @@ function GetJsonValue() {
     var tempLen = glbEquipmentNdriver.length;
     var delObjExists = false;
     var chkEquipment = $("#chkEquipment").val();
-
+    var deliveryEquipment = glbEquipmentNdriver.filter(x => x.IsPickUp == false && x.EquipmentId !== "");
+    console.log("deliveryEquipment: ", deliveryEquipment);
     //if(chkEquipment==null || chkEquipment=="null"){
     for (let i = 0; i < tempLen; i++) {
         //delObjExists = false;
-        if (glbEquipmentNdriver[i].IsPickUp == false && glbEquipmentNdriver[i].RouteNo == 0) {
-            console.log("delobject: ", glbEquipmentNdriver[i].RouteNo);
+        console.log("delobject: ", glbEquipmentNdriver[i].RouteNo);
+        if (glbEquipmentNdriver[i].IsPickUp == false && glbEquipmentNdriver[i].RouteNo != 0) {
+            console.log("delobject in loop: ", glbEquipmentNdriver[i].RouteNo);
             delObjExists = true;
         }
+        console.log("glbEquipmentNdriver before push: ", glbEquipmentNdriver);
+        console.log("glbEquipmentNdriver RouteNo: ", glbEquipmentNdriver[i].RouteNo);
         console.log("glbEquipmentNdriver before push: ", glbEquipmentNdriver);
         console.log("delObjExists: " + glbEquipmentNdriver[i].IsPickUp + " : " + glbEquipmentNdriver[i].RouteNo + " : " + delObjExists);
         if (glbEquipmentNdriver.length >= 1 && glbEquipmentNdriver[i].IsPickUp == true && glbEquipmentNdriver.length <= 2) {
