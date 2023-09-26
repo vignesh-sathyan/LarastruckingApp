@@ -565,7 +565,7 @@ namespace LarastruckingApp.Repository.Repository.TimeCard
             {
                 return false;
             }
-
+            
 
         }
         #endregion

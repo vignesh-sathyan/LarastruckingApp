@@ -6,7 +6,7 @@ $(document).ready(function () {
     
     // GetEquipmentList();
     btnPickUpContinue();
-    btnDeliveryContinue();
+    //btnDeliveryContinue();
     btnCancel();
   
 
@@ -251,7 +251,6 @@ function GetEquipmentList() {
 
     oTable = $('#tblEquipmentDetails').DataTable();
 
-
 }
 //#endregion
 
@@ -302,9 +301,33 @@ btnPickUpContinue = function () {
     $("#btnPickUpContinue").on('click', function () {
 
         var selectedCount = 0;
-        var tableUsers = $('#tblEquipmentDetails').DataTable();
-        var rows = tableUsers.rows({ 'search': 'applied' }).nodes();
-        console.log("selectedCount rows : ", rows);
+        var selectedIDs = [];
+        //if (PreviousEquipment != null && PreviousEquipment != "") {
+        //    console.log("PreviousEquipment pickup: ", PreviousEquipment);
+        //    $('#tblEquipmentDetails tbody tr').each(function () {
+        //        var checkbox = $(this).find('input[type = "checkbox"][name = "chkEquipment"]');
+
+        //        if (checkbox.prop('checked')) {
+        //            console.log("make false");
+        //            checkbox.prop('checked',false);
+        //        }
+        //    });
+        //    AlertPopup("More than one equipment selected.");
+        //} 
+
+        // Loop through each checkbox with the class "checkbox"
+        var bank_table = $('#tblEquipmentDetails').DataTable();
+
+        $(bank_table.$('input[name="chkEquipment"]:checked').each(function () {
+
+            selectedCount++;
+
+        }));
+
+     
+        
+
+        console.log("selectedCount: ", selectedCount);
         var RouteNo = $("input[name='rdSelectedRoute']:checked").val();
         var rowNo = $("#tblShipmentDetail").attr("data-row-no");
         var tblRowsCount = 0;
@@ -368,14 +391,14 @@ btnDeliveryContinue = function () {
          //var coutnofbox = glbEquipmentNdriver.filter(x => (x.IsPickUp == false || x.IsPickUp == "false") && (tblRowsCount > 0 ? (x.RouteNo > 0 ? x.RouteNo == RouteNo : x.RouteNo == 0) : x.RouteNo == 0)).length;
               //  console.log("coutnofbox: ", coutnofbox);
 
-        if (glbEquipmentNdriver.filter(x => (x.IsPickUp == false || x.IsPickUp == "false") && (tblRowsCount > 0 ? (x.RouteNo > 0 ? x.RouteNo == RouteNo : x.RouteNo == 0) : x.RouteNo == 0)).length < 2) {
+       // if (glbEquipmentNdriver.filter(x => (x.IsPickUp == false || x.IsPickUp == "false") && (tblRowsCount > 0 ? (x.RouteNo > 0 ? x.RouteNo == RouteNo : x.RouteNo == 0) : x.RouteNo == 0)).length < 2) {
 
             if (glbEquipmentNdriver.filter(x => (x.IsPickUp == false || x.IsPickUp == "false") && (tblRowsCount > 0 ? (x.RouteNo > 0 ? x.RouteNo == RouteNo : x.RouteNo == 0) : x.RouteNo == 0)).length > 0) {
                 if ($("#hdnfumigationId").val() > 0) {
 
                     if ($("#ddlStatus").val() == 9)//ORDER TAKEN
                     {
-                        $("#ddlStatus").val(14);//DISPATCHED 
+                        $("#ddlStatus").val(16);//DISPATCHED 
                     }
 
                 }
@@ -389,13 +412,13 @@ btnDeliveryContinue = function () {
 
 
             }
-        }
-        else {
-            //  toastr.warning("please select equipment number(s) & driver(s).")
-            AlertPopup("More than One Equipment Selected. Please select any one equipment.")
+       // }
+        //else {
+        //    //  toastr.warning("Please select Equipment Number(s) & Driver(s).")
+        //    AlertPopup("More than One Equipment Selected. Please select any one equipment.")
 
 
-        }
+        //}
        
     })
 }
@@ -802,16 +825,17 @@ function ValidateDriver(_this) {
 
 
 
+
 function CheckEquipment(_this) {
 
-    //rowNo = $("#tblShipmentDetail").attr("data-row-no");
-    //console.log("textBoxVal: ", textBoxVal);
-    //console.log("rowNo: ", rowNo);
-    //console.log("glbRouteStops: ", glbRouteStops);
-    //var routedetail = glbRouteStops[rowNo];
-    //PreviousEquipment = routedetail.PickUpEquipment;
-    //console.log("PreviousEquipment: ", PreviousEquipment);
-    
+    rowNo = $("#tblShipmentDetail").attr("data-row-no");
+    console.log("textBoxVal: ", textBoxVal);
+    console.log("rowNo: ", rowNo);
+    var routedetail = glbRouteStops[rowNo];
+    PreviousEquipment = routedetail.PickUpEquipment;
+    console.log("PreviousEquipment: ", PreviousEquipment);
+
+
     if ($(_this).is(":checked")) {
       
         //var selectedCount = $('.chkEquipment:checked').length;

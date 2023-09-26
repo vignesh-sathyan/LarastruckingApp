@@ -313,7 +313,13 @@ namespace LarastruckingApp.Areas.TimeCard.Controllers
         }
         #endregion
 
+
         #region Save Incentive Card Amount
+        /// <summary>
+        /// Save Time Card Amount
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
 
         [HttpPost]
         public ActionResult SaveIncentiveCardAmount(IncentiveCardCalculation entity)
