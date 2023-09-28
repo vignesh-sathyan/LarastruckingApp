@@ -1759,6 +1759,12 @@ namespace LarastruckingApp.Areas.Shipment.Controllers
                         temperatureDetail.CustomerPO = " PO # " + temperatureDetail.CustomerPO;
                         IsValid = false;
                     }
+                    if (IsValid && !string.IsNullOrEmpty(temperatureDetail.ContainerNo))
+                    {
+                        subject = subject.Replace("@AWB/PO/ORD", temperatureDetail.ContainerNo);
+                        temperatureDetail.ContainerNo = " Container # " + temperatureDetail.ContainerNo;
+                        IsValid = false;
+                    }
                     if (IsValid && !string.IsNullOrEmpty(temperatureDetail.OrderNo))
                     {
                         subject = subject.Replace("@AWB/PO/ORD", temperatureDetail.OrderNo);

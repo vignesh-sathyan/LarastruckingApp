@@ -919,6 +919,7 @@ btnAddRoute = function () {
                 if ($("#ddlPickUpLocation").val() > 0) {
                     if ($("#ddlFumigationSite").val() > 0) {
                         if ($("#ddlDeliveryLocation").val() > 0) {
+                            console.log("isFormValid ", isFormValid("formRouteStop"));
                             if (isFormValid("formRouteStop")) {
                                 if (validateDate()) {
                                     AddRouteStops();
@@ -2369,14 +2370,18 @@ function GetJsonValue() {
     var tempLen = glbEquipmentNdriver.length;
     var delObjExists = false;
     var chkEquipment = $("#chkEquipment").val();
-
+    var deliveryEquipment = glbEquipmentNdriver.filter(x => x.IsPickUp == false && x.EquipmentId !== "");
+    console.log("deliveryEquipment: ", deliveryEquipment);
     //if(chkEquipment==null || chkEquipment=="null"){
     for (let i = 0; i < tempLen; i++) {
         //delObjExists = false;
-        if (glbEquipmentNdriver[i].IsPickUp == false && glbEquipmentNdriver[i].RouteNo == 0) {
-            console.log("delobject: ", glbEquipmentNdriver[i].RouteNo);
+        console.log("delobject: ", glbEquipmentNdriver[i].RouteNo);
+        if (glbEquipmentNdriver[i].IsPickUp == false && glbEquipmentNdriver[i].RouteNo != 0) {
+            console.log("delobject in loop: ", glbEquipmentNdriver[i].RouteNo);
             delObjExists = true;
         }
+        console.log("glbEquipmentNdriver before push: ", glbEquipmentNdriver);
+        console.log("glbEquipmentNdriver RouteNo: ", glbEquipmentNdriver[i].RouteNo);
         console.log("glbEquipmentNdriver before push: ", glbEquipmentNdriver);
         console.log("delObjExists: " + glbEquipmentNdriver[i].IsPickUp + " : " + glbEquipmentNdriver[i].RouteNo + " : " + delObjExists);
         if (glbEquipmentNdriver.length >= 1 && glbEquipmentNdriver[i].IsPickUp == true && glbEquipmentNdriver.length <= 2) {
@@ -2787,6 +2792,7 @@ function SendEditMessage() {
                     success: function (msg) {
                         // Do something interesting here.
                         console.log("pickup message sent");
+                        console.log("pickup message sent", msg.d);
                     },
                     error: function (xhr, err) {
                         console.log("error : " + err + "PickupMessage error");
@@ -2831,7 +2837,8 @@ function SendEditMessage() {
                         dataType: 'json',
                         success: function (msg) {
                             // Do something interesting here.
-                            console.log("pickup message sent");
+                            console.log("pickup message sent",JSON.stringify(msg));
+                            console.log("pickup message sent",msg.d);
                         },
                         error: function (xhr, err) {
                             console.log("error : " + err + "PickupMessage error");
@@ -3056,6 +3063,8 @@ function SendDeliveryMessage() {
                     success: function (msg) {
                         // Do something interesting here.
                         console.log("delivery message sent first");
+						  console.log("delivery message parse: ",JSON.stringify(msg));
+                            console.log("delivery message sent ",msg.d);
                     },
                     error: function (xhr, err) {
                         console.log("error : " + err + "DeliveryMessage Error");
@@ -3099,7 +3108,8 @@ function SendDeliveryMessage() {
                         dataType: 'json',
                         success: function (msg) {
                             // Do something interesting here.
-                            console.log("delivery message sent");
+                            console.log("delivery message parse: ",JSON.stringify(msg));
+                            console.log("delivery message sent ",msg.d);
                         },
                         error: function (xhr, err) {
                             console.log("error : " + err + " DeliveryMessage Error");
@@ -3218,7 +3228,7 @@ var btnSave = function () {
         values = GetJsonValue();
         var prevalues = GetValues();
         console.log("btnsave: ", values);
-        //console.log("prevalues: ", prevalues);
+        console.log("prevalues: ", prevalues);
         //console.log("pickdriver: ", values.FumigationRouteDetail[0].PickUpEquipmentNdriver[0].DriverId);
         if ($("#ddlCustomer").val() > 0) {
 
@@ -3274,7 +3284,7 @@ var btnSave = function () {
                                                 type: "POST",
                                                 beforeSend: function () {
                                                     showLoader();
-                                                    // console.log("pickup Drive btnsave: ","FumigationEquipmentNdriver" in values);
+                                                     console.log("pickup Drive btnsave: ","FumigationEquipmentNdriver" in values);
                                                     var deliveryDriver = "";
                                                     var pickupDriver = "";
                                                     const ddlstatus = $("#ddlStatus option:selected").text();
@@ -3288,7 +3298,7 @@ var btnSave = function () {
                                                             }
                                                         }
 
-                                                        // console.log("deliver: ", deliveryDriver);
+                                                         console.log("deliver: ", deliveryDriver);
                                                         if (deliveryDriver != "") {
                                                             if (ddlstatus == "DRIVER ASSIGNED") {
                                                                 console.log("sending delivery");
@@ -3368,6 +3378,7 @@ var btnSave = function () {
                                         var deliveryDriver = "";
                                         var pickupDriver = "";
                                         const ddlstatus = $("#ddlStatus option:selected").text();
+										console.log("pickup Drive btnsave: ","FumigationEquipmentNdriver" in values);
                                         if (values.FumigationEquipmentNdriver.length > 0 && prevalues.length > 0) {
                                             for (let i = 0; i < values.FumigationEquipmentNdriver.length; i++) {
                                                 if (values.FumigationEquipmentNdriver[i].IsPickUp == false) {
@@ -3378,7 +3389,7 @@ var btnSave = function () {
                                                 }
                                             }
 
-                                            // console.log("deliver: ", deliveryDriver);
+                                             console.log("deliver: ", deliveryDriver);
                                             if (deliveryDriver != "") {
                                                 if (ddlstatus == "DRIVER ASSIGNED") {
                                                     console.log("sending delivery");

@@ -1240,8 +1240,8 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
         }
         #endregion
 
-        
-        public bool SendTemperatureMail(FumigationEmailDTO model,TemperatureEmailDTO model1, double ActualTemp,string tempURL)
+
+        public bool SendTemperatureMail(FumigationEmailDTO model, TemperatureEmailDTO model1, double ActualTemp, string tempURL)
         {
             StringReader sr = null;
             Document pdfDoc = null;
@@ -1262,12 +1262,12 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
                     string to = customerDetail.AllContactPerson;
                     string subject = string.Empty;
                     subject = LarastruckingResource.LarasFumigationAdvice;
-                    if (ActualTemp>40 && ActualTemp<=50)
+                    if (ActualTemp > 40 && ActualTemp <= 50)
                     {
                         messageTemp = "IMMEDIATE ATTENTION HIGH TEMPERATURE";
                         subject = "LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | @AWB/PO/ORD | " + messageTemp;
                     }
-                    else if (ActualTemp>50)
+                    else if (ActualTemp > 50)
                     {
                         messageTemp = "IMMEDIATE ATTENTION EXTREMELY HIGH TEMPERATURE";
                         subject = "LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | @AWB/PO/ORD | " + messageTemp;
@@ -1276,7 +1276,7 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
                     else
                     {
                         messageTemp = "ACCEPTABLE TEMPERATURE";
-                        subject = "LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | @AWB/PO/ORD | "+ messageTemp;
+                        subject = "LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | @AWB/PO/ORD | " + messageTemp;
 
                     }
                     if (!string.IsNullOrEmpty(temperatureDetail.AirWayBill))
@@ -1317,7 +1317,7 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
                     sr = new StringReader(bodywithsignature);
                     pdfDoc = new Document(PageSize.A4, 10f, 10f, 10f, 0f);
 
-                   
+
                     using (MemoryStream stream = new System.IO.MemoryStream())
                     {
 
@@ -1335,7 +1335,7 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
                             {
                                 bytes = webClient.DownloadData(path);
                             }
-                            string fileName = "proofoftemp_" + (i+1) + "." + ext;
+                            string fileName = "proofoftemp_" + (i + 1) + "." + ext;
 
 
                             fileAttach.Add(bytes, fileName);
@@ -1355,7 +1355,7 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
                         var deliveryStatus = customerDetail.FumigationStatusHistory.Where(x => x.StatusId == 7).FirstOrDefault();
                         if (deliveryStatus == null && customerDetail.StatusId != 3)
                         {
-                           // fileAttach = null;
+                            // fileAttach = null;
                         }
                         //mailData.MailSubject = "LARA Test";
                         //mailData.MailBody = "Temperature report delivered";
@@ -1381,7 +1381,7 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
             catch (Exception ex)
             {
                 // throw;
-                ErrorLog("Mail error : "+ex.Message);
+                ErrorLog("Mail error : " + ex.Message);
                 return isEmail;
             }
             finally

@@ -1116,8 +1116,9 @@ function SaveIncentiveCardAmount() {
         contentType: "application/json; charset=utf-8",
         dataType: 'json',
         success: function (data) {
+            //console.log("data: ", data);
             if (data == true) {
-                //console.log("data: ", JSON.stringify(values));
+                console.log("data true: ", JSON.stringify(values));
                 SuccessPopup("Success! Your data has been saved!");
             }
         },
