@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'D:\Vignesh\Larastruckig-28-Apr-2023-MyPC_Backup\Larastruckig\LarastruckingApp.Repository\EF\LarastruckingModel.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\Vignesh\LarasTrucking\LarastruckingApp\LarastruckingApp.Repository\EF\LarastruckingModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

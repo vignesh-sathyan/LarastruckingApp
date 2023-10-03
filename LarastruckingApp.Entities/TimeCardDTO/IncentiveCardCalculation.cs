@@ -21,9 +21,13 @@ namespace LarastruckingApp.Entities.TimeCardDTO
         public Nullable<decimal> Incentive { get; set; }
         public Nullable<decimal> TotalCheck { get; set; }
         public string Description { get; set; }
+        public string Pallets { get; set; }
+        public string Boxes { get; set; }
+        public string Weight { get; set; }
         public Nullable<System.DateTime> CreatedOn { get; set; }
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<decimal> Remaining { get; set; }
         public Nullable<decimal> Reimbursement { get; set; }
+        public string GridData { get; set; }
     }
 }

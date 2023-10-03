@@ -101,6 +101,34 @@ namespace LarastruckingApp.DAL
 
         #endregion
 
+        #region Save Incentive Card data by dispetcher
+        /// <summary>
+        /// Save Time Card data by dispetcher
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public GetIncentiveCardCalculationDTO GetIncentiveCardData(TimeCardDTO entity)
+        {
+            return iTimeCardRepository.GetIncentiveCardData(entity);
+        }
+
+
+        #endregion
+
+        #region Save Incentive Card Grid data by dispetcher
+        /// <summary>
+        /// Save Time Card data by dispetcher
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public IList<GetIncentiveGridDTO> GetIncentiveGridData(TimeCardDTO entity)
+        {
+            return iTimeCardRepository.GetIncentiveGridData(entity);
+        }
+
+
+        #endregion
+
         #region Get Driver Time Card Detail
         /// <summary>
         /// Get Driver TimeCard Detail

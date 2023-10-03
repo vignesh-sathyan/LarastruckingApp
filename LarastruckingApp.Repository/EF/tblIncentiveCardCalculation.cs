@@ -43,6 +43,10 @@ public partial class tblIncentiveCardCalculation
     public Nullable<decimal> Deduction { get; set; }
 
     public string Description { get; set; }
+    public string Weight { get; set; }
+    public string Pallets { get; set; }
+    public string Boxes { get; set; }
+    public string GridData { get; set; }
 
     public Nullable<System.DateTime> CreatedOn { get; set; }
 

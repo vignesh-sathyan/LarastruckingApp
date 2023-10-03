@@ -1,17 +1,81 @@
 var currentDate = new Date();
 var isPrevious = false;
-
+var incentiveGrid = [];
 $(document).ready(function () {
     $('div').unbind('mouseenter mouseleave');
     $("#mytimeCard").hide();
     var userId = 0;
+  
     var userRole = $("#hdnUserRole").val();
     if ($.trim(userRole).toLowerCase() == "Driver".toLocaleLowerCase() || $.trim(userRole).toLowerCase() == "Mechanics".toLocaleLowerCase()) {
         userId = $("#hdnUserId").val();
         ShowTimeCard(userId);
+       // incentiveGrid = GetIncentiveGridData();
     }
     console.log("userId: ", userId);
+   // console.log("incentiveGrid: ", incentiveGrid);
 });
+
+function GetIncentiveGridData() {
+    var IncentiveGrid = [];
+    // console.log("BIND DATA: ", _data);
+    let curr = currentDate;// new Date();
+    let first = curr.getDate() - (curr.getDay() < 4 ? (curr.getDay() + 7) : curr.getDay()) + (0 + 4);
+    let fistDate = new Date(curr.setDate(first));
+    fistDate = dateFormat(fistDate, "yyyy-mm-dd");
+
+    let last = curr.getDate() - (curr.getDay() < 4 ? (curr.getDay() + 7) : curr.getDay()) + (6 + 4);
+    let lastDate = new Date(curr.setDate(last));
+    lastDate = dateFormat(lastDate, "yyyy-mm-dd");
+
+    var values = {};
+    values.UserId = userId;
+    values.InDateTime = fistDate;
+    values.OutDateTime = lastDate;
+    // $("#modalTimeCard").modal("show");
+    // console.log("Incentive Grid: ", values);
+    $.ajax({
+        url: baseUrl + '/TimeCard/TimeCard/GetIncentiveGridData',
+        data: JSON.stringify(values),
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        async:false,
+        success: function (gridData) {
+            if (gridData.length > 0) {
+                console.log("GridData: ", gridData);
+                incentiveGrid = gridData;
+            }
+
+        },
+        error: function (xhr, err) {
+            console.log("error : " + err);
+        }
+    });
+    return incentiveGrid;
+}
+
+function countOccurrences(arr) {
+    const counts = {};
+    const array = arr;
+    if (array.length > 0) {
+        // Loop through the array
+        for (const item of array) {
+            // If the item is not in the counts object, initialize it with 1, otherwise, increment the count
+            if (!counts[item]) {
+                counts[item] = 1;
+            } else {
+                counts[item]++;
+            }
+        }
+    }
+    else {
+        counts = "";
+    }
+ 
+
+    return counts;
+}
 
 function ShowTimeCard(UserId) {
     userId = UserId;
@@ -19,6 +83,7 @@ function ShowTimeCard(UserId) {
     currentDate = new Date();
     isPrevious = false;
     GetTimeCardData();
+  
     $("#btnSendEmails").css("display", "none");
     // $("#spnWeekNo").text(GetCurrentWeekNu());
 }
@@ -907,13 +972,14 @@ function GetTimeCardData() {
     values.InDateTime = fistDate;
     values.OutDateTime = lastDate;
     $.ajax({
-        url: baseUrl + '/TimeCard/TimeCard/GetTimeCardData',
+        url: baseUrl + '/TimeCard/TimeCard/GetIncentiveCardData',
         data: JSON.stringify(values),
         type: "POST",
         contentType: "application/json; charset=utf-8",
         dataType: 'json',
         success: function (data) {
             // if (data.length > 0) {
+           // GetIncentiveGridData();
             BindTimeCardList(data);
             var HoursWorked = $("#spnGradTotal").text();
             HoursWorked = HoursWorked.split(':')[0];
@@ -924,10 +990,30 @@ function GetTimeCardData() {
     });
 }
 var removeIcon = "";
+function calculateTotal(rowName) {
+    // Get the input and value elements by rowName
+    const inputElement = document.getElementById(rowName + 'Input');
+    const valueElement = document.getElementById(rowName + 'Value');
+    const resultElement = document.getElementById(rowName + 'Result');
+
+    // Get the value from the input field
+    const inputValue = parseFloat(inputElement.value) || 0;
+
+    // Get the value from the corresponding <td>
+    const value = parseFloat(valueElement.textContent) || 0;
+
+    // Calculate the product
+    const product = inputValue * value;
+
+    // Update the result <td> with the product
+    resultElement.textContent = product;
+}
+
 function BindTimeCardList(_data) {
-    console.log("BIND DATA: ", _data);
-    // $("#modalTimeCard").modal("show");
-    //console.log(_data);
+    // GetIncentiveGridData();
+    // let IncentiveGridData = GetIncentiveGridData();
+    // console.log("GridData bef grid: ", IncentiveGridData);
+    //  console.log("GridData bef : ", incentiveGrid);
     if (_data != null) {
         //$("#txtHourlyRate").attr('value', _data.HourlyRate);
         //$("#txtTotalPay").attr('value', _data.TotalPay);
@@ -942,6 +1028,9 @@ function BindTimeCardList(_data) {
         $("#txtTotalPay").val(_data.TotalPay);
         $("#txtLoan").val(_data.Loan);
         $("#txtDeductions").val(_data.Deduction);
+        $("#txtDailyRate").val(_data.DailyRate);
+        $("#txtIncentive").val(_data.Incentive);
+        $("#txtGrossPay").val(_data.GrossPay);
         $("#txtReimbursements").val(_data.Reimbursement);
         $("#txtDescription").val(_data.Description);
         ////DART END...
@@ -1002,25 +1091,124 @@ function BindTimeCardList(_data) {
     var timeCard = "";
     var timCardPrint = "";
 
+    // GetIncentiveGridData();
+    incentiveGrid = GetIncentiveGridData();
+    var datas = {};
+    if (incentiveGrid.length > 0) {
+        if (incentiveGrid.length > 0) {
+            datas = incentiveGrid[0];
+        }
+        else {
+            datas = {
+                "Pallets": "",
+                "Boxes": "",
+                "Weight": "",
+                "ShipmentLocation": "",
+                "FumigationLocation": "",
+                "KG": "",
+                "LBS": "",
+                "GridData": ""
+            };
+        }
+        console.log("datas: ", incentiveGrid.length);
+        console.log("datas values: ", datas);
+        var ShipmentLocation = datas.ShipmentLocation || '';
+        var ShipmentLocationArray = ShipmentLocation ? ShipmentLocation.split('$') : [];
+        // var fumigationLocation = datas.FumigationLocation.split('$');
+        var fumigationLocation = datas.FumigationLocation || ''; // Ensure fumigationLocation is a string or an empty string
+        var fumigationLocationArray = fumigationLocation ? fumigationLocation.split('$') : []; // Split or return an empty array
+        var GridData = JSON.parse(datas.GridData);
+        console.log("datas GridData: ", GridData);
+        //const arr = ["FLORIDA", "MIAMI", "FLORIDA"];
+        let countLocation = "";
+        if (ShipmentLocationArray.length >= 1) {
+            countLocation = countOccurrences(ShipmentLocationArray)
+        }
+        let countFumLocation = "";
+        if (fumigationLocationArray.length >= 1) {
+            countFumLocation = countOccurrences(fumigationLocationArray)
+        }
+        console.log("ShipmentLocation count: ", countLocation);
+        var shipmentLoc = "";
+        var fumigationLoc = "";
+        //for (let i = 4; i < GridData.length; i++) {
+        //    for (const key in countLocation) {
+        //        if (countLocation.hasOwnProperty(key)) {
+        //            shipmentLoc += `<tr><td  style="font-weight: bold;">Shipment ${key}</td><td style="font-weight: bold;" id="ship${key}Value">${countLocation[key]}</td><td style="padding: 5px;"><input type="number" oninput="calculateTotal('ship${key}')" id="ship${key}Input" onkeypress="return onlyNumeric(event)" style="height:30px;" value="${GridData[i].Rate}"/></td><td id="ship${key}Result">${GridData[i].Total}</td></tr>`;
+        //        }
+        //    }
+        //    for (const key in countFumLocation) {
+        //        if (countFumLocation.hasOwnProperty(key)) {
+        //            fumigationLoc += `<tr><td  style="font-weight: bold;">Fumigation ${key}</td><td style="font-weight: bold;" id="fumValue">${countFumLocation[key]}</td><td style="padding: 5px;"><input type="number" oninput="calculateTotal('fum')" id="fumInput" onkeypress="return onlyNumeric(event)" style="height:30px;" value="${GridData[i].Rate}"/></td><td id="fumResult">${GridData[i].Total}</td></tr>`;
+        //        }
+        //    }
+        //}
+        const shipCount = Object.keys(countLocation).length;
+        const fumCount = Object.keys(countFumLocation).length;
+        var shipRate = [];
+        var shipTotal = [];
+        var countKey = 0;
+        for (let i = 4; i < GridData.length; i++) {
 
-    timeCard =
+            console.log("value of i: " + i + " GridData[i].Rate", GridData[i].Rate);
+            const rate = GridData[i].Rate;
+            const total = GridData[i].Total;
+            countKey++;
+            if (countKey <= shipCount) {
+                shipRate.push(rate);
+                shipTotal.push(total);
+                console.log("shipCount: ", shipCount);
+                if (shipRate.length == shipCount) {
+                    console.log("shipRate: ", shipRate);
 
-        '<tr style="color:#fff;"><th style="background:#7ca337 !important">PRODUCTIVITY RECORD</th><th style="background:#7ca337 !important">QUANTITY</th><th style="background:#7ca337 !important">RATE</th><th style="background:#7ca337 !important">TOTAL</th></tr>' +
-        '<tr><td style="font-weight: bold;">PALLETS</td><td></td><td></td><td></td></tr>' +
-        '<tr><td style="font-weight: bold;">BOXES</td><td></td><td></td><td></td></tr>' +
-        '<tr><td style="font-weight: bold;">WEIGHT KGS</td><td></td><td></td><td></td></tr>' +
-        '<tr><td style="font-weight: bold;">WEIGHT LBS</td><td></td><td></td><td></td></tr>' +
-        '<tr><td style="font-weight: bold;">SHIPMENT MIA</td><td></td><td></td><td></td></tr>' +
-        '<tr><td style="font-weight: bold;">SHIPMENT POM</td><td></td><td></td><td></td></tr>' +
-        '<tr><td style="font-weight: bold;">SHIPMENT HTD</td><td></td><td></td><td></td></tr>' +
-        '<tr><td style="font-weight: bold;">SHIPMENT WPB</td><td></td><td></td><td></td></tr>' +
-        '<tr><td style="font-weight: bold;">SHIPMENT RBCH</td><td></td><td></td><td></td></tr>' +
-        '<tr><td style="font-weight: bold;">FUMIGATION MIA</td><td></td><td></td><td></td></tr>' +
-        '<tr><td style="font-weight: bold;">FUMIGATION POM</td><td></td><td></td><td></td></tr>' +
-        '<tr><td style="font-weight: bold;">FUMIGATION HTD</td><td></td><td></td><td></td></tr>' +
-        '<tr><td style="font-weight: bold;">FUMIGATION WPB</td><td></td><td></td><td></td></tr>' +
-        '<tr><td style="font-weight: bold;">FUMIGATION RBCH</td><td></td><td></td><td></td></tr>' +
-        '<tr><td style="font-weight: bold;">OTHER</td><td></td><td></td><td></td></tr>'
+                    // for (const key in countLocation) {
+                    for (let j = 0; j < shipRate.length; j++) {
+                        // if (countLocation.hasOwnProperty(key)) {
+                        const key = Object.keys(countLocation)[j];
+                        const value = countLocation[key];
+                        console.log("value of rate: ", rate);
+                        shipmentLoc += `<tr><td  style="font-weight: bold;">Shipment ${key}</td><td style="font-weight: bold;" id="ship${key}Value">${countLocation[key]}</td><td style="padding: 5px;"><input type="number" oninput="calculateTotal('ship${key}')" id="ship${key}Input" onkeypress="return onlyNumeric(event)" style="height:30px;" value="${shipRate[j]}"/></td><td id="ship${key}Result">${shipTotal[j]}</td></tr>`;
+                        // }
+                    }
+
+
+
+                }
+            }
+            else {
+                for (const key in countFumLocation) {
+                if (countFumLocation.hasOwnProperty(key)) {
+                    fumigationLoc += `<tr><td  style="font-weight: bold;">Fumigation ${key}</td><td style="font-weight: bold;" id="fumValue">${countFumLocation[key]}</td><td style="padding: 5px;"><input type="number" oninput="calculateTotal('fum')" id="fumInput" onkeypress="return onlyNumeric(event)" style="height:30px;" value="${rate}"/></td><td id="fumResult">${total}</td></tr>`;
+                }
+            }
+            }
+
+
+
+            // Create HTML for Shipment (countLocation length is 2)
+
+
+            // Create HTML for Fumigation (countFumLocation length is 1)
+            //for (const key in countFumLocation) {
+            //    if (countFumLocation.hasOwnProperty(key)) {
+            //        fumigationLoc += `<tr><td  style="font-weight: bold;">Fumigation ${key}</td><td style="font-weight: bold;" id="fumValue">${countFumLocation[key]}</td><td style="padding: 5px;"><input type="number" oninput="calculateTotal('fum')" id="fumInput" onkeypress="return onlyNumeric(event)" style="height:30px;" value="${rate}"/></td><td id="fumResult">${total}</td></tr>`;
+            //    }
+            //}
+        }
+
+
+        timeCard =
+
+            '<tr style="color:#fff;"><th style="background:#7ca337 !important">PRODUCTIVITY RECORD</th><th style="background:#7ca337 !important">QUANTITY</th><th style="background:#7ca337 !important">RATE</th><th style="background:#7ca337 !important">TOTAL</th></tr>' +
+            `<tr><td style="font-weight: bold;">PALLETS</td><td style="font-weight: bold;" id="palletsValue">${datas.Pallets}</td><td style="padding: 5px;"><input type="number" oninput="calculateTotal('pallets')" id="palletsInput" onkeypress="return onlyNumeric(event)" style="height:30px;" value="${GridData[0].Rate}"/></td><td id="palletsResult">${GridData[0].Total}</td></tr>` +
+            `<tr><td style="font-weight: bold;">BOXES</td><td style="font-weight: bold;" id="boxesValue">${datas.Boxes}</td><td style="padding: 5px;"><input type="number" oninput="calculateTotal('boxes')" id="boxesInput" onkeypress="return onlyNumeric(event)" style="height:30px;" value="${GridData[1].Rate}"/></td><td id="boxesResult">${GridData[1].Total}</td></tr>` +
+            `<tr><td style="font-weight: bold;">WEIGHT KGS</td><td style="font-weight: bold;" id="kgValue">${datas.KG}</td><td style="padding: 5px;"><input type="number" oninput="calculateTotal('kg')" id="kgInput" onkeypress="return onlyNumeric(event)" style="height:30px;" value="${GridData[2].Rate}"/></td><td id="kgResult">${GridData[2].Total}</td></tr>` +
+            `<tr><td style="font-weight: bold;">WEIGHT LBS</td><td style="font-weight: bold;" id="lbsValue">${datas.LBS}</td><td style="padding: 5px;"><input type="number" oninput="calculateTotal('lbs')" id="lbsInput" onkeypress="return onlyNumeric(event)" style="height:30px;" value="${GridData[3].Rate}"/></td><td id="lbsResult">${GridData[3].Total}</td></tr>` +
+            `${shipmentLoc}` +
+            `${fumigationLoc}`;
+
+        // _data.Pallets = datas[0].Pallets;
+    }
 
     timCardPrint = '<tr><td></td></tr>';
 
@@ -1034,7 +1222,7 @@ function BindTimeCardList(_data) {
     }
 
     $("#modalIncentiveCard").modal("show");
-
+    //  console.log("after modal open: ", GetIncentiveGridData());
     startEndDate();
 }
 
@@ -1107,6 +1295,35 @@ function SaveIncentiveCardAmount() {
     values.GrossPay = $("#txtGrossPay").val();
     values.Remaining = $("#txtRemaining").val();
     values.UserId = userId;
+    // Get a reference to the table
+    const table = document.getElementById('IncentiveCard');
+    console.log("table.rows.length: ", table.rows.length);
+    console.log("table.rows: ", table.rows);
+    // Initialize an array to store the objects
+    const dataArray = [];
+
+    // Loop through the rows in the table
+    for (let i = 1; i < table.rows.length; i++) { // Start from 1 to skip the header row
+        const row = table.rows[i];
+        console.log("rows: ", row);
+        if (row.cells.length >= 4) {
+            // Extract values from the 4th and 5th <td> elements
+            const fourthTd = row.cells[2].querySelector('input').value;
+            const fifthTd = row.cells[3].textContent;
+
+            // Create an object with the extracted values and push it to the array
+            const dataObject = {
+                Rate: fourthTd,
+                Total: fifthTd
+            };
+
+            dataArray.push(dataObject);
+        }
+    }
+
+    // Now, dataArray contains an array of objects with values from the 4th and 5th <td> elements
+    console.log("dataArray: ",dataArray);
+    values.gridData = JSON.stringify(dataArray);
     console.log(values);
     //return false;
     $.ajax({
@@ -1306,6 +1523,7 @@ if (window.matchMedia) {
 function closePopup() {
     //window.location.reload();
     console.log("popup closed");
+    incentiveGrid = [];
     $(".dvloader").css("display", "none");
     $('#modalTimeCard').modal('toggle');
     $('.modal-backdrop').hide();

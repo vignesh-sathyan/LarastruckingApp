@@ -272,6 +272,52 @@ namespace LarastruckingApp.Areas.TimeCard.Controllers
         }
         #endregion
 
+        #region Get Incentive Card data by dispetcher
+        /// <summary>
+        /// Save Time Card data by dispetcher
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult GetIncentiveCardData(TimeCardDTO entity)
+        {
+            try
+            {
+                var timeCardData = timeCardBAL.GetIncentiveCardData(entity);
+                return Json(timeCardData, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+        #endregion
+
+        #region Get Incentive Card Grid Data
+        /// <summary>
+        /// Save Time Card data by dispetcher
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult GetIncentiveGridData(TimeCardDTO entity)
+        {
+            try
+            {
+                var timeCardData = timeCardBAL.GetIncentiveGridData(entity);
+                return Json(timeCardData, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+        #endregion
+
         #region Get Driver Time Card Detail
         /// <summary>
         /// Get Driver TimeCard Detail

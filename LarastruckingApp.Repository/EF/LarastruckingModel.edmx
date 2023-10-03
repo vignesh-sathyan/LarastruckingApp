@@ -1346,6 +1346,32 @@ warning 6002: The table/view 'LarasTruckingDB.dbo.tblShipmentStatus1' does not h
           <Property Name="CreatedBy" Type="int" />
           <Property Name="Remaining" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
+		<EntityType Name="tblIncentiveCardCalculation">
+			<Key>
+				<PropertyRef Name="ID" />
+			</Key>
+			<Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+			<Property Name="UserId" Type="int" />
+			<Property Name="WeekStartDay" Type="datetime" Nullable="false" />
+			<Property Name="WeekEndDay" Type="datetime" Nullable="false" />
+			<Property Name="HourlyRate" Type="decimal" Precision="18" Scale="2" />
+			<Property Name="TotalPay" Type="decimal" Precision="18" Scale="2" />
+			<Property Name="Loan" Type="decimal" Precision="18" Scale="2" />
+			<Property Name="Deduction" Type="decimal" Precision="18" Scale="2" />
+			<Property Name="DailyRate" Type="decimal" Precision="18" Scale="2" />
+			<Property Name="GrossPay" Type="decimal" Precision="18" Scale="2" />
+			<Property Name="Incentive" Type="decimal" Precision="18" Scale="2" />
+			<Property Name="TotalCheck" Type="decimal" Precision="18" Scale="2" />
+			<Property Name="Description" Type="varchar" MaxLength="200" />
+			<Property Name="Pallets" Type="varchar" MaxLength="200" />
+			<Property Name="Boxes" Type="varchar" MaxLength="200" />
+			<Property Name="Weight" Type="varchar" MaxLength="200" />
+			<Property Name="CreatedOn" Type="datetime" />
+			<Property Name="CreatedBy" Type="int" />
+			<Property Name="Remaining" Type="decimal" Precision="18" Scale="2" />
+			<Property Name="Reimbursement" Type="decimal" Precision="18" Scale="2" />
+			<Property Name="GridData" Type="nvarchar(max)"  />
+		</EntityType>
         <EntityType Name="tblTimeCardLoan">
           <Key>
             <PropertyRef Name="Id" />
@@ -4129,6 +4155,7 @@ warning 6002: The table/view 'LarasTruckingDB.dbo.view_tblShipmentFreightDetail'
           <EntitySet Name="tblTermAndCondition" EntityType="Self.tblTermAndCondition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblTimeCard" EntityType="Self.tblTimeCard" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblTimeCardCalculation" EntityType="Self.tblTimeCardCalculation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblIncentiveCardCalculation" EntityType="Self.tblIncentiveCardCalculation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblTimeCardLoan" EntityType="Self.tblTimeCardLoan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblTimeCardlog" EntityType="Self.tblTimeCardlog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblTrailerRental" EntityType="Self.tblTrailerRental" Schema="dbo" store:Type="Tables" />
@@ -5479,6 +5506,7 @@ warning 6002: The table/view 'LarasTruckingDB.dbo.view_tblShipmentFreightDetail'
           <EntitySet Name="tblTermAndConditions" EntityType="LarastruckingDBModel.tblTermAndCondition" />
           <EntitySet Name="tblTimeCards" EntityType="LarastruckingDBModel.tblTimeCard" />
           <EntitySet Name="tblTimeCardCalculations" EntityType="LarastruckingDBModel.tblTimeCardCalculation" />
+          <EntitySet Name="tblIncentiveCardCalculations" EntityType="LarastruckingDBModel.tblIncentiveCardCalculation" />
           <EntitySet Name="tblTimeCardLoans" EntityType="LarastruckingDBModel.tblTimeCardLoan" />
           <EntitySet Name="tblTimeCardlogs" EntityType="LarastruckingDBModel.tblTimeCardlog" />
           <EntitySet Name="tblTrailerRentals" EntityType="LarastruckingDBModel.tblTrailerRental" />
@@ -8288,6 +8316,32 @@ warning 6002: The table/view 'LarasTruckingDB.dbo.view_tblShipmentFreightDetail'
           <Property Name="CreatedBy" Type="Int32" />
           <Property Name="Remaining" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
+		  <EntityType Name="tblIncentiveCardCalculation">
+			  <Key>
+				  <PropertyRef Name="ID" />
+			  </Key>
+			  <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+			  <Property Name="UserId" Type="Int32" />
+			  <Property Name="WeekStartDay" Type="DateTime" Nullable="false" Precision="3" />
+			  <Property Name="WeekEndDay" Type="DateTime" Nullable="false" Precision="3" />
+			  <Property Name="HourlyRate" Type="Decimal" Precision="18" Scale="2" />
+			  <Property Name="TotalPay" Type="Decimal" Precision="18" Scale="2" />
+			  <Property Name="Loan" Type="Decimal" Precision="18" Scale="2" />
+			  <Property Name="Deduction" Type="Decimal" Precision="18" Scale="2" />
+			  <Property Name="DailyRate" Type="Decimal" Precision="18" Scale="2" />
+			  <Property Name="GrossPay" Type="Decimal" Precision="18" Scale="2" />
+			  <Property Name="Incentive" Type="Decimal" Precision="18" Scale="2" />
+			  <Property Name="TotalCheck" Type="Decimal" Precision="18" Scale="2" />
+			  <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+			  <Property Name="Weight" Type="String" MaxLength="200" FixedLength="false" Unicode="false"  />
+			  <Property Name="Pallets" Type="String" MaxLength="200" FixedLength="false" Unicode="false"  />
+			  <Property Name="Boxes" Type="String" MaxLength="200" FixedLength="false" Unicode="false"  />
+			  <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+			  <Property Name="CreatedBy" Type="Int32" />
+			  <Property Name="Remaining" Type="Decimal" Precision="18" Scale="2" />
+			  <Property Name="Reimbursement" Type="Decimal" Precision="18" Scale="2" />
+			  <Property Name="GridData" Type="String"  MaxLength="Max" FixedLength="false" Unicode="false" />
+		  </EntityType>
         <EntityType Name="tblTimeCardLoan">
           <Key>
             <PropertyRef Name="Id" />
@@ -12780,6 +12834,33 @@ warning 6002: The table/view 'LarasTruckingDB.dbo.view_tblShipmentFreightDetail'
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+			<EntitySetMapping Name="tblIncentiveCardCalculations">
+				<EntityTypeMapping TypeName="LarastruckingDBModel.tblIncentiveCardCalculation">
+					<MappingFragment StoreEntitySet="tblIncentiveCardCalculation">
+						<ScalarProperty Name="GridData" ColumnName="GridData"  />  
+						<ScalarProperty Name="Reimbursement" ColumnName="Reimbursement" />
+						<ScalarProperty Name="Remaining" ColumnName="Remaining" />
+						<ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+						<ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+						<ScalarProperty Name="Description" ColumnName="Description" />
+						<ScalarProperty Name="Weight" ColumnName="Weight" />
+						<ScalarProperty Name="Pallets" ColumnName="Pallets" />
+						<ScalarProperty Name="Boxes" ColumnName="Boxes" />
+						<ScalarProperty Name="Deduction" ColumnName="Deduction" />
+						<ScalarProperty Name="DailyRate" ColumnName="DailyRate" />
+						<ScalarProperty Name="GrossPay" ColumnName="GrossPay" />
+						<ScalarProperty Name="Incentive" ColumnName="Incentive" />
+						<ScalarProperty Name="TotalCheck" ColumnName="TotalCheck" />
+						<ScalarProperty Name="Loan" ColumnName="Loan" />
+						<ScalarProperty Name="TotalPay" ColumnName="TotalPay" />
+						<ScalarProperty Name="HourlyRate" ColumnName="HourlyRate" />
+						<ScalarProperty Name="WeekEndDay" ColumnName="WeekEndDay" />
+						<ScalarProperty Name="WeekStartDay" ColumnName="WeekStartDay" />
+						<ScalarProperty Name="UserId" ColumnName="UserId" />
+						<ScalarProperty Name="ID" ColumnName="ID" />
+					</MappingFragment>
+				</EntityTypeMapping>
+			</EntitySetMapping>
           <EntitySetMapping Name="tblTimeCardLoans">
             <EntityTypeMapping TypeName="LarastruckingDBModel.tblTimeCardLoan">
               <MappingFragment StoreEntitySet="tblTimeCardLoan">

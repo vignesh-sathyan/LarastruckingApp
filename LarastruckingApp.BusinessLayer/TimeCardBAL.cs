@@ -118,6 +118,27 @@ namespace LarastruckingApp.BusinessLayer
         }
         #endregion
 
+        #region Get Incentive Card
+        public GetIncentiveCardCalculationDTO GetIncentiveCardData(TimeCardDTO entity)
+        {
+            return iTimeCardDAL.GetIncentiveCardData(entity);
+        }
+        #endregion
+
+        #region Save Incentive Card Grid data by dispetcher
+        /// <summary>
+        /// Save Time Card data by dispetcher
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public IList<GetIncentiveGridDTO> GetIncentiveGridData(TimeCardDTO entity)
+        {
+            return iTimeCardDAL.GetIncentiveGridData(entity);
+        }
+
+
+        #endregion
+
         #region Get Driver Time Card Detail
         /// <summary>
         /// Get Driver TimeCard Detail
