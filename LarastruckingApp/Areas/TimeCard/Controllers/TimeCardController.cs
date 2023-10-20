@@ -521,6 +521,21 @@ namespace LarastruckingApp.Areas.TimeCard.Controllers
             }
         }
         #endregion
+
+        [HttpPost]
+        public ActionResult GetDailyHourReport(SearchTimeCardDTO modal)
+        {
+            try
+            {
+                var result = timeCardBAL.GetDailyReport(modal);
+                return Json(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         public string GetIPAddress()
         {
             String address = "";

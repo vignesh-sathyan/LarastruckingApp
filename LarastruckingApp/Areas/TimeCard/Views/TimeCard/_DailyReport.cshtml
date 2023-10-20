@@ -104,7 +104,7 @@
                         //hourThusdayTotal += thursdayData.InOutDiff.Hours;
                         //minThusdayTotal += thursdayData.InOutDiff.Minutes;
 
-                        if (thursdayData.InOutDiff.TotalHours >= 1)
+                        if (thursdayData.InOutDiff.TotalMinutes >= 1)
                         {
                             var values = thursdayData.InOutDiff.TotalHours.ToString().Split('.');
                             hourThusdayTotal += Convert.ToInt32(values[0]);
@@ -128,7 +128,7 @@
                     @if (fridayData != null && fridayData.OutDateTime != null)
                     {
 
-                        if (fridayData.InOutDiff.TotalHours >= 1)
+                        if (fridayData.InOutDiff.TotalMinutes >= 1)
                         {
                             var values = fridayData.InOutDiff.TotalHours.ToString().Split('.');
                             hourFriTotal += Convert.ToInt32(values[0]);
@@ -154,7 +154,7 @@
                     {
                         //sahours = Convert.ToInt32(saturdayData.InOutDiff.TotalHours);
 
-                        if (saturdayData.InOutDiff.TotalHours >= 1)
+                        if (saturdayData.InOutDiff.TotalMinutes >= 1)
                         {
                             var values = saturdayData.InOutDiff.TotalHours.ToString().Split('.');
                             //  sahours = Convert.ToInt32(values[0]);
@@ -182,7 +182,7 @@
                     @if (sundayData != null && sundayData.OutDateTime != null)
                     {
 
-                        if (sundayData.InOutDiff.TotalHours >= 1)
+                        if (sundayData.InOutDiff.TotalMinutes >= 1)
                         {
                             var values = sundayData.InOutDiff.TotalHours.ToString().Split('.');
                             hourSunTotal += Convert.ToInt32(values[0]);
@@ -208,7 +208,7 @@
                     {
 
 
-                        if (mondayData.InOutDiff.TotalHours >= 1)
+                        if (mondayData.InOutDiff.TotalMinutes >= 1)
                         {
                             var values = mondayData.InOutDiff.TotalHours.ToString().Split('.');
                             hourMonTotal += Convert.ToInt32(values[0]);
@@ -233,7 +233,7 @@
                     @if (tuesdayData != null && tuesdayData.OutDateTime != null)
                     {
 
-                        if (tuesdayData.InOutDiff.TotalHours >= 1)
+                        if (tuesdayData.InOutDiff.TotalMinutes >= 1)
                         {
                             var values = tuesdayData.InOutDiff.TotalHours.ToString().Split('.');
                             hourTueTotal += Convert.ToInt32(values[0]);
@@ -259,7 +259,7 @@
                     @if (wednesdayData != null && wednesdayData.OutDateTime != null)
                     {
 
-                        if (wednesdayData.InOutDiff.TotalHours >= 1)
+                        if (wednesdayData.InOutDiff.TotalMinutes >= 1)
                         {
                             var values = wednesdayData.InOutDiff.TotalHours.ToString().Split('.');
                             hourWedTotal += Convert.ToInt32(values[0]);

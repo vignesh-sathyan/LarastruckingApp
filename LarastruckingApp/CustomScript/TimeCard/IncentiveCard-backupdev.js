@@ -55,59 +55,6 @@ function GetIncentiveGridData() {
     return incentiveGrid;
 }
 
-function GetWeeklyReportHours() {
-
-    let curr = currentDate;// new Date();
-    let first = curr.getDate() - (curr.getDay() < 4 ? (curr.getDay() + 7) : curr.getDay()) + (0 + 4);
-    let fistDate = new Date(curr.setDate(first));
-    fistDate = dateFormat(fistDate, "yyyy-mm-dd");
-
-    let last = curr.getDate() - (curr.getDay() < 4 ? (curr.getDay() + 7) : curr.getDay()) + (6 + 4);
-    let lastDate = new Date(curr.setDate(last));
-    lastDate = dateFormat(lastDate, "yyyy-mm-dd");
-    var totalHours = 0;
-    var values = {};
-    values.UserId = userId;
-    values.StartDate = fistDate;
-    values.EndDate = lastDate;
-    console.log("values in GetHours: ", values);
-    $.ajax({
-        url: baseUrl + 'TimeCard/TimeCard/GetDailyHourReport',
-        data: { 'StartDate': values.StartDate, 'EndDate': values.EndDate, 'UserId': values.UserId },
-        type: "POST",
-        dataType: "html",
-        //contentType: "application/json; charset=utf-8",
-       // dataType: 'json',
-        async: false,
-        success: function (data) {
-            
-            
-            var dataJson = JSON.parse(data);
-            console.log("dailyData Hours: ", dataJson);
-            //console.log("dailyData legnth: ", dataJson.length);
-            if (dataJson && dataJson.length > 0 && dataJson[0].DailyReportDTOs && dataJson[0].DailyReportDTOs.length > 0) {
-                dataJson.forEach(function (item) {
-                    item.DailyReportDTOs.forEach(function (report) {
-                        totalHours += report.InOutDiff.TotalHours;
-                    });
-                });
-                
-                
-               
-            }
-           
-        },
-        error: function (xhr, err) {
-            console.log("error GetReport Hours : " + err);
-        }
-       
-
-    });
-    //console.log("TotalHours:", totalHours);
-
-    return totalHours;
-}
-
 function countOccurrences(arr) {
     const counts = {};
     const array = arr;
@@ -135,7 +82,6 @@ function ShowTimeCard(UserId) {
     console.log("Timecard UserId: ", userId);
     currentDate = new Date();
     isPrevious = false;
- 
     GetTimeCardData();
 
     $("#btnSendEmails").css("display", "none");
@@ -1034,11 +980,10 @@ function GetTimeCardData() {
         success: function (data) {
             // if (data.length > 0) {
             // GetIncentiveGridData();
-            //$("#txtHoursWorked").val(totalHours);
             BindTimeCardList(data);
-            //var HoursWorked = $("#spnGradTotal").text();
-           // HoursWorked = HoursWorked.split(':')[0];
-            //$("#txtHoursWorked").val(HoursWorked);
+            var HoursWorked = $("#spnGradTotal").text();
+            HoursWorked = HoursWorked.split(':')[0];
+            $("#txtHoursWorked").val(HoursWorked);
             //}
 
         }
@@ -1048,14 +993,12 @@ var removeIcon = "";
 function calculateTotal(rowName) {
     // Get the input and value elements by rowName
     const inputElement = document.getElementById(rowName + 'Input');
-    var inputElements = document.getElementById(rowName + 'Input');
     const valueElement = document.getElementById(rowName + 'Value');
     const resultElement = document.getElementById(rowName + 'Result');
 
     // Get the value from the input field
     const inputValue = parseFloat(inputElement.value) || 0;
 
-    inputElements.value = inputElement.value;
     // Get the value from the corresponding <td>
     const value = parseFloat(valueElement.textContent) || 0;
 
@@ -1080,7 +1023,7 @@ function BindTimeCardList(_data) {
 
         ////DART commented the above and added the below block to fix the issue of same text field values appearing for all driver Time Cards...
         //console.log("Hourly Rate: " + _data.HourlyRate);
-        
+
         $("#txtHourlyRate").val(_data.HourlyRate);
         $("#txtTotalPay").val(_data.TotalPay);
         $("#txtLoan").val(_data.Loan);
@@ -1148,7 +1091,7 @@ function BindTimeCardList(_data) {
     var timeCard = "";
     var timCardPrint = "";
 
-    
+    // GetIncentiveGridData();
     incentiveGrid = GetIncentiveGridData();
     var datas = {};
     if (incentiveGrid.length > 0) {
@@ -1291,14 +1234,6 @@ function BindTimeCardList(_data) {
                 `${WeightLbs}` +
                 `${shipmentLoc}` +
                 `${fumigationLoc}`;
-
-            timCardPrint = '<tr style="color:#fff;"><th style="background:#7ca337 !important">PRODUCTIVITY RECORD</th><th style="background:#7ca337 !important">QUANTITY</th><th style="background:#7ca337 !important">RATE</th><th style="background:#7ca337 !important">TOTAL</th></tr>' +
-                `${PalletCount}` +
-                `${BoxCount}` +
-                `${Weightkg}` +
-                `${WeightLbs}` +
-                `${shipmentLoc}` +
-                `${fumigationLoc}`;
         }
         else {
 
@@ -1348,14 +1283,6 @@ function BindTimeCardList(_data) {
                 `${WeightLbs}` +
                 `${shipmentLoc}` +
                 `${fumigationLoc}`;
-
-            timCardPrint = '<tr style="color:#fff;"><th style="background:#7ca337 !important">PRODUCTIVITY RECORD</th><th style="background:#7ca337 !important">QUANTITY</th><th style="background:#7ca337 !important">RATE</th><th style="background:#7ca337 !important">TOTAL</th></tr>' +
-                `${PalletCount}` +
-                `${BoxCount}` +
-                `${Weightkg}` +
-                `${WeightLbs}` +
-                `${shipmentLoc}` +
-                `${fumigationLoc}`;
         }
 
 
@@ -1375,16 +1302,10 @@ function BindTimeCardList(_data) {
     if ($.trim(userRole).toLowerCase() == "Management".toLocaleLowerCase()) {
         CalculateTotalPrice();
     }
-    var TotalHours = GetWeeklyReportHours();
-    console.log("TotalHours BindTimeCard: ", TotalHours);
-    console.log("TotalHours BindTimeCard dom: ", $("#txtHoursWorked").val());
-    $("#txtHoursWorked").val(TotalHours);
-    //document.getElementById("txtHoursWorked").value = TotalHours;
+
     $("#modalIncentiveCard").modal("show");
-    
     //  console.log("after modal open: ", GetIncentiveGridData());
     startEndDate();
-   
 }
 
 //#region DATE
@@ -1627,11 +1548,11 @@ function PrintDiv() {
 
     //$('#modalTimeCard').modal('toggle');
     //$('.modal-backdrop').remove();
-    var divName = "modalIncentiveCard";
+    var divName = "modalTimeCard1";
     //var divName = "mytimeCard";
-    //$("td").each(function () {
-    //    $(this).addClass("blueremove");
-    //});
+    $("td").each(function () {
+        $(this).addClass("blueremove");
+    });
     var printContents = document.getElementById(divName).innerHTML;
 
     //console.log("logodiv:"+logodiv);

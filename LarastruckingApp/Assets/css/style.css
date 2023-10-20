@@ -2613,9 +2613,54 @@ div#modalSession .modal-content .modal-header img {
         position: absolute;
         right: 0px;
     }
+.FumOrder tr:last-child{
+    display:none;
+}
+.FumOrder hr {
+    border-top: 1px solid #dee2e6;
+}
+.FumOrder td{
+border:none;
+}
+.dropdown:hover .sub-menu {
+    display: block;
+}
 
-    @media screen and (max-width: 992px) {
-        #timeCard tbody {
+.sub-menu {
+    display: none;
+    position: absolute;
+    top: 60px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    list-style: none;
+    /* width: 100%; */
+	right:0;
+    background-color: #85ae3c;
+}
+.dropdown {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color:#fff;
+}
+    .sub-menu li {
+        background-color: #85ae3c;
+        width: 100%;
+        color: #fff;
+        height:100%;
+        text-align: center;
+       
+    }
+        .sub-menu li a {
+            color: #fff;
+            padding: 8px;
+        }
+
+#IncentiveCard tr:not(:first-child):last-child {
+    border-bottom: 30px solid #7ca337;
+}
+@media screen and (max-width: 992px) {
+    #timeCard tbody {
             display: flex;
             flex-direction: column;
         }

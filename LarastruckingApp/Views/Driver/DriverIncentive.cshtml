@@ -62,7 +62,7 @@
                 <div class="white-bg customFormWrap">
                     @{ Html.RenderPartial("_IncentiveCard");}
 
-                    <div class="hr-rate p-3">
+                    <div class="hr-rate p-3" style="margin-top:20px;">
                         @{ if (memberProfile.UserRole.Trim().ToLower() == "Management".ToLower())
                             {
 
@@ -72,8 +72,8 @@
                                     </div>
                                     <div class="col-md-3 mb-2">
                                         <div class="input-icon">
-                                            <input type="text" id="txtHoursWorked" onfocusout="CalculateTotalPrice()" onkeypress="return onlyNumeric(event)" class="form-control" placeholder="0.00" />
-                                            <span class="inpt-dollar">$</span>
+                                            <input type="text" id="txtHoursWorked" onfocusout="CalculateTotalPrice()" onkeypress="return onlyNumeric(event)" class="form-control" placeholder="0" />
+                                            @*<span class="inpt-dollar">$</span>*@
                                         </div>
                                     </div>
                                      <div class="col-md-3 mb-2">
