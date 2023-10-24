@@ -731,7 +731,8 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
             }
             catch (Exception exs)
             {
-                ErrorLog("Model State IsValid: "+exs.Message);
+                
+                ErrorLog("Model State IsValid: "+exs.Message.ToString());
                 throw;
             }
 
@@ -1316,7 +1317,7 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
                     string bodywithsignature = this.RenderViewToStringAsync<TemperatureEmailDTO>("_TemperatureEmail", temperatureDetail);
                     sr = new StringReader(bodywithsignature);
                     pdfDoc = new Document(PageSize.A4, 10f, 10f, 10f, 0f);
-
+                    ErrorLog("bodywithsignature : " + bodywithsignature);
 
                     using (MemoryStream stream = new System.IO.MemoryStream())
                     {
@@ -1340,6 +1341,7 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
 
                             fileAttach.Add(bytes, fileName);
                         }
+                        ErrorLog("fileAttach : " + fileAttach.ToString());
                         string mailSentResponse = string.Empty;
                         MailWithCCAttachDTO mailData = new MailWithCCAttachDTO();
                         mailData.FileByte = bytes;
@@ -1381,7 +1383,8 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
             catch (Exception ex)
             {
                 // throw;
-                ErrorLog("Mail error : " + ex.Message);
+                ErrorLog("Mail error SendTemperatureMail: " + ex.Message.ToString());
+                ErrorLog("Mail error SendTemperatureMail: " + ex.InnerException.ToString());
                 return isEmail;
             }
             finally

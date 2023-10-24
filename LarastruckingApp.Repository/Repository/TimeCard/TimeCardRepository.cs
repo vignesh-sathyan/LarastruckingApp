@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using LarastruckingApp.Entities.ShipmentDTO;
 using System.Data.Entity;
 using System.Data;
+using System.IO;
+using System.Web;
 
 namespace LarastruckingApp.Repository.Repository.TimeCard
 {
@@ -672,11 +674,16 @@ namespace LarastruckingApp.Repository.Repository.TimeCard
                     tblIncentiveCardCalculation.GridData = entity.GridData;
                     tblIncentiveCardCalculation.CreatedBy = entity.UserId;
                     timeCardContext.tblIncentiveCardCalculations.Add(tblIncentiveCardCalculation);
+                    ErrorLog("Success Saving Incentive: ");
+                    ErrorLog("Time start: "+ entity.WeekEndDay);
                     return timeCardContext.SaveChanges() > 0;
+
                 }
+                
             }
             catch (Exception ex)
             {
+                ErrorLog("Error Saving Incentive: "+ ex.InnerException.ToString());
                 return false;
             }
             
@@ -841,6 +848,26 @@ namespace LarastruckingApp.Repository.Repository.TimeCard
             return result;
         }
         #endregion
+
+        public static void ErrorLog(string sErrMsg)
+        {
+            string sLogFormat;
+            string sErrorTime;
+
+            sLogFormat = DateTime.Now.ToShortDateString().ToString() + " " + DateTime.Now.ToLongTimeString().ToString() + " ==> ";
+
+            //this variable used to create log filename format "
+            //for example filename : ErrorLogYYYYMMDD
+            string sYear = DateTime.Now.Year.ToString();
+            string sMonth = DateTime.Now.Month.ToString();
+            string sDay = DateTime.Now.Day.ToString();
+            sErrorTime = sYear + sMonth + sDay;
+
+            StreamWriter sw = new StreamWriter(HttpContext.Current.Server.MapPath("../../Assets/ErrorLog") + sErrorTime, true);
+            sw.WriteLine(sLogFormat + sErrMsg);
+            sw.Flush();
+            sw.Close();
+        }
     }
 }
 

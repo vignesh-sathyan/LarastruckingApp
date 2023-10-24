@@ -11,10 +11,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace LarastruckingApp.Repository.Repository
 {
@@ -433,10 +435,11 @@ namespace LarastruckingApp.Repository.Repository
 
                 }
                 entity.IsSuccess = fumigationContext.SaveChanges() > 0;
-
+                ErrorLog("Success in Fumigation: " + entity.IsSuccess);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ErrorLog("Error in Fumigation: "+ ex.Message.ToString());
                 throw;
             }
 
@@ -1925,5 +1928,25 @@ namespace LarastruckingApp.Repository.Repository
             }
         }
         #endregion
+
+        public static void ErrorLog(string sErrMsg)
+        {
+            string sLogFormat;
+            string sErrorTime;
+
+            sLogFormat = DateTime.Now.ToShortDateString().ToString() + " " + DateTime.Now.ToLongTimeString().ToString() + " ==> ";
+
+            //this variable used to create log filename format "
+            //for example filename : ErrorLogYYYYMMDD
+            string sYear = DateTime.Now.Year.ToString();
+            string sMonth = DateTime.Now.Month.ToString();
+            string sDay = DateTime.Now.Day.ToString();
+            sErrorTime = sYear + sMonth + sDay;
+
+            StreamWriter sw = new StreamWriter(HttpContext.Current.Server.MapPath("../../Assets/ErrorLog") + sErrorTime, true);
+            sw.WriteLine(sLogFormat + sErrMsg);
+            sw.Flush();
+            sw.Close();
+        }
     }
 }
