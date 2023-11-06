@@ -1317,7 +1317,7 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
                     string bodywithsignature = this.RenderViewToStringAsync<TemperatureEmailDTO>("_TemperatureEmail", temperatureDetail);
                     sr = new StringReader(bodywithsignature);
                     pdfDoc = new Document(PageSize.A4, 10f, 10f, 10f, 0f);
-                    ErrorLog("bodywithsignature : " + bodywithsignature);
+                   // ErrorLog("bodywithsignature : " + bodywithsignature);
 
                     using (MemoryStream stream = new System.IO.MemoryStream())
                     {
@@ -1327,15 +1327,21 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
                         var imgFiles = tempURL.Split('|');
                         for (int i = 0; i < imgFiles.Length; i++)
                         {
+                            ErrorLog("For loop in imgFiles: " + imgFiles);
                             var tempImg = imgFiles[i];
                             string pathURL = tempImg.Replace("\\", "/");
                             string[] extUrl = pathURL.Split('.');
                             ext = extUrl[1];
+                            ErrorLog("For loop in ext: " + ext);
                             string path = ImgURL + pathURL;
+                            //ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+                            System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
                             using (var webClient = new WebClient())
                             {
+                                ErrorLog("For loop in path: " + path);
                                 bytes = webClient.DownloadData(path);
                             }
+                            ErrorLog("For loop in bytes: " + bytes);
                             string fileName = "proofoftemp_" + (i + 1) + "." + ext;
 
 
@@ -1363,6 +1369,7 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
                         //mailData.MailBody = "Temperature report delivered";
                         //ErrorLog("Mail DATA : " + mailData.MailBody);
                         ErrorLog("fileAttach : " + fileAttach.ToString());
+                      //  ErrorLog("mailData.MailBody : " + mailData.MailBody);
                         if (mailData.MailBody != "")
                         {
                             //IsValid = true;

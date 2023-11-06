@@ -1196,7 +1196,7 @@ function BindTimeCardList(_data) {
     }
 
     $("#timeCard tbody").append(timeCard);
-    $("#tblIncentiveCardPrint tbody").append(timCardPrint);
+    //$("#tblIncentiveCardPrint tbody").append(timCardPrint);
     if ($.trim(userRole).toLowerCase() == "Management".toLocaleLowerCase()) {
         CalculateTotalPrice();
     }

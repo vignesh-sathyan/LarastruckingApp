@@ -37,6 +37,16 @@ namespace LarastruckingApp.DAL
         }
         #endregion
 
+        #region Driver Inactive List
+        /// <summary>
+        /// Geting driver records list 
+        /// </summary>
+        public IEnumerable<DriverListDto> DriverInactiveList(int spType)
+        {
+            return iDriverRepo.DriverInactiveList(spType);
+        }
+        #endregion
+
         #region Driver Info By user id: for Leave Module
         /// <summary>
         /// Find Driver  basic detail for leave module

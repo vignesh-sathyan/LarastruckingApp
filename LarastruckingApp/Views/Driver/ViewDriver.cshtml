@@ -15,12 +15,12 @@
                 @{
                     if (permissions.IsInsert)
                     {
-                                <a id="loginLink" class="btn green-Btn" href="@Url.Action("Index", "Driver")" style="display: flex;align-items: center;justify-content: space-between;padding: 2px 8px 2px 4px;height:31px;">
-                                    <img alt="Log in" src="@Url.Content("~/Assets/images/add-icon.png")" style="width:20px;">
-                                    &nbsp;Add Driver
+                        <a id="loginLink" class="btn green-Btn" href="@Url.Action("Index", "Driver")" style="display: flex;align-items: center;justify-content: space-between;padding: 2px 8px 2px 4px;height:31px;">
+                            <img alt="Log in" src="@Url.Content("~/Assets/images/add-icon.png")" style="width:20px;">
+                            &nbsp;Add Driver
 
-                                </a>
-                       
+                        </a>
+
                     }
                 }
 
@@ -28,6 +28,27 @@
             <div class="customTableWrapper table-spacing">
                 <div id="">
                     <table class="table-bordered table-striped cf w-100" id="tblDriverDetails">
+                        <thead>
+                            <tr>
+                                <th hidden="hidden">DriverId</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Account Status</th>
+                                <th>Leave</th>
+                                <th>Leave Status</th>
+                                <th>TWIC</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                    </table>
+                </div>
+            </div>
+            <div class="customTableWrapper table-spacing" style="margin-top: 20px;">
+                <div id="">
+                    <table class="table-bordered table-striped cf w-100" id="tblDriverInactiveDetails">
                         <thead>
                             <tr>
                                 <th hidden="hidden">DriverId</th>

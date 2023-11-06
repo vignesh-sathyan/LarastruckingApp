@@ -2654,11 +2654,24 @@ border:none;
         .sub-menu li a {
             color: #fff;
             padding: 8px;
+			justify-content: flex-start;
         }
 
 #IncentiveCard tr:not(:first-child):last-child {
-    border-bottom: 30px solid #7ca337;
+    /* border-bottom: 30px solid #7ca337; */
 }
+@media print {
+    input[type="text"], input[type="password"], input[type="number"] {
+        /* Override styles for print */
+        -webkit-print-color-adjust: exact; /* For Chrome */
+        color: #000 !important; /* Ensure text color is black */
+        display: inline !important;
+    }
+    table tbody tr:hover td {
+        color: #000;
+    }
+}
+
 @media screen and (max-width: 992px) {
     #timeCard tbody {
             display: flex;

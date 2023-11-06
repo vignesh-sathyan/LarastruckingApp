@@ -1046,33 +1046,66 @@ namespace LarastruckingApp.Repository.Repository
                     if (model.PickUpArrival != null)
                     {
                         objFumigationRoute.PickUpArrival = Configurations.ConvertLocalToUTC(Convert.ToDateTime(model.PickUpArrival));
+                        ErrorLog("PickupArrival: "+ objFumigationRoute.PickUpArrival);
                     }
-                    /*if (model.DriverLoadingStartTime != null)
+                    if (model.DriverLoadingStartTime != null)
                     {
                         objFumigationRoute.DriverLoadingFinishTime = Configurations.ConvertLocalToUTC(Convert.ToDateTime(model.DriverLoadingStartTime));
+                        ErrorLog("DriverLoadingFinishTime: " + objFumigationRoute.DriverLoadingFinishTime);
                     }
                     if (model.DriverLoadingFinishTime != null)
                     {
                         objFumigationRoute.DriverLoadingFinishTime = Configurations.ConvertLocalToUTC(Convert.ToDateTime(model.DriverLoadingFinishTime));
-                    }*/
+                        ErrorLog("DriverLoadingFinishTime: " + objFumigationRoute.DriverLoadingFinishTime);
+                    }
 
                     objFumigationRoute.FumigationSite = model.FumigationSite;
                     if (model.FumigationArrival != null)
                     {
                         objFumigationRoute.FumigationArrival = Configurations.ConvertLocalToUTC(Convert.ToDateTime(model.FumigationArrival));
+                        ErrorLog("FumigationArrival: " + objFumigationRoute.FumigationArrival);
                     }
                     if (model.ReleaseDate != null)
                     {
                         objFumigationRoute.ReleaseDate = Configurations.ConvertLocalToUTC(Convert.ToDateTime(model.ReleaseDate));
+                        ErrorLog("ReleaseDate: " + objFumigationRoute.ReleaseDate);
                     }
                     if (model.DepartureDate != null)
                     {
                         objFumigationRoute.DepartureDate = Configurations.ConvertLocalToUTC(Convert.ToDateTime(model.DepartureDate));
+                        ErrorLog("DepartureDate: " + objFumigationRoute.DepartureDate);
                     }
                     objFumigationRoute.DeliveryLocation = model.DeliveryLocation;
                     if (model.DeliveryArrival != null)
                     {
                         objFumigationRoute.DeliveryArrival = Configurations.ConvertLocalToUTC(Convert.ToDateTime(model.DeliveryArrival));
+                        ErrorLog("DeliveryArrival: " + objFumigationRoute.DeliveryArrival);
+                    }
+                    if (model.DriverPickupDeparture != null)
+                    {
+                        objFumigationRoute.DriverPickupDeparture = Configurations.ConvertLocalToUTC(Convert.ToDateTime(model.DriverPickupDeparture));
+                        ErrorLog("DriverPickupDeparture: " + objFumigationRoute.DriverPickupDeparture);
+                    }
+                 
+                    if (model.DriverFumigationIn != null)
+                    {
+                        objFumigationRoute.DriverFumigationIn = Configurations.ConvertLocalToUTC(Convert.ToDateTime(model.DriverFumigationIn));
+                        ErrorLog("DriverFumigationIn: " + objFumigationRoute.DriverFumigationIn);
+                    }
+                    if (model.DriverFumigationRelease != null)
+                    {
+                        objFumigationRoute.DriverFumigationRelease = Configurations.ConvertLocalToUTC(Convert.ToDateTime(model.DriverFumigationRelease));
+                        ErrorLog("DriverFumigationRelease: " + objFumigationRoute.DriverFumigationRelease);
+                    }
+                    if (model.DriverDeliveryArrival != null)
+                    {
+                        objFumigationRoute.DriverDeliveryArrival = Configurations.ConvertLocalToUTC(Convert.ToDateTime(model.DriverDeliveryArrival));
+                        ErrorLog("DriverDeliveryArrival: " + objFumigationRoute.DriverDeliveryArrival);
+                    }
+                    if (model.DriverDeliveryDeparture != null)
+                    {
+                        objFumigationRoute.DriverDeliveryDeparture = Configurations.ConvertLocalToUTC(Convert.ToDateTime(model.DriverDeliveryDeparture));
+                        ErrorLog("DriverDeliveryDeparture: " + objFumigationRoute.DriverDeliveryDeparture);
                     }
                     objFumigationRoute.Commodity = model.Commodity;
                     objFumigationRoute.PalletCount = model.PalletCount;

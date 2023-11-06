@@ -161,6 +161,7 @@ function GetTimeCardList() {
                 "name": "InDateTime",
                 "autoWidth": true,
                 "render": function (data, type, row, meta) {
+                    console.log("data TblTimeCard: ", data);
                     if (row.InDateTime != null && row.InDateTime != undefined) {
                         return '<label>' + ConvertDate(row.InDateTime, true) + '</label><br/>'
                     }

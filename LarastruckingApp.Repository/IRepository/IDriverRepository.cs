@@ -32,6 +32,13 @@ namespace LarastruckingApp.Repository.IRepository
         IEnumerable<DriverListDto> DriverList();
         #endregion
 
+        #region Driver Inactive List
+        /// <summary>
+        /// Geting driver records list 
+        /// </summary>
+        IEnumerable<DriverListDto> DriverInactiveList(int spType);
+        #endregion
+
         #region Get Document By DocId
         /// <summary>
         /// Method to get driver document available to download

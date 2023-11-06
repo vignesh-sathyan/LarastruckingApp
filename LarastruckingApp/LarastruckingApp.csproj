@@ -739,6 +739,7 @@
     <Content Include="Views\Main\Index.cshtml" />
     <Content Include="Views\Driver\DriverIncentive.cshtml" />
     <Content Include="Views\Shared\_IncentiveCard.cshtml" />
+    <Content Include="Views\Shared\_prIncentiveCardPrintNEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Dispatcher\Models\" />

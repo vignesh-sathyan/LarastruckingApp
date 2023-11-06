@@ -62,6 +62,14 @@ namespace LarastruckingApp.BusinessLayer
                 route.FumigationArrival = Configurations.ConvertLocalToUTC(Convert.ToDateTime(route.FumigationArrival));
                 route.ReleaseDate = (route.ReleaseDate == null ? route.ReleaseDate : Configurations.ConvertLocalToUTC(Convert.ToDateTime(route.ReleaseDate)));
                 route.DepartureDate = (route.DepartureDate == null ? route.DepartureDate : Configurations.ConvertLocalToUTC(Convert.ToDateTime(route.DepartureDate)));
+                route.DriverDeliveryArrival = (route.DriverDeliveryArrival == null ? route.DriverDeliveryArrival : Configurations.ConvertLocalToUTC(Convert.ToDateTime(route.DriverDeliveryArrival)));
+                route.DriverFumigationIn = (route.DriverFumigationIn == null ? route.DriverFumigationIn : Configurations.ConvertLocalToUTC(Convert.ToDateTime(route.DriverFumigationIn)));
+                route.DriverDeliveryDeparture = (route.DriverDeliveryDeparture == null ? route.DriverDeliveryDeparture : Configurations.ConvertLocalToUTC(Convert.ToDateTime(route.DriverDeliveryDeparture)));
+                route.DriverPickupArrival = (route.DriverPickupArrival == null ? route.DriverPickupArrival : Configurations.ConvertLocalToUTC(Convert.ToDateTime(route.DriverPickupArrival)));
+                route.DriverPickupDeparture = (route.DriverPickupDeparture == null ? route.DriverPickupDeparture : Configurations.ConvertLocalToUTC(Convert.ToDateTime(route.DriverPickupDeparture)));
+                route.DriverFumigationRelease = (route.DriverFumigationRelease == null ? route.DriverFumigationRelease : Configurations.ConvertLocalToUTC(Convert.ToDateTime(route.DriverFumigationRelease)));
+                route.DriverLoadingStartTime = (route.DriverLoadingStartTime == null ? route.DriverLoadingStartTime : Configurations.ConvertLocalToUTC(Convert.ToDateTime(route.DriverLoadingStartTime)));
+                route.DriverLoadingFinishTime = (route.DriverLoadingFinishTime == null ? route.DriverLoadingFinishTime : Configurations.ConvertLocalToUTC(Convert.ToDateTime(route.DriverLoadingFinishTime)));
                 if (route.TemperatureType == "C" && route.Temperature != null)
                 {
                     route.Temperature = ConversionFormula.NullCelsiusToFahrenheit(route.Temperature);
