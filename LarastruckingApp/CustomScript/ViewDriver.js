@@ -1,7 +1,19 @@
 ﻿$(document).ready(function () {
     $("#mytimeCard").hide();
-    GetDriverList();
-    GetInactiveDriverList();
+    var active = localStorage.getItem("isActive");
+    if (active == "2") {
+        $("#tblActiveDrivers").css("display", "none");
+        GetDriverList(); 
+        
+    }
+    else {
+        $("#tblActiveDrivers").css("display", "block");
+        $("#tblDriverall").css("display", "none");
+        $("#tblDriverall").css("display", "none");
+        GetInactiveDriverList();
+    }
+   
+   
     var userId = 0;
 
 });
@@ -269,6 +281,9 @@ function GetDriverList() {
 }
 
 function GetInactiveDriverList() {
+
+    var active = localStorage.getItem("isActive");
+    var inactive = $("#inactiveDriver").attr("data-row-no");
     $('#tblDriverInactiveDetails').DataTable({
         // "bInfo": false,
         dom: 'Blfrtip',
@@ -333,6 +348,7 @@ function GetInactiveDriverList() {
         "ajax": {
             "url": baseUrl + "/Driver/LoadInactiveDrivers",
             "type": "POST",
+            data: { isActive: active },
             "datatype": "json",
             "async": false,
         },
@@ -481,6 +497,7 @@ function GetInactiveDriverList() {
                 return dtable.search($(elem).val()).draw();
             }, 700);
         });
+    localStorage.removeItem("isActive");
 }
 //Show time card
 

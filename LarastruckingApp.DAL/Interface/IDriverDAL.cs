@@ -18,7 +18,7 @@ namespace LarastruckingApp.DAL.Interface
         /// Geting driver records list 
         /// </summary>
         IEnumerable<DriverListDto> DriverList();
-        IEnumerable<DriverListDto> DriverInactiveList(int spType);
+        IEnumerable<DriverListDto> DriverInactiveList(int spType, int isActive);
         #endregion
 
         #region Get Document By DocId

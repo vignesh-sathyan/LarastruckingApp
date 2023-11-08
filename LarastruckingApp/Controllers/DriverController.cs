@@ -494,7 +494,7 @@ namespace LarastruckingApp.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult LoadInactiveDrivers()
+        public ActionResult LoadInactiveDrivers(int isActive)
         {
             try
             {
@@ -512,7 +512,7 @@ namespace LarastruckingApp.Controllers
                 int skip = start != null ? Convert.ToInt32(start) : 0;
                 int recordsTotal = 0;
 
-                var driverList = iDriverRepo.DriverInactiveList(5);
+                var driverList = iDriverRepo.DriverInactiveList(5, isActive);
 
                 if (!string.IsNullOrEmpty(search))
                 {

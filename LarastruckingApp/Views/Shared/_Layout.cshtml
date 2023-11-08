@@ -284,8 +284,8 @@
                                             <li>
                                                 <a href="javascript:void(0)">
                                                     @*<span class="leftIc">
-                                        <i class="fas fa-tachometer-alt"></i>
-                                    </span>*@
+                                                            <i class="fas fa-tachometer-alt"></i>
+                                                        </span>*@
                                                     @*<span class="leftText"> Shipment</span>*@
                                                 </a>
                                             </li>
@@ -340,37 +340,37 @@
                                         }
                                     }
                                 }
-                    <li class="dropdown">
-                        <span class="leftText">
-                            <i class="far fa-file-alt"></i>
-                            Reports
-                        </span>
-                        <ul class="sub-menu">
-                            <li>
-                                <a class="@(controllerNames == "TimeCard" && actionNames== "ViewTimeCard" ? "active" : "")"
-                                   href="@Url.Action("ViewTimeCard","TimeCard", new { area = "TimeCard" })">
-                                    <span title="TIMECARD" class="leftIc">
-                                        <i class="far fa-file-alt"></i>
-                                    </span>
+                                <li class="dropdown">
                                     <span class="leftText">
-                                        TimeCard
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="@(controllerNames == "Driver" && actionNames== "DriverIncentive" ? "active" : "")"
-                                   href="@Url.Action("DriverIncentive","Driver",new { area = "" })">
-                                    <span title="INCENTIVE" class="leftIc">
                                         <i class="far fa-file-alt"></i>
+                                        Reports
                                     </span>
-                                    <span class="leftText">
-                                        INCENTIVE CARD
-                                    </span>
-                                </a>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <a class="@(controllerNames == "TimeCard" && actionNames== "ViewTimeCard" ? "active" : "")"
+                                               href="@Url.Action("ViewTimeCard","TimeCard", new { area = "TimeCard" })">
+                                                <span title="TIMECARD" class="leftIc">
+                                                    <i class="far fa-file-alt"></i>
+                                                </span>
+                                                <span class="leftText">
+                                                    TimeCard
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="@(controllerNames == "Driver" && actionNames== "DriverIncentive" ? "active" : "")"
+                                               href="@Url.Action("DriverIncentive","Driver",new { area = "" })">
+                                                <span title="INCENTIVE" class="leftIc">
+                                                    <i class="far fa-file-alt"></i>
+                                                </span>
+                                                <span class="leftText">
+                                                    INCENTIVE CARD
+                                                </span>
+                                            </a>
 
-                            </li>
-                        </ul>
-                    </li>
+                                        </li>
+                                    </ul>
+                                </li>
                             }
                         }
 
@@ -390,19 +390,19 @@
                 </ul>
                 <ul>
                     @*<li>
-                    <a href="javascript:void(0)">
-                        <span>
-                            <i class="far fa-bell"></i>
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript:void(0)">
-                        <span>
-                            <i class="far fa-envelope"></i>
-                        </span>
-                    </a>
-                </li>*@
+                            <a href="javascript:void(0)">
+                                <span>
+                                    <i class="far fa-bell"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <span>
+                                    <i class="far fa-envelope"></i>
+                                </span>
+                            </a>
+                        </li>*@
                     <li class="profile">
                         <div class="dropdown">
                             <b> <lable>Hello @memberProfile.FullName </lable></b>
@@ -423,7 +423,7 @@
         <!-- LeftAsideBar panel start -->
 
         <div class="header">
-            <nav class="menu"  id="menutab">
+            <nav class="menu" id="menutab">
                 <div class="menu-toggle">
                     <label class="menu-icon">
                         <span></span>
@@ -469,8 +469,8 @@
                                         <li>
                                             <a href="javascript:void(0)">
                                                 @*<span class="leftIc">
-                                        <i class="fas fa-tachometer-alt"></i>
-                                    </span>*@
+                                                        <i class="fas fa-tachometer-alt"></i>
+                                                    </span>*@
                                                 @*<span class="leftText"> Shipment</span>*@
                                             </a>
                                         </li>
@@ -484,9 +484,9 @@
                                 {
                                     if (data.CanView)
                                     {
-                                        if (data.ControllerName == "Shipment" || data.ControllerName == "Fumigation" || data.ControllerName == "TrailerRental" || data.ControllerName == "Driver" || data.ControllerName == "Customer")
+                                        if (data.ControllerName == "Shipment" || data.ControllerName == "Fumigation" || data.ControllerName == "TrailerRental" || data.ControllerName == "Customer")
                                         {
-                                            if ((data.ControllerName == "Driver" && actionName == "FumigationDetails") || (data.ControllerName == "Driver" && actionName == "Detail"))
+                                            if (actionName == "FumigationDetails" || actionName == "Detail")
                                             {
                                                 actionName = "Dashboard";
                                             }
@@ -506,56 +506,98 @@
                                         }
                                         else
                                         {
-                                            if (data.ActionName != "ViewTimeCard")
+                                            if (data.ActionName == "ViewDriver")
                                             {
-                                            <li>
-                                                @*<a class="@(controllerName == data.ControllerName && actionName== data.ActionName && areaName == data.AreaName ? "active" : "")"*@
-                                                <a class="@(controllerName == data.ControllerName && actionName == data.ActionName ? "active" : "")"
-                                                   href="@Url.Action(data.ActionName, data.ControllerName, new { area = data.AreaName })">
-                                                    <span title="@data.PageName.ToUpper()" class="leftIc">
-                                                        <i class="@data.DisplayIcon"></i>
-                                                    </span>
-                                                    <span class="leftText">
-                                                        @data.PageName
-                                                    </span>
-                                                </a>
-                                            </li>
+                                                <li class="driverDropdown" id="driverDropdown">
+                                                    <a class="@(controllerNames == "Driver" && actionNames== "ViewDriver" ? "active" : "")"
+                                                       href="@Url.Action("ViewDriver","Driver", new { area = "" })" id="allDrivers" onclick="AllDriver();">
+                                                        <span title="DRIVER" class="leftIc">
+                                                            <i class="far fa-file-alt"></i>
+                                                        </span>
+                                                        <span class="leftText">
+                                                            DRIVER
+                                                        </span>
+                                                    </a>
+                                                    <ul class="driverSub-menu">
+
+                                                        <li>
+                                                            <a class="@(controllerNames == "Driver" && actionNames== "ViewDriver" ? "active" : "")"
+                                                               href="@Url.Action("ViewDriver","Driver", new { area = "" })" id="activeDriver" data-row-no="0" onclick="ActiveDriver();">
+                                                                <span title="ACTIVE DRIVERS" class="leftIc">
+                                                                    <i class="far fa-file-alt"></i>
+                                                                </span>
+                                                                <span class="leftText">
+                                                                    ACTIVE
+                                                                </span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="@(controllerNames == "Driver" && actionNames== "DriverIncentive" ? "active" : "")"
+                                                               href="@Url.Action("ViewDriver","Driver",new { area = "" })" id="inactiveDriver" data-row-no="0" onclick="InActiveDriver();">
+                                                                <span title="INACTIVE DRIVERS" class="leftIc">
+                                                                    <i class="far fa-file-alt"></i>
+                                                                </span>
+                                                                <span class="leftText">
+                                                                    INACTIVE
+                                                                </span>
+                                                            </a>
+
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            }
+                                            if (data.ActionName != "ViewTimeCard" && data.ActionName != "ViewDriver")
+                                            {
+                                                <li>
+                                                    @*<a class="@(controllerName == data.ControllerName && actionName== data.ActionName && areaName == data.AreaName ? "active" : "")"*@
+                                                    <a class="@(controllerNames == data.ControllerName && actionNames==data.ActionName ? "active" : "")"
+                                                       href="@Url.Action(data.ActionName, data.ControllerName, new { area = data.AreaName })">
+                                                        <span title="@data.PageName.ToUpper()" class="leftIc">
+                                                            <i class="@data.DisplayIcon"></i>
+                                                        </span>
+                                                        <span class="leftText">
+                                                            @data.PageName
+                                                        </span>
+                                                    </a>
+                                                </li>
                                             }
                                         }
                                     }
                                 }
                             }
-                <li class="dropdown">
-                    <span class="leftText">
-                        <i class="far fa-file-alt"></i>
-                        Reports
-                    </span>
-                    <ul class="sub-menu">
-                        <li>
-                            <a class="@(controllerNames == "TimeCard" && actionNames== "ViewTimeCard" ? "active" : "")"
-                               href="@Url.Action("ViewTimeCard","TimeCard", new { area = "TimeCard" })">
-                                <span title="TIMECARD" class="leftIc">
-                                    <i class="far fa-file-alt"></i>
-                                </span>
-                                <span class="leftText">
-                                    TimeCard
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="@(controllerNames == "Driver" && actionNames== "DriverIncentive" ? "active" : "")"
-                               href="@Url.Action("DriverIncentive","Driver",new { area = "" })">
-                                <span title="INCENTIVE" class="leftIc">
-                                    <i class="far fa-file-alt"></i>
-                                </span>
-                                <span class="leftText">
-                                    INCENTIVE CARD
-                                </span>
-                            </a>
 
-                        </li>
-                    </ul>
-                </li>
+
+                            <li class="dropdown">
+                                <span class="leftText">
+                                    <i class="far fa-file-alt"></i>
+                                    Reports
+                                </span>
+                                <ul class="sub-menu">
+                                    <li>
+                                        <a class="@(controllerNames == "TimeCard" && actionNames== "ViewTimeCard" ? "active" : "")"
+                                           href="@Url.Action("ViewTimeCard","TimeCard", new { area = "TimeCard" })">
+                                            <span title="TIMECARD" class="leftIc">
+                                                <i class="far fa-file-alt"></i>
+                                            </span>
+                                            <span class="leftText">
+                                                TimeCard
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="@(controllerNames == "Driver" && actionNames== "DriverIncentive" ? "active" : "")"
+                                           href="@Url.Action("DriverIncentive","Driver",new { area = "" })">
+                                            <span title="INCENTIVE" class="leftIc">
+                                                <i class="far fa-file-alt"></i>
+                                            </span>
+                                            <span class="leftText">
+                                                INCENTIVE CARD
+                                            </span>
+                                        </a>
+
+                                    </li>
+                                </ul>
+                            </li>
                         }
                     }
 
@@ -615,7 +657,7 @@
 
 
     @RenderSection("scripts", required: false)
-  
+    @Scripts.Render("~/bundles/MainShipment")
 
 </body>
 </html>

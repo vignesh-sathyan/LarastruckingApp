@@ -2625,7 +2625,12 @@ border:none;
 .dropdown:hover .sub-menu {
     display: block;
 }
-
+/*#activeDriver, #inactiveDriver{
+    display:none;
+}*/
+.driverDropdown:hover .driverSub-menu {
+    display: block;
+}
 .sub-menu {
     display: none;
     position: absolute;
@@ -2634,7 +2639,18 @@ border:none;
     border: 1px solid #ccc;
     list-style: none;
     /* width: 100%; */
-	right:0;
+    right: 0;
+    background-color: #85ae3c;
+}
+ .driverSub-menu {
+    display: none;
+    position: absolute;
+    top: 60px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    list-style: none;
+    /* width: 100%; */
+    /*right: 0;*/
     background-color: #85ae3c;
 }
 .dropdown {
@@ -2643,19 +2659,18 @@ border:none;
     text-transform: uppercase;
     color:#fff;
 }
-    .sub-menu li {
-        background-color: #85ae3c;
-        width: 100%;
+.sub-menu li, .driverSub-menu li {
+    background-color: #85ae3c;
+    width: 100%;
+    color: #fff;
+    height: 100%;
+    text-align: center;
+}
+    .sub-menu li a, .driverSub-menu li a {
         color: #fff;
-        height:100%;
-        text-align: center;
-       
+        padding: 8px;
+        justify-content: flex-start;
     }
-        .sub-menu li a {
-            color: #fff;
-            padding: 8px;
-			justify-content: flex-start;
-        }
 
 #IncentiveCard tr:not(:first-child):last-child {
     /* border-bottom: 30px solid #7ca337; */

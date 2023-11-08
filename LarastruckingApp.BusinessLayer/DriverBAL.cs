@@ -54,9 +54,9 @@ namespace LarastruckingApp.BusinessLayer
         /// <summary>
         /// Geting driver records list 
         /// </summary>
-        public IEnumerable<DriverListDto> DriverInactiveList(int spType)
+        public IEnumerable<DriverListDto> DriverInactiveList(int spType, int isActive)
         {
-            return iDriverRepo.DriverInactiveList(spType);
+            return iDriverRepo.DriverInactiveList(spType, isActive);
         }
         #endregion
 

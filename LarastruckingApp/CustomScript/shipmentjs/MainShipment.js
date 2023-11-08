@@ -4,8 +4,6 @@
     GetOrderTakenShipmentList();
     //setTimeout(function () { GetOtherStatusShipmentList(); }, 1000);
    // var length = table.page.info().recordsTotal;
-  
-
     // Call the function initially
    
     GetOtherStatusShipmentList();
@@ -27,7 +25,19 @@
     $('#tblShipmentDetails input').unbind();
 
 });
-
+function AllDriver() {
+    localStorage.setItem("isActive", "2");
+    $("#tblDriverall").css("display", "none");
+}
+function ActiveDriver() {
+    localStorage.setItem("isActive", "1");
+    $("#tblDriverall").css("display","none");
+}
+function InActiveDriver() {
+    localStorage.setItem("isActive", "0");
+    $("#tblDriverall").css("display", "none");
+   
+}
 $("#dropdownMenuLink").click(function () {
     console.log("clicked");
     $("#menutab").css("z-index", "0");

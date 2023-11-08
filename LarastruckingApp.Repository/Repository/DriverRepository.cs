@@ -179,7 +179,7 @@ namespace LarastruckingApp.Repository.Repository
         /// <summary>
         /// Geting driver records list 
         /// </summary>
-        public IEnumerable<DriverListDto> DriverInactiveList(int spType)
+        public IEnumerable<DriverListDto> DriverInactiveList(int spType, int isActive)
         {
             try
             {
@@ -187,7 +187,8 @@ namespace LarastruckingApp.Repository.Repository
 
                 List<SqlParameter> sqlParameters = new List<SqlParameter>
                     {
-                        new SqlParameter("@SpType", spType)
+                        new SqlParameter("@SpType", spType),
+                        new SqlParameter("@Active", isActive)
                     };
 
                 var result = dbContext.ExecuteStoredProcedure<DriverListDto>("usp_LeaveManage", sqlParameters);
