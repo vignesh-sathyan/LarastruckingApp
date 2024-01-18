@@ -64,6 +64,13 @@ $('#tblDriverDetails').on('dblclick', 'tbody tr', function () {
     window.location.href = baseUrl + '/Driver/Index/' + data_row.DriverId;
 
 });
+$('#tblDriverInactiveDetails').on('dblclick', 'tbody tr', function () {
+
+    var table = $('#tblDriverInactiveDetails').DataTable();
+    var data_row = table.row($(this).closest('tr')).data();
+    window.location.href = baseUrl + '/Driver/Index/' + data_row.DriverId;
+
+});
 
 function GetDriverList() {
     $('#tblDriverDetails').DataTable({
@@ -109,7 +116,7 @@ function GetDriverList() {
                     $(win.document.body)
                         .css('font-size', '10pt')
                         .prepend(
-                            "<table id='checkheader'><tr><td width='80%' ><h3 style='font-size: 20px;'>View Driver</h3></td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
+                            "<table id='checkheader'><tr><td width='80%' ><h3 style='font-size: 20px;'>View Driver</h3></td><td width='20%'><div><img src='"+baseUrl+"/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
                         );
                 }
             },
@@ -327,7 +334,7 @@ function GetInactiveDriverList() {
                     $(win.document.body)
                         .css('font-size', '10pt')
                         .prepend(
-                            "<table id='checkheader'><tr><td width='80%' ><h3 style='font-size: 20px;'>View Driver</h3></td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
+                            "<table id='checkheader'><tr><td width='80%' ><h3 style='font-size: 20px;'>View Driver</h3></td><td width='20%'><div><img src='"+baseUrl+"/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
                         );
                 }
             },
@@ -497,7 +504,7 @@ function GetInactiveDriverList() {
                 return dtable.search($(elem).val()).draw();
             }, 700);
         });
-    localStorage.removeItem("isActive");
+    //localStorage.removeItem("isActive");
 }
 //Show time card
 

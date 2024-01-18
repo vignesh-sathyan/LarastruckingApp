@@ -20,8 +20,14 @@ body {
     margin: 0;
     padding: 0;
 }
+.my-marker-label {
+  margin-top: 10px; /* Adjust the value to move the label down */
+}
 #gpsTracking{
     min-height:300px;
+}
+#ShipmentRequest:hover,#ShipmentInProgress:hover,#FumigationRequest:hover,#FumigationInProgress:hover{
+	cursor:pointer;
 }
 .leftAsideBar{
     display:none;
@@ -68,7 +74,13 @@ span.leftIc {
     margin-right: 15px;
     display: none;
 }
-
+.multi-column tr:last-child td{
+	border-bottom: 0;
+}
+.multi-column tr td{
+	border-bottom: 1px solid #dee2e6;
+	border-bottom-width: 1px !important;
+}
 .menu-icon {
     cursor: pointer;
     display: flex;
@@ -410,10 +422,6 @@ a:hover {
             height: 0;
             width:auto;
         }
-    .sub-menu {
-        top:8px !important;
-
-    }
 }
 
 @media (max-width: 796px) {

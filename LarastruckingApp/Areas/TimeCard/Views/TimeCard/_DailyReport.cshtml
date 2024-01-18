@@ -34,14 +34,14 @@
     int wehours = 0;
     int wemins = 0;
 
-  
+ 
 
 }
 
-<div style="text-align: left; margin-bottom: 10px;" id="divPrint">
-    <img src="../../Assets/images/printer.png" style="height: 18px; width: 16px; position: relative; top: 23px; left: 11px;" />
+<div style="text-align: left;margin-bottom: 10px;display: flex;justify-content: flex-end;align-items: center;float:right;position: relative;top: -60px;" id="divPrint">
+    <img src="../../Assets/images/printer.png" style="height: 18px;width: 16px;position: relative;left: 27px;" />
     <input type="button" style="padding: 4px 33px;color:#fff;text-transform: uppercase;
-    font-size: 0.875rem;letter-spacing: 1px;padding-right:0;" media="print" class="btn green-Btn" value="Print" onclick="PrintDiv()" />
+    font-size: 0.875rem;letter-spacing: 1px;padding-right:0;height:30px;" media="print" class="btn green-Btn" value="Print" onclick="PrintDiv()" />
 </div>
 
 <div id="printDivDailyReport">
@@ -50,15 +50,21 @@
             <td width='80%'><h3>Daily Report</h3></td>
             
             <td width='20%'>
-                <div><img src='https://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px' /></div>
+			@{
+                    var loadingImg = @System.Configuration.ConfigurationManager.AppSettings["BaseURL"];
+                <div><img src='@loadingImg/Images/Laraslogo.png' height='100px' /></div>
+				}
             </td>
         </tr>
+			<tr>
+		<td><h6 style="margin: 0;">WEEK</h6><h6 id="printWeek"></h6></td>
+		</tr>
     </table>
     <table class="table-bordered table-striped cf w-100" id="tblDailyReportTotal">
         <thead>
-            <tr><td colspan="3"><b>DAILY  REPORT</b></td></tr>
+            <tr><td colspan="3" id="printHead"><b>DAILY  REPORT</b></td></tr>
             <tr>
-                <th>WEEK</th>
+                <th id="printRemove">WEEK</th>
                 <th colspan="7" class="text-center">DAILY REPORT</th>
                 <th>GRAND TOTAL PAID</th>
             </tr>
@@ -833,7 +839,7 @@
 
     function PrintDiv() {
         var divName = "printDivDailyReport";
-       // var x = document.getElementsByClassName("blueremove")[0];
+        var x = document.getElementsByClassName("customFormWrap")[0];
         $("td").each(function () {
             $(this).addClass("blueremove");
         });
@@ -848,12 +854,15 @@
         document.body.innerHTML = printContents;
         //document.getElementById("printdaily").style.display = "table";
         $("#modalTimeCard").css('display', 'none');
+        $("#printRemove").text('');
+        $("#printHead").text('');
+        $("#selectedweek").text('');
        
        // $("#printdaily tr:hover").css('background', 'none');
-      
+      $("#printdaily").css("display","block");
       // console.log("print: " , x);
         window.print();
-        
+         $("#printdaily").css("display","none");
         document.body.innerHTML = originalContents;
        
 

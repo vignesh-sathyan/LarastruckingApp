@@ -1025,10 +1025,12 @@ namespace LarastruckingApp.Areas.Shipment.Controllers
                             var temperatureEmailDetail = shipmentBAL.GetTemperatureEmailDetail(model.ShipmentId);
                             if (shipmentEmailDetail != null)
                             {
+                               
                                 // fumigationEmailDetail.PickUpArrival = PickUpArrival;
                                 //string[] tempval = model.ActualTemperature.Split('.');
                                 ActualTemp = Convert.ToDouble(model.ActualTemperature);
                                 isEmail = SendTemperatureMail(shipmentEmailDetail, temperatureEmailDetail, ActualTemp, TempimgUrl);
+                                     ErrorLog("isEmail Shipment: "+ isEmail);
                             }
                             objJsonResponse.Data = result;
                             objJsonResponse.IsSuccess = true;
@@ -1781,16 +1783,16 @@ namespace LarastruckingApp.Areas.Shipment.Controllers
                     temperatureDetail.PickUpDeparture = Configurations.ConvertUTCtoLocalTime(Convert.ToDateTime(temperatureDetail.PickUpDeparture));
                     temperatureDetail.DeliveryArrival = Configurations.ConvertUTCtoLocalTime(Convert.ToDateTime(temperatureDetail.DeliveryArrival));
                     temperatureDetail.DeliveryDeparture = Configurations.ConvertUTCtoLocalTime(Convert.ToDateTime(temperatureDetail.DeliveryDeparture));
-                   // temperatureDetail.DriverFumigationIn = Configurations.ConvertUTCtoLocalTime(Convert.ToDateTime(temperatureDetail.DriverFumigationIn));
+                    // temperatureDetail.DriverFumigationIn = Configurations.ConvertUTCtoLocalTime(Convert.ToDateTime(temperatureDetail.DriverFumigationIn));
 
                     //subject = subject.Replace("@TRLR", customerDetail.Trailer);
                     //subject = subject.Replace("@STATUS", customerDetail.Status);
-
+                   
 
                     string bodywithsignature = this.RenderViewToStringAsync<TemperatureEmailSipmentDTO>("_ShipmentTemperature", temperatureDetail);
                     sr = new StringReader(bodywithsignature);
                     pdfDoc = new Document(PageSize.A4, 10f, 10f, 10f, 0f);
-
+                    ErrorLog("bodywithsignature: " + bodywithsignature);
 
                     using (MemoryStream stream = new System.IO.MemoryStream())
                     {
@@ -1800,20 +1802,26 @@ namespace LarastruckingApp.Areas.Shipment.Controllers
                         var imgFiles = tempURL.Split('|');
                         for (int i = 0; i < imgFiles.Length; i++)
                         {
+                            ErrorLog("For loop in imgFiles: " + imgFiles);
                             var tempImg = imgFiles[i];
                             string pathURL = tempImg.Replace("\\", "/");
                             string[] extUrl = pathURL.Split('.');
                             ext = extUrl[1];
+                            ErrorLog("For loop in ext: " + ext);
                             string path = ImgURL + pathURL;
+                            System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
                             using (var webClient = new WebClient())
                             {
+                                ErrorLog("For loop in path: " + path);
                                 bytes = webClient.DownloadData(path);
                             }
+                            ErrorLog("For loop in bytes: " + bytes);
                             string fileName = "proofoftemp_" + (i + 1) + "." + ext;
 
 
                             fileAttach.Add(bytes, fileName);
                         }
+                        ErrorLog("fileAttach : " + fileAttach.ToString());
                         string mailSentResponse = string.Empty;
                         MailWithCCAttachDTO mailData = new MailWithCCAttachDTO();
                         mailData.FileByte = bytes;
@@ -1855,7 +1863,8 @@ namespace LarastruckingApp.Areas.Shipment.Controllers
             catch (Exception ex)
             {
                 // throw;
-                ErrorLog("Mail error : " + ex.Message);
+                  ErrorLog("Mail error SendTemperatureMail: " + ex.Message.ToString());
+                ErrorLog("Mail error SendTemperatureMail: " + ex.InnerException.ToString());
                 return isEmail;
             }
             finally

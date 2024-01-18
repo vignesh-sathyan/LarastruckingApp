@@ -54,6 +54,9 @@ ul {
 .modal-dialog.cascading-modal .modal-header .social-buttons {
     margin-top: 1rem;
 }
+.Master div.dataTables_wrapper div.dataTables_processing{
+	display:none !important;
+}
 
 .overLay {
     height: 100%;
@@ -2619,6 +2622,13 @@ div#modalSession .modal-content .modal-header img {
 .FumOrder hr {
     border-top: 1px solid #dee2e6;
 }
+.multi-column tr:last-child td{
+	border-bottom: 0;
+}
+.multi-column tr td{
+	border-bottom: 1px solid #dee2e6;
+	border-bottom-width: 1px !important;
+}
 .FumOrder td{
 border:none;
 }
@@ -2640,6 +2650,7 @@ border:none;
     list-style: none;
     /* width: 100%; */
     right: 0;
+	width:100px;
     background-color: #85ae3c;
 }
  .driverSub-menu {
@@ -2653,11 +2664,18 @@ border:none;
     /*right: 0;*/
     background-color: #85ae3c;
 }
-.dropdown {
+li.dropdown {
     font-size: 11px;
     letter-spacing: 1px;
     text-transform: uppercase;
     color:#fff;
+	min-width:100px;
+	max-width:100px;
+}
+li.dropdown:hover {
+	cursor:pointer;
+	background: #D3E3B4;
+    color: #000;
 }
 .sub-menu li, .driverSub-menu li {
     background-color: #85ae3c;
@@ -2675,8 +2693,78 @@ border:none;
 #IncentiveCard tr:not(:first-child):last-child {
     /* border-bottom: 30px solid #7ca337; */
 }
+#driverDropdown{
+	min-width: 85px;
+    max-width: 85px;
+}
+.driverSub-menu{
+width: 85px;
+}
+
+#divTimeCard .dt-buttons{
+	position:relative !important;
+	top: -60px;
+	right:unset;
+}
+#divWeeklyReport .dt-buttons,#tblLaborReport_wrapper .dt-buttons{
+	position:relative !important;
+	top: -78px;
+	right:unset;
+}
+#tblTimeCard_filter,#tblWeeklyReport_filter,#tblLaborReport_filter{
+	position: absolute;
+    right: 25px;
+}
+div.ui-dialog-titlebar {
+   padding: 0;
+    padding-left: 0px;
+  border: 0;
+  background: #fe9b00 !important;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  color:#fff;
+  font-family:'Nunito Sans', sans-serif;
+}
+.ui-dialog-titlebar-close{
+    display:none;
+}
+.ui-dialog.ui-corner-all.ui-widget {
+    border-radius: 5px;
+    border: 0 !important;
+    height: 420px !important;
+    top:180px !important;
+	width:350px !important;
+	padding: 0 !important;
+}
+.ui-dialog-buttonpane {
+    border: none;
+}
+.cancelButton,.okButton {
+    background: linear-gradient(0deg, rgba(43,60,103,1) 0%, rgba(77,128,189,1) 100%) !important;
+    color: #fff !important;
+    border: 1px solid rgb(43,60,103) !important;
+    border-radius: 3px !important;
+	font-size: 0.75rem !important;
+  letter-spacing: 1px;
+}
+    .cancelButton:hover,.okButton:hover {
+        background: #2c416d !important;
+    }
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset{
+    /* float:left;float:left; */
+    padding-left:8px;
+}
+#arrivedPUDialog,#arrivedDeliveryDialog,#UnloadingDialog,#arrivedFumPUDialog,#arrivedFumDeliveryDialog,#UnloadingFumDialog{
+	display:none;
+}
+#displayDateTimePU,#displayDateTimeDL,#displayDateTimeUL{
+	margin-bottom:20px !important;
+}
+
 @media print {
-    input[type="text"], input[type="password"], input[type="number"] {
+    input [type="text"], input[type="password"], input[type="number"] {
         /* Override styles for print */
         -webkit-print-color-adjust: exact; /* For Chrome */
         color: #000 !important; /* Ensure text color is black */

@@ -254,7 +254,7 @@ namespace LarastruckingApp.Repository.Repository
                 if (fumigation != null)
                 {
 
-                    if (fumigation.StatusId != entity.StatusId && entity.StatusId != 11)
+                    if (fumigation.StatusId != entity.StatusId && entity.StatusId != 11 && entity.StatusId != 15 && entity.StatusId != 16 && entity.StatusId != 17)
                     {
                         entity.IsMailNeedToSend = true;
                     }
@@ -295,6 +295,7 @@ namespace LarastruckingApp.Repository.Repository
                     foreach (var fumigationRoute in entity.FumigationRouteDetail)
                     {
                         var fumigationRouteData = fumigationContext.tblFumigationRouts.Where(x => x.FumigationRoutsId == fumigationRoute.FumigationRoutsId).FirstOrDefault();
+                        
                         if (fumigationRouteData != null)
                         {
                             if (fumigationRoute.IsDeleted)
@@ -302,7 +303,11 @@ namespace LarastruckingApp.Repository.Repository
                                 fumigationRouteData.IsDeleted = true;
                                 fumigationRouteData.DeletedBy = entity.ModifiedBy;
                                 fumigationRouteData.DeletedOn = entity.DeletedOn;
+                                fumigationContext.tblFumigationEquipmentNDrivers.RemoveRange(fumigationContext.tblFumigationEquipmentNDrivers.Where(x => x.FumigationRoutsId == fumigationRoute.FumigationRoutsId));
+                                var fumigationEquipmentData = fumigationContext.tblFumigationEquipmentNDrivers.Where(x => x.FumigationRoutsId == fumigationRoute.FumigationRoutsId);
+                               
                                 fumigationContext.Entry(fumigationRouteData).State = EntityState.Modified;
+                                fumigationContext.SaveChanges();
                             }
                             else
                             {
@@ -565,7 +570,7 @@ namespace LarastruckingApp.Repository.Repository
                         new SqlParameter("@EndDate", entity.EndDate),
                         new SqlParameter("@CustomerId", entity.CustomerId),
                         new SqlParameter("@StatusId", entity.StatusId),
-                            new SqlParameter("@DriverName", entity.DriverName),
+                        new SqlParameter("@DriverName", entity.DriverName),
                                             };
 
                 var result = sp_dbContext.ExecuteStoredProcedure<FumigationViewAllListDTO>("usp_GetCompletedNcancelFumList", sqlParameters);

@@ -1,16 +1,44 @@
 ﻿var glbDriver = [];
 var textBoxVal;
 var rowNo;
-var PreviousEquipment = "";
+var PreviousEquipment;
+var EquipmetSelected; 
+
 $(document).ready(function () {
     
     // GetEquipmentList();
     btnPickUpContinue();
     btnDeliveryContinue();
+    GetValueOfId();
+   
     btnCancel();
-  
-
 });
+
+var GetValueOfId = function () {
+   // console.log("hello values");
+    var values;
+    var url = window.location.pathname;
+    var fumigationId = url.substring(url.lastIndexOf('/') + 1);
+    var AWB = "";
+    if (fumigationId > 0) {
+        $.ajax({
+            url: baseUrl + "/Fumigation/Fumigation/GetFumigationById",
+            type: "GET",
+            data: { fumigationId: fumigationId },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (response) {
+                //console.log("response data: ", response);
+                values = response;
+            }
+
+        });
+    }
+   // console.log("values GetVlaues: ", values);
+    return values;
+}
+
 textBoxVal = $("#txtPickUpEquipment").val();
 
 $("table").on("mouseover", 'tr', function () {
@@ -31,7 +59,7 @@ $("table").on("mouseout", 'tr', function () {
 
 //#region bind equipment popup
 function GetEquipmentList() {
-    
+   
     glbDriver = [];
     var value = {};
     var fumigationType = $("#ddlFumigationType").val();
@@ -56,7 +84,7 @@ function GetEquipmentList() {
     console.log("values Equipment List: ",value);
     $('#tblEquipmentDetails').DataTable({
         "bInfo": false,
-        select: 'single',
+        select: 'multi',
         responsive: true,
         processing: true,
         serverSide: true,
@@ -90,7 +118,7 @@ function GetEquipmentList() {
                     if ($("#hdnIsPickUpLocation").val() == "true") {
                         
                         var pickUpEquipmentNdriver = glbEquipmentNdriver.filter(x => (tblRowsCount > 0 ? (x.RouteNo > 0 ? x.RouteNo == RouteNo : x.RouteNo == 0) : x.RouteNo == 0) && x.EquipmentId == row.EDID && (x.IsPickUp == true || x.IsPickUp == "true"));
-                        console.log("Equipment Session: ", sessionStorage.getItem("equipmentid") == row.EDID);
+                        //console.log("Equipment glbEquipmentNdriver: ", glbEquipmentNdriver);
                         if (pickUpEquipmentNdriver.length > 0 || sessionStorage.getItem("equipmentid") == row.EDID) {
 
                             return '<input type="checkbox" onchange="CheckEquipment(this)" id="chkEquipment" class="chkEquipment" name="chkEquipment" checked="checked" data-equipment-name="' + row.EquipmentNo + '" value="' + row.EDID + '"/>'
@@ -197,7 +225,7 @@ function GetEquipmentList() {
                     if (rowNo != "") {
                         tblRowsCount = JSON.parse($("#tblShipmentDetail").attr("data-row-no"));
                     }
-                    console.log("Equipment row: ",row);
+                   // console.log("Equipment row: ",row);
                     
                     if ($("#hdnIsPickUpLocation").val() == "true") {
                         
@@ -503,8 +531,17 @@ function clearDriverNEquipment() {
 
 //#region cancel equipment popup
 btnCancel = function () {
+   
+   
     $("#btnCancel").on("click", function () {
         $("#modalEquipment").modal('toggle');
+        //var EquipmetSelect = GetFumigationById();
+       // console.log("EquipmetSelected cancel: ", EquipmetSelect);
+        EquipmetSelected = GetValueOfId();
+        //console.log("EquipmetSelected Load: ", EquipmetSelected.FumigationEquipmentNDriver);
+        glbEquipmentNdriver = EquipmetSelected.FumigationEquipmentNDriver;
+       // console.log("EquipmetSelected cancel: ", glbEquipmentNdriver);
+       
     })
 }
 //#endregion
@@ -802,6 +839,23 @@ function ValidateDriver(_this) {
 
 
 
+    
+    function getAllSelectedCheckboxes() {
+        var selectedCheckboxes = [];
+        var dataTable = $('#tblEquipmentDetails').DataTable();
+        var allData = dataTable.rows().data();
+        console.log("allData: ", allData);
+        var id = "";
+        // Iterate through all data
+        $("input[checked='checked']", dataTable.rows().nodes()).each(function () {
+           
+                selectedCheckboxes.push($(this).val());
+            
+        });
+
+        return selectedCheckboxes;
+    }
+
 function CheckEquipment(_this) {
 
     //rowNo = $("#tblShipmentDetail").attr("data-row-no");
@@ -810,12 +864,19 @@ function CheckEquipment(_this) {
     //console.log("glbRouteStops: ", glbRouteStops);
     //var routedetail = glbRouteStops[rowNo];
     //PreviousEquipment = routedetail.PickUpEquipment;
-    //console.log("PreviousEquipment: ", PreviousEquipment);
+    var checked = _this.checked;
+    var table = $('#tblEquipmentDetails').DataTable();
+    var allPages = table.rows().nodes();
+    var selectedCheckBox = $('input[checked="checked"]', allPages);
+    console.log("selectedCheckBox: ", selectedCheckBox);
+    console.log("getAllSelectedCheckboxes: ", getAllSelectedCheckboxes());
     
+    //var selectedCheckboxes = getAllSelectedCheckboxes();
+   // console.log('Selected Checkboxes:', selectedCheckboxes);
     if ($(_this).is(":checked")) {
       
         //var selectedCount = $('.chkEquipment:checked').length;
-        var table = $('#tblEquipmentDetails').DataTable();
+       
         // console.log("selectedCount: ", selectedCount);
         var data_row = table.row($(_this).closest('tr')).data();
 

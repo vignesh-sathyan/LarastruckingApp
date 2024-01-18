@@ -4,16 +4,216 @@
     GetOrderTakenShipmentList();
     //setTimeout(function () { GetOtherStatusShipmentList(); }, 1000);
     GetOtherStatusShipmentList();
+	
     //bindCustomerDropdown();
     //bindCustomerDropdown2();
     btnViewShipment();
     btnViewShipment2();
     startEndDate();
+	ddlStatus();
     //GetFreightType();
     $('#tblShipmentDetails input').unbind();
 });
 
+//#region bindSubStatus
+function bindSubStauts() {
+    var statusid = $(".ddlStatus").val();
+    $.ajax({
+        url: baseUrl + 'Shipment/Shipment/GetShipmentSubStatus',
+        data: {
+            statusid: statusid
+        },
+        type: "GET",
+        async: false,
+        // cache: false,
+        success: function(data) {
+            var ddlValue = "";
+            $("#ddlSubStatus").empty();
+            ddlValue += '<option value="">SELECT SUB-STATUS</option>'
+            for (var i = 0; i < data.length; i++) {
+                ddlValue += '<option value="' + data[i].SubStatusId + '">' + $.trim(data[i].SubStatusName).toUpperCase() + '</option>';
+            }
+            $("#ddlSubStatus").append(ddlValue);
 
+        }
+    });
+}
+
+function shipmentStatus() {
+    $.ajax({
+        url: baseUrl + 'Shipment/Shipment/GetShipmentStatus',
+        data: {},
+        type: "GET",
+        async: false,
+        success: function(data) {
+			console.log("shipmentStatus: ",data);
+            var ddlValue = "";
+            $("#ddlStatus").empty();
+            for (var i = 0; i < data.length; i++) {
+                ddlValue += '<option value="' + data[i].StatusId + '">' + $.trim(data[i].StatusName).toUpperCase() + '</option>';
+            }
+            $(".ddlStatus").append(ddlValue);
+
+        }
+    });
+}
+//#endregion
+
+var GetJsonValue = function(shipmentId) {
+    var values = {};
+    var url = window.location.pathname;
+    //var shipmentId = url.substring(url.lastIndexOf('/') + 1);
+    var AWB = "";
+    var tempval;
+    $.ajax({
+        url: baseUrl + "/Shipment/Shipment/GetShipmentById",
+        type: "GET",
+        data: {
+            shipmentId: shipmentId
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function(response) {
+            //console.log("response: ", response);
+            values = response;
+        }
+    });
+
+    return values;
+}
+$('#tblShipmentDetails2').on('change', '.ddlStatus', function () {
+    var table = $('#tblShipmentDetails2').DataTable();
+    var data_row = table.row($(this).closest('tr')).data();
+   // window.location.href = baseUrl + '/Shipment/Shipment/Index/' + data_row.ShipmentId;
+   console.log("data_row: ",data_row);
+});
+
+//#region shipment sub status
+ddlStatus = function() {
+    $(".ddlStatus").change(function() {
+		 var table = $('#tblShipmentDetails2').DataTable();
+    var data_row = table.row($(this).closest('tr')).data();
+    var valuess = GetJsonValue(data_row.ShipmentId);
+	console.log("valuess: ",valuess);
+
+        var statusid = $(".ddlStatus").val();
+		console.log("statusid: ",statusid);
+
+        
+        if (statusid == 7) {
+            var values = {};
+            values = valuess;
+            //var prevalues = GetValues();
+            const ShipmentEquipmentNdriverCheck = "ShipmentEquipmentNdriver" in values;
+            if (ShipmentEquipmentNdriverCheck != false) {
+                DriverName = values.ShipmentEquipmentNdriver[0].DriverName;
+            }
+            //console.log("DriverName: " + DriverName);
+            var PickupLocation = values.ShipmentRoutesStop[0].PickupLocation;
+
+            var PicComp = PickupLocation.split(",");
+            //console.log("PicComp: " + PicComp[0]);
+            var DeliveryLocation = values.ShipmentRoutesStop[0].DeliveryLocation;
+            var DelComp = DeliveryLocation.split(",");
+            var AWB = "";
+            if (values.AirWayBill != "") {
+                AWB = values.AirWayBill;
+            } else if (values.ContainerNo != "") {
+                AWB = values.ContainerNo;
+            } else {
+                AWB = values.CustomerPO;
+            }
+            // console.log("AWB: "+AWB);
+            // var Equipment = values.ShipmentEquipmentNdriver[0].EquipmentName;
+            var pallets = values.ShipmentFreightDetail[0].PartialPallet;
+            var boxes = values.ShipmentFreightDetail[0].NoOfBox;
+            var customer = values.CustomerName;
+            //console.log("values: ", values);
+            var data = new FormData();
+          
+            $.confirm({
+                title: 'Confirm!',
+                content: 'DO YOU WANT TO COMPLETE THIS SHIPMENT NOW?',
+                type: 'green',
+                typeAnimated: true,
+                buttons: {
+                    confirm: function() {
+                        //$.alert('Confirmed!');
+                        $(".ddlStatus").val(11);
+                        values.StatusId = 11;
+                        $.ajax({
+                            url: baseUrl + "/Shipment/Shipment/EditShipment",
+                            type: "POST",
+                            
+                            data: JSON.stringify(values),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+
+                            success: function(response) {
+                                isNeedToloaded = false;
+                                hideLoader();
+                                if (response.IsSuccess) {
+
+                                    $.alert({
+                                        title: 'Success!',
+                                        content: "<b>" + response.Message + "</b>",
+                                        type: 'green',
+                                        typeAnimated: true,
+                                        buttons: {
+                                            Ok: {
+                                                btnClass: 'btn-green',
+                                                action: function() {
+
+                                                    window.location.href = baseUrl + "/Shipment/Shipment/ViewShipmentList";
+                                                }
+                                            },
+                                        }
+                                    });
+                                } else {
+                                    hideLoader();
+                                    AlertPopup(response.Message);
+                                }
+                            },
+                            error: function() {
+                                hideLoader();
+                                AlertPopup("Something went wrong.");
+                            }
+                        });
+
+                    },
+                    cancel: function() {
+                        /// $.alert('Canceled!');
+
+                    },
+
+                }
+            });
+        }
+     /*    if (statusid == 11) {
+            if (isApproveDamageDocument) {
+                shipmentStatus();
+                $.alert({
+                    title: 'Alert!',
+                    content: '<b>Please approve shipment file.</b>',
+                    type: 'red',
+                    typeAnimated: true,
+                });
+            }
+            if (isApproveProofofTemp) {
+                shipmentStatus();
+                $.alert({
+                    title: 'Alert!',
+                    content: '<b>Please approve proof of temperature document.</b>',
+                    type: 'red',
+                    typeAnimated: true,
+                });
+            }
+        } */
+       // bindSubStauts();
+
+    });
+}
 
 //#region change color on hover
 $("table").on("mouseover", 'tr', function () {
@@ -116,7 +316,7 @@ function GetOrderTakenShipmentList() {
                     $(win.document.body)
                         .css('font-size', '10pt')
                         .prepend(
-                            "<table id='9'><tr><td width='80%' ><b>REQUESTED SHIPMENTS</b></td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
+                            "<table id='9'><tr><td width='80%' ><b>REQUESTED SHIPMENTS</b></td><td width='20%'><div><img src='"+baseUrl+"/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
                         );
 
 
@@ -157,7 +357,7 @@ function GetOrderTakenShipmentList() {
             { "data": "AirWayBill", "name": "AirWayBill", "width": "7%" },
             { "data": "Quantity", "name": "Quantity", "autoWidth": true },
             { "data": "CreatedByName", "name": "CreatedByName", "autoWidth": true },
-            { "data": "IsReady", "name": "Ready", "autoWidth": true },
+            { "data": "IsReady", "name": "IsReady", "autoWidth": true },
             { "data": "Comments", "name": "Comments", "autoWidth": true },
             { "name": "Action", "autoWidth": true },
         ],
@@ -296,7 +496,7 @@ function GetOrderTakenShipmentList() {
             },
             {
                 "targets": 9,
-                //  "orderable": false,
+                // "orderable": true,
                 "className": "text-center",
                 "render": function (data, type, row, meta) {
                     if (row.IsReady) {
@@ -379,10 +579,12 @@ function GetOrderTakenShipmentList() {
     $("#tblShipmentDetails_filter input")
         .unbind()
         .bind("input", function (e) {
+			
             clearTimeout(search_thread_tblShipmentDetails);
             search_thread_tblShipmentDetails = setTimeout(function () {
                 var dtable = $("#tblShipmentDetails").dataTable().api();
                 var elem = $("#tblShipmentDetails_filter input");
+				
                 var replacedStr = $(elem).val().replace(/\//g, "-");
                 console.log("elem value: ", replacedStr);
                 return dtable.search(replacedStr).draw();
@@ -475,27 +677,27 @@ function ValidateCopyShipment() {
 
     //yesterday = new Date(Date.parse(todayDate));
 
-    if (isValid && pickupDate != "" && pickupDate < yesterday) {
-        AlertPopup("Please review your Pickup Est. Arrival. It should be greater than, or equal to, yesterday's date.");
-        isValid = false;
+    // if (isValid && pickupDate != "" ) {
+       // // AlertPopup("Please review your Pickup Est. Arrival. It should be greater than, or equal to, yesterday's date.");
+        // //isValid = false;
 
-    }
+    // }
 
 
     if (isValid && pickupDate != "" && deliveryDate != "") {
 
         console.log("pickupDate: " + new Date(pickupDate) + " : " + pickupDate);
         console.log("deliveryDate: " + new Date(deliveryDate) + " : " + deliveryDate);
-        if (pickupDate < deliveryDate) {
-            console.log("true");
-            isValid = true;
-        }
-        else {
-            //$("#dtArrivalDate").val("");
-            AlertPopup("Please review your Delivery Est. Arrival. It should be greater than your Pickup Est. Arrival.");
-            isValid = false;
+        // if (pickupDate < deliveryDate) {
+            // console.log("true");
+            // isValid = true;
+        // }
+        // else {
+            // //$("#dtArrivalDate").val("");
+            // AlertPopup("Please review your Delivery Est. Arrival. It should be greater than your Pickup Est. Arrival.");
+            // isValid = false;
 
-        }
+        // }
 
     }
 
@@ -807,7 +1009,7 @@ function GetOtherStatusShipmentList() {
                     $(win.document.body)
                         .css('font-size', '10pt')
                         .prepend(
-                            "<table id='checkheader'><tr><td width='80%' ><b>SHIPMENTS IN PROGRESS</b></td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
+                            "<table id='checkheader'><tr><td width='80%' ><b>SHIPMENTS IN PROGRESS</b></td><td width='20%'><div><img src='"+baseUrl+"/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
                         );
                 },
                 //customize: function (doc) {
@@ -850,15 +1052,14 @@ function GetOtherStatusShipmentList() {
         "columns": [
             { "data": "ShipmentId", "name": "ShipmentId", "autoWidth": true },
             { "data": "StatusName", "name": "StatusName", "autoWidth": true },
+			{ "data": "CustomerName", "name": "CustomerName", "autoWidth": true } ,  
+			{ "data": "PickupLocation", "name": "PickupLocation", "autoWidth": true },			
             { "data": "PickupDate", "name": "PickupDate", "autoWidth": true },
-            { "data": "PickupLocation", "name": "PickupLocation", "autoWidth": true },
-            { "data": "DeliveryDate", "name": "DeliveryDate", "autoWidth": true },
-            { "data": "DeliveryLocation", "name": "DeliveryLocation", "autoWidth": true },
-            { "data": "CustomerName", "name": "CustomerName", "autoWidth": true } ,                           
+			{ "data": "DeliveryLocation", "name": "DeliveryLocation", "autoWidth": true },
+            { "data": "DeliveryDate", "name": "DeliveryDate", "autoWidth": true },                         
             { "data": "AirWayBill", "name": "AirWayBill", "autoWidth": true  },
             { "data": "Quantity", "name": "Quantity", "autoWidth": true },
-            //{ "data": "CustomerPO", "name": "CustomerPO", "autoWidth": true },
-           
+            //{ "data": "CustomerPO", "name": "CustomerPO", "autoWidth": true },         
             { "data": "Commodity", "name": "Commodity", "autoWidth": true },
             { "data": "Temperature", "name": "Temperature", "autoWidth": true },
             { "data": "Driver", "name": "Driver", "autoWidth": true },
@@ -873,11 +1074,12 @@ function GetOtherStatusShipmentList() {
                 "targets": 1,
               //  "orderable": false,
                 "render": function (data, type, row, meta) {
-                    return StatusCheckForShipment(row.StatusName)
+					var dropdown = "<select class='ddlStatus' id='ddlStatus'></select>";
+                    return dropdown + "</br>" + StatusCheckForShipment(row.StatusName)
                 }
             },
             {
-                "targets": 2,
+                "targets": 4,
               //  "orderable": false,
                 "width": "8%",
                 "render": function (data, type, row, meta) {
@@ -923,7 +1125,7 @@ function GetOtherStatusShipmentList() {
                 },
             },
             {
-                "targets": 4,
+                "targets": 6,
               //  "orderable": false,
                 "width": "8%",
                 "render": function (data, type, row, meta) {
@@ -1065,17 +1267,25 @@ function GetOtherStatusShipmentList() {
                 "targets": 0,
                 "visible": false,
             }
-        ]
+        ],
+		  "drawCallback": function(settings) {
+            // Your custom initialization code goes here
+            console.log('DataTable initialized!');
+				shipmentStatus();
+				//ddlStatus();
+        }
     });
 
     var search_thread_tblShipmentDetails2 = null;
     $("#tblShipmentDetails2_filter input")
         .unbind()
         .bind("input", function (e) {
+			
             clearTimeout(search_thread_tblShipmentDetails2);
             search_thread_tblShipmentDetails2 = setTimeout(function () {
                 var dtable = $("#tblShipmentDetails2").dataTable().api();
                 var elem = $("#tblShipmentDetails2_filter input");
+			
                var replacedStr = $(elem).val().replace(/\//g, "-");
                 console.log("elem value: ", replacedStr);
                 return dtable.search(replacedStr).draw();

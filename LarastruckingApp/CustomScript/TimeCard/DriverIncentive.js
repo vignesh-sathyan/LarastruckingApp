@@ -96,7 +96,7 @@ function GetDriverList() {
                     $(win.document.body)
                         .css('font-size', '10pt')
                         .prepend(
-                            "<table id='checkheader'><tr><td width='80%' ><h3 style='font-size: 20px;'>View Driver</h3></td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
+                            "<table id='checkheader'><tr><td width='80%' ><h3 style='font-size: 20px;'>View Driver</h3></td><td width='20%'><div><img src='"+baseUrl+"/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
                         );
                 }
             },

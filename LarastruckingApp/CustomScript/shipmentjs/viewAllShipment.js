@@ -400,7 +400,7 @@ function GetOrderTakenShipmentList() {
         "paging": true,
         buttons: [
             {
-                text: 'GO BACK',
+                text: '<i class="fa fa-arrow-circle-left" aria-hidden="true"></i>&nbsp;GO BACK',
                 extend: 'print',
                 action: function (e, dt, node, config) {
                     //alert('Button activated');
@@ -463,13 +463,13 @@ function GetOrderTakenShipmentList() {
                     $(win.document.body)
                         .css('font-size', '10pt')
                         .prepend(
-                            "<table style='text-transform:capitalize' id='checkheader'><tr><td width='80%' style='text-transform:capitalize;font-size:13px;'><br/><br/><b>" + sts + " SHIPMENTS <b><br/><b> " + ddlCustomer + "<br/> Date Range: " + startDate + " to " + endDate + "<br/> " + freightType + "</b> </td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
+                            "<table style='text-transform:capitalize' id='checkheader'><tr><td width='80%' style='text-transform:capitalize;font-size:13px;'><br/><br/><b>" + sts + " SHIPMENTS <b><br/><b> " + ddlCustomer + "<br/> Date Range: " + startDate + " to " + endDate + "<br/> " + freightType + "</b> </td><td width='20%'><div><img src='"+baseUrl+"Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
                         );
                     //$(win.document.footer)
 
                     //    .css('font-size', '10pt')
                     //    .prepend(
-                    //        "<table style='text-transform:capitalize' id='checkheader'><tr><td width='80%' style='text-transform:capitalize;font-size:13px;'><br/><br/><b> " + ddlCustomer + "<br/> Date Range: " + startDate + " to " + endDate + "<br/> " + freightType + "</b> </td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
+                    //        "<table style='text-transform:capitalize' id='checkheader'><tr><td width='80%' style='text-transform:capitalize;font-size:13px;'><br/><br/><b> " + ddlCustomer + "<br/> Date Range: " + startDate + " to " + endDate + "<br/> " + freightType + "</b> </td><td width='20%'><div><img src='"+baseUrl+"/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
                     //    );
                 }
             },
@@ -483,7 +483,7 @@ function GetOrderTakenShipmentList() {
         serverSide: true,
         searching: true,
         bDestroy: true,
-        stateSave: true,
+		stateSave: true,
         "language": {
             processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
         },
@@ -516,7 +516,7 @@ function GetOrderTakenShipmentList() {
         columnDefs: [
             {
                 "targets": 1,
-                "orderable": false,
+               // "orderable": false,
                 "render": function (data, type, row, meta) {
                     return StatusCheckForShipment(row.StatusName)
                 }
@@ -739,10 +739,12 @@ function GetOrderTakenShipmentList() {
     $("#tblShipmentDetails_filter input")
         .unbind()
         .bind("input", function (e) {
+			$
             clearTimeout(search_thread_tblShipmentDetails);
             search_thread_tblShipmentDetails = setTimeout(function () {
                 var dtable = $("#tblShipmentDetails").dataTable().api();
                 var elem = $("#tblShipmentDetails_filter input");
+				
                 return dtable.search($(elem).val()).draw();
             }, 70);
         });
@@ -750,6 +752,7 @@ function GetOrderTakenShipmentList() {
 }
 //#endregion
 
+  
 function SplitString(text, count, insertDots) {
     return text.slice(0, count) + (((text.length > count) && insertDots) ? "..." : "");
 }

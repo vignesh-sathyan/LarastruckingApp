@@ -388,7 +388,7 @@ namespace LarastruckingApp.Repository.Repository
 
                     if (shipmentdata != null)
                     {
-                        if (shipmentdata.StatusId != entity.StatusId && entity.StatusId != 11)
+                        if (shipmentdata.StatusId != entity.StatusId && entity.StatusId != 11 && entity.StatusId != 15 && entity.StatusId != 16 && entity.StatusId != 17)
                         {
                             shipment.IsMailNeedToSend = true;
                         }

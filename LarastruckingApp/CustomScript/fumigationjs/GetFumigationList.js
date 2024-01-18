@@ -103,7 +103,7 @@ var GetOrderTakenFumigationList = function () {
         serverSide: true,
         searching: true,
         bDestroy: true,
-        stateSave: true,
+        //stateSave: true,
         "language": {
             processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
         },
@@ -144,7 +144,7 @@ var GetOrderTakenFumigationList = function () {
                 "autoWidth": true,
                 "render": function (data, type, row, meta) {
                   
-                    console.log("tblorder row: ", row);
+                   // console.log("tblorder row: ", row);
                     ///console.log("tblorder row: ", row);
                     var isSame = false;
                     if (row.PickUpArrival != null && row.PickUpArrival != '') {
@@ -229,7 +229,7 @@ var GetOrderTakenFumigationList = function () {
                             var tabBottom = '</table>';
                             if (fumigationTypesList.length > 0) {
                                 for (var i = 0; i < fumigationTypesList.length; i++) {
-                                    tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + fumigationTypesList[i].trim() + '</label></td></tr><tr><td><hr style="margin: 0;padding: 0;"></td></tr>';
+                                    tabCon += '<tr style="background: none;"><td style="text-align: center;"><label data-toggle="tooltip" data-placement="top">' + fumigationTypesList[i].trim() + '</label></td></tr><tr><td><hr style="margin: 0;padding: 0;"></td></tr>';
                                 }
                                 return tabTop + tabCon + tabBottom
                             }
@@ -239,7 +239,7 @@ var GetOrderTakenFumigationList = function () {
                             var tabCon = '';
                             if (fumigationTypesList.length > 0) {
                                 for (var i = 0; i < fumigationTypesList.length; i++) {
-                                    tabCon = '<label data-toggle="tooltip" data-placement="top">' + fumigationTypesList[i].trim() + '</label>';;
+                                    tabCon = '<label data-toggle="tooltip" data-placement="top" style="text-align: center;display:block;">' + fumigationTypesList[i].trim() + '</label>';;
                                 }
                                 return tabCon
                             }
@@ -951,7 +951,7 @@ var GetOrderTakenFumigationList = function () {
                     var btnMap = '| <a href="javascript: void(0)" class="Map_icon" data-toggle="tooltip" id="redirectButton" title="Map" onclick="javascript:fn_RedirectToGpsTracker(' + row.FumigationId + ');" >' +
                         '<i class="fas fa-map-marked-alt"></i>' +
                         '</a>';
-                    var btnCopy = ' | <a href="javascript: void(0)" class="edit_icon" data-toggle="tooltip" title="Copy Shipment" onclick="javascript:CopyFumigation(' + row.FumigationId + ');" >' +
+                    var btnCopy = ' | <a href="javascript: void(0)" class="edit_icon" data-toggle="tooltip" title="Copy Fumigation" onclick="javascript:CopyFumigation(' + row.FumigationId + ');" >' +
                         '<i class="far fa-clone"></i>' +
                         '</a>';
                     var btnDelete = ' | <a href="javascript: void(0)" class="delete_icon" data-toggle="tooltip" title="Delete" onclick="javascript:DeleteFumigation(' + row.FumigationId + ');" >' +
@@ -1027,7 +1027,7 @@ var GetOtherFumigationList = function () {
                     var current = null;
                     var bod = [];
 
-                    var css = '@page { size: landscape;margin:10px;}  ',
+                    var css = '@page { size: landscape;margin:10px;} ',
                         head = win.document.head || win.document.getElementsByTagName('head')[0],
                         style = win.document.createElement('style');
 
@@ -1066,7 +1066,7 @@ var GetOtherFumigationList = function () {
         serverSide: true,
         searching: true,
         bDestroy: true,
-        stateSave: true,
+        //stateSave: true,
         "language": {
             processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
         },
@@ -1131,7 +1131,7 @@ var GetOtherFumigationList = function () {
                                 isSame = true;
                             }
                             if (isSame) {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 var ftype = row.FumigationTypes.split('$');
@@ -1158,7 +1158,7 @@ var GetOtherFumigationList = function () {
                                 //  return '<label data-toggle="tooltip" data-placement="top">' + fumigationTypesList[0] + '</label>'
                             }
                             else {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 for (let i = 0; i < ActFumigationRelease.length; i++) {
@@ -1203,27 +1203,27 @@ var GetOtherFumigationList = function () {
                                 isSame = true;
                             }
                             if (isSame) {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 var ftype = row.FumigationTypes.split('$');
                                 if (ftype.length > 1) {
                                     for (var i = 0; i < ftype.length; i++) {
-                                        tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(fumigationTypesList[0]) + '">' + GetCompanyNew(fumigationTypesList[0]) + '</label></td></tr>';
+                                        tabCon += '<tr style="background: none;"><td style="text-align: center;"><label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(fumigationTypesList[0]) + '">' + GetCompanyNew(fumigationTypesList[0]) + '</label></td></tr>';
                                     }
                                     return tabTop + tabCon + tabBottom;
                                 }
                                 else {
-                                    return '<label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(fumigationTypesList[0]) + '">' + GetCompanyNew(fumigationTypesList[0]) + '</label>'
+                                    return '<label data-toggle="tooltip" data-placement="top" title="' + GetCAddressNew(fumigationTypesList[0]) + '" style="text-align: center;display:block;">' + GetCompanyNew(fumigationTypesList[0]) + '</label>'
                                 }
                                 //  return '<label data-toggle="tooltip" data-placement="top">' + fumigationTypesList[0] + '</label>'
                             }
                             else {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 for (let i = 0; i < fumigationTypesList.length; i++) {
-                                    tabCon += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + fumigationTypesList[i] + '</label></td></tr>'
+                                    tabCon += '<tr style="background: none;"><td style="text-align: center;"><label data-toggle="tooltip" data-placement="top">' + fumigationTypesList[i] + '</label></td></tr>'
                                 }
                                 return tabTop + tabCon + tabBottom
                             }
@@ -1263,7 +1263,7 @@ var GetOtherFumigationList = function () {
                                 isSame = true;
                             }
                             if (isSame) {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 var ftype = row.FumigationTypes.split('$');
@@ -1283,7 +1283,7 @@ var GetOtherFumigationList = function () {
                                 var lblPickupLocation = "";
                                 if (pickupLocation.length > 0) {
                                     for (var i = 0; i < pickupLocation.length; i++) {
-                                        var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                        var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                         var tabCon = '';
                                         var tabBottom = '</table>';
 
@@ -1323,7 +1323,7 @@ var GetOtherFumigationList = function () {
                                 isSame = true;
                             }
                             if (isSame) {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 var ftype = row.FumigationTypes.split('$');
@@ -1341,7 +1341,7 @@ var GetOtherFumigationList = function () {
                             else {
                                 var awbNo = "";
                                 for (var i = 0; i < awb.length; i++) {
-                                    var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                    var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
 
                                     var tabBottom = '</table>';
                                     awbNo += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + awb[i] + '</label></td></tr>'
@@ -1378,7 +1378,7 @@ var GetOtherFumigationList = function () {
                         }
                         if (isSame) {
 
-                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabCon = '';
                             var tabBottom = '</table>';
                             var ftype = row.FumigationTypes.split('$');
@@ -1397,7 +1397,7 @@ var GetOtherFumigationList = function () {
                         }
                         else {
 
-                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabCon = '';
                             var tabBottom = '</table>';
                             for (var i = 0; i < vendorNconsignee.length; i++) {
@@ -1424,7 +1424,7 @@ var GetOtherFumigationList = function () {
                         var BoxCount = row.BoxCount.split("|")
 
                         if (BoxCount.length > 1) {
-                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             // var tabCon = '';
                             var tabBottom = '</table>';
                             var lblPickupLocation = "";
@@ -1462,7 +1462,7 @@ var GetOtherFumigationList = function () {
                         var PalletCount = row.PalletCount.split("|")
 
                         if (PalletCount.length > 1) {
-                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             // var tabCon = '';
                             var tabBottom = '</table>';
                             var lblPickupLocation = "";
@@ -1499,7 +1499,7 @@ var GetOtherFumigationList = function () {
                         var TrailerPosition = row.TrailerPosition.split("|")
 
                         if (TrailerPosition.length > 1) {
-                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             // var tabCon = '';
                             var tabBottom = '</table>';
                             var lblPickupLocation = "";
@@ -1544,7 +1544,7 @@ var GetOtherFumigationList = function () {
                             }
                         }
                         if (isSame) {
-                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabCon = '';
                             var tabBottom = '</table>';
                             var ftype = row.FumigationTypes.split('$');
@@ -1562,7 +1562,7 @@ var GetOtherFumigationList = function () {
                         else {
                             var lblfumigationSite = "";
                             if (fumigationSite.length > 0) {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 for (var i = 0; i < fumigationSite.length; i++) {
@@ -1603,7 +1603,7 @@ var GetOtherFumigationList = function () {
                                 isSame = true;
                             }
                             if (isSame) {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 var ftype = row.FumigationTypes.split('$');
@@ -1621,7 +1621,7 @@ var GetOtherFumigationList = function () {
                                 // return '<label data-toggle="tooltip" data-placement="top">' + pickUpEquipmentList[0] + '</label>'
                             }
                             else {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 for (var i = 0; i < pickUpEquipmentList.length; i++) {
@@ -1656,7 +1656,7 @@ var GetOtherFumigationList = function () {
                             }
                             if (isSame) {
 
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 var ftype = row.FumigationTypes.split('$');
@@ -1674,7 +1674,7 @@ var GetOtherFumigationList = function () {
                                 //return '<label data-toggle="tooltip" data-placement="top">' + pickUpDriver[0] + '</label>'
                             }
                             else {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabBottom = '</table>';
                                 var tabCon = '';
                                 for (var i = 0; i < pickUpDriver.length; i++) {
@@ -1711,7 +1711,7 @@ var GetOtherFumigationList = function () {
                                 isSame = true;
                             }
                             if (isSame) {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 var ftype = row.FumigationTypes.split('$');
@@ -1737,7 +1737,7 @@ var GetOtherFumigationList = function () {
                                 //  return '<label data-toggle="tooltip" data-placement="top">' + fumigationTypesList[0] + '</label>'
                             }
                             else {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 for (let i = 0; i < ActLoadingStart.length; i++) {
@@ -1784,7 +1784,7 @@ var GetOtherFumigationList = function () {
                                 isSame = true;
                             }
                             if (isSame) {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 var ftype = row.FumigationTypes.split('$');
@@ -1810,7 +1810,7 @@ var GetOtherFumigationList = function () {
                                 //  return '<label data-toggle="tooltip" data-placement="top">' + fumigationTypesList[0] + '</label>'
                             }
                             else {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 for (let i = 0; i < ActLoadingFinish.length; i++) {
@@ -1879,7 +1879,7 @@ var GetOtherFumigationList = function () {
 
 
                         if (isSame) {
-                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabCon = '';
                             var tabBottom = '</table>';
                             var ftype = row.FumigationTypes.split('$');
@@ -1896,7 +1896,7 @@ var GetOtherFumigationList = function () {
                             //return '<label>' + temperature[0] + '</label>'
                         }
                         else {
-                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabCon = '';
                             var tabBottom = '</table>';
                             for (var i = 0; i < temperature.length; i++) {
@@ -1939,7 +1939,7 @@ var GetOtherFumigationList = function () {
 
 
                         if (isSame) {
-                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabCon = '';
                             var tabBottom = '</table>';
                             var ftype = row.FumigationTypes.split('$');
@@ -1956,7 +1956,7 @@ var GetOtherFumigationList = function () {
                             // return '<label data-toggle="tooltip" data-placement="top">' + deliveryEquipment[0] + '</label>'
                         }
                         else {
-                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabBottom = '</table>';
                             var tabCon = '';
                             for (var i = 0; i < deliveryEquipment.length; i++) {
@@ -2022,7 +2022,7 @@ var GetOtherFumigationList = function () {
 
 
                         if (isSame) {
-                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabCon = '';
                             var tabBottom = '</table>';
                             var ftype = row.FumigationTypes.split('$');
@@ -2039,7 +2039,7 @@ var GetOtherFumigationList = function () {
                             // return '<label data-toggle="tooltip" data-placement="top">' + deliveryDriver[0] + '</label>'
                         }
                         else {
-                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabBottom = '</table>';
                             var tabCon = '';
                             for (var i = 0; i < deliveryDriver.length; i++) {
@@ -2077,7 +2077,7 @@ var GetOtherFumigationList = function () {
                             }
 
                             if (isSame) {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 var ftype = row.FumigationTypes.split('$');
@@ -2096,7 +2096,7 @@ var GetOtherFumigationList = function () {
                             else {
                                 var lbldeliveryLocation = "";
                                 if (deliveryLocation.length > 0) {
-                                    var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                    var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                     var tabCon = '';
                                     var tabBottom = '</table>';
                                     for (var i = 0; i < deliveryLocation.length; i++) {
@@ -2185,7 +2185,7 @@ var GetOtherFumigationList = function () {
                     var btnMap = '| <a href="javascript: void(0)" class="Map_icon" data-toggle="tooltip" id="redirectButton" title="Map" onclick="javascript:fn_RedirectToGpsTracker(' + row.FumigationId + ');" >' +
                         '<i class="fas fa-map-marked-alt"></i>' +
                         '</a>';
-                    var btnCopy = ' | <a href="javascript: void(0)" class="edit_icon" data-toggle="tooltip" title="Copy Shipment" onclick="javascript:CopyFumigation(' + row.FumigationId + ');" >' +
+                    var btnCopy = ' | <a href="javascript: void(0)" class="edit_icon" data-toggle="tooltip" title="Copy Fumigation" onclick="javascript:CopyFumigation(' + row.FumigationId + ');" >' +
                         '<i class="far fa-clone"></i>' +
                         '</a>';
                     var btnDelete = ' | <a href="javascript: void(0)" class="delete_icon" data-toggle="tooltip" title="Delete" onclick="javascript:DeleteFumigation(' + row.FumigationId + ');" >' +

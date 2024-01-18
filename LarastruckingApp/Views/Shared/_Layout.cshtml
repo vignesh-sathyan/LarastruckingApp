@@ -40,10 +40,10 @@
     <script src="~/Assets/js/jquery.mask.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDME32UFDEYyS_KwgS3WJRqPY5cpbtKH0A&libraries=places&SameSite=None&sensor=false"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCc5vVFw9rNMBRTazypkoydHGXB2LrlRv8&libraries=places&SameSite=None&sensor=false"></script>
 
     @*<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCc5vVFw9rNMBRTazypkoydHGXB2LrlRv8&callback=initMap&libraries=places&SameSite=None&sensor=false"></script>*@
-    <script src="https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyDME32UFDEYyS_KwgS3WJRqPY5cpbtKH0A"></script>
+    <script src="https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyCc5vVFw9rNMBRTazypkoydHGXB2LrlRv8"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.print.min.js"></script>
     <script src="~/Assets/js/pdfmake.min.js"></script>
@@ -364,7 +364,7 @@
                                                     <i class="far fa-file-alt"></i>
                                                 </span>
                                                 <span class="leftText">
-                                                    INCENTIVE CARD
+                                                    INCENTIVE
                                                 </span>
                                             </a>
 
@@ -591,7 +591,7 @@
                                                 <i class="far fa-file-alt"></i>
                                             </span>
                                             <span class="leftText">
-                                                INCENTIVE CARD
+                                                INCENTIVE
                                             </span>
                                         </a>
 
@@ -657,12 +657,24 @@
 
 
     @RenderSection("scripts", required: false)
-    @Scripts.Render("~/bundles/MainShipment")
+    
 
 </body>
 </html>
 <script>
-
+function AllDriver() {
+    localStorage.setItem("isActive", "2");
+    $("#tblDriverall").css("display", "none");
+}
+function ActiveDriver() {
+    localStorage.setItem("isActive", "1");
+    $("#tblDriverall").css("display","none");
+}
+function InActiveDriver() {
+    localStorage.setItem("isActive", "0");
+    $("#tblDriverall").css("display", "none");
+   
+}
     var WindowsSize = function () {
         var h = $(window).height();
         $(".sidenavBar").css("height", (h - 55));

@@ -119,7 +119,7 @@ namespace LarastruckingApp.Controllers
         /// <param name="driverViewModel"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Index(DriverViewModel driverViewModel)
+        public ActionResult Index(DriverViewModel driverViewModel, UploadDriverDocumentViewModel model)
         {
             try
             {
@@ -130,6 +130,7 @@ namespace LarastruckingApp.Controllers
                     objDriverDTOinsert.CreatedBy = memberProfile.UserId;
                     objDriverDTOinsert.GuidInUser = Guid.NewGuid().ToString();
                     JsonResponse objJsonResponse = new JsonResponse();
+                   
                     var result = iDriverRepo.Add(objDriverDTOinsert);
                     if (result.IsSuccess)
                     {
@@ -158,7 +159,53 @@ namespace LarastruckingApp.Controllers
 
                         objJsonResponse.Data = result.DriverID;
                         objJsonResponse.IsSuccess = true;
-                        TempData["SuccessMessage"] = LarastruckingResource.DataSaveSuccessfully;
+                        //TempData["SuccessMessage"] = LarastruckingResource.DataSaveSuccessfully;
+                        UserRoleDTO dto = new UserRoleDTO();
+                        if (memberProfile.UserRole == "Management" || memberProfile.UserRole == "Accounting")
+                        {
+                            dto.UserID = memberProfile.UserId;
+                            dto.RoleName = memberProfile.UserRole;
+                        }
+                        else
+                        {
+                            dto.UserID = objJsonResponse.Data;
+                        }
+                        if (model.DriverDocument != null)
+                        {
+                            foreach (var driverFile in model.DriverDocument)
+                            {
+                                //isSuccess = false;
+                                string damagedfileName = string.Empty;
+                                var imgUrl = ImageUploader.Upload(driverFile, out damagedfileName, Configurations.FUDriverDocPath);
+                                if (imgUrl != null)
+                                {
+
+                                    DriverDocumentDTO objDriverDocumentDTO = new DriverDocumentDTO();
+                                    objDriverDocumentDTO.DriverId = result.DriverID;
+                                    objDriverDocumentDTO.CreatedBy = memberProfile.UserId;
+                                    objDriverDocumentDTO.DocumentTypeId = model.DocumentType;
+                                    objDriverDocumentDTO.DocumentName = model.DocumentName;
+                                    objDriverDocumentDTO.ImageURL = imgUrl;
+                                    objDriverDocumentDTO.ImageName = driverFile.FileName;
+                                    objDriverDocumentDTO.DocumentExpiryDate = Configurations.ConvertLocalToUTC(model.ExpiryDate);
+                                    objDriverDocumentDTO.CreatedDate = Configurations.TodayDateTime;
+                                    objDriverDocumentDTO.UserId = dto.UserID;
+                                    objDriverDocumentDTO.UserRole = dto.RoleName;
+                                    if (iDriverRepo.AddDriverDocument(objDriverDocumentDTO).IsSuccess)
+                                    {
+                                        objJsonResponse.IsSuccess = true;
+                                    }
+                                    else
+                                    {
+                                        objJsonResponse.IsSuccess = false;
+                                        objJsonResponse.Message = "Please add the driver documents.";
+                                       // return Json(objJsonResponse, JsonRequestBehavior.AllowGet);
+                                    }
+                                    
+
+                                }
+                            }
+                        }
                         return Json(objJsonResponse, JsonRequestBehavior.AllowGet);
                     }
                     else if (result.IsSuccess == false && result.Response == LarastruckingResource.Exists)
@@ -276,7 +323,7 @@ namespace LarastruckingApp.Controllers
                         {
 
                             objJsonResponse.IsSuccess = true;
-                            TempData["SuccessMessage"] = LarastruckingResource.DataUpdateSuccessfully;
+                           // TempData["SuccessMessage"] = LarastruckingResource.DataUpdateSuccessfully;
                             return Json(objJsonResponse, JsonRequestBehavior.AllowGet);
                         }
                         else

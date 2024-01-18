@@ -33,10 +33,10 @@
     <script src="~/Assets/js/jquery.mask.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDME32UFDEYyS_KwgS3WJRqPY5cpbtKH0A&libraries=places&SameSite=None&sensor=false"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXBtkoqacvZToBGD9TCaiZ9qUTrAJDJN4&libraries=places&SameSite=None&sensor=false"></script>
 
-    @*<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCc5vVFw9rNMBRTazypkoydHGXB2LrlRv8&callback=initMap&libraries=places&SameSite=None&sensor=false"></script>*@
-    <script src="https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyDME32UFDEYyS_KwgS3WJRqPY5cpbtKH0A"></script>
+    @*<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXBtkoqacvZToBGD9TCaiZ9qUTrAJDJN4&callback=initMap&libraries=places&SameSite=None&sensor=false"></script>*@
+    <script src="https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyDXBtkoqacvZToBGD9TCaiZ9qUTrAJDJN4"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.print.min.js"></script>
     <script src="~/Assets/js/pdfmake.min.js"></script>
@@ -290,7 +290,7 @@
                                                 <i class="far fa-file-alt"></i>
                                             </span>
                                             <span class="leftText">
-                                                INCENTIVE CARD
+                                                INCENTIVE
                                             </span>
                                         </a>
 
@@ -518,7 +518,7 @@
                                             <i class="far fa-file-alt"></i>
                                         </span>
                                         <span class="leftText">
-                                            INCENTIVE CARD
+                                            INCENTIVE
                                         </span>
                                     </a>
 
@@ -696,6 +696,7 @@
           <b style="font-size: 11px;letter-spacing: 1px;">REQUESTED SHIPMENTS</b>
         </div>
         <table class="table-bordered table-striped cf w-100 dataTable no-footer dtr-inline" id="tblShipmentDetails" style="margin-top:0 !important;">
+		
             <thead>
 
                 <tr>
@@ -725,6 +726,7 @@
             <b style="font-size: 11px;letter-spacing: 1px;">SHIPMENTS IN PROGRESS</b>
         </div>
         <table class="table-bordered table-striped cf w-100 dataTable no-footer dtr-inline" id="tblShipmentDetails2" style="margin-top:0 !important;">
+		
             <thead>
 
                 <tr>
@@ -831,11 +833,9 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-12 text-right" style="flex: unset; width: auto;">
-                                    <button type="button" id="btnCopy" class="btn green-Btn">Copy Shipment</button>
-                                </div>
-                                <div class="col-md-12 text-right" style="flex: unset; width: auto;">
-                                    <button type="button" id="btnCancel" class="btn green-Btn">Cancel</button>
+                                <div class="col-md-12 text-right" style="display: flex; width: 100%;justify-content: flex-end;padding: 0;margin-left: -23px;margin-top: 10px;">
+                                    <button type="button" id="btnCopyShip" class="btn green-Btn" style="height: 30px;">Copy Shipment</button>
+									<button type="button" id="btnCancelShip" class="btn green-Btn" style="height: 30px;">Cancel</button>
                                 </div>
                             </div>
 
@@ -853,6 +853,7 @@
             <b style="font-size: 11px;letter-spacing: 1px;">REQUESTED FUMIGATION</b>
         </div>
         <table class="table-bordered table-striped cf w-100 collapsed" id="tblOrderTakenFumigation" style="margin-top:0 !important;">
+		
             <thead>
 
                 <tr>
@@ -890,6 +891,7 @@
             <b style="font-size: 11px;letter-spacing: 1px;">FUMIGATION IN PROGRESS</b>
         </div>
         <table class="table-bordered table-striped cf w-100" id="tblOtherFumigation">
+		
             <thead>
 
                 <tr>
@@ -1034,11 +1036,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12 text-right" style="flex: unset;width:auto;">
-                                    <button type="button" id="btnCopy" class="btn green-Btn">Copy Fumigation</button>
-                                </div>
-                                <div class="col-md-12 text-right" style="flex: unset; width: auto;">
-                                    <button type="button" id="btnCancel" class="btn green-Btn">Cancel</button>
+                                <div class="col-md-12 text-right" style="display: flex; width: 100%;justify-content: flex-end;padding: 0;margin-left: -23px;margin-top: 10px;">
+                                    <button type="button" id="btnCopyFum" class="btn green-Btn" style="height: 30px;">Copy Fumigation</button>
+									 <button type="button" id="btnCancelFum" class="btn green-Btn" style="height: 30px;">Cancel</button>
                                 </div>
                             </div>
 
@@ -1049,6 +1049,29 @@
 
         </div>
     </div>
+	
+	 <div class="modal" role="dialog" id="modalSession">
+     <div class="modal-dialog" role="document">
+         <div class="modal-content">
+             <div class="modal-header prelative">
+
+                 <div class="text-center"> <img src="~/Images/logo-350.png" /></div>
+                 <div class="modal-title text-center fs-18">SESSION EXPIRED</div>
+                 <button type="button" class="close setCorner" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                 </button>
+             </div>
+             <div class="modal-body" style="justify-content: center; align-items: center; display: flex;">
+                 <p id="session_msg" style="margin-bottom: 0;"></p>
+             </div>
+             <div class="modal-footer row m-0">
+                 <div class="col-md-12 text-center">
+                     <button type="button" id="btnOk" class="btn btn-primary" data-dismiss="modal">Sign In </button>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
 
     @Scripts.Render("~/bundles/MainShipment")
     @Scripts.Render("~/bundles/MainFumigation")

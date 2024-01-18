@@ -7,7 +7,7 @@ $(function () {
 
     $("#tblFumigationList").css({ "display": "block", "overflow": "auto" });
     //$('#tblFumigationList').DataTable().draw();
-    $("input[type='search']").val("");
+    //$("input[type='search']").val("");
     //$('#tblFumigationList').DataTable().search('').columns().search('').draw();
 
     bindCustomerDropdown();
@@ -19,7 +19,9 @@ $(function () {
 btnViewFumigation = function () {
     $("#btnViewFumigaion").on("click", function () {
         GetFumigationList();
-    })
+		//$("#tblFumigationList").DataTable().draw();
+	
+    });
 }
 
 //#region DATE
@@ -212,12 +214,8 @@ $("html").unbind().keyup(function (e) {
 //#region DataTable Binding
 var GetFumigationList = function () {
     $('#tblFumigationList').DataTable().clear().destroy();
-    $("input[type='search']").val("");
-    var dTable = $('#tblFumigationList').DataTable();
-    dTable
-        .search('')
-        .columns().search('')
-        .draw();
+    //$("input[type='search']").val("");
+    
     var ddlCustomer = "";
     if ($("#ddlCustomer").val() > 0) {
         ddlCustomer = ("Customer: " + $("#ddlCustomer option:selected").text() + "&nbsp &nbsp;");
@@ -262,7 +260,7 @@ var GetFumigationList = function () {
         dom: 'Blfrtip',
         buttons: [
             {
-                text: 'GO BACK',
+                text: '<i class="fa fa-arrow-circle-left" aria-hidden="true"></i>&nbsp;GO BACK',
                 extend: 'print',
                 action: function (e, dt, node, config) {
                     //alert('Button activated');
@@ -295,7 +293,7 @@ var GetFumigationList = function () {
                    /// }
                     win.pageMargins = [10, 10, 10, 10];
                     var stauts = $('#ddlStatus option:selected').text();
-                    var css = '@page { size: landscape;margin:0 10px;}  ',
+                    var css = '@page { size: landscape;margin:0 10px;}table tbody tr:hover td{background:none;}  .table-striped tbody tr:nth-of-type(2n+1) .table td{background:#f2f2f2 !important;border:none;} .table tr{background:#f2f2f2 !important;}',
                         head = win.document.head || win.document.getElementsByTagName('head')[0],
                         style = win.document.createElement('style');
 
@@ -310,9 +308,9 @@ var GetFumigationList = function () {
                     }
                     head.appendChild(style);
                     $(win.document.body)
-                        .css('font-size', '10pt')
+                        .css('font-size', '8pt')
                         .prepend(
-                            "<table style='text-transform:capitalize' id='checkheader'><tr><td width='80%' style='text-transform:capitalize;font-size:13px;'><br/><b>FUMIGATION REPORT : " + values.StatusName + "</b>  <b> " + ddlCustomer + "&nbsp;&nbsp;   Date Range: " + startDate + " to " + endDate + "<br/> " + freightType + "</b> </td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
+                            "<table style='text-transform:capitalize' id='checkheader'><tr><td width='80%' style='text-transform:capitalize;font-size:13px;'><br/><b>FUMIGATION REPORT : " + values.StatusName + "</b>  <b> " + ddlCustomer + "&nbsp;&nbsp;   Date Range: " + startDate + " to " + endDate + "<br/> " + freightType + "</b> </td><td width='20%'><div><img src='"+baseUrl+"/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
                     );
 
                     $(win.document.body).find('table')
@@ -334,7 +332,7 @@ var GetFumigationList = function () {
         orderMulti:true,
         processing: true,
         serverSide: true,
-       // searching: true,
+		searching: true,
         bDestroy: true,
         stateSave: true,
         "language": {
@@ -1339,9 +1337,24 @@ var GetFumigationList = function () {
         "order": [[0, "desc"]],
     });
 
+  var search_thread_tblOtherFumigation = null;
+    $("#tblFumigationList_filter input")
+        .unbind()
+        .bind("input", function (e) {
+		
+            clearTimeout(search_thread_tblOtherFumigation);
+            search_thread_tblOtherFumigation = setTimeout(function () {
+                var dtable = $("#tblFumigationList").dataTable().api();
+                var elem = $("#tblFumigationList_filter input");
+			
+                var replacedStr = $(elem).val().replace(/\//g, "-");
+                console.log("elem value: ", replacedStr);
+                return dtable.search(replacedStr).draw();
+            }, 700);
+        });
     oTable = $('#tblFumigationList').DataTable();
    // $("input[type='search']").unbind();
-    $("input[type='search']").unbind().keyup(function (e) {
+ /*    $("input[type='search']").unbind().keyup(function (e) {
         var value = $(this).val();
         //if (value.length > 3 || value.length<1 ) {
             //oTable.search(value).draw();
@@ -1358,12 +1371,13 @@ var GetFumigationList = function () {
             oTable.search(value).draw();
         }
 
-    });
+    }); */
     
 
 }
 //#endregion
 
+  
 function ClearCopyFumigation() {
     //var $select = $('#ddlCustomerCopy').selectize();
     //$select[0].selectize.destroy();

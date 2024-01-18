@@ -280,27 +280,7 @@
                         </div>
 
                     </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-12 text-right mb-2" style="display: flex;justify-content: flex-end;">
-                            @if (permissions.IsInsert)
-                            {
-                                <i class="fa fa-save" style="margin-right: -25px;position: relative;color: #fff;top:4px;"></i>
-                                <button type="button" id="BtnAdd" onclick="SaveDrierDetail()" class="btn green-Btn" style="padding-right: 0; justify-content: center;">Save</button>
-                            }
-                            else
-                            {
-                                <span class="text-danger">You don't have permission to add</span>
-                            }
-                        <a id="loginLink" class="btn green-Btn" href="@Url.Action("ViewDriver", "Driver")" style="align-items: center;justify-content: center;padding: 2px 8px 2px 4px;">
-                            <i class="fa fa-times"></i>
-                            &nbsp;Cancel
-
-                        </a>
-
-
-                        </div>
-                    </div>
+                 
                 </div>
             </div>
         </div>
@@ -352,7 +332,7 @@
                     <hr>
                     <div class="row">
                         <div class="col-md-12 text-right mb-2" style="display: flex;justify-content: flex-end;">
-                            <button type="button" class="btn green-Btn" onclick="AddRow()"><i class="fa fa-plus" style="border-radius: 25px;border: 2px solid #fff;padding: 2px;font-size: 9px;margin-right: 5px;position: relative;top: -1px;"></i>Add</button>
+                            <button type="button" class="btn green-Btn" onclick="AddRow()" style="height:30px;"><i class="fa fa-plus" style="border-radius: 25px;border: 2px solid #fff;padding: 2px;font-size: 9px;margin-right: 5px;position: relative;top: -1px;"></i>Add</button>
                         </div>
                     </div>
                     <div class="row">
@@ -379,6 +359,27 @@
                 </div>
             </div>
         </div>
+		   <hr>
+                    <div class="row">
+                        <div class="col-md-12 text-right mb-2" style="display: flex;justify-content: flex-end;">
+                            @if (permissions.IsInsert)
+                            {
+                                
+                                <button type="button" id="BtnAdd" onclick="SaveDrierDetail()" class="btn green-Btn" style="padding: 0; height:30px;justify-content: center;"><i class="fa fa-save" style="margin-right: 5px;padding-left: 0;color: #fff;"></i>Save</button>
+                            }
+                            else
+                            {
+                                <span class="text-danger">You don't have permission to add</span>
+                            }
+                        <a id="loginLink" class="btn green-Btn" href="@Url.Action("ViewDriver", "Driver")" style="align-items: center;justify-content: center;padding: 2px 8px 2px 4px;">
+                            <i class="fa fa-times"></i>
+                            &nbsp;Cancel
+
+                        </a>
+
+
+                        </div>
+                    </div>
     </div>
 
     <div class="modal" role="dialog" id="modalDocument">

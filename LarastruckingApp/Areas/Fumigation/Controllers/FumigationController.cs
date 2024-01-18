@@ -1083,8 +1083,9 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
 
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ErrorLog("Mail Response Error : " + ex.Message.ToString());
                 throw;
             }
             finally

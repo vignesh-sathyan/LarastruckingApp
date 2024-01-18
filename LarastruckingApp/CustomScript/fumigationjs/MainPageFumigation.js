@@ -202,7 +202,7 @@ var GetOrderTakenFumigationList = function () {
                     $(win.document.body)
                         .css('font-size', '10pt')
                         .prepend(
-                            "<table id='checkheader'><tr><td width='80%' ><h3 style='font-size: 20px;'>REQUESTED FUMIGATION</h3></td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
+                            "<table id='checkheader'><tr><td width='80%' ><h3 style='font-size: 20px;'>REQUESTED FUMIGATION</h3></td><td width='20%'><div><img src='"+baseUrl+"/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
                         );
                 }
             },
@@ -1074,7 +1074,7 @@ var GetOrderTakenFumigationList = function () {
                     var btnMap = '| <a href="javascript: void(0)" class="Map_icon" data-toggle="tooltip" id="redirectButton" title="Map" onclick="javascript:fn_RedirectToGpsTracker(' + row.FumigationId + ');" >' +
                         '<i class="fas fa-map-marked-alt"></i>' +
                         '</a>';
-                    var btnCopy = ' | <a href="javascript: void(0)" class="edit_icon" data-toggle="tooltip" title="Copy Shipment" onclick="javascript:CopyFumigation(' + row.FumigationId + ');" >' +
+                    var btnCopy = ' | <a href="javascript: void(0)" class="edit_icon" data-toggle="tooltip" title="Copy Fumigation" onclick="javascript:CopyFumigation(' + row.FumigationId + ');" >' +
                         '<i class="far fa-clone"></i>' +
                         '</a>';
                     var btnDelete = ' | <a href="javascript: void(0)" class="delete_icon" data-toggle="tooltip" title="Delete" onclick="javascript:DeleteFumigation(' + row.FumigationId + ');" >' +
@@ -1094,7 +1094,14 @@ var GetOrderTakenFumigationList = function () {
 
         ],
         "order": [[0, "asc"]],
-
+		initComplete: function () {
+            // Task to perform after DataTable is fully loaded
+           // $("#tblShipmentDetails>tbody>tr:first").trigger('click');
+            GetFumPipeBarGraph();
+            FumProgressPipeBarGraph();
+            // console.log('DataTable is fully loaded!');
+            // Your code here...
+        }
 
     });
 
@@ -1111,10 +1118,12 @@ var GetOrderTakenFumigationList = function () {
     $("#tblOrderTakenFumigation_filter input")
         .unbind()
         .bind("input", function (e) {
+		
             clearTimeout(search_thread_tblOrderTakenFumigation);
             search_thread_tblOrderTakenFumigation = setTimeout(function () {
                 var dtable = $("#tblOrderTakenFumigation").dataTable().api();
                 var elem = $("#tblOrderTakenFumigation_filter input");
+
                 var replacedStr = $(elem).val().replace(/\//g, "-");
                 console.log("elem value: ", replacedStr);
                 return dtable.search(replacedStr).draw();
@@ -1168,7 +1177,7 @@ var GetOtherFumigationList = function () {
                     $(win.document.body)
                         .css('font-size', '10pt')
                         .prepend(
-                            "<table id='checkheader'><tr><td width='80%' ><h3 style='font-size: 20px;'>FUMIGATION IN PROGRESS</h3> </td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
+                            "<table id='checkheader'><tr><td width='80%' ><h3 style='font-size: 20px;'>FUMIGATION IN PROGRESS</h3> </td><td width='20%'><div><img src='"+baseUrl+"/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
                         );
                 }
             },
@@ -1254,7 +1263,7 @@ var GetOtherFumigationList = function () {
                                 isSame = true;
                             }
                             if (isSame) {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 var ftype = row.FumigationTypes.split('$');
@@ -1281,7 +1290,7 @@ var GetOtherFumigationList = function () {
                                 //  return '<label data-toggle="tooltip" data-placement="top">' + fumigationTypesList[0] + '</label>'
                             }
                             else {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 for (let i = 0; i < ActFumigationRelease.length; i++) {
@@ -1326,7 +1335,7 @@ var GetOtherFumigationList = function () {
                                 isSame = true;
                             }
                             if (isSame) {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 var ftype = row.FumigationTypes.split('$');
@@ -1342,7 +1351,7 @@ var GetOtherFumigationList = function () {
                                 //  return '<label data-toggle="tooltip" data-placement="top">' + fumigationTypesList[0] + '</label>'
                             }
                             else {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 for (let i = 0; i < fumigationTypesList.length; i++) {
@@ -1386,7 +1395,7 @@ var GetOtherFumigationList = function () {
                                 isSame = true;
                             }
                             if (isSame) {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 var ftype = row.FumigationTypes.split('$');
@@ -1406,7 +1415,7 @@ var GetOtherFumigationList = function () {
                                 var lblPickupLocation = "";
                                 if (pickupLocation.length > 0) {
                                     for (var i = 0; i < pickupLocation.length; i++) {
-                                        var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                        var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                         var tabCon = '';
                                         var tabBottom = '</table>';
 
@@ -1446,7 +1455,7 @@ var GetOtherFumigationList = function () {
                                 isSame = true;
                             }
                             if (isSame) {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 var ftype = row.FumigationTypes.split('$');
@@ -1464,7 +1473,7 @@ var GetOtherFumigationList = function () {
                             else {
                                 var awbNo = "";
                                 for (var i = 0; i < awb.length; i++) {
-                                    var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                    var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
 
                                     var tabBottom = '</table>';
                                     awbNo += '<tr style="background: none;"><td><label data-toggle="tooltip" data-placement="top">' + awb[i] + '</label></td></tr>'
@@ -1501,7 +1510,7 @@ var GetOtherFumigationList = function () {
                         }
                         if (isSame) {
 
-                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabCon = '';
                             var tabBottom = '</table>';
                             var ftype = row.FumigationTypes.split('$');
@@ -1520,7 +1529,7 @@ var GetOtherFumigationList = function () {
                         }
                         else {
 
-                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabCon = '';
                             var tabBottom = '</table>';
                             for (var i = 0; i < vendorNconsignee.length; i++) {
@@ -1547,7 +1556,7 @@ var GetOtherFumigationList = function () {
                         var BoxCount = row.BoxCount.split("|")
 
                         if (BoxCount.length > 1) {
-                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             // var tabCon = '';
                             var tabBottom = '</table>';
                             var lblPickupLocation = "";
@@ -1585,7 +1594,7 @@ var GetOtherFumigationList = function () {
                         var PalletCount = row.PalletCount.split("|")
 
                         if (PalletCount.length > 1) {
-                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             // var tabCon = '';
                             var tabBottom = '</table>';
                             var lblPickupLocation = "";
@@ -1622,7 +1631,7 @@ var GetOtherFumigationList = function () {
                         var TrailerPosition = row.TrailerPosition.split("|")
 
                         if (TrailerPosition.length > 1) {
-                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             // var tabCon = '';
                             var tabBottom = '</table>';
                             var lblPickupLocation = "";
@@ -1667,7 +1676,7 @@ var GetOtherFumigationList = function () {
                             }
                         }
                         if (isSame) {
-                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabCon = '';
                             var tabBottom = '</table>';
                             var ftype = row.FumigationTypes.split('$');
@@ -1685,7 +1694,7 @@ var GetOtherFumigationList = function () {
                         else {
                             var lblfumigationSite = "";
                             if (fumigationSite.length > 0) {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 for (var i = 0; i < fumigationSite.length; i++) {
@@ -1726,7 +1735,7 @@ var GetOtherFumigationList = function () {
                                 isSame = true;
                             }
                             if (isSame) {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 var ftype = row.FumigationTypes.split('$');
@@ -1744,7 +1753,7 @@ var GetOtherFumigationList = function () {
                                 // return '<label data-toggle="tooltip" data-placement="top">' + pickUpEquipmentList[0] + '</label>'
                             }
                             else {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 for (var i = 0; i < pickUpEquipmentList.length; i++) {
@@ -1779,7 +1788,7 @@ var GetOtherFumigationList = function () {
                             }
                             if (isSame) {
 
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 var ftype = row.FumigationTypes.split('$');
@@ -1797,7 +1806,7 @@ var GetOtherFumigationList = function () {
                                 //return '<label data-toggle="tooltip" data-placement="top">' + pickUpDriver[0] + '</label>'
                             }
                             else {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabBottom = '</table>';
                                 var tabCon = '';
                                 for (var i = 0; i < pickUpDriver.length; i++) {
@@ -1834,7 +1843,7 @@ var GetOtherFumigationList = function () {
                                 isSame = true;
                             }
                             if (isSame) {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 var ftype = row.FumigationTypes.split('$');
@@ -1860,7 +1869,7 @@ var GetOtherFumigationList = function () {
                                 //  return '<label data-toggle="tooltip" data-placement="top">' + fumigationTypesList[0] + '</label>'
                             }
                             else {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 for (let i = 0; i < ActLoadingStart.length; i++) {
@@ -1907,7 +1916,7 @@ var GetOtherFumigationList = function () {
                                 isSame = true;
                             }
                             if (isSame) {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 var ftype = row.FumigationTypes.split('$');
@@ -1933,7 +1942,7 @@ var GetOtherFumigationList = function () {
                                 //  return '<label data-toggle="tooltip" data-placement="top">' + fumigationTypesList[0] + '</label>'
                             }
                             else {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 for (let i = 0; i < ActLoadingFinish.length; i++) {
@@ -2002,7 +2011,7 @@ var GetOtherFumigationList = function () {
 
 
                         if (isSame) {
-                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabCon = '';
                             var tabBottom = '</table>';
                             var ftype = row.FumigationTypes.split('$');
@@ -2019,7 +2028,7 @@ var GetOtherFumigationList = function () {
                             //return '<label>' + temperature[0] + '</label>'
                         }
                         else {
-                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabCon = '';
                             var tabBottom = '</table>';
                             for (var i = 0; i < temperature.length; i++) {
@@ -2062,7 +2071,7 @@ var GetOtherFumigationList = function () {
 
 
                         if (isSame) {
-                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabCon = '';
                             var tabBottom = '</table>';
                             var ftype = row.FumigationTypes.split('$');
@@ -2079,7 +2088,7 @@ var GetOtherFumigationList = function () {
                             // return '<label data-toggle="tooltip" data-placement="top">' + deliveryEquipment[0] + '</label>'
                         }
                         else {
-                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabBottom = '</table>';
                             var tabCon = '';
                             for (var i = 0; i < deliveryEquipment.length; i++) {
@@ -2145,7 +2154,7 @@ var GetOtherFumigationList = function () {
 
 
                         if (isSame) {
-                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabCon = '';
                             var tabBottom = '</table>';
                             var ftype = row.FumigationTypes.split('$');
@@ -2162,7 +2171,7 @@ var GetOtherFumigationList = function () {
                             // return '<label data-toggle="tooltip" data-placement="top">' + deliveryDriver[0] + '</label>'
                         }
                         else {
-                            var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                            var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                             var tabBottom = '</table>';
                             var tabCon = '';
                             for (var i = 0; i < deliveryDriver.length; i++) {
@@ -2200,7 +2209,7 @@ var GetOtherFumigationList = function () {
                             }
 
                             if (isSame) {
-                                var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                 var tabCon = '';
                                 var tabBottom = '</table>';
                                 var ftype = row.FumigationTypes.split('$');
@@ -2219,7 +2228,7 @@ var GetOtherFumigationList = function () {
                             else {
                                 var lbldeliveryLocation = "";
                                 if (deliveryLocation.length > 0) {
-                                    var tabTop = '<table class="table" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
+                                    var tabTop = '<table class="table multi-column" height="auto" style="margin:0px auto;" cellspacing="0" width="100%">';
                                     var tabCon = '';
                                     var tabBottom = '</table>';
                                     for (var i = 0; i < deliveryLocation.length; i++) {
@@ -2308,7 +2317,7 @@ var GetOtherFumigationList = function () {
                     var btnMap = '| <a href="javascript: void(0)" class="Map_icon" data-toggle="tooltip" id="redirectButton" title="Map" onclick="javascript:fn_RedirectToGpsTracker(' + row.FumigationId + ');" >' +
                         '<i class="fas fa-map-marked-alt"></i>' +
                         '</a>';
-                    var btnCopy = ' | <a href="javascript: void(0)" class="edit_icon" data-toggle="tooltip" title="Copy Shipment" onclick="javascript:CopyFumigation(' + row.FumigationId + ');" >' +
+                    var btnCopy = ' | <a href="javascript: void(0)" class="edit_icon" data-toggle="tooltip" title="Copy Fumigation" onclick="javascript:CopyFumigation(' + row.FumigationId + ');" >' +
                         '<i class="far fa-clone"></i>' +
                         '</a>';
                     var btnDelete = ' | <a href="javascript: void(0)" class="delete_icon" data-toggle="tooltip" title="Delete" onclick="javascript:DeleteFumigation(' + row.FumigationId + ');" >' +
@@ -2349,6 +2358,7 @@ var GetOtherFumigationList = function () {
     $("#tblOtherFumigation_filter input")
         .unbind()
         .bind("input", function (e) {
+		
             clearTimeout(search_thread_tblOtherFumigation);
             search_thread_tblOtherFumigation = setTimeout(function () {
                 var dtable = $("#tblOtherFumigation").dataTable().api();
@@ -2490,7 +2500,7 @@ function CopyFumigation(FumigationId) {
                         success: function (data) {
                             if (data != null) {
 
-
+								console.log("data fumigation copy: ",data);
                                 var ddlCustomer = "<option selected='selected' value=" + data.CustomerId + ">" + data.CustomerName + "</option>";
                                 $("#ddlCustomerCopy").empty();
                                 $("#ddlCustomerCopy").append(ddlCustomer);
@@ -2611,7 +2621,7 @@ function ValidateCopyFumigation() {
     return isValid;
 }
 
-$("#btnCopy").click(function () {
+$("#btnCopyFum").click(function () {
 
     if (ValidateCopyFumigation()) {
 
@@ -2643,7 +2653,7 @@ $("#btnCopy").click(function () {
                                 Ok: {
                                     btnClass: 'btn-green',
                                     action: function () {
-                                        window.location.href = baseUrl + "/Fumigation/Fumigation/ViewFumigationList";
+                                        window.location.href = baseUrl + "/Main/Index";
                                     }
                                 },
                             }
@@ -2663,7 +2673,7 @@ $("#btnCopy").click(function () {
     }
 })
 
-$("#btnCancel").click(function () {
+$("#btnCancelFum").click(function () {
     //window.location.href = baseUrl + "/Fumigation/Fumigation/ViewFumigationList";
     $('#fumigationModal').modal('toggle');
 });

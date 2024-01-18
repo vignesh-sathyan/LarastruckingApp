@@ -116,11 +116,262 @@ $(function () {
     btnDamageDocument();
 
     convertActualTemp();
+	TimeChangeUnloading();
+    TimeChangePickUp();
+    TimeChangeLoadingPickUp();
+	TimeChange();
+	
+	//TimeChange();
 
+    //Arrived Pickup Location
+    $("#arrivedFumPUDialog").dialog({
+        autoOpen: false,
+        modal: true,
+        buttons: [
+            {
+                html: "<i class='fa fa-arrow-circle-left' aria-hidden='true'></i>&nbsp;GO BACK",
+                class: "cancelButton",
+                click: function () {
+                    $(this).dialog("close");
+                }
+            },
+            {
+                text: "OK",
+                class: "okButton",
+                click: function () {
+                    var selectedDateTime = $("#datetimepickerFumPU").val();
+                    console.log("Selected Date-Time:", selectedDateTime);
+                    $("#dtPickUpArrival").val(selectedDateTime);
+                    $(this).dialog("close");
+                }
+            }
+
+        ]
+    });
+    //Loading Pickup Location
+    $("#loadingFumPUDialog").dialog({
+        autoOpen: false,
+        modal: true,
+        buttons: [
+            {
+                html: "<i class='fa fa-arrow-circle-left' aria-hidden='true'></i>&nbsp;GO BACK",
+                class: "cancelButton",
+                click: function () {
+                    $(this).dialog("close");
+                }
+            },
+            {
+                text: "OK",
+                class: "okButton",
+                click: function () {
+                    var selectedDateTime = $("#datetimepickerFumLoadingPU").val();
+                    console.log("Selected Date-Time:", selectedDateTime);
+                    $("#dtActLoadingStart").val(selectedDateTime);
+                    $(this).dialog("close");
+                }
+            }
+
+        ]
+    });
+
+    //Arrived Delivery Location
+    $("#arrivedFumDeliveryDialog").dialog({
+        autoOpen: false,
+        modal: true,
+        buttons: [
+            {
+                html: "<i class='fa fa-arrow-circle-left' aria-hidden='true'></i>&nbsp;GO BACK",
+                class: "cancelButton",
+                click: function () {
+                    $(this).dialog("close");
+                }
+            },
+            {
+                text: "OK",
+                class: "okButton",
+                click: function () {
+                    var selectedDateTime = $("#datetimepickerFumDL").val();
+                    console.log("Selected Date-Time:", selectedDateTime);
+                    $("#dtDeliveryArrival").val(selectedDateTime);
+                    $(this).dialog("close");
+                }
+            }
+
+        ]
+
+    });
+
+    //Unloading Delivery Location
+    $("#UnloadingFumDialog").dialog({
+        autoOpen: false,
+        modal: true,
+        buttons: [
+            {
+                html: "<i class='fa fa-arrow-circle-left' aria-hidden='true'></i>&nbsp;GO BACK",
+                class: "cancelButton",
+                click: function () {
+                    $(this).dialog("close");
+                }
+            },
+            {
+                text: "OK",
+                class: "okButton",
+                click: function () {
+                    var selectedDateTime = $("#datetimepickerFumUL").val();
+                    console.log("Selected Date-Time:", selectedDateTime);
+                    $("#dtActDeliveryDeparture").val(selectedDateTime);
+                    $(this).dialog("close");
+                }
+            }
+
+        ]
+
+    });
+
+	
+	$('#datetimepickerFumPU').datetimepicker({
+        format: 'm/d/Y H:i',
+        inline: true,
+        step: 30,
+        value: new Date().toISOString().slice(0, 19),
+        onChangeDateTime: function(dp, $input) {
+            $('#displayDateTimeFumPU').val($input.val()); // Set the selected date/time into the input field
+        },
+
+    });
+    $('#datetimepickerFumLoadingPU').datetimepicker({
+        format: 'm/d/Y H:i',
+        inline: true,
+        step: 30,
+        value: new Date().toISOString().slice(0, 19),
+        onChangeDateTime: function (dp, $input) {
+            $('#displayDateTimeFumLoadingPU').val($input.val()); // Set the selected date/time into the input field
+        },
+
+    });
+
+    $('#datetimepickerFumDL').datetimepicker({
+        format: 'm/d/Y H:i',
+        inline: true,
+        step: 30,
+        value: new Date().toISOString().slice(0, 19),
+        onChangeDateTime: function(dp, $input) {
+            $('#displayDateTimeFumDL').val($input.val()); // Set the selected date/time into the input field
+        }
+    });
+    $('#datetimepickerFumUL').datetimepicker({
+        format: 'm/d/Y H:i',
+        inline: true,
+        step: 30,
+        value: new Date().toISOString().slice(0, 19),
+        onChangeDateTime: function(dp, $input) {
+            $('#displayDateTimeFumUL').val($input.val()); // Set the selected date/time into the input field
+        }
+    });
 
 });
 
+var TimeChange = function() {
+    var x = setInterval(function() {
+        var $timePicker = $('#arrivedFumDeliveryDialog').find('.xdsoft_time_box');
+        //var $timePicker = $('#arrivedDeliveryDialog').find('.xdsoft_time_variant');
+        ///console.log("$timePicker.length: ",$timePicker.length);
+        var $currentTime = $('#arrivedFumDeliveryDialog').find('.xdsoft_time_variant').find('.xdsoft_current');
+        if ($currentTime.length > 0) {
+            //console.log("Fumigation $currentTime.length: ", $currentTime.length);
+            if ($currentTime.length > 0) {
+                var currentOffset = $currentTime.offset().top - $timePicker.offset().top;
+				if(currentOffset>0){
+				 clearInterval(x);
+                //console.log("currentOffset: ", currentOffset);
+                //console.log("currentOffset: ", $currentTime.offset().top);
+                //console.log("$timePicker.offset().top: ", $timePicker.offset().top);
+                $timePicker.scrollTop(currentOffset); // Scroll to the position of the current time elementss
+				}
+            }
+           
+        } else {
+            console.log("time not found");
+        } // Find the element representing the current time
 
+    }, 100);
+}
+var TimeChangeUnloading = function() {
+    var x = setInterval(function() {
+        var $timePicker = $('#UnloadingFumDialog').find('.xdsoft_time_box');
+        //var $timePicker = $('#arrivedDeliveryDialog').find('.xdsoft_time_variant');
+        ///console.log("$timePicker.length: ",$timePicker.length);
+        var $currentTime = $('#UnloadingFumDialog').find('.xdsoft_time_variant').find('.xdsoft_current');
+        if ($currentTime.length > 0) {
+           // console.log("Fumigation $currentTime.length: ", $currentTime.length);
+            if ($currentTime.length > 0) {
+                var currentOffset = $currentTime.offset().top - $timePicker.offset().top;
+				if(currentOffset>0){
+				 clearInterval(x);
+                //console.log("currentOffset: ", currentOffset);
+               // console.log("currentOffset: ", $currentTime.offset().top);
+                //console.log("$timePicker.offset().top: ", $timePicker.offset().top);
+                $timePicker.scrollTop(currentOffset); // Scroll to the position of the current time elementss
+				}
+            }
+           
+        } else {
+            console.log("time not found");
+        } // Find the element representing the current time
+
+    }, 100);
+}
+var TimeChangePickUp = function() {
+    var x = setInterval(function() {
+        var $timePicker = $('#arrivedFumPUDialog').find('.xdsoft_time_box');
+        //var $timePicker = $('#arrivedDeliveryDialog').find('.xdsoft_time_variant');
+        ///console.log("$timePicker.length: ",$timePicker.length);
+        var $currentTime = $('#arrivedFumPUDialog').find('.xdsoft_time_variant').find('.xdsoft_current');
+        if ($currentTime.length > 0) {
+            //console.log("Fumigation $currentTime.length: ", $currentTime.length);
+            if ($currentTime.length > 0) {
+                var currentOffset = $currentTime.offset().top - $timePicker.offset().top;
+				if(currentOffset>0){
+				 clearInterval(x);
+                //console.log("currentOffset: ", currentOffset);
+                //console.log("currentOffset: ", $currentTime.offset().top);
+                //console.log("$timePicker.offset().top: ", $timePicker.offset().top);
+                $timePicker.scrollTop(currentOffset); // Scroll to the position of the current time elementss
+				}
+            }
+           
+        } else {
+            console.log("time not found");
+        } // Find the element representing the current time
+
+    }, 100);
+}
+
+var TimeChangeLoadingPickUp = function () {
+    var x = setInterval(function () {
+        var $timePicker = $('#loadingFumPUDialog').find('.xdsoft_time_box');
+        //var $timePicker = $('#arrivedDeliveryDialog').find('.xdsoft_time_variant');
+        ///console.log("$timePicker.length: ",$timePicker.length);
+        var $currentTime = $('#loadingFumPUDialog').find('.xdsoft_time_variant').find('.xdsoft_current');
+        if ($currentTime.length > 0) {
+            //console.log("Fumigation $currentTime.length: ", $currentTime.length);
+            if ($currentTime.length > 0) {
+                var currentOffset = $currentTime.offset().top - $timePicker.offset().top;
+                if (currentOffset > 0) {
+                    clearInterval(x);
+                    //console.log("currentOffset: ", currentOffset);
+                    //console.log("currentOffset: ", $currentTime.offset().top);
+                    //console.log("$timePicker.offset().top: ", $timePicker.offset().top);
+                    $timePicker.scrollTop(currentOffset); // Scroll to the position of the current time elementss
+                }
+            }
+
+        } else {
+            console.log("time not found");
+        } // Find the element representing the current time
+
+    }, 100);
+}
 
 
 var GetValues = function () {
@@ -230,7 +481,7 @@ function GetFumigationById() {
             dataType: "json",
             async: false,
             success: function (response) {
-
+       
                 glbRouteStops = new Array();
                 //global function for accessorial charges
                 glbAccessorialFee = new Array();
@@ -546,7 +797,6 @@ function shipmentStatus() {
 ddlStatus = function () {
     $("#ddlStatus").change(function () {
 
-
         var statusid = $("#ddlStatus").val();
 
         var equipment = $("#txtPickUpEquipment").val();
@@ -564,6 +814,162 @@ ddlStatus = function () {
         else {
             $('#txtPickUpEquipment').removeAttr('readonly');
             $('#txtPickUpdriver').removeAttr('readonly');
+        }
+        if (statusid == 15 && glbEquipmentNdriver.length != 0) {
+            $("#arrivedFumPUDialog").dialog("open");
+
+            var currentDate = new Date();
+            var formattedDateTime = currentDate.toLocaleString('en-US', {
+                month: '2-digit',
+                day: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false // Ensure 24-hour format
+            }).replace(',', '');
+            $("#displayDateTimeFumPU").val(formattedDateTime);
+        }
+        if (statusid == 5 && glbEquipmentNdriver.length != 0) {
+            $("#loadingFumPUDialog").dialog("open");
+
+            var currentDate = new Date();
+            var formattedDateTime = currentDate.toLocaleString('en-US', {
+                month: '2-digit',
+                day: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false // Ensure 24-hour format
+            }).replace(',', '');
+            $("#displayDateTimeFumLoadingPU").val(formattedDateTime);
+        }
+        if (statusid == 16 && glbEquipmentNdriver.length != 0) {
+            $("#arrivedFumDeliveryDialog").dialog("open");
+            var currentDate = new Date();
+            var formattedDateTime = currentDate.toLocaleString('en-US', {
+                month: '2-digit',
+                day: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false // Ensure 24-hour format
+            }).replace(',', '');
+
+            $("#displayDateTimeFumDL").val(formattedDateTime);
+        }
+        if (statusid == 17 && glbEquipmentNdriver.length != 0) {
+            $("#UnloadingFumDialog").dialog("open");
+            var currentDate = new Date();
+            var formattedDateTime = currentDate.toLocaleString('en-US', {
+                month: '2-digit',
+                day: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false // Ensure 24-hour format
+            }).replace(',', '');
+            $("#displayDateTimeFumUL").val(formattedDateTime);
+        }
+        if (statusid == 7 && glbEquipmentNdriver.length != 0) {
+            var values = {};
+            values = GetJsonValue();
+            var prevalues = GetValues();
+            $.confirm({
+                title: 'Confirm!',
+                content: 'DO YOU WANT TO COMPLETE THIS FUMIGATION NOW?',
+                type: 'green',
+                typeAnimated: true,
+                buttons: {
+                    confirm: function () {
+                        //$.alert('Confirmed!');
+                        $("#ddlStatus").val(11);
+                        values.StatusId = 11;
+                        $.ajax({
+                            url: baseUrl + "/Fumigation/Fumigation/EditFumigation",
+                            type: "POST",
+                            beforeSend: function () {
+                                showLoader();
+                                //console.log("pickup Drive btnsave: ", "FumigationEquipmentNdriver" in values);
+                                var deliveryDriver = "";
+                                var pickupDriver = "";
+                                const ddlstatus = $("#ddlStatus option:selected").text();
+                                if (values.FumigationEquipmentNdriver.length > 0 && prevalues.length > 0) {
+                                    for (let i = 0; i < values.FumigationEquipmentNdriver.length; i++) {
+                                        if (values.FumigationEquipmentNdriver[i].IsPickUp == false) {
+                                            if (values.FumigationEquipmentNdriver[i].DriverName != "" && values.FumigationEquipmentNdriver[i].DriverName != "undefined" && values.FumigationEquipmentNdriver[i].DriverName != undefined && values.FumigationEquipmentNdriver[i].DriverName != "Select Driver") {
+                                                deliveryDriver = values.FumigationEquipmentNdriver[i].DriverName;
+                                                //pickupDriver = values.FumigationEquipmentNdriver[i].DriverName;
+                                            }
+                                        }
+                                    }
+
+                                    //console.log("deliver: ", deliveryDriver);
+                                    if (deliveryDriver != "") {
+                                        if (ddlstatus == "DRIVER ASSIGNED") {
+                                            console.log("sending delivery");
+                                            SendDeliveryMessage();
+                                        }
+                                    }
+                                    else {
+
+                                        SendEditMessage();
+                                    }
+                                }
+
+
+                            },
+                            data: JSON.stringify(values),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+
+                            success: function (response) {
+                                isNeedToloaded = false;
+                                hideLoader();
+                                if (response.IsSuccess) {
+                                    //toastr.success(response.Message);
+                                    //setTimeout(function () {
+                                    //    window.location.href = baseUrl + "/Fumigation/Fumigation/ViewFumigationList";
+                                    //}, 1000)
+
+                                    $.alert({
+                                        title: 'Success!',
+                                        content: "<b>" + response.Message + "</b>",
+                                        type: 'green',
+                                        typeAnimated: true,
+                                        buttons: {
+                                            Ok: {
+                                                btnClass: 'btn-green',
+                                                action: function () {
+                                                    window.location.href = baseUrl + "/Fumigation/Fumigation/ViewFumigationList";
+                                                }
+                                            },
+                                        }
+                                    });
+
+                                }
+                                else {
+                                    hideLoader();
+                                    //toastr.error(response.Message);
+                                    //AlertPopup(response.Message);
+                                    AlertPopup("Email Failed...");
+                                }
+                            },
+                            error: function () {
+                                hideLoader();
+                                // toastr.error("Something went wrong.");
+                                AlertPopup("Something went wrong.");
+
+                            }
+                        });
+
+                    },
+                    cancel: function () {
+                        /// $.alert('Canceled!');
+
+                    },
+
+                }
+            });
         }
 
         if (statusid == 11) {
@@ -802,6 +1208,11 @@ function ShowHideTextBox() {
         $(".divCustomerPO").hide();
         $(".divContainerNo").show();
     }
+	 else if ($.trim(fumigationText).toLowerCase() == $.trim("SEGREGATION").toLowerCase()) {
+     $(".divAirWayBill").hide();
+     $(".divCustomerPO").hide();
+     $(".divContainerNo").show();
+ }
     else {
         $(".divAirWayBill").hide();
         $(".divCustomerPO").show();
@@ -1416,7 +1827,7 @@ function AddRouteStops() {
                                         };
                                         pickOb.RouteNo = l;
                                         delOb.RouteNo = l;
-										console.log("length of l: ",l);
+                                        console.log("length of l: ", l);
                                         glbEquipmentNdriver.push(pickOb);
                                         glbEquipmentNdriver.push(delOb);
                                     }
@@ -2370,6 +2781,7 @@ function GetJsonValue() {
     var tempLen = glbEquipmentNdriver.length;
     var delObjExists = false;
     var chkEquipment = $("#chkEquipment").val();
+    console.log("chkEquipment: ", chkEquipment);
     var deliveryEquipment = glbEquipmentNdriver.filter(x => x.IsPickUp == false && x.EquipmentId !== "");
     console.log("deliveryEquipment: ", deliveryEquipment);
     //if(chkEquipment==null || chkEquipment=="null"){
@@ -2380,10 +2792,10 @@ function GetJsonValue() {
             console.log("delobject in loop: ", glbEquipmentNdriver[i].RouteNo);
             delObjExists = true;
         }
-        console.log("glbEquipmentNdriver before push: ", glbEquipmentNdriver);
-        console.log("glbEquipmentNdriver RouteNo: ", glbEquipmentNdriver[i].RouteNo);
-        console.log("glbEquipmentNdriver before push: ", glbEquipmentNdriver);
-        console.log("delObjExists: " + glbEquipmentNdriver[i].IsPickUp + " : " + glbEquipmentNdriver[i].RouteNo + " : " + delObjExists);
+       // console.log("glbEquipmentNdriver before push: ", glbEquipmentNdriver);
+        //console.log("glbEquipmentNdriver RouteNo: ", glbEquipmentNdriver[i].RouteNo);
+        //console.log("glbEquipmentNdriver before push: ", glbEquipmentNdriver);
+       // console.log("delObjExists: " + glbEquipmentNdriver[i].IsPickUp + " : " + glbEquipmentNdriver[i].RouteNo + " : " + delObjExists);
         if (glbEquipmentNdriver.length >= 1 && glbEquipmentNdriver[i].IsPickUp == true && glbEquipmentNdriver.length <= 2) {
             var deliveryObj = {
                 FumigationEquipmentNDriverId: 0,
@@ -2837,8 +3249,8 @@ function SendEditMessage() {
                         dataType: 'json',
                         success: function (msg) {
                             // Do something interesting here.
-                            console.log("pickup message sent",JSON.stringify(msg));
-                            console.log("pickup message sent",msg.d);
+                            console.log("pickup message sent", JSON.stringify(msg));
+                            console.log("pickup message sent", msg.d);
                         },
                         error: function (xhr, err) {
                             console.log("error : " + err + "PickupMessage error");
@@ -3063,8 +3475,8 @@ function SendDeliveryMessage() {
                     success: function (msg) {
                         // Do something interesting here.
                         console.log("delivery message sent first");
-						  console.log("delivery message parse: ",JSON.stringify(msg));
-                            console.log("delivery message sent ",msg.d);
+                        console.log("delivery message parse: ", JSON.stringify(msg));
+                        console.log("delivery message sent ", msg.d);
                     },
                     error: function (xhr, err) {
                         console.log("error : " + err + "DeliveryMessage Error");
@@ -3108,8 +3520,8 @@ function SendDeliveryMessage() {
                         dataType: 'json',
                         success: function (msg) {
                             // Do something interesting here.
-                            console.log("delivery message parse: ",JSON.stringify(msg));
-                            console.log("delivery message sent ",msg.d);
+                            console.log("delivery message parse: ", JSON.stringify(msg));
+                            console.log("delivery message sent ", msg.d);
                         },
                         error: function (xhr, err) {
                             console.log("error : " + err + " DeliveryMessage Error");
@@ -3267,187 +3679,86 @@ var btnSave = function () {
                     if (glbRouteStops.length > 0) {
                         if (values.FumigationId > 0) {
                             //console.log("Picks: " , values.DriverPickupArrival);
-                            if ($("#ddlStatus").val() == 7)//ORDER TAKEN
-                            {
-                                $.confirm({
-                                    title: 'Confirm!',
-                                    content: 'DO YOU WANT TO COMPLETE THIS FUMIGATION NOW?',
-                                    type: 'green',
-                                    typeAnimated: true,
-                                    buttons: {
-                                        confirm: function () {
-                                            //$.alert('Confirmed!');
-                                            $("#ddlStatus").val(11);
-                                            values.StatusId = 11;
-                                            $.ajax({
-                                                url: baseUrl + "/Fumigation/Fumigation/EditFumigation",
-                                                type: "POST",
-                                                beforeSend: function () {
-                                                    showLoader();
-                                                     console.log("pickup Drive btnsave: ","FumigationEquipmentNdriver" in values);
-                                                    var deliveryDriver = "";
-                                                    var pickupDriver = "";
-                                                    const ddlstatus = $("#ddlStatus option:selected").text();
-                                                    if (values.FumigationEquipmentNdriver.length > 0 && prevalues.length > 0) {
-                                                        for (let i = 0; i < values.FumigationEquipmentNdriver.length; i++) {
-                                                            if (values.FumigationEquipmentNdriver[i].IsPickUp == false) {
-                                                                if (values.FumigationEquipmentNdriver[i].DriverName != "" && values.FumigationEquipmentNdriver[i].DriverName != "undefined" && values.FumigationEquipmentNdriver[i].DriverName != undefined && values.FumigationEquipmentNdriver[i].DriverName != "Select Driver") {
-                                                                    deliveryDriver = values.FumigationEquipmentNdriver[i].DriverName;
-                                                                    //pickupDriver = values.FumigationEquipmentNdriver[i].DriverName;
-                                                                }
-                                                            }
-                                                        }
 
-                                                         console.log("deliver: ", deliveryDriver);
-                                                        if (deliveryDriver != "") {
-                                                            if (ddlstatus == "DRIVER ASSIGNED") {
-                                                                console.log("sending delivery");
-                                                                SendDeliveryMessage();
-                                                            }
-                                                        }
-                                                        else {
-
-                                                            SendEditMessage();
-                                                        }
-                                                    }
-
-
-                                                },
-                                                data: JSON.stringify(values),
-                                                contentType: "application/json; charset=utf-8",
-                                                dataType: "json",
-
-                                                success: function (response) {
-                                                    isNeedToloaded = false;
-                                                    hideLoader();
-                                                    if (response.IsSuccess) {
-                                                        //toastr.success(response.Message);
-                                                        //setTimeout(function () {
-                                                        //    window.location.href = baseUrl + "/Fumigation/Fumigation/ViewFumigationList";
-                                                        //}, 1000)
-
-                                                        $.alert({
-                                                            title: 'Success!',
-                                                            content: "<b>" + response.Message + "</b>",
-                                                            type: 'green',
-                                                            typeAnimated: true,
-                                                            buttons: {
-                                                                Ok: {
-                                                                    btnClass: 'btn-green',
-                                                                    action: function () {
-                                                                        window.location.href = baseUrl + "/Fumigation/Fumigation/ViewFumigationList";
-                                                                    }
-                                                                },
-                                                            }
-                                                        });
-
-                                                    }
-                                                    else {
-                                                        hideLoader();
-                                                        //toastr.error(response.Message);
-                                                        //AlertPopup(response.Message);
-                                                        AlertPopup("Email Failed...");
-                                                    }
-                                                },
-                                                error: function () {
-                                                    hideLoader();
-                                                    // toastr.error("Something went wrong.");
-                                                    AlertPopup("Something went wrong.");
-
+                            $.ajax({
+                                url: baseUrl + "/Fumigation/Fumigation/EditFumigation",
+                                type: "POST",
+                                beforeSend: function () {
+                                    showLoader();
+                                    // console.log("pickup Drive btnsave: ","FumigationEquipmentNdriver" in values);
+                                    var deliveryDriver = "";
+                                    var pickupDriver = "";
+                                    const ddlstatus = $("#ddlStatus option:selected").text();
+                                    console.log("pickup Drive btnsave: ", "FumigationEquipmentNdriver" in values);
+                                    if (values.FumigationEquipmentNdriver.length > 0 && prevalues.length > 0) {
+                                        for (let i = 0; i < values.FumigationEquipmentNdriver.length; i++) {
+                                            if (values.FumigationEquipmentNdriver[i].IsPickUp == false) {
+                                                if (values.FumigationEquipmentNdriver[i].DriverName != "" && values.FumigationEquipmentNdriver[i].DriverName != "undefined" && values.FumigationEquipmentNdriver[i].DriverName != undefined && values.FumigationEquipmentNdriver[i].DriverName != "Select Driver") {
+                                                    deliveryDriver = values.FumigationEquipmentNdriver[i].DriverName;
+                                                    //pickupDriver = values.FumigationEquipmentNdriver[i].DriverName;
                                                 }
-                                            });
-
-                                        },
-                                        cancel: function () {
-                                           /// $.alert('Canceled!');
-
-                                        },
-
-                                    }
-                                });
-
-                                //DISPATCHED 
-                            }
-                            else {
-                                $.ajax({
-                                    url: baseUrl + "/Fumigation/Fumigation/EditFumigation",
-                                    type: "POST",
-                                    beforeSend: function () {
-                                        showLoader();
-                                        // console.log("pickup Drive btnsave: ","FumigationEquipmentNdriver" in values);
-                                        var deliveryDriver = "";
-                                        var pickupDriver = "";
-                                        const ddlstatus = $("#ddlStatus option:selected").text();
-										console.log("pickup Drive btnsave: ","FumigationEquipmentNdriver" in values);
-                                        if (values.FumigationEquipmentNdriver.length > 0 && prevalues.length > 0) {
-                                            for (let i = 0; i < values.FumigationEquipmentNdriver.length; i++) {
-                                                if (values.FumigationEquipmentNdriver[i].IsPickUp == false) {
-                                                    if (values.FumigationEquipmentNdriver[i].DriverName != "" && values.FumigationEquipmentNdriver[i].DriverName != "undefined" && values.FumigationEquipmentNdriver[i].DriverName != undefined && values.FumigationEquipmentNdriver[i].DriverName != "Select Driver") {
-                                                        deliveryDriver = values.FumigationEquipmentNdriver[i].DriverName;
-                                                        //pickupDriver = values.FumigationEquipmentNdriver[i].DriverName;
-                                                    }
-                                                }
-                                            }
-
-                                             console.log("deliver: ", deliveryDriver);
-                                            if (deliveryDriver != "") {
-                                                if (ddlstatus == "DRIVER ASSIGNED") {
-                                                    console.log("sending delivery");
-                                                    SendDeliveryMessage();
-                                                }
-                                            }
-                                            else {
-
-                                                SendEditMessage();
                                             }
                                         }
 
-
-                                    },
-                                    data: JSON.stringify(values),
-                                    contentType: "application/json; charset=utf-8",
-                                    dataType: "json",
-
-                                    success: function (response) {
-                                        isNeedToloaded = false;
-                                        hideLoader();
-                                        if (response.IsSuccess) {
-                                            //toastr.success(response.Message);
-                                            //setTimeout(function () {
-                                            //    window.location.href = baseUrl + "/Fumigation/Fumigation/ViewFumigationList";
-                                            //}, 1000)
-
-                                            $.alert({
-                                                title: 'Success!',
-                                                content: "<b>" + response.Message + "</b>",
-                                                type: 'green',
-                                                typeAnimated: true,
-                                                buttons: {
-                                                    Ok: {
-                                                        btnClass: 'btn-green',
-                                                        action: function () {
-                                                            window.location.href = baseUrl + "/Fumigation/Fumigation/ViewFumigationList";
-                                                        }
-                                                    },
-                                                }
-                                            });
-
+                                        console.log("deliver: ", deliveryDriver);
+                                        if (deliveryDriver != "") {
+                                            if (ddlstatus == "DRIVER ASSIGNED") {
+                                                console.log("sending delivery");
+                                                SendDeliveryMessage();
+                                            }
                                         }
                                         else {
-                                            hideLoader();
-                                            //toastr.error(response.Message);
-                                            //AlertPopup(response.Message);
-                                            AlertPopup("Email Failed...");
+
+                                            SendEditMessage();
                                         }
-                                    },
-                                    error: function () {
-                                        hideLoader();
-                                        // toastr.error("Something went wrong.");
-                                        AlertPopup("Something went wrong.");
+                                    }
+
+
+                                },
+                                data: JSON.stringify(values),
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+
+                                success: function (response) {
+                                    isNeedToloaded = false;
+                                    hideLoader();
+                                    if (response.IsSuccess) {
+                                        //toastr.success(response.Message);
+                                        //setTimeout(function () {
+                                        //    window.location.href = baseUrl + "/Fumigation/Fumigation/ViewFumigationList";
+                                        //}, 1000)
+
+                                        $.alert({
+                                            title: 'Success!',
+                                            content: "<b>" + response.Message + "</b>",
+                                            type: 'green',
+                                            typeAnimated: true,
+                                            buttons: {
+                                                Ok: {
+                                                    btnClass: 'btn-green',
+                                                    action: function () {
+                                                        window.location.href = baseUrl + "/Fumigation/Fumigation/ViewFumigationList";
+                                                    }
+                                                },
+                                            }
+                                        });
 
                                     }
-                                });
-                            }
+                                    else {
+                                        hideLoader();
+                                        //toastr.error(response.Message);
+                                        //AlertPopup(response.Message);
+                                        AlertPopup("Email Failed...");
+                                    }
+                                },
+                                error: function () {
+                                    hideLoader();
+                                    // toastr.error("Something went wrong.");
+                                    AlertPopup("Something went wrong.");
+
+                                }
+                            });
+
 
                         }
 
@@ -4112,12 +4423,95 @@ var convertActualTemp = function () {
         }
     })
 }
+var copyData;
+var filesArray = [];
+window.onload = function() {
+    document.getElementById("fileBasket").
+        addEventListener("paste", handlePaste);
+};
+ document.onpaste = function(event) {
+	var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+	var fileNames = "";
+    console.log('items new : ', items);
+    console.log('items new : ', items.length);
+
+      for (var i = 0; i < items.length; i++) {
+      console.log('item', items[i]);	
+      var item = items[i];
+      if (item.kind === 'file') {
+        var blob = item.getAsFile();
+		fileNames += blob.name + "<br />";
+		var dataTransfer = new DataTransfer();
+			// Loop through the files array and add files to the DataTransfer object
+			//filesArray.forEach(function(file) {
+			  dataTransfer.items.add(blob);
+			  filesArray.push(blob);
+			copyData = filesArray;
+			 
+			console.log("copyData after file upload: ",copyData);
+		console.log("blob: ",blob);
+	  }
+	  }
+	  $("#fileBasket").html(fileNames);
+} 
+function handlePaste(e) {
+	console.log("clipboard itmes: ",e.clipboardData.files);
+	 
+    for (var i = 0 ; i < e.clipboardData.items.length ; i++) {
+        var item = e.clipboardData.items[i];
+        console.log("Item type: " + item.type);
+        console.log("Item : " , item);
+		//$("#fileBasket").html(fileNames)
+        if (item.type.indexOf("image") != -1) {
+            uploadFile(item.getAsFile());
+			
+			var tempData = item.getAsFile();
+			
+        } else {
+            console.log("Discarding non-image paste data");
+        }
+    }
+	//copyData = filesArray;
+}
+function uploadFile(file) {
+    var xhr = new XMLHttpRequest();
+
+    xhr.upload.onprogress = function(e) {
+        var percentComplete = (e.loaded / e.total) * 100;
+        console.log("Uploaded: " + percentComplete + "%");
+        console.log("Uploaded file: ",file);
+			var dataTransfer = new DataTransfer();
+			// Loop through the files array and add files to the DataTransfer object
+			//filesArray.forEach(function(file) {
+			  dataTransfer.items.add(file);
+			  filesArray.push(file);
+			copyData = filesArray;
+			
+			console.log("copyData after file upload: ",copyData);
+		 $("#fileBasket").html(file.name);
+    };
+
+    xhr.onload = function() {
+        if (xhr.status == 200) {
+            alert("Sucess! Upload completed");
+        } else {
+            alert("Error! Upload failed");
+        }
+    };
+
+    xhr.onerror = function() {
+        alert("Error! Upload failed. Can not connect to server.");
+    };
+
+    xhr.open("POST", "FileUploader", true);
+    xhr.setRequestHeader("Content-Type", file.type);
+    xhr.send(file);
+}
 var tempData;
 var filesUpload;
 $(document).ready(function () {
 
 
-    //$("#progress").hide();
 
 
     $("#fileBasket").on("dragenter", function (evt) {
@@ -4182,12 +4576,17 @@ var btnProofOfTemp = function () {
                 var dtActFinish = $("#dtActLoadingFinish").val();
                 var dtActFumIn = $("#dtActFumIn").val();
                 var deliveryTemp = $("#txtDeliveryTemp").val();
+				console.log("copyData: ",copyData);
+				
+				
                 var tempupload = filesUpload;
-                console.log("tempUpload: ", tempupload);
+                if(tempupload==undefined){
+					tempupload = copyData;
+				}
                 console.log("dtPickup: ", dtPickup);
                 console.log("dtActPickup: ", dtActPickup);
                 console.log("dtActStart: ", dtActStart);
-
+				console.log("tempUpload: ", tempupload);
                 var isValid = true;
                 var message = "";
                 if ((actualTemp == "")) {

@@ -1,21 +1,11 @@
-10/25/2023 7:30:42 PM ==> Success in Fumigation: True
-10/25/2023 7:30:43 PM ==> For loop in imgFiles: System.String[]
-10/25/2023 7:30:43 PM ==> For loop in ext: png
-10/25/2023 7:30:43 PM ==> For loop in path: http://localhost:5225/Images/ProofFiles/Temperature/proof_of_Temp_1_2023-10-25-07-30-42.png
-10/25/2023 7:30:43 PM ==> For loop in bytes: System.Byte[]
-10/25/2023 7:30:43 PM ==> fileAttach : System.Collections.Generic.Dictionary`2[System.Byte[],System.String]
-10/25/2023 7:30:43 PM ==> fileAttach : System.Collections.Generic.Dictionary`2[System.Byte[],System.String]
-10/25/2023 7:30:43 PM ==> Smtp sent: Sent: LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | 222-2222-2222 | ACCEPTABLE TEMPERATURE : "noreply@larastrucking.com" <noreply@larastrucking.com> : "noreply@larastrucking.com" <noreply@larastrucking.com> : INTERFACEADMIN@DARTINNOVATIONS.NET,KKARTHICK@DARTINNOVATIONS.NET,VIGNESHS@DARTINNOVATIONS.NET,GANESH@DARTINNOVATIONS.COM,KARTHIK@DARTINNOVATIONS.COM,DART.KARTHIK@GMAIL.COM,DART.GANESH@GMAIL.COM : taskeradmin@dartinnovations.net : noreply@larastrucking.com : Lumia$92o! : mail.dartinnovations.net : 587
-10/25/2023 7:30:43 PM ==> Mail Response : Sent: LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | 222-2222-2222 | ACCEPTABLE TEMPERATURE : "noreply@larastrucking.com" <noreply@larastrucking.com> : "noreply@larastrucking.com" <noreply@larastrucking.com> : INTERFACEADMIN@DARTINNOVATIONS.NET,KKARTHICK@DARTINNOVATIONS.NET,VIGNESHS@DARTINNOVATIONS.NET,GANESH@DARTINNOVATIONS.COM,KARTHIK@DARTINNOVATIONS.COM,DART.KARTHIK@GMAIL.COM,DART.GANESH@GMAIL.COM : taskeradmin@dartinnovations.net : noreply@larastrucking.com : Lumia$92o! : mail.dartinnovations.net : 587
-10/25/2023 7:30:43 PM ==> isEmail Success: 753Img URL: Images/ProofFiles/Temperature\proof_of_Temp_1_2023-10-25-07-30-42.png
-10/25/2023 8:40:25 PM ==> Success in Fumigation: True
-10/25/2023 8:40:26 PM ==> For loop in imgFiles: System.String[]
-10/25/2023 8:40:26 PM ==> For loop in ext: png
-10/25/2023 8:40:26 PM ==> For loop in path: http://localhost:5225/Images/ProofFiles/Temperature/proof_of_Temp_1_2023-10-25-08-40-25.png
-10/25/2023 8:40:26 PM ==> For loop in bytes: System.Byte[]
-10/25/2023 8:40:26 PM ==> fileAttach : System.Collections.Generic.Dictionary`2[System.Byte[],System.String]
-10/25/2023 8:40:26 PM ==> fileAttach : System.Collections.Generic.Dictionary`2[System.Byte[],System.String]
-10/25/2023 8:40:26 PM ==> mailData.MailBody : 
+10/25/2023 2:38:50 PM ==> Success in Fumigation: True
+10/25/2023 2:38:51 PM ==> For loop in imgFiles: System.String[]
+10/25/2023 2:38:51 PM ==> For loop in ext: png
+10/25/2023 2:38:51 PM ==> For loop in path: https://appdev.larastrucking.com/Images/ProofFiles/Temperature/proof_of_Temp_1_2023-10-25-02-38-50.png
+10/25/2023 2:38:51 PM ==> For loop in bytes: System.Byte[]
+10/25/2023 2:38:51 PM ==> fileAttach : System.Collections.Generic.Dictionary`2[System.Byte[],System.String]
+10/25/2023 2:38:51 PM ==> fileAttach : System.Collections.Generic.Dictionary`2[System.Byte[],System.String]
+10/25/2023 2:38:51 PM ==> mailData.MailBody : 
 
 
 <!DOCTYPE html>
@@ -65,7 +55,7 @@
                         </td>
                         <td style="width:40%;vertical-align:top;padding-top:10px;">
                             <table style="width:100%;text-align:right;">
-                                <tr><td> <img src="http://localhost:5225/Images/Laraslogo.png" style="width:260px; height:80px" /></td></tr>
+                                <tr><td> <img src="https://appdev.larastrucking.com/Images/Laraslogo.png" style="width:260px; height:80px" /></td></tr>
 
                                 <tr><td style="font-size:25px;color:#375b93;text-align:right;padding-right:10px;">Fumigation Temperature</td></tr>
 
@@ -79,7 +69,7 @@
         <tr>
             <td style="text-align: center;display: flex;justify-content: center;align-items: center">
 
-                <img style="margin-bottom:0px;" src="http://localhost:5225/Images/temploading.jpg" />
+                <img style="margin-bottom:0px;" src="https://appdev.larastrucking.com/Images/temploading.jpg" />
                 
             </td>
         </tr>
@@ -103,7 +93,7 @@
 
                                     </td>
 
-                                    <td style="float:right;width:60%;text-align:right;"> AWB # 222-2222-2222</td>
+                                    <td style="float:right;width:60%;text-align:right;"> AWB # 111-1111-1111</td>
 
                                 </tr>
 
@@ -123,7 +113,7 @@
 
                                 <td colspan="2" style="background: #375b93; padding-top: 4px; padding-bottom: 4px; color: #fff; text-align: left;">
 
-                                    <label style="display: block;width: 100%;"><span style="padding-top: 5px;">&nbsp;&nbsp;Temperature Report:  IMMEDIATE ATTENTION HIGH TEMPERATURE | 50 F </span></label>
+                                    <label style="display: block;width: 100%;"><span style="padding-top: 5px;">&nbsp;&nbsp;Temperature Report:  IMMEDIATE ATTENTION EXTREMELY HIGH TEMPERATURE | 55 F </span></label>
                                 </td>
 
 
@@ -151,7 +141,7 @@
 
                                                             <tr>
                                                                 <td><b>Pickup Arrival</b></td>
-                                                                <td>Monday | October 02, 2023 10/2/2023 4:30:00 PM</td>
+                                                                <td>Friday | November 03, 2023 11/3/2023 1:30:00 PM</td>
                                                             </tr>
                                                             
 
@@ -195,6 +185,956 @@
 
 
 
-10/25/2023 8:40:26 PM ==> Smtp sent: Sent: LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | 222-2222-2222 | IMMEDIATE ATTENTION HIGH TEMPERATURE : "noreply@larastrucking.com" <noreply@larastrucking.com> : "noreply@larastrucking.com" <noreply@larastrucking.com> : INTERFACEADMIN@DARTINNOVATIONS.NET,KKARTHICK@DARTINNOVATIONS.NET,VIGNESHS@DARTINNOVATIONS.NET,GANESH@DARTINNOVATIONS.COM,KARTHIK@DARTINNOVATIONS.COM,DART.KARTHIK@GMAIL.COM,DART.GANESH@GMAIL.COM : taskeradmin@dartinnovations.net : noreply@larastrucking.com : Lumia$92o! : mail.dartinnovations.net : 587
-10/25/2023 8:40:26 PM ==> Mail Response : Sent: LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | 222-2222-2222 | IMMEDIATE ATTENTION HIGH TEMPERATURE : "noreply@larastrucking.com" <noreply@larastrucking.com> : "noreply@larastrucking.com" <noreply@larastrucking.com> : INTERFACEADMIN@DARTINNOVATIONS.NET,KKARTHICK@DARTINNOVATIONS.NET,VIGNESHS@DARTINNOVATIONS.NET,GANESH@DARTINNOVATIONS.COM,KARTHIK@DARTINNOVATIONS.COM,DART.KARTHIK@GMAIL.COM,DART.GANESH@GMAIL.COM : taskeradmin@dartinnovations.net : noreply@larastrucking.com : Lumia$92o! : mail.dartinnovations.net : 587
-10/25/2023 8:40:26 PM ==> isEmail Success: 754Img URL: Images/ProofFiles/Temperature\proof_of_Temp_1_2023-10-25-08-40-25.png
+10/25/2023 2:38:51 PM ==> Smtp sent: Sent: LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | 111-1111-1111 | IMMEDIATE ATTENTION EXTREMELY HIGH TEMPERATURE : "noreply@larastrucking.com" <noreply@larastrucking.com> : "noreply@larastrucking.com" <noreply@larastrucking.com> : INTERFACEADMIN@DARTINNOVATIONS.NET,KKARTHICK@DARTINNOVATIONS.NET,VIGNESHS@DARTINNOVATIONS.NET,GANESH@DARTINNOVATIONS.COM,KARTHIK@DARTINNOVATIONS.COM,DART.KARTHIK@GMAIL.COM,DART.GANESH@GMAIL.COM : taskeradmin@dartinnovations.net : noreply@larastrucking.com : Lumia$92o! : mail.dartinnovations.net : 587
+10/25/2023 2:38:51 PM ==> Mail Response : Sent: LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | 111-1111-1111 | IMMEDIATE ATTENTION EXTREMELY HIGH TEMPERATURE : "noreply@larastrucking.com" <noreply@larastrucking.com> : "noreply@larastrucking.com" <noreply@larastrucking.com> : INTERFACEADMIN@DARTINNOVATIONS.NET,KKARTHICK@DARTINNOVATIONS.NET,VIGNESHS@DARTINNOVATIONS.NET,GANESH@DARTINNOVATIONS.COM,KARTHIK@DARTINNOVATIONS.COM,DART.KARTHIK@GMAIL.COM,DART.GANESH@GMAIL.COM : taskeradmin@dartinnovations.net : noreply@larastrucking.com : Lumia$92o! : mail.dartinnovations.net : 587
+10/25/2023 2:38:51 PM ==> isEmail Success: 1736Img URL: Images/ProofFiles/Temperature\proof_of_Temp_1_2023-10-25-02-38-50.png
+10/25/2023 2:40:49 PM ==> Success in Fumigation: True
+10/25/2023 2:40:50 PM ==> For loop in imgFiles: System.String[]
+10/25/2023 2:40:50 PM ==> For loop in ext: png
+10/25/2023 2:40:50 PM ==> For loop in path: https://appdev.larastrucking.com/Images/ProofFiles/Temperature/proof_of_Temp_1_2023-10-25-02-40-49.png
+10/25/2023 2:40:50 PM ==> For loop in bytes: System.Byte[]
+10/25/2023 2:40:50 PM ==> fileAttach : System.Collections.Generic.Dictionary`2[System.Byte[],System.String]
+10/25/2023 2:40:50 PM ==> fileAttach : System.Collections.Generic.Dictionary`2[System.Byte[],System.String]
+10/25/2023 2:40:50 PM ==> mailData.MailBody : 
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            font-family: calibri;
+        }
+
+        .setPadding td, .setPadding th {
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- aks remove -->
+    <table style="width:100%;">
+        
+        <tr>
+            <td>
+                <div style="padding-left:25px;margin-bottom:25px;">
+                    <p style="font-size: 16px;font-family: calibri;">Dear Customer,</p>
+
+                    <p style="font-size: 16px;font-family: calibri;"> Please see temperature & loading time report, kindly reply back acknowledgement and/or further instructions. Should not hear from you in the next 30 minutes, our driver will continue the loading process under no liability.</p>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:60%;vertical-align:top;padding-top:10px;">
+                            <table style="width:100%">
+                                <tr><td><h2 style="margin:0px;">Lara's Trucking & Logistics</h2></td></tr>
+                                <tr><td style="color:#a4a6b9;">dispatch@larastrucking.com</td></tr>
+                                <tr><td style="color:#a4a6b9;">https://larastrucking.com</td></tr>
+                            </table>
+
+
+                        </td>
+                        <td style="width:40%;vertical-align:top;padding-top:10px;">
+                            <table style="width:100%;text-align:right;">
+                                <tr><td> <img src="https://appdev.larastrucking.com/Images/Laraslogo.png" style="width:260px; height:80px" /></td></tr>
+
+                                <tr><td style="font-size:25px;color:#375b93;text-align:right;padding-right:10px;">Fumigation Temperature</td></tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td style="text-align: center;display: flex;justify-content: center;align-items: center">
+
+                <img style="margin-bottom:0px;" src="https://appdev.larastrucking.com/Images/temploading.jpg" />
+                
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <table style="width: 100%;">
+
+                    <tr>
+                        <td style="width: 100%;">
+                            <table style="font-weight:bold; width: 100%; color:#375b93">
+                                <tr style="font-size:16px;">
+                                    <td>
+                                        Estimated Pickup
+
+                                    </td>
+                                </tr>
+                                <tr style="font-size:18px;text-transform: uppercase;">
+                                    <td style="width:40%;">
+                                        
+
+                                    </td>
+
+                                    <td style="float:right;width:60%;text-align:right;"> AWB # 111-1111-1111</td>
+
+                                </tr>
+
+                            </table>
+                        </td>
+
+                        
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid; padding: 10px; text-align: center;">
+                <table style="width:100%;font-size:14px;">
+                    <tr>
+                       
+
+                                <td colspan="2" style="background: #375b93; padding-top: 4px; padding-bottom: 4px; color: #fff; text-align: left;">
+
+                                    <label style="display: block;width: 100%;"><span style="padding-top: 5px;">&nbsp;&nbsp;Temperature Report:  IMMEDIATE ATTENTION EXTREMELY HIGH TEMPERATURE | 56 F </span></label>
+                                </td>
+
+
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr><td style="height:10px;"></td></tr>
+        <tr>
+            <td style="border:1px solid;padding:10px;">
+                <table style="width:100%;font-size:14px;">
+                    <tr>
+                        <td colspan="2" style="background: #375b93;padding-top:4px; padding-bottom:4px; color: #fff;">
+         
+
+                            <label style="display: block;width: 100%;"><span>&nbsp;&nbsp;Shipment Detail</span></label>
+                        </td>
+                    </tr>
+                    
+
+                    <tr>
+                        <td>
+                                                        <table>
+
+                                                            <tr>
+                                                                <td><b>Pickup Arrival</b></td>
+                                                                <td>Friday | November 03, 2023 11/3/2023 7:00:00 PM</td>
+                                                            </tr>
+                                                            
+
+
+
+
+
+
+                                                                    
+                                                                    
+
+
+                                                                </table>
+
+
+                        </td>
+
+
+
+
+                    </tr>
+
+                </table>
+
+            </td>
+
+        </tr>
+        <tr><td style="height:10px;"></td></tr>
+
+
+
+
+
+
+    </table>
+
+</body>
+
+</html>
+
+
+
+
+10/25/2023 2:40:50 PM ==> Smtp sent: Sent: LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | 111-1111-1111 | IMMEDIATE ATTENTION EXTREMELY HIGH TEMPERATURE : "noreply@larastrucking.com" <noreply@larastrucking.com> : "noreply@larastrucking.com" <noreply@larastrucking.com> : INTERFACEADMIN@DARTINNOVATIONS.NET,KKARTHICK@DARTINNOVATIONS.NET,VIGNESHS@DARTINNOVATIONS.NET,GANESH@DARTINNOVATIONS.COM,KARTHIK@DARTINNOVATIONS.COM,DART.KARTHIK@GMAIL.COM,DART.GANESH@GMAIL.COM : taskeradmin@dartinnovations.net : noreply@larastrucking.com : Lumia$92o! : mail.dartinnovations.net : 25
+10/25/2023 2:40:50 PM ==> Mail Response : Sent: LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | 111-1111-1111 | IMMEDIATE ATTENTION EXTREMELY HIGH TEMPERATURE : "noreply@larastrucking.com" <noreply@larastrucking.com> : "noreply@larastrucking.com" <noreply@larastrucking.com> : INTERFACEADMIN@DARTINNOVATIONS.NET,KKARTHICK@DARTINNOVATIONS.NET,VIGNESHS@DARTINNOVATIONS.NET,GANESH@DARTINNOVATIONS.COM,KARTHIK@DARTINNOVATIONS.COM,DART.KARTHIK@GMAIL.COM,DART.GANESH@GMAIL.COM : taskeradmin@dartinnovations.net : noreply@larastrucking.com : Lumia$92o! : mail.dartinnovations.net : 25
+10/25/2023 2:40:50 PM ==> isEmail Success: 1737Img URL: Images/ProofFiles/Temperature\proof_of_Temp_1_2023-10-25-02-40-49.png
+10/25/2023 2:43:52 PM ==> Success in Fumigation: True
+10/25/2023 2:43:53 PM ==> For loop in imgFiles: System.String[]
+10/25/2023 2:43:53 PM ==> For loop in ext: png
+10/25/2023 2:43:53 PM ==> For loop in path: https://appdev.larastrucking.com/Images/ProofFiles/Temperature/proof_of_Temp_1_2023-10-25-02-43-52.png
+10/25/2023 2:43:53 PM ==> For loop in bytes: System.Byte[]
+10/25/2023 2:43:53 PM ==> fileAttach : System.Collections.Generic.Dictionary`2[System.Byte[],System.String]
+10/25/2023 2:43:53 PM ==> fileAttach : System.Collections.Generic.Dictionary`2[System.Byte[],System.String]
+10/25/2023 2:43:53 PM ==> mailData.MailBody : 
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            font-family: calibri;
+        }
+
+        .setPadding td, .setPadding th {
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- aks remove -->
+    <table style="width:100%;">
+        
+        <tr>
+            <td>
+                <div style="padding-left:25px;margin-bottom:25px;">
+                    <p style="font-size: 16px;font-family: calibri;">Dear Customer,</p>
+
+                    <p style="font-size: 16px;font-family: calibri;"> Please see temperature & loading time report, kindly reply back acknowledgement and/or further instructions. Should not hear from you in the next 30 minutes, our driver will continue the loading process under no liability.</p>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:60%;vertical-align:top;padding-top:10px;">
+                            <table style="width:100%">
+                                <tr><td><h2 style="margin:0px;">Lara's Trucking & Logistics</h2></td></tr>
+                                <tr><td style="color:#a4a6b9;">dispatch@larastrucking.com</td></tr>
+                                <tr><td style="color:#a4a6b9;">https://larastrucking.com</td></tr>
+                            </table>
+
+
+                        </td>
+                        <td style="width:40%;vertical-align:top;padding-top:10px;">
+                            <table style="width:100%;text-align:right;">
+                                <tr><td> <img src="https://appdev.larastrucking.com/Images/Laraslogo.png" style="width:260px; height:80px" /></td></tr>
+
+                                <tr><td style="font-size:25px;color:#375b93;text-align:right;padding-right:10px;">Fumigation Temperature</td></tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td style="text-align: center;display: flex;justify-content: center;align-items: center">
+
+                <img style="margin-bottom:0px;" src="https://appdev.larastrucking.com/Images/temploading.jpg" />
+                
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <table style="width: 100%;">
+
+                    <tr>
+                        <td style="width: 100%;">
+                            <table style="font-weight:bold; width: 100%; color:#375b93">
+                                <tr style="font-size:16px;">
+                                    <td>
+                                        Estimated Pickup
+
+                                    </td>
+                                </tr>
+                                <tr style="font-size:18px;text-transform: uppercase;">
+                                    <td style="width:40%;">
+                                        
+
+                                    </td>
+
+                                    <td style="float:right;width:60%;text-align:right;"> AWB # 111-1111-1111</td>
+
+                                </tr>
+
+                            </table>
+                        </td>
+
+                        
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid; padding: 10px; text-align: center;">
+                <table style="width:100%;font-size:14px;">
+                    <tr>
+                       
+
+                                <td colspan="2" style="background: #375b93; padding-top: 4px; padding-bottom: 4px; color: #fff; text-align: left;">
+
+                                    <label style="display: block;width: 100%;"><span style="padding-top: 5px;">&nbsp;&nbsp;Temperature Report:  ACCEPTABLE TEMPERATURE | 22 F </span></label>
+                                </td>
+
+
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr><td style="height:10px;"></td></tr>
+        <tr>
+            <td style="border:1px solid;padding:10px;">
+                <table style="width:100%;font-size:14px;">
+                    <tr>
+                        <td colspan="2" style="background: #375b93;padding-top:4px; padding-bottom:4px; color: #fff;">
+         
+
+                            <label style="display: block;width: 100%;"><span>&nbsp;&nbsp;Shipment Detail</span></label>
+                        </td>
+                    </tr>
+                    
+
+                    <tr>
+                        <td>
+                                                        <table>
+
+                                                            <tr>
+                                                                <td><b>Pickup Arrival</b></td>
+                                                                <td>Saturday | November 04, 2023 11/4/2023 12:30:00 AM</td>
+                                                            </tr>
+                                                            
+
+
+
+
+
+
+                                                                    
+                                                                    
+
+
+                                                                </table>
+
+
+                        </td>
+
+
+
+
+                    </tr>
+
+                </table>
+
+            </td>
+
+        </tr>
+        <tr><td style="height:10px;"></td></tr>
+
+
+
+
+
+
+    </table>
+
+</body>
+
+</html>
+
+
+
+
+10/25/2023 2:43:53 PM ==> Smtp sent: Sent: LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | 111-1111-1111 | ACCEPTABLE TEMPERATURE : "noreply@larastrucking.com" <noreply@larastrucking.com> : "noreply@larastrucking.com" <noreply@larastrucking.com> : INTERFACEADMIN@DARTINNOVATIONS.NET,KKARTHICK@DARTINNOVATIONS.NET,VIGNESHS@DARTINNOVATIONS.NET,GANESH@DARTINNOVATIONS.COM,KARTHIK@DARTINNOVATIONS.COM,DART.KARTHIK@GMAIL.COM,DART.GANESH@GMAIL.COM : dwilson@dartinnovations.org : noreply@larastrucking.com : Lumia920$ : smtp.office365.com : 587
+10/25/2023 2:43:53 PM ==> Mail Response : Sent: LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | 111-1111-1111 | ACCEPTABLE TEMPERATURE : "noreply@larastrucking.com" <noreply@larastrucking.com> : "noreply@larastrucking.com" <noreply@larastrucking.com> : INTERFACEADMIN@DARTINNOVATIONS.NET,KKARTHICK@DARTINNOVATIONS.NET,VIGNESHS@DARTINNOVATIONS.NET,GANESH@DARTINNOVATIONS.COM,KARTHIK@DARTINNOVATIONS.COM,DART.KARTHIK@GMAIL.COM,DART.GANESH@GMAIL.COM : dwilson@dartinnovations.org : noreply@larastrucking.com : Lumia920$ : smtp.office365.com : 587
+10/25/2023 2:43:53 PM ==> isEmail Success: 1738Img URL: Images/ProofFiles/Temperature\proof_of_Temp_1_2023-10-25-02-43-52.png
+10/25/2023 2:46:55 PM ==> Success in Fumigation: True
+10/25/2023 2:46:56 PM ==> For loop in imgFiles: System.String[]
+10/25/2023 2:46:56 PM ==> For loop in ext: png
+10/25/2023 2:46:56 PM ==> For loop in path: https://appdev.larastrucking.com/Images/ProofFiles/Temperature/proof_of_Temp_1_2023-10-25-02-46-55.png
+10/25/2023 2:46:56 PM ==> For loop in bytes: System.Byte[]
+10/25/2023 2:46:56 PM ==> fileAttach : System.Collections.Generic.Dictionary`2[System.Byte[],System.String]
+10/25/2023 2:46:56 PM ==> fileAttach : System.Collections.Generic.Dictionary`2[System.Byte[],System.String]
+10/25/2023 2:46:56 PM ==> mailData.MailBody : 
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            font-family: calibri;
+        }
+
+        .setPadding td, .setPadding th {
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- aks remove -->
+    <table style="width:100%;">
+        
+        <tr>
+            <td>
+                <div style="padding-left:25px;margin-bottom:25px;">
+                    <p style="font-size: 16px;font-family: calibri;">Dear Customer,</p>
+
+                    <p style="font-size: 16px;font-family: calibri;"> Please see temperature & loading time report, kindly reply back acknowledgement and/or further instructions. Should not hear from you in the next 30 minutes, our driver will continue the loading process under no liability.</p>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:60%;vertical-align:top;padding-top:10px;">
+                            <table style="width:100%">
+                                <tr><td><h2 style="margin:0px;">Lara's Trucking & Logistics</h2></td></tr>
+                                <tr><td style="color:#a4a6b9;">dispatch@larastrucking.com</td></tr>
+                                <tr><td style="color:#a4a6b9;">https://larastrucking.com</td></tr>
+                            </table>
+
+
+                        </td>
+                        <td style="width:40%;vertical-align:top;padding-top:10px;">
+                            <table style="width:100%;text-align:right;">
+                                <tr><td> <img src="https://appdev.larastrucking.com/Images/Laraslogo.png" style="width:260px; height:80px" /></td></tr>
+
+                                <tr><td style="font-size:25px;color:#375b93;text-align:right;padding-right:10px;">Fumigation Temperature</td></tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td style="text-align: center;display: flex;justify-content: center;align-items: center">
+
+                <img style="margin-bottom:0px;" src="https://appdev.larastrucking.com/Images/temploading.jpg" />
+                
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <table style="width: 100%;">
+
+                    <tr>
+                        <td style="width: 100%;">
+                            <table style="font-weight:bold; width: 100%; color:#375b93">
+                                <tr style="font-size:16px;">
+                                    <td>
+                                        Estimated Pickup
+
+                                    </td>
+                                </tr>
+                                <tr style="font-size:18px;text-transform: uppercase;">
+                                    <td style="width:40%;">
+                                        
+
+                                    </td>
+
+                                    <td style="float:right;width:60%;text-align:right;"> AWB # 111-1111-1111</td>
+
+                                </tr>
+
+                            </table>
+                        </td>
+
+                        
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid; padding: 10px; text-align: center;">
+                <table style="width:100%;font-size:14px;">
+                    <tr>
+                       
+
+                                <td colspan="2" style="background: #375b93; padding-top: 4px; padding-bottom: 4px; color: #fff; text-align: left;">
+
+                                    <label style="display: block;width: 100%;"><span style="padding-top: 5px;">&nbsp;&nbsp;Temperature Report:  ACCEPTABLE TEMPERATURE | 40 F </span></label>
+                                </td>
+
+
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr><td style="height:10px;"></td></tr>
+        <tr>
+            <td style="border:1px solid;padding:10px;">
+                <table style="width:100%;font-size:14px;">
+                    <tr>
+                        <td colspan="2" style="background: #375b93;padding-top:4px; padding-bottom:4px; color: #fff;">
+         
+
+                            <label style="display: block;width: 100%;"><span>&nbsp;&nbsp;Shipment Detail</span></label>
+                        </td>
+                    </tr>
+                    
+
+                    <tr>
+                        <td>
+                                                        <table>
+
+                                                            <tr>
+                                                                <td><b>Pickup Arrival</b></td>
+                                                                <td>Saturday | November 04, 2023 11/4/2023 6:00:00 AM</td>
+                                                            </tr>
+                                                            
+
+
+
+
+
+
+                                                                    
+                                                                    
+
+
+                                                                </table>
+
+
+                        </td>
+
+
+
+
+                    </tr>
+
+                </table>
+
+            </td>
+
+        </tr>
+        <tr><td style="height:10px;"></td></tr>
+
+
+
+
+
+
+    </table>
+
+</body>
+
+</html>
+
+
+
+
+10/25/2023 2:46:56 PM ==> Smtp sent: Sent: LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | 111-1111-1111 | ACCEPTABLE TEMPERATURE : "noreply@larastrucking.com" <noreply@larastrucking.com> : "noreply@larastrucking.com" <noreply@larastrucking.com> : INTERFACEADMIN@DARTINNOVATIONS.NET,KKARTHICK@DARTINNOVATIONS.NET,VIGNESHS@DARTINNOVATIONS.NET,GANESH@DARTINNOVATIONS.COM,KARTHIK@DARTINNOVATIONS.COM,DART.KARTHIK@GMAIL.COM,DART.GANESH@GMAIL.COM : dwilson@dartinnovations.org : noreply@larastrucking.com : Lumia$920 : smtp.office365.com : 587
+10/25/2023 2:46:56 PM ==> Mail Response : Sent: LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | 111-1111-1111 | ACCEPTABLE TEMPERATURE : "noreply@larastrucking.com" <noreply@larastrucking.com> : "noreply@larastrucking.com" <noreply@larastrucking.com> : INTERFACEADMIN@DARTINNOVATIONS.NET,KKARTHICK@DARTINNOVATIONS.NET,VIGNESHS@DARTINNOVATIONS.NET,GANESH@DARTINNOVATIONS.COM,KARTHIK@DARTINNOVATIONS.COM,DART.KARTHIK@GMAIL.COM,DART.GANESH@GMAIL.COM : dwilson@dartinnovations.org : noreply@larastrucking.com : Lumia$920 : smtp.office365.com : 587
+10/25/2023 2:46:56 PM ==> isEmail Success: 1739Img URL: Images/ProofFiles/Temperature\proof_of_Temp_1_2023-10-25-02-46-55.png
+10/25/2023 2:58:04 PM ==> Success in Fumigation: True
+10/25/2023 2:58:05 PM ==> For loop in imgFiles: System.String[]
+10/25/2023 2:58:05 PM ==> For loop in ext: png
+10/25/2023 2:58:05 PM ==> For loop in path: https://appdev.larastrucking.com/Images/ProofFiles/Temperature/proof_of_Temp_1_2023-10-25-02-58-04.png
+10/25/2023 2:58:05 PM ==> For loop in bytes: System.Byte[]
+10/25/2023 2:58:05 PM ==> fileAttach : System.Collections.Generic.Dictionary`2[System.Byte[],System.String]
+10/25/2023 2:58:05 PM ==> fileAttach : System.Collections.Generic.Dictionary`2[System.Byte[],System.String]
+10/25/2023 2:58:05 PM ==> mailData.MailBody : 
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            font-family: calibri;
+        }
+
+        .setPadding td, .setPadding th {
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- aks remove -->
+    <table style="width:100%;">
+        
+        <tr>
+            <td>
+                <div style="padding-left:25px;margin-bottom:25px;">
+                    <p style="font-size: 16px;font-family: calibri;">Dear Customer,</p>
+
+                    <p style="font-size: 16px;font-family: calibri;"> Please see temperature & loading time report, kindly reply back acknowledgement and/or further instructions. Should not hear from you in the next 30 minutes, our driver will continue the loading process under no liability.</p>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:60%;vertical-align:top;padding-top:10px;">
+                            <table style="width:100%">
+                                <tr><td><h2 style="margin:0px;">Lara's Trucking & Logistics</h2></td></tr>
+                                <tr><td style="color:#a4a6b9;">dispatch@larastrucking.com</td></tr>
+                                <tr><td style="color:#a4a6b9;">https://larastrucking.com</td></tr>
+                            </table>
+
+
+                        </td>
+                        <td style="width:40%;vertical-align:top;padding-top:10px;">
+                            <table style="width:100%;text-align:right;">
+                                <tr><td> <img src="https://appdev.larastrucking.com/Images/Laraslogo.png" style="width:260px; height:80px" /></td></tr>
+
+                                <tr><td style="font-size:25px;color:#375b93;text-align:right;padding-right:10px;">Fumigation Temperature</td></tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td style="text-align: center;display: flex;justify-content: center;align-items: center">
+
+                <img style="margin-bottom:0px;" src="https://appdev.larastrucking.com/Images/temploading.jpg" />
+                
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <table style="width: 100%;">
+
+                    <tr>
+                        <td style="width: 100%;">
+                            <table style="font-weight:bold; width: 100%; color:#375b93">
+                                <tr style="font-size:16px;">
+                                    <td>
+                                        Estimated Pickup
+
+                                    </td>
+                                </tr>
+                                <tr style="font-size:18px;text-transform: uppercase;">
+                                    <td style="width:40%;">
+                                        
+
+                                    </td>
+
+                                    <td style="float:right;width:60%;text-align:right;"> AWB # 111-1111-1111</td>
+
+                                </tr>
+
+                            </table>
+                        </td>
+
+                        
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid; padding: 10px; text-align: center;">
+                <table style="width:100%;font-size:14px;">
+                    <tr>
+                       
+
+                                <td colspan="2" style="background: #375b93; padding-top: 4px; padding-bottom: 4px; color: #fff; text-align: left;">
+
+                                    <label style="display: block;width: 100%;"><span style="padding-top: 5px;">&nbsp;&nbsp;Temperature Report:  IMMEDIATE ATTENTION EXTREMELY HIGH TEMPERATURE | 78 F </span></label>
+                                </td>
+
+
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr><td style="height:10px;"></td></tr>
+        <tr>
+            <td style="border:1px solid;padding:10px;">
+                <table style="width:100%;font-size:14px;">
+                    <tr>
+                        <td colspan="2" style="background: #375b93;padding-top:4px; padding-bottom:4px; color: #fff;">
+         
+
+                            <label style="display: block;width: 100%;"><span>&nbsp;&nbsp;Shipment Detail</span></label>
+                        </td>
+                    </tr>
+                    
+
+                    <tr>
+                        <td>
+                                                        <table>
+
+                                                            <tr>
+                                                                <td><b>Pickup Arrival</b></td>
+                                                                <td>Saturday | November 04, 2023 11/4/2023 11:30:00 AM</td>
+                                                            </tr>
+                                                            
+
+
+
+
+
+
+                                                                    
+                                                                    
+
+
+                                                                </table>
+
+
+                        </td>
+
+
+
+
+                    </tr>
+
+                </table>
+
+            </td>
+
+        </tr>
+        <tr><td style="height:10px;"></td></tr>
+
+
+
+
+
+
+    </table>
+
+</body>
+
+</html>
+
+
+
+
+10/25/2023 2:58:05 PM ==> Smtp sent: Sent: LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | 111-1111-1111 | IMMEDIATE ATTENTION EXTREMELY HIGH TEMPERATURE : "noreply@larastrucking.com" <noreply@larastrucking.com> : "noreply@larastrucking.com" <noreply@larastrucking.com> : INTERFACEADMIN@DARTINNOVATIONS.NET,KKARTHICK@DARTINNOVATIONS.NET,VIGNESHS@DARTINNOVATIONS.NET,GANESH@DARTINNOVATIONS.COM,KARTHIK@DARTINNOVATIONS.COM,DART.KARTHIK@GMAIL.COM,DART.GANESH@GMAIL.COM : dwilson@dartinnovations.org : noreply@larastrucking.com : Lumia$920 : smtp.office365.com : 465
+10/25/2023 2:58:05 PM ==> Mail Response : Sent: LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | 111-1111-1111 | IMMEDIATE ATTENTION EXTREMELY HIGH TEMPERATURE : "noreply@larastrucking.com" <noreply@larastrucking.com> : "noreply@larastrucking.com" <noreply@larastrucking.com> : INTERFACEADMIN@DARTINNOVATIONS.NET,KKARTHICK@DARTINNOVATIONS.NET,VIGNESHS@DARTINNOVATIONS.NET,GANESH@DARTINNOVATIONS.COM,KARTHIK@DARTINNOVATIONS.COM,DART.KARTHIK@GMAIL.COM,DART.GANESH@GMAIL.COM : dwilson@dartinnovations.org : noreply@larastrucking.com : Lumia$920 : smtp.office365.com : 465
+10/25/2023 2:58:05 PM ==> isEmail Success: 1740Img URL: Images/ProofFiles/Temperature\proof_of_Temp_1_2023-10-25-02-58-04.png
+10/25/2023 3:21:55 PM ==> Success in Fumigation: True
+10/25/2023 3:21:56 PM ==> For loop in imgFiles: System.String[]
+10/25/2023 3:21:56 PM ==> For loop in ext: png
+10/25/2023 3:21:56 PM ==> For loop in path: https://appdev.larastrucking.com/Images/ProofFiles/Temperature/proof_of_Temp_1_2023-10-25-03-21-54.png
+10/25/2023 3:21:56 PM ==> For loop in bytes: System.Byte[]
+10/25/2023 3:21:56 PM ==> fileAttach : System.Collections.Generic.Dictionary`2[System.Byte[],System.String]
+10/25/2023 3:21:56 PM ==> fileAttach : System.Collections.Generic.Dictionary`2[System.Byte[],System.String]
+10/25/2023 3:21:56 PM ==> mailData.MailBody : 
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        body {
+            font-family: calibri;
+        }
+
+        .setPadding td, .setPadding th {
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- aks remove -->
+    <table style="width:100%;">
+        
+        <tr>
+            <td>
+                <div style="padding-left:25px;margin-bottom:25px;">
+                    <p style="font-size: 16px;font-family: calibri;">Dear Customer,</p>
+
+                    <p style="font-size: 16px;font-family: calibri;"> Please see temperature & loading time report, kindly reply back acknowledgement and/or further instructions. Should not hear from you in the next 30 minutes, our driver will continue the loading process under no liability.</p>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:60%;vertical-align:top;padding-top:10px;">
+                            <table style="width:100%">
+                                <tr><td><h2 style="margin:0px;">Lara's Trucking & Logistics</h2></td></tr>
+                                <tr><td style="color:#a4a6b9;">dispatch@larastrucking.com</td></tr>
+                                <tr><td style="color:#a4a6b9;">https://larastrucking.com</td></tr>
+                            </table>
+
+
+                        </td>
+                        <td style="width:40%;vertical-align:top;padding-top:10px;">
+                            <table style="width:100%;text-align:right;">
+                                <tr><td> <img src="https://appdev.larastrucking.com/Images/Laraslogo.png" style="width:260px; height:80px" /></td></tr>
+
+                                <tr><td style="font-size:25px;color:#375b93;text-align:right;padding-right:10px;">Fumigation Temperature</td></tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td style="text-align: center;display: flex;justify-content: center;align-items: center">
+
+                <img style="margin-bottom:0px;" src="https://appdev.larastrucking.com/Images/temploading.jpg" />
+                
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <table style="width: 100%;">
+
+                    <tr>
+                        <td style="width: 100%;">
+                            <table style="font-weight:bold; width: 100%; color:#375b93">
+                                <tr style="font-size:16px;">
+                                    <td>
+                                        Estimated Pickup
+
+                                    </td>
+                                </tr>
+                                <tr style="font-size:18px;text-transform: uppercase;">
+                                    <td style="width:40%;">
+                                        
+
+                                    </td>
+
+                                    <td style="float:right;width:60%;text-align:right;"> AWB # 111-1111-1111</td>
+
+                                </tr>
+
+                            </table>
+                        </td>
+
+                        
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid; padding: 10px; text-align: center;">
+                <table style="width:100%;font-size:14px;">
+                    <tr>
+                       
+
+                                <td colspan="2" style="background: #375b93; padding-top: 4px; padding-bottom: 4px; color: #fff; text-align: left;">
+
+                                    <label style="display: block;width: 100%;"><span style="padding-top: 5px;">&nbsp;&nbsp;Temperature Report:  ACCEPTABLE TEMPERATURE | 19 F </span></label>
+                                </td>
+
+
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr><td style="height:10px;"></td></tr>
+        <tr>
+            <td style="border:1px solid;padding:10px;">
+                <table style="width:100%;font-size:14px;">
+                    <tr>
+                        <td colspan="2" style="background: #375b93;padding-top:4px; padding-bottom:4px; color: #fff;">
+         
+
+                            <label style="display: block;width: 100%;"><span>&nbsp;&nbsp;Shipment Detail</span></label>
+                        </td>
+                    </tr>
+                    
+
+                    <tr>
+                        <td>
+                                                        <table>
+
+                                                            <tr>
+                                                                <td><b>Pickup Arrival</b></td>
+                                                                <td>Saturday | November 04, 2023 11/4/2023 5:00:00 PM</td>
+                                                            </tr>
+                                                            
+
+
+
+
+
+
+                                                                    
+                                                                    
+
+
+                                                                </table>
+
+
+                        </td>
+
+
+
+
+                    </tr>
+
+                </table>
+
+            </td>
+
+        </tr>
+        <tr><td style="height:10px;"></td></tr>
+
+
+
+
+
+
+    </table>
+
+</body>
+
+</html>
+
+
+
+
+10/25/2023 3:21:56 PM ==> Smtp sent: Sent: LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | 111-1111-1111 | ACCEPTABLE TEMPERATURE : "noreply@larastrucking.com" <noreply@larastrucking.com> : "noreply@larastrucking.com" <noreply@larastrucking.com> : INTERFACEADMIN@DARTINNOVATIONS.NET,KKARTHICK@DARTINNOVATIONS.NET,VIGNESHS@DARTINNOVATIONS.NET,GANESH@DARTINNOVATIONS.COM,KARTHIK@DARTINNOVATIONS.COM,DART.KARTHIK@GMAIL.COM,DART.GANESH@GMAIL.COM : info@dartinnovations.com : noreply@larastrucking.com : Ru89MiK!y#90 : smtp.gmail.com : 587
+10/25/2023 3:21:56 PM ==> Mail Response : Sent: LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | 111-1111-1111 | ACCEPTABLE TEMPERATURE : "noreply@larastrucking.com" <noreply@larastrucking.com> : "noreply@larastrucking.com" <noreply@larastrucking.com> : INTERFACEADMIN@DARTINNOVATIONS.NET,KKARTHICK@DARTINNOVATIONS.NET,VIGNESHS@DARTINNOVATIONS.NET,GANESH@DARTINNOVATIONS.COM,KARTHIK@DARTINNOVATIONS.COM,DART.KARTHIK@GMAIL.COM,DART.GANESH@GMAIL.COM : info@dartinnovations.com : noreply@larastrucking.com : Ru89MiK!y#90 : smtp.gmail.com : 587
+10/25/2023 3:21:56 PM ==> isEmail Success: 1741Img URL: Images/ProofFiles/Temperature\proof_of_Temp_1_2023-10-25-03-21-54.png

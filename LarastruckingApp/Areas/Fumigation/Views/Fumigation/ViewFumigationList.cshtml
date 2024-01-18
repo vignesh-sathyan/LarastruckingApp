@@ -35,7 +35,9 @@
                     </div>
                 </div>
                 <div id="customTableWrapper">
+				
                     <table class="table-bordered table-striped cf w-100 collapsed" id="tblOrderTakenFumigation">
+					
                         <thead>
                             <tr><td colspan="22"><b>REQUESTED FUMIGATION</b></td></tr>
                             <tr>
@@ -77,6 +79,7 @@
 
                 <div id="customTableWrapper">
                     <table class="table-bordered table-striped cf w-100" id="tblOtherFumigation">
+					
                         <thead>
                             <tr><td colspan="22"><b>FUMIGATION IN PROGRESS</b></td></tr>
                             <tr>
@@ -127,7 +130,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header popup">
-                <h6 class="modal-title">Copy Fumigation</h6>
+                <h6 class="modal-title" style="text-transform: uppercase;">Copy Fumigation</h6>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -224,12 +227,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12 text-right" style="flex: unset;width:auto;">
-                                <button type="button" id="btnCopy" class="btn green-Btn">Copy Fumigation</button>
+                            <div class="col-md-12 text-right" style="display: flex; width: 100%;justify-content: flex-end;padding: 0;margin-left: -23px;margin-top: 10px;">
+                                <button type="button" id="btnCopy" class="btn green-Btn" style="height: 30px;">Copy Fumigation</button>
+								<button type="button" id="btnCancel" class="btn green-Btn" style="height: 30px;">Cancel</button>
                             </div>
-                            <div class="col-md-12 text-right" style="flex: unset; width: auto;">
-                                <button type="button" id="btnCancel" class="btn green-Btn">Cancel</button>
-                            </div>
+                            
                         </div>
 
                     </div>

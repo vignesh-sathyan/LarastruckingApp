@@ -4,6 +4,8 @@
     GetOrderTakenShipmentList();
     //setTimeout(function () { GetOtherStatusShipmentList(); }, 1000);
    // var length = table.page.info().recordsTotal;
+  
+
     // Call the function initially
    
     GetOtherStatusShipmentList();
@@ -20,24 +22,74 @@
     //console.log("shipment order count: ", updateShipmentOrderTakenCount());
     
     GetDriverShipment();
-
+	// Replace 'New York' and 'Los Angeles' with your desired city names
+	findDistanceBetweenCities('miami', 'pompano');
     //GetFreightType();
     $('#tblShipmentDetails input').unbind();
 
 });
-function AllDriver() {
-    localStorage.setItem("isActive", "2");
-    $("#tblDriverall").css("display", "none");
+
+// Function to get coordinates (latitude and longitude) of a city using Google Maps Geocoding API
+async function getCoordinates(cityName) {
+  const apiKey = 'AIzaSyDXBtkoqacvZToBGD9TCaiZ9qUTrAJDJN4'; // Replace with your Google Maps API key
+  const geocodeEndpoint = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(cityName)}&key=${apiKey}`;
+
+  try {
+    const response = await fetch(geocodeEndpoint);
+    const data = await response.json();
+	console.log("geocode response: ",data);
+    if (data.status === 'OK') {
+      const location = data.results[0].geometry.location;
+      return location;
+    } else {
+      throw new Error('Unable to geocode the city.');
+    }
+  } catch (error) {
+    console.error('Error:', error.message);
+    return null;
+  }
 }
-function ActiveDriver() {
-    localStorage.setItem("isActive", "1");
-    $("#tblDriverall").css("display","none");
+
+// Function to calculate distance between two sets of coordinates using Haversine formula
+function calculateDistance(coord1, coord2) {
+  const R = 6371; // Radius of the Earth in kilometers
+  const lat1 = deg2rad(coord1.lat);
+  const lon1 = deg2rad(coord1.lng);
+  const lat2 = deg2rad(coord2.lat);
+  const lon2 = deg2rad(coord2.lng);
+
+  const dLat = lat2 - lat1;
+  const dLon = lon2 - lon1;
+
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1) * Math.cos(lat2) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const distance = R * c; // Distance in kilometers
+
+  return distance;
 }
-function InActiveDriver() {
-    localStorage.setItem("isActive", "0");
-    $("#tblDriverall").css("display", "none");
-   
+
+// Helper function to convert degrees to radians
+function deg2rad(deg) {
+  return deg * (Math.PI / 180);
 }
+
+// Example usage
+async function findDistanceBetweenCities(city1, city2) {
+  const city1Coords = await getCoordinates(city1);
+  const city2Coords = await getCoordinates(city2);
+
+  if (city1Coords && city2Coords) {
+    const distance = calculateDistance(city1Coords, city2Coords);
+    console.log(`The distance between ${city1} and ${city2} is approximately ${distance.toFixed(2)} kilometers.`);
+  }
+}
+
+
+
+
 $("#dropdownMenuLink").click(function () {
     console.log("clicked");
     $("#menutab").css("z-index", "0");
@@ -191,6 +243,21 @@ function GetDriverShipment() {
                         }
                         else if (msg[x].Status == "DRIVER ASSIGNED") {
                             colorbg = "#385687";
+                            fontcolor = "#fff";
+                        }
+						 else if (msg[x].Status == "ARRIVED AT PICK UP LOCATION") {
+							 msg[x].Status = "ARRIVED AT PU";
+                            colorbg = "#fe9900";
+                            fontcolor = "#fff";
+                        }
+						 else if (msg[x].Status == "ARRIVED AT DELIVERY LOCATION") {
+							 msg[x].Status = "ARRIVED AT DEL";
+                            colorbg = "#fe9900";
+                            fontcolor = "#fff";
+                        }
+						else if (msg[x].Status == "UNLOADING AT DELIVERY LOCATION") {
+							 msg[x].Status = "UNLOADING";
+                            colorbg = "#fe9900";
                             fontcolor = "#fff";
                         }
                         else {
@@ -420,7 +487,7 @@ function GetOrderTakenShipmentList() {
                     $(win.document.body)
                         .css('font-size', '10pt')
                         .prepend(
-                            "<table id='9'><tr><td width='80%' ><b>REQUESTED SHIPMENTS</b></td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
+                            "<table id='9'><tr><td width='80%' ><b>REQUESTED SHIPMENTS</b></td><td width='20%'><div><img src='"+baseUrl+"/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
                         );
 
 
@@ -461,7 +528,7 @@ function GetOrderTakenShipmentList() {
             { "data": "AirWayBill", "name": "AirWayBill", "width": "7%" },
             { "data": "Quantity", "name": "Quantity", "autoWidth": true },
             { "data": "CreatedByName", "name": "CreatedByName", "autoWidth": true },
-            { "data": "IsReady", "name": "Ready", "autoWidth": true },
+            { "data": "IsReady", "name": "IsReady", "autoWidth": true },
             { "data": "Comments", "name": "Comments", "autoWidth": true },
             { "name": "Action", "autoWidth": true },
         ],
@@ -691,11 +758,13 @@ function GetOrderTakenShipmentList() {
     $("#tblShipmentDetails_filter input")
         .unbind()
         .bind("input", function (e) {
+			
             clearTimeout(search_thread_tblShipmentDetails);
             search_thread_tblShipmentDetails = setTimeout(function () {
                 var dtable = $("#tblShipmentDetails").dataTable().api();
                 console.log("dtable: ", dtable);
                 var elem = $("#tblShipmentDetails_filter input");
+			
 				var replacedStr = $(elem).val().replace(/\//g, "-");
                 console.log("elem value: ", replacedStr);
                 return dtable.search(replacedStr).draw();
@@ -796,27 +865,27 @@ function ValidateCopyShipment() {
 
     //yesterday = new Date(Date.parse(todayDate));
 
-    if (isValid && pickupDate != "" && pickupDate < yesterday) {
-        AlertPopup("Please review your Pickup Est. Arrival. It should be greater than, or equal to, yesterday's date.");
-        isValid = false;
+    // if (isValid && pickupDate != "" && pickupDate < yesterday) {
+        // AlertPopup("Please review your Pickup Est. Arrival. It should be greater than, or equal to, yesterday's date.");
+        // isValid = false;
 
-    }
+    // }
 
 
     if (isValid && pickupDate != "" && deliveryDate != "") {
 
         console.log("pickupDate: " + new Date(pickupDate) + " : " + pickupDate);
         console.log("deliveryDate: " + new Date(deliveryDate) + " : " + deliveryDate);
-        if (pickupDate < deliveryDate) {
-            console.log("true");
-            isValid = true;
-        }
-        else {
-            //$("#dtArrivalDate").val("");
-            AlertPopup("Please review your Delivery Est. Arrival. It should be greater than your Pickup Est. Arrival.");
-            isValid = false;
+        // if (pickupDate < deliveryDate) {
+            // console.log("true");
+            // isValid = true;
+        // }
+        // else {
+            // //$("#dtArrivalDate").val("");
+            // AlertPopup("Please review your Delivery Est. Arrival. It should be greater than your Pickup Est. Arrival.");
+            // isValid = false;
 
-        }
+        // }
 
     }
 
@@ -884,12 +953,12 @@ function CopyShipment(ShipmentId) {
     })
 }
 
-$("#btnCancel").click(function () {
+$("#btnCancelShip").click(function () {
     //window.location.href = baseUrl + "/Shipment/Shipment/ViewShipmentList";
     $("#shipmentModal").modal("toggle");
 });
 
-$("#btnCopy").click(function () {
+$("#btnCopyShip").click(function () {
 
     if (ValidateCopyShipment()) {
 
@@ -919,7 +988,7 @@ $("#btnCopy").click(function () {
                                 Ok: {
                                     btnClass: 'btn-green',
                                     action: function () {
-                                        window.location.href = baseUrl + "/Shipment/Shipment/ViewShipmentList";
+                                        window.location.href = baseUrl + "/Main/Index";
                                     }
                                 },
                             }
@@ -1128,7 +1197,7 @@ function GetOtherStatusShipmentList() {
                     $(win.document.body)
                         .css('font-size', '10pt')
                         .prepend(
-                            "<table id='checkheader'><tr><td width='80%' ><b>SHIPMENTS IN PROGRESS</b></td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
+                            "<table id='checkheader'><tr><td width='80%' ><b>SHIPMENTS IN PROGRESS</b></td><td width='20%'><div><img src='"+baseUrl+"/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
                         );
                 },
                 //customize: function (doc) {
@@ -1393,10 +1462,12 @@ function GetOtherStatusShipmentList() {
     $("#tblShipmentDetails2_filter input")
         .unbind()
         .bind("input", function (e) {
+		
             clearTimeout(search_thread_tblShipmentDetails2);
             search_thread_tblShipmentDetails2 = setTimeout(function () {
                 var dtable = $("#tblShipmentDetails2").dataTable().api();
                 var elem = $("#tblShipmentDetails2_filter input");
+			
 				var replacedStr = $(elem).val().replace(/\//g, "-");
                 console.log("elem value: ", replacedStr);
                 return dtable.search(replacedStr).draw();
@@ -1459,7 +1530,7 @@ function GetOtherStatusShipmentList1() {
         serverSide: true,
         searching: true,
         bDestroy: true,
-        stateSave: true,
+        //stateSave: true,
         "language": {
             processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
         },

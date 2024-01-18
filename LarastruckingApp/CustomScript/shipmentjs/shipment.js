@@ -1,6 +1,4 @@
-﻿
-
-//global array for freight detail
+﻿//global array for freight detail
 var glbFreightDetail = [];
 
 //global array for route stops
@@ -25,6 +23,7 @@ var equipment = [];
 var contactInfoCounts = 0;
 var isApproveDamageDocument = false;
 var isApproveProofofTemp = false;
+
 function goodbye(e) {
     if (isNeedToloaded) {
 
@@ -50,7 +49,7 @@ window.onbeforeunload = goodbye;
 
 
 
-$(function () {
+$(function() {
     $(".divShipmentRefNo").hide();
     $(".divWaitingTime").hide();
     //$(".divProofOfTemp").hide();
@@ -127,8 +126,11 @@ $(function () {
     btnApprovedShipment();
 
     checkFreightRadionButton();
-
-
+	TimeChangeUnloading();
+	TimeChangePickUp();
+	TimeChangeLoadingPickUp();
+	TimeChange();
+	
 
     freighttypeOnchange();
     ddlPricingMethod();
@@ -141,8 +143,7 @@ $(function () {
         $("#btnGpsShipment").show();
         //$(".divIsPartila").show();
 
-    }
-    else {
+    } else {
         $(".divPartial").hide();
         $("#divDamageNproofOfTemp").hide();
         $(".pricingMethod").hide();
@@ -163,9 +164,274 @@ $(function () {
 
     //Approve damage document
     btnDamageDocument();
+    // $("#datepicker").datepicker();
+
+    //Arrived Pickup Location
+    $("#arrivedPUDialog").dialog({
+        autoOpen: false,
+        modal: true,
+        buttons: [{
+                html: "<i class='fa fa-arrow-circle-left' aria-hidden='true'></i>&nbsp;GO BACK",
+                class: "cancelButton",
+                click: function() {
+                    $(this).dialog("close");
+                }
+            },
+            {
+                text: "OK",
+                class: "okButton",
+                click: function() {
+                    var selectedDateTime = $("#displayDateTimePU").val();
+                    console.log("Selected Date-Time:", selectedDateTime);
+                    $("#dtArrivalDate").val(selectedDateTime);
+                    $(this).dialog("close");
+                }
+            }
+
+        ]
+    });
+    //Loading at Pickup Location
+    $("#loadingPUDialog").dialog({
+        autoOpen: false,
+        modal: true,
+        buttons: [{
+            html: "<i class='fa fa-arrow-circle-left' aria-hidden='true'></i>&nbsp;GO BACK",
+            class: "cancelButton",
+            click: function () {
+                $(this).dialog("close");
+            }
+        },
+        {
+            text: "OK",
+            class: "okButton",
+            click: function () {
+                var selectedDateTime = $("#displayDateTimeLoadingPU").val();
+               
+                $("#dtPickUpToDate").val(selectedDateTime);
+                $(this).dialog("close");
+            }
+        }
+
+        ]
+    });
+
+    //Arrived Delivery Location
+    $("#arrivedDeliveryDialog").dialog({
+        autoOpen: false,
+        modal: true,
+        buttons: [{
+                html: "<i class='fa fa-arrow-circle-left' aria-hidden='true'></i>&nbsp;GO BACK",
+                class: "cancelButton",
+                click: function() {
+                    $(this).dialog("close");
+                }
+            },
+            {
+                text: "OK",
+                class: "okButton",
+                click: function() {
+                    var selectedDateTime = $("#displayDateTimeDL").val();
+                    console.log("Selected Date-Time:", selectedDateTime);
+                    $("#dtDeliveryDate").val(selectedDateTime);
+                    $(this).dialog("close");
+                }
+            }
+
+        ]
+
+    });
+
+    //Unloading Delivery Location
+    $("#UnloadingDialog").dialog({
+        autoOpen: false,
+        modal: true,
+        buttons: [{
+                html: "<i class='fa fa-arrow-circle-left' aria-hidden='true'></i>&nbsp;GO BACK",
+                class: "cancelButton",
+                click: function() {
+                    $(this).dialog("close");
+                }
+            },
+            {
+                text: "OK",
+                class: "okButton",
+                click: function() {
+                    var selectedDateTime = $("#displayDateTimeUL").val();
+                    console.log("Selected Date-Time:", selectedDateTime);
+                    $("#dtDeliveryToDate").val(selectedDateTime);
+                    $(this).dialog("close");
+                }
+            }
+
+        ]
+
+    });
+    var currentDateTime = new Date(); // Get current date and time
+    var currentTime = currentDateTime.getHours() + ':' + currentDateTime.getMinutes();
+    var timeSlotHeight = 25;
+    var options = {
+        format: 'm/d/Y H:i',
+        formatTime: 'H:i',
+        formatDate: 'm/d/Y',
+        startDate: new Date(),
+        minDate: false,
+        minTime: false,
+        roundTime: 'round', // ceil, floor, round
+        step: 30,
+        timepicker: true
+    }
+    $('#datetimepickerPU').datetimepicker({
+        format: 'm/d/Y H:i',
+        inline: true,
+        step: 30,
+        value: new Date().toISOString().slice(0, 19),
+        onChangeDateTime: function(dp, $input) {
+            $('#displayDateTimePU').val($input.val()); // Set the selected date/time into the input field
+        },
+
+    });
+
+    $('#datetimepickerLoadingPU').datetimepicker({
+        format: 'm/d/Y H:i',
+        inline: true,
+        step: 30,
+        value: new Date().toISOString().slice(0, 19),
+        onChangeDateTime: function (dp, $input) {
+            $('#displayDateTimeLoadingPU').val($input.val()); // Set the selected date/time into the input field
+        },
+
+    });
+
+    $('#datetimepickerDL').datetimepicker({
+        format: 'm/d/Y H:i',
+        inline: true,
+        step: 30,
+        value: new Date().toISOString().slice(0, 19),
+        onChangeDateTime: function(dp, $input) {
+            $('#displayDateTimeDL').val($input.val()); // Set the selected date/time into the input field
+        }
+    });
+    $('#datetimepickerUL').datetimepicker({
+        format: 'm/d/Y H:i',
+        inline: true,
+        value: currentDateTime,
+        step: 30,
+        onChangeDateTime: function(dp, $input) {
+            $('#displayDateTimeUL').val($input.val()); // Set the selected date/time into the input field
+        }
+    });
+
+
+    //});
+
 });
 
-var GetValues = function () {
+
+
+var TimeChange = function() {
+    var x = setInterval(function() {
+        var $timePicker = $('#arrivedDeliveryDialog').find('.xdsoft_time_box');
+        //var $timePicker = $('#arrivedDeliveryDialog').find('.xdsoft_time_variant');
+        ///console.log("$timePicker.length: ",$timePicker.length);
+        var $currentTime = $('#arrivedDeliveryDialog').find('.xdsoft_time_variant').find('.xdsoft_current');
+        if ($currentTime.length > 0) {
+           // console.log("$currentTime.length: ", $currentTime.length);
+            if ($currentTime.length > 0) {
+                var currentOffset = $currentTime.offset().top - $timePicker.offset().top;
+				if(currentOffset>0){
+				 clearInterval(x);
+                //console.log("currentOffset: ", currentOffset);
+                //console.log("currentOffset: ", $currentTime.offset().top);
+                //console.log("$timePicker.offset().top: ", $timePicker.offset().top);
+                $timePicker.scrollTop(currentOffset); // Scroll to the position of the current time elementss
+				}
+            }
+           
+        } else {
+            console.log("time not found");
+        } // Find the element representing the current time
+
+    }, 100);
+}
+var TimeChangePickUp = function() {
+    var x = setInterval(function() {
+        var $timePicker = $('#arrivedPUDialog').find('.xdsoft_time_box');
+        //var $timePicker = $('#arrivedDeliveryDialog').find('.xdsoft_time_variant');
+        ///console.log("$timePicker.length: ",$timePicker.length);
+        var $currentTime = $('#arrivedPUDialog').find('.xdsoft_time_variant').find('.xdsoft_current');
+        if ($currentTime.length > 0) {
+            //console.log("$currentTime.length: ", $currentTime.length);
+            if ($currentTime.length > 0) {
+                var currentOffset = $currentTime.offset().top - $timePicker.offset().top;
+				if(currentOffset>0){
+				 clearInterval(x);
+                //console.log("currentOffset: ", currentOffset);
+                //console.log("currentOffset: ", $currentTime.offset().top);
+                //console.log("$timePicker.offset().top: ", $timePicker.offset().top);
+                $timePicker.scrollTop(currentOffset); // Scroll to the position of the current time elementss
+				}
+            }
+            //clearInterval(x);
+        } else {
+            console.log("time not found");
+        } // Find the element representing the current time
+
+    }, 100);
+}
+
+var TimeChangeLoadingPickUp = function () {
+    var x = setInterval(function () {
+        var $timePicker = $('#loadingPUDialog').find('.xdsoft_time_box');
+        //var $timePicker = $('#arrivedDeliveryDialog').find('.xdsoft_time_variant');
+        ///console.log("$timePicker.length: ",$timePicker.length);
+        var $currentTime = $('#loadingPUDialog').find('.xdsoft_time_variant').find('.xdsoft_current');
+        if ($currentTime.length > 0) {
+            //console.log("$currentTime.length: ", $currentTime.length);
+            if ($currentTime.length > 0) {
+                var currentOffset = $currentTime.offset().top - $timePicker.offset().top;
+                if (currentOffset > 0) {
+                    clearInterval(x);
+                    //console.log("currentOffset: ", currentOffset);
+                    //console.log("currentOffset: ", $currentTime.offset().top);
+                    //console.log("$timePicker.offset().top: ", $timePicker.offset().top);
+                    $timePicker.scrollTop(currentOffset); // Scroll to the position of the current time elementss
+                }
+            }
+            //clearInterval(x);
+        } else {
+            console.log("time not found");
+        } // Find the element representing the current time
+
+    }, 100);
+}
+var TimeChangeUnloading = function() {
+    var x = setInterval(function() {
+        var $timePicker = $('#UnloadingDialog').find('.xdsoft_time_box');
+        //var $timePicker = $('#arrivedDeliveryDialog').find('.xdsoft_time_variant');
+        ///console.log("$timePicker.length: ",$timePicker.length);
+        var $currentTime = $('#UnloadingDialog').find('.xdsoft_time_variant').find('.xdsoft_current');
+        if ($currentTime.length > 0) {
+            //console.log("$currentTime.length: ", $currentTime.length);
+            if ($currentTime.length > 0) {
+                var currentOffset = $currentTime.offset().top - $timePicker.offset().top;
+				if(currentOffset>0){
+				 clearInterval(x);
+                //console.log("currentOffset: ", currentOffset);
+                //console.log("currentOffset: ", $currentTime.offset().top);
+                //console.log("$timePicker.offset().top: ", $timePicker.offset().top);
+                $timePicker.scrollTop(currentOffset); // Scroll to the position of the current time elementss
+				}
+            }
+            
+        } else {
+            console.log("time not found");
+        } // Find the element representing the current time
+
+    }, 100);
+}
+
+
+var GetValues = function() {
     var values = {};
     var url = window.location.pathname;
     var shipmentId = url.substring(url.lastIndexOf('/') + 1);
@@ -174,20 +440,20 @@ var GetValues = function () {
     $.ajax({
         url: baseUrl + "/Shipment/Shipment/GetShipmentById",
         type: "GET",
-        data: { shipmentId: shipmentId },
+        data: {
+            shipmentId: shipmentId
+        },
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         async: false,
-        success: function (response) {
+        success: function(response) {
             console.log("response: ", response);
             for (let i = 0; i < response.ShipmentRoutesStop.length; i++) {
                 if (response.AirWayBill != "") {
                     AWB = response.AirWayBill;
-                }
-                else if (response.ContainerNo != "") {
+                } else if (response.ContainerNo != "") {
                     AWB = response.ContainerNo;
-                }
-                else {
+                } else {
                     AWB = response.CustomerPO;
                 }
                 tempval = response;
@@ -196,20 +462,19 @@ var GetValues = function () {
                 values.Boxes = response.ShipmentFreightDetail[i].PartialBox;
                 values.Pallets = response.ShipmentFreightDetail[i].PartialPallet;
                 values.AirWayBill = AWB;
-                
+
                 values.Comment = response.ShipmentFreightDetail[i].Comments;
                 const ShipmentEquipmentNdriver = response.ShipmentEquipmentNdriver.length;
-               // console.log("resp eqp: ", response);
-               // console.log("preval eqp: ", response.ShipmentEquipmentNdriver.length);
-                
+                // console.log("resp eqp: ", response);
+                // console.log("preval eqp: ", response.ShipmentEquipmentNdriver.length);
+
                 if (ShipmentEquipmentNdriver != "0") {
                     values.EquipmentName = response.ShipmentEquipmentNdriver[i].EquipmentName;
                     values.DriverName = response.ShipmentEquipmentNdriver[i].DriverName;
-                }
-                else {
+                } else {
                     values.EquipmentName = "null";
                 }
-                
+
             }
         }
     });
@@ -219,9 +484,9 @@ var GetValues = function () {
 
 //#region function swap location
 
-var swaplocation = function () {
+var swaplocation = function() {
 
-    $("#swapp").on("click", function () {
+    $("#swapp").on("click", function() {
 
         var pickupLocationId = $.trim($("#ddlPickupLocation").val());
         var pickupLocationText = $.trim($("#ddlPickupLocation").find('option:selected').text());
@@ -247,8 +512,8 @@ var swaplocation = function () {
 //#endregion
 
 //#region for open equipment popup
-var openEquipmentModal = function () {
-    $("#btnequipment").on("click", function () {
+var openEquipmentModal = function() {
+    $("#btnequipment").on("click", function() {
 
         showLoader();
         var glbRouteStop = glbRouteStops.filter(x => x.IsAppointmentNeeded == true && x.IsAppointmentRequired == false)
@@ -262,13 +527,11 @@ var openEquipmentModal = function () {
             });
             // $.alert("Please confirm appointment.")
 
-        }
-        else {
+        } else {
             if ($("#dtRouteBody tr").length > 0) {
                 $("#modalEquipment").modal("show");
                 $('#modalEquipment').draggable();
-            }
-            else {
+            } else {
                 $.alert({
                     title: 'Alert!',
                     content: '<b>Please add Route Details before assigning drivers and equipment.</b>',
@@ -285,8 +548,8 @@ var openEquipmentModal = function () {
 
 
 //#region for open address popup
-var openAddressModal = function () {
-    $(".btnOpenAddressModal").on("click", function () {
+var openAddressModal = function() {
+    $(".btnOpenAddressModal").on("click", function() {
         $('#formAddress').trigger("reset");
 
         $("#modalAddAddress").modal("show");
@@ -302,7 +565,7 @@ function shipmentStatus() {
         data: {},
         type: "GET",
         async: false,
-        success: function (data) {
+        success: function(data) {
 
             var ddlValue = "";
             $("#ddlStatus").empty();
@@ -317,9 +580,9 @@ function shipmentStatus() {
 //#endregion
 
 //#region shipment sub status
-ddlStatus = function () {
-    $("#ddlStatus").change(function () {
-        
+ddlStatus = function() {
+    $("#ddlStatus").change(function() {
+
 
         var statusid = $("#ddlStatus").val();
 
@@ -335,6 +598,187 @@ ddlStatus = function () {
                 typeAnimated: true,
             });
             shipmentStatus();
+        }
+        if (statusid == 15 && (equipment != "" && driver != "")) {
+            $("#arrivedPUDialog").dialog("open");
+
+
+            var currentDate = new Date();
+            var formattedDateTime = currentDate.toLocaleString('en-US', {
+                month: '2-digit',
+                day: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false // Ensure 24-hour format
+            }).replace(',', '');
+            $("#displayDateTimePU").val(formattedDateTime);
+            // $("#datetimepickerPU").trigger('mousedown');
+            
+        }
+        if (statusid == 5 && (equipment != "" && driver != "")) {
+            $("#loadingPUDialog").dialog("open");
+
+
+            var currentDate = new Date();
+            var formattedDateTime = currentDate.toLocaleString('en-US', {
+                month: '2-digit',
+                day: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false // Ensure 24-hour format
+            }).replace(',', '');
+            $("#displayDateTimeLoadingPU").val(formattedDateTime);
+            // $("#datetimepickerPU").trigger('mousedown');
+
+        }
+        if (statusid == 16 && (equipment != "" && driver != "")) {
+            $("#arrivedDeliveryDialog").dialog("open");
+            var currentDate = new Date();
+            var formattedDateTime = currentDate.toLocaleString('en-US', {
+                month: '2-digit',
+                day: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false // Ensure 24-hour format
+            }).replace(',', '');
+            $("#displayDateTimeDL").val(formattedDateTime);
+            
+
+        }
+        if (statusid == 17 && (equipment != "" && driver != "")) {
+            $("#UnloadingDialog").dialog("open");
+            var currentDate = new Date();
+            var formattedDateTime = currentDate.toLocaleString('en-US', {
+                month: '2-digit',
+                day: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false // Ensure 24-hour format
+            }).replace(',', '');
+            $("#displayDateTimeUL").val(formattedDateTime);
+            
+
+        }
+        if (statusid == 7 && (equipment != "" && driver != "")) {
+            var values = {};
+            values = GetJsonValue();
+            var prevalues = GetValues();
+            const ShipmentEquipmentNdriverCheck = "ShipmentEquipmentNdriver" in values;
+            if (ShipmentEquipmentNdriverCheck != false) {
+                DriverName = values.ShipmentEquipmentNdriver[0].DriverName;
+            }
+            //console.log("DriverName: " + DriverName);
+            var PickupLocation = values.ShipmentRoutesStop[0].PickupLocation;
+
+            var PicComp = PickupLocation.split(",");
+            //console.log("PicComp: " + PicComp[0]);
+            var DeliveryLocation = values.ShipmentRoutesStop[0].DeliveryLocation;
+            var DelComp = DeliveryLocation.split(",");
+            var AWB = "";
+            if (values.AirWayBill != "") {
+                AWB = values.AirWayBill;
+            } else if (values.ContainerNo != "") {
+                AWB = values.ContainerNo;
+            } else {
+                AWB = values.CustomerPO;
+            }
+            // console.log("AWB: "+AWB);
+            // var Equipment = values.ShipmentEquipmentNdriver[0].EquipmentName;
+            var pallets = values.ShipmentFreightDetail[0].PartialPallet;
+            var boxes = values.ShipmentFreightDetail[0].NoOfBox;
+            var customer = values.CustomerName;
+            //console.log("values: ", values);
+            var data = new FormData();
+            if (glbDamageFile.length) {
+                for (let i = 0; i < glbDamageFile.length; i++) {
+                    data.append("DamagedFiles", glbDamageFile[i].DamageImage);
+                }
+            }
+            $.confirm({
+                title: 'Confirm!',
+                content: 'DO YOU WANT TO COMPLETE THIS SHIPMENT NOW?',
+                type: 'green',
+                typeAnimated: true,
+                buttons: {
+                    confirm: function() {
+                        //$.alert('Confirmed!');
+                        $("#ddlStatus").val(11);
+                        values.StatusId = 11;
+                        $.ajax({
+                            url: baseUrl + "/Shipment/Shipment/EditShipment",
+                            type: "POST",
+                            beforeSend: function() {
+                                const ShipmentEquipmentNdriver = "ShipmentEquipmentNdriver" in values;
+                                console.log("key in: ", ShipmentEquipmentNdriver);
+                                //console.log("Driver in: ", ShipmentEquipmentNdriver.DriverName);
+                                const ddlstatus = $("#ddlStatus option:selected").text();
+
+                                // const Driver = values.ShipmentEquipmentNdriver[0].DriverName;
+                                // console.log("Driver: " + Driver);
+                                if (ShipmentEquipmentNdriver != false && ShipmentEquipmentNdriver.DriverName != "" && ddlstatus == "DRIVER ASSIGNED") {
+                                    if (DriverName != prevalues.DriverName) {
+                                        SendMessage();
+                                    }
+                                }
+                                //else if (ShipmentEquipmentNdriver != false && prevalues.EquipmentName == "null" && ddlstatus =="DISPATCHED") {
+                                //    SendMessage();
+                                //    console.log("Driver Assigned");
+                                //}
+                                else {
+                                    //console.log("Driver Not Assigned ");
+                                }
+
+
+                                showLoader();
+
+                            },
+                            data: JSON.stringify(values),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+
+                            success: function(response) {
+                                isNeedToloaded = false;
+                                hideLoader();
+                                if (response.IsSuccess) {
+
+                                    $.alert({
+                                        title: 'Success!',
+                                        content: "<b>" + response.Message + "</b>",
+                                        type: 'green',
+                                        typeAnimated: true,
+                                        buttons: {
+                                            Ok: {
+                                                btnClass: 'btn-green',
+                                                action: function() {
+
+                                                    window.location.href = baseUrl + "/Shipment/Shipment/ViewShipmentList";
+                                                }
+                                            },
+                                        }
+                                    });
+                                } else {
+                                    hideLoader();
+                                    AlertPopup(response.Message);
+                                }
+                            },
+                            error: function() {
+                                hideLoader();
+                                AlertPopup("Something went wrong.");
+                            }
+                        });
+
+                    },
+                    cancel: function() {
+                        /// $.alert('Canceled!');
+
+                    },
+
+                }
+            });
         }
         if (statusid == 11) {
             if (isApproveDamageDocument) {
@@ -367,11 +811,13 @@ function bindSubStauts() {
     var statusid = $("#ddlStatus").val();
     $.ajax({
         url: baseUrl + 'Shipment/Shipment/GetShipmentSubStatus',
-        data: { statusid: statusid },
+        data: {
+            statusid: statusid
+        },
         type: "GET",
         async: false,
         // cache: false,
-        success: function (data) {
+        success: function(data) {
             var ddlValue = "";
             $("#ddlSubStatus").empty();
             ddlValue += '<option value="">SELECT SUB-STATUS</option>'
@@ -386,8 +832,8 @@ function bindSubStauts() {
 //#endregion
 
 //#region
-ddlSubStatus = function () {
-    $("#ddlSubStatus").change(function () {
+ddlSubStatus = function() {
+    $("#ddlSubStatus").change(function() {
         checkOtherStaus();
     });
 }
@@ -398,8 +844,7 @@ function checkOtherStaus() {
 
     if ($("#ddlSubStatus").val() == 11 || $("#ddlSubStatus").val() == 7) {
         $("#txtReason").prop('disabled', false);
-    }
-    else {
+    } else {
         $("#txtReason").val("");
         $("#txtReason").prop('disabled', true);
     }
@@ -407,7 +852,7 @@ function checkOtherStaus() {
 //#endregion
 
 //#region function for apply selectize on customer dropdown
-var bindCustomerDropdown = function () {
+var bindCustomerDropdown = function() {
 
     var $select = $('#ddlCustomer').selectize();
     $select[0].selectize.destroy();
@@ -434,7 +879,7 @@ var bindCustomerDropdown = function () {
         //    }
 
         //},
-        load: function (query, callback) {
+        load: function(query, callback) {
             if (!query.length) return callback();
             $.ajax({
                 url: baseUrl + "Customer/GetAllCustomer/?searchText=" + query,
@@ -442,13 +887,13 @@ var bindCustomerDropdown = function () {
                 dataType: 'json',
                 //beforeSend: function (xhr, settings) {
                 //},
-                error: function () {
+                error: function() {
                     callback();
                 },
-                success: function (response) {
+                success: function(response) {
 
                     var customers = [];
-                    $.each(response, function (index, value) {
+                    $.each(response, function(index, value) {
                         item = {}
                         item.id = value.CustomerID;
                         item.text = value.CustomerName;
@@ -466,12 +911,12 @@ var bindCustomerDropdown = function () {
             });
         },
         render: {
-            item: function (item, escape) {
+            item: function(item, escape) {
                 return '<div>' +
                     ('<span class="name ddlCustomer" data-ContactInfoCount=' + item.ContactInfoCount + ' date-IsWaitingTimeRequired=' + item.IsWaitingTimeRequired + '>' + escape(item.text) + '</span>') +
                     '</div>';
             },
-            option: function (item, escape) {
+            option: function(item, escape) {
                 var label = item.text;
                 return '<div style="padding: 2px 5px">' +
                     '<span style="display: block;">' + escape(label) + '</span>' +
@@ -483,21 +928,20 @@ var bindCustomerDropdown = function () {
         //    $('#ddlCustomer').html("");
         //    $('#ddlCustomer').append($("<option selected='selected'></option>").val(input).html(input))
         //},
-        onFocus: function () {
+        onFocus: function() {
 
             var value = this.getValue();
             this.clear(true);
             this.unlock();
         },
-        onChange: function () {
-            
+        onChange: function() {
+
             var IsWaitingTimeRequired = $(".ddlCustomer").attr("date-IsWaitingTimeRequired");
             if (JSON.parse(IsWaitingTimeRequired) == true) {
                 $('#chkDeliveryWaitingTime').prop('checked', true);
                 $('#chkPickUpWaitingTime').prop('checked', true);
                 $(".divWaitingTime").show();
-            }
-            else {
+            } else {
                 $('#chkDeliveryWaitingTime').prop('checked', false);
                 $('#chkPickUpWaitingTime').prop('checked', false);
                 $(".divWaitingTime").hide();
@@ -521,7 +965,7 @@ var bindCustomerDropdown = function () {
 
 
 //#region selectize on pickup and delivery location
-var manageLocation = function (htmlcontrol) {
+var manageLocation = function(htmlcontrol) {
 
     var $select = $('#' + htmlcontrol).selectize();
     $select[0].selectize.destroy();
@@ -535,22 +979,21 @@ var manageLocation = function (htmlcontrol) {
         closeAfterSelect: false,
         selectOnTab: true,
         plugins: ['restore_on_backspace'],
-        load: function (query, callback) {
+        load: function(query, callback) {
             if (!query.length) return callback();
             $.ajax({
                 url: baseUrl + "Address/GetAddress/?searchText=" + query,
                 type: 'GET',
                 dataType: 'json',
-                beforeSend: function (xhr, settings) {
-                },
-                error: function () {
+                beforeSend: function(xhr, settings) {},
+                error: function() {
                     callback();
                 },
-                success: function (response) {
+                success: function(response) {
 
                     var result = [];
-                    $.each(response, function (index, value) {
-                        
+                    $.each(response, function(index, value) {
+
                         item = {}
                         item.id = value.AddressId;
                         var nickName = (value.CompanyNickname == null ? "" : ' (' + value.CompanyNickname + ')');
@@ -564,18 +1007,18 @@ var manageLocation = function (htmlcontrol) {
                     callback(result);
 
                 },
-                complete: function () {
+                complete: function() {
 
                 }
             });
         },
         render: {
-            item: function (item, escape) {
+            item: function(item, escape) {
                 return '<div>' +
                     ("<span data-website='" + escape(item.Website) + "' data-phone='" + escape(item.Phone) + "'  data-IsAppointmentRequired='" + escape(item.IsAppointmentRequired) + "' class='" + htmlcontrol + "'>" + escape(item.text) + "</span>") +
                     '</div>';
             },
-            option: function (item, escape) {
+            option: function(item, escape) {
                 var label = item.text;
                 var IsAppointmentRequired = item.IsAppointmentRequired;
                 return '<div style="padding: 2px 5px">' +
@@ -583,7 +1026,7 @@ var manageLocation = function (htmlcontrol) {
                     '</div>';
             }
         },
-        onFocus: function () {
+        onFocus: function() {
             var value = this.getValue();
             this.clear(true);
             this.unlock();
@@ -595,13 +1038,13 @@ var manageLocation = function (htmlcontrol) {
 //#endregion
 
 //#region function for pickup location dropdown
-var bindPickupLocation = function () {
+var bindPickupLocation = function() {
     manageLocation("ddlPickupLocation");
 }
 //#endregion
 
 //#region function for drop location dropdown
-var bindDeliveryLocation = function () {
+var bindDeliveryLocation = function() {
     manageLocation("ddlDeliveryLocation");
 }
 //#endregion
@@ -609,7 +1052,7 @@ var bindDeliveryLocation = function () {
 //#region validate date 
 
 function ValidatePickUpArrivalDate() {
-    
+
     var isvalid = true;
     var pickupArrival = $("#dtArrivalDate").val();
     var deliverArrival = $("#dtDeliveryDate").val();
@@ -625,9 +1068,9 @@ function ValidatePickUpArrivalDate() {
 
     //yesterday = new Date(Date.parse(todayDate));
 
-    if (pickupArrival != "" ) {
+    if (pickupArrival != "") {
 
-       // AlertPopup("Please review your Pickup Est. Arrival. It should be greater than, or equal to, yesterday's date.");
+        // AlertPopup("Please review your Pickup Est. Arrival. It should be greater than, or equal to, yesterday's date.");
         isvalid = true;
         return isvalid
     }
@@ -636,8 +1079,7 @@ function ValidatePickUpArrivalDate() {
     if (isvalid && pickupArrival != "" && deliverArrival != "") {
         if (new Date(pickupArrival) <= new Date(deliverArrival)) {
             return isvalid
-        }
-        else {
+        } else {
             //$("#dtArrivalDate").val("");
 
             AlertPopup("Please review your Delivery Est. Arrival. It should be greater than your Pickup Est. Arrival.");
@@ -676,8 +1118,7 @@ function ValidatePickUpDepartureDate() {
     if (isvalid && pickDeparture != "" && deliveryDeparture != "") {
         if (new Date(pickDeparture) <= new Date(deliveryDeparture)) {
             return isvalid;
-        }
-        else {
+        } else {
             //$("#dtPickUpToDate").val("");
             AlertPopup("Please review your Delivery Est. Departure. It should be greater than your Pickup Est. Departure.");
             isvalid = false;
@@ -686,6 +1127,7 @@ function ValidatePickUpDepartureDate() {
     }
     return isvalid;
 }
+
 function ValidateDeliveryArrivalDate() {
     var isvalid = true;
     var pickupArrival = $("#dtArrivalDate").val();
@@ -693,8 +1135,7 @@ function ValidateDeliveryArrivalDate() {
     if (pickupArrival != "" && deliverArrival != "") {
         if (new Date(pickupArrival) < new Date(deliverArrival)) {
 
-        }
-        else {
+        } else {
             $("#dtDeliveryDate").val("");
             AlertPopup("Please select valid date.");
         }
@@ -708,8 +1149,7 @@ function ValidateDeliveryDepartureDate() {
     if (pickDeparture != "" && deliveryDeparture != "") {
         if (new Date(pickDeparture) < new Date(deliveryDeparture)) {
 
-        }
-        else {
+        } else {
             $("#dtDeliveryToDate").val("");
             AlertPopup("Please select valid date.");
         }
@@ -720,7 +1160,7 @@ function ValidateDeliveryDepartureDate() {
 
 
 //#region get shipment detail detail by id for edit
-getShipmentDetailById = function () {
+getShipmentDetailById = function() {
 
     var url = window.location.pathname;
     var shipmentId = url.substring(url.lastIndexOf('/') + 1);
@@ -728,11 +1168,13 @@ getShipmentDetailById = function () {
         $.ajax({
             url: baseUrl + "/Shipment/Shipment/GetShipmentById",
             type: "GET",
-            data: { shipmentId: shipmentId },
+            data: {
+                shipmentId: shipmentId
+            },
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             async: false,
-            success: function (response) {
+            success: function(response) {
 
                 if (response != null) {
 
@@ -765,8 +1207,7 @@ getShipmentDetailById = function () {
                         $('#chkDeliveryWaitingTime').prop('checked', true);
                         $('#chkPickUpWaitingTime').prop('checked', true);
                         $(".divWaitingTime").show();
-                    }
-                    else {
+                    } else {
                         $('#chkDeliveryWaitingTime').prop('checked', false);
                         $('#chkPickUpWaitingTime').prop('checked', false);
                         $(".divWaitingTime").hide();
@@ -785,8 +1226,7 @@ getShipmentDetailById = function () {
 
                     if (response.IsOnHold) {
                         $("#shipmentEnvelop").css("color", "red");
-                    }
-                    else {
+                    } else {
                         $("#shipmentEnvelop").css("color", "gray");
                     }
                     bindSubStauts();
@@ -837,8 +1277,8 @@ getShipmentDetailById = function () {
                         objRouteStops.IsWaitingTimeNeeded = response.ShipmentRoutesStop[i].IsWaitingTimeNeeded;
                         objRouteStops.IsPickUpWaitingTimeRequired = response.ShipmentRoutesStop[i].IsPickUpWaitingTimeRequired;
                         objRouteStops.IsDeliveryWaitingTimeRequired = response.ShipmentRoutesStop[i].IsDeliveryWaitingTimeRequired;
-                         /*Dart changes for AirwayBill*/
-                       // objRouteStops.AirWayBill = response.ShipmentRoutesStop[i].AirWayBill;
+                        /*Dart changes for AirwayBill*/
+                        // objRouteStops.AirWayBill = response.ShipmentRoutesStop[i].AirWayBill;
                         //console.log("AiwayBill 2: ", response.ShipmentRoutesStop[i].AirWayBill);
                         glbRouteStops.push(objRouteStops);
 
@@ -964,10 +1404,10 @@ getShipmentDetailById = function () {
                     }
                     bindProofOfTempTbl();
                     //#endregion
-                    
+
                     //#region for binding equipment and driver
                     for (let i = 0; i < response.ShipmentEquipmentNdriver.length; i++) {
-                        
+
                         var equipmentNdriver = {};
                         equipmentNdriver.ShipmentEquipmentNDriverId = response.ShipmentEquipmentNdriver[i].ShipmentEquipmentNDriverId;
                         equipmentNdriver.EquipmentId = response.ShipmentEquipmentNdriver[i].EquipmentId;
@@ -998,7 +1438,7 @@ getShipmentDetailById = function () {
 
                 }
             },
-            error: function () {
+            error: function() {
 
             }
         });
@@ -1010,9 +1450,9 @@ getShipmentDetailById = function () {
 
 
 //#region approved on hold condition
-btnApprovedShipment = function () {
+btnApprovedShipment = function() {
 
-    $("#btnApprovedShipment").on("click", function () {
+    $("#btnApprovedShipment").on("click", function() {
 
         var ddlStatus = $("#ddlStatus option:selected").text();
         if ($.trim(ddlStatus).toLowerCase() == $.trim("Shipment On Hold").toLowerCase() || $.trim(ddlStatus).toLowerCase() == $.trim("IMMEDIATE ATTENTION").toLowerCase()) {
@@ -1025,7 +1465,7 @@ btnApprovedShipment = function () {
                 buttons: {
                     confirm: {
                         btnClass: 'btn-blue',
-                        action: function () {
+                        action: function() {
                             var values = {};
                             values.ShipmentId = $("#hdnShipmentId").val();
                             values.StatusId = $("#ddlStatus").val();
@@ -1035,13 +1475,13 @@ btnApprovedShipment = function () {
                                 url: baseUrl + '/Shipment/Shipment/ApprovedShipment',
                                 data: JSON.stringify(values),
                                 type: "Post",
-                                beforeSend: function () {
+                                beforeSend: function() {
                                     showLoader();
                                 },
                                 //async: false,
                                 contentType: "application/json; charset=utf-8",
                                 //dataType: "json",
-                                success: function (data) {
+                                success: function(data) {
                                     hideLoader();
                                     if (data.IsSuccess == true) {
 
@@ -1053,18 +1493,17 @@ btnApprovedShipment = function () {
                                             buttons: {
                                                 Ok: {
                                                     btnClass: 'btn-green',
-                                                    action: function () {
+                                                    action: function() {
                                                         getShipmentDetailById();
                                                     }
                                                 },
                                             }
                                         });
-                                    }
-                                    else {
+                                    } else {
                                         AlertPopup(data.Message);
                                     }
                                 },
-                                error: function () {
+                                error: function() {
                                     hideLoader();
 
                                 }
@@ -1083,7 +1522,7 @@ btnApprovedShipment = function () {
 //#end region
 
 //#region bind route 
-bindRoutetable = function () {
+bindRoutetable = function() {
 
     var dtRouteBody = "";
     $("#dtRouteBody").empty();
@@ -1109,8 +1548,7 @@ bindRoutetable = function () {
                 "<label name='lblDeliveryLocationId' style='display:none'>" + glbRouteStops[i].DeliveryLocationId + "</label>"
             if (glbRouteStops[i].IsAppointmentNeeded == true && glbRouteStops[i].IsAppointmentRequired == false) {
                 dtRouteBody += '<label data-toggle="tooltip" style="color:red" data-placement="top" title="' + GetAddress(glbRouteStops[i].DeliveryLocationText) + '">' + GetCompanyName(glbRouteStops[i].DeliveryLocationText) + '</label>'
-            }
-            else {
+            } else {
                 dtRouteBody += '<label data-toggle="tooltip" data-placement="top" title="' + GetAddress(glbRouteStops[i].DeliveryLocationText) + '">' + GetCompanyName(glbRouteStops[i].DeliveryLocationText) + '</label>'
             }
             dtRouteBody += "</td>" +
@@ -1167,17 +1605,18 @@ function bindshipmenttable() {
             }
             Qty = Qty.replace(/(^\s*,)|(,\s*$)/g, '');
 
-            shipmenttabledata += "<tr align='center' ondblclick='javascript: edit_from_shipment(" + i + ");'>"
-                + "<td><input type='radio' name='rdSelectedFreight' onchange='checkFreight(" + glbFreightDetail[i].FreightDetailId + ")' value=" + glbFreightDetail[i].FreightDetailId + " /></td>"
-                + "<td><label name='serialno'>" + srno + "</label></td>"
+            shipmenttabledata += "<tr align='center' ondblclick='javascript: edit_from_shipment(" + i + ");'>" +
+                "<td><input type='radio' name='rdSelectedFreight' onchange='checkFreight(" + glbFreightDetail[i].FreightDetailId + ")' value=" + glbFreightDetail[i].FreightDetailId + " /></td>" +
+                "<td><label name='serialno'>" + srno + "</label></td>"
                 //+ "<td><label name = 'pickNdropRadiobtValue'>" + glbFreightDetail[i].RouteNo + "</label></td>"
-                + "<td><label name='commoditytext'>" + glbFreightDetail[i].Commodity + "</label></td>"
-                + "<td><label name='freighttypetext'>" + glbFreightDetail[i].freighttypetext + "</label></td>"
-                + "<td><label name='pricingmethodtext'>" + glbFreightDetail[i].pricingmethodtext + "</label></td>"
+                +
+                "<td><label name='commoditytext'>" + glbFreightDetail[i].Commodity + "</label></td>" +
+                "<td><label name='freighttypetext'>" + glbFreightDetail[i].freighttypetext + "</label></td>" +
+                "<td><label name='pricingmethodtext'>" + glbFreightDetail[i].pricingmethodtext + "</label></td>"
             if (IsPricingMethod == true && shipmentId > 0) {
-                shipmenttabledata += "<td  align='right'><label name='minfee'>" + glbFreightDetail[i].MinFee + "</label></td>"
-                    + "<td  align='right'><label name='addfee'>" + glbFreightDetail[i].UnitPrice + "</label></td>"
-                    + "<td  align='right'><label name='upto'>" + glbFreightDetail[i].UpTo + "</label></td>"
+                shipmenttabledata += "<td  align='right'><label name='minfee'>" + glbFreightDetail[i].MinFee + "</label></td>" +
+                    "<td  align='right'><label name='addfee'>" + glbFreightDetail[i].UnitPrice + "</label></td>" +
+                    "<td  align='right'><label name='upto'>" + glbFreightDetail[i].UpTo + "</label></td>"
             }
             shipmenttabledata += "<td  align='right'>" + Qty + "</td>"
 
@@ -1186,8 +1625,8 @@ function bindshipmenttable() {
                 shipmenttabledata += "<td  align='right'><label name='totalprice'>" + glbFreightDetail[i].TotalPrice + "</label></td>"
 
             }
-            shipmenttabledata += "<td><button type='button' class='edit_icon' onclick='edit_from_shipment(" + i + ")'> <i class='far fa-edit'></i> </button>|<button type='button' class='delete_icon' onclick='remove_row_from_shipment(" + i + ")'> <i class='far fa-trash-alt'></i> </button></td>"
-                + "</tr>"
+            shipmenttabledata += "<td><button type='button' class='edit_icon' onclick='edit_from_shipment(" + i + ")'> <i class='far fa-edit'></i> </button>|<button type='button' class='delete_icon' onclick='remove_row_from_shipment(" + i + ")'> <i class='far fa-trash-alt'></i> </button></td>" +
+                "</tr>"
             srno = srno + 1;
             totalPrice = parseFloat(totalPrice) + parseFloat(glbFreightDetail[i].TotalPrice);
         }
@@ -1212,7 +1651,7 @@ function bindAccessorialfeeType() {
         data: {},
         type: "GET",
         async: false,
-        success: function (data) {
+        success: function(data) {
 
             var divfixedfee = "";
             var divunitfee = "";
@@ -1228,8 +1667,7 @@ function bindAccessorialfeeType() {
                         '</div>' +
                         '</div>'
 
-                }
-                else if ($.trim(data[i].PricingMethod).toLowerCase() == $.trim("per unit").toLowerCase()) {
+                } else if ($.trim(data[i].PricingMethod).toLowerCase() == $.trim("per unit").toLowerCase()) {
                     divunitfee += '<div class="col-md-6">' +
                         '<div class="form-group row checkbox-container">' +
                         '<input class="col-md-1 chkunitfee" name="chkunitfee" id="chkunitfee_' + data[i].Id + '" type="checkbox" value=' + data[i].Id + ' />' +
@@ -1239,8 +1677,7 @@ function bindAccessorialfeeType() {
                         '<input type="text" onchange="ConvertFloat(this)" onkeypress="return onlyNumeric(event)" readonly=readonly  placeholder="Amount" readonly="readonly" id="txtAmount_' + data[i].Id + '" class="col-sm-2 form-control" />' +
                         '</div>' +
                         '</div>'
-                }
-                else if ($.trim(data[i].PricingMethod).toLowerCase() == $.trim("other").toLowerCase()) {
+                } else if ($.trim(data[i].PricingMethod).toLowerCase() == $.trim("other").toLowerCase()) {
                     divother += '<div class="col-md-6">' +
                         '<div class="form-group row checkbox-container">' +
                         '<input class="col-md-1 chkOtherFee" name="chkother"  id="chkother_' + data[i].Id + '" type="checkbox" value=' + data[i].Id + ' />' +
@@ -1341,7 +1778,7 @@ function GetFreightType() {
             async: false,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function (data) {
+            success: function(data) {
 
                 if (ValidateRouteStops()) {
                     $.ajax({
@@ -1350,7 +1787,7 @@ function GetFreightType() {
                         async: false,
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
-                        success: function (result) {
+                        success: function(result) {
 
                             var ddlResultValue = "";
                             $("#ddlFreightType").empty();
@@ -1358,16 +1795,14 @@ function GetFreightType() {
                             for (var i = 0; i < result.length; i++) {
                                 if (data[0].FreightTypeId == result[i].FreightTypeId) {
                                     ddlResultValue += '<option selected="selected" value="' + result[i].FreightTypeId + '">' + result[i].FreightTypeName + '</option>';
-                                }
-                                else {
+                                } else {
                                     ddlResultValue += '<option value="' + result[i].FreightTypeId + '">' + result[i].FreightTypeName + '</option>';
                                 }
                             }
                             $("#ddlFreightType").append(ddlResultValue);
                         }
                     });
-                }
-                else {
+                } else {
                     var ddlValue = "";
                     $("#ddlFreightType").empty();
                     ddlValue += '<option value="0">SELECT FREIGHT TYPE</option>'
@@ -1394,7 +1829,7 @@ function CheckQuoteFreightTypeChange(freightTypeId, freightType) {
             async: false,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function (data) {
+            success: function(data) {
                 if (ValidateRouteStops()) {
                     var isChanged = true;
                     for (var i = 0; i < data.length; i++) {
@@ -1424,7 +1859,7 @@ function CheckQuotePricingMethodChange(pricingMethodId, pricingMethod) {
             async: false,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function (data) {
+            success: function(data) {
                 ShowSignaturePopUp
                 if (ValidateRouteStops()) {
                     var isChanged = true;
@@ -1455,7 +1890,7 @@ function GetPricingMethod() {
             async: false,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function (data) {
+            success: function(data) {
                 ShowSignaturePopUp
                 if (ValidateRouteStops()) {
                     $.ajax({
@@ -1464,7 +1899,7 @@ function GetPricingMethod() {
                         async: false,
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
-                        success: function (result) {
+                        success: function(result) {
                             var ddlResultValue = "";
                             $("#ddlPricingMethod").empty();
 
@@ -1472,8 +1907,7 @@ function GetPricingMethod() {
                             for (var i = 0; i < result.length; i++) {
                                 if (data[0].PricingMethodId == result[i].PricingMethodId) {
                                     ddlResultValue += '<option selected="selected" value="' + result[i].PricingMethodId + '">' + $.trim(result[i].PricingMethodName).toUpperCase() + '</option>';
-                                }
-                                else {
+                                } else {
                                     ddlResultValue += '<option value="' + result[i].PricingMethodId + '">' + $.trim(result[i].PricingMethodName).toUpperCase() + '</option>';
                                 }
                             }
@@ -1481,8 +1915,7 @@ function GetPricingMethod() {
 
                         }
                     });
-                }
-                else {
+                } else {
 
                     var ddlValue = "";
                     $("#ddlPricingMethod").empty();
@@ -1525,9 +1958,9 @@ function validateLocation() {
 
 //#region add route stopes
 
-var btnAddRouteStop = function () {
+var btnAddRouteStop = function() {
 
-    $("#btnAddRouteStop").on("click", function () {
+    $("#btnAddRouteStop").on("click", function() {
 
         if ($("#ddlCustomer").val() > 0) {
             if (validateLocation()) {
@@ -1553,7 +1986,7 @@ var btnAddRouteStop = function () {
                                                 buttons: {
                                                     confirm: {
                                                         btnClass: 'btn-blue',
-                                                        action: function () {
+                                                        action: function() {
                                                             addRouteStops();
                                                             clearDriverNEquipment();
                                                             GetEquipmentList();
@@ -1565,8 +1998,7 @@ var btnAddRouteStop = function () {
                                                 }
                                             })
                                         }
-                                    }
-                                    else {
+                                    } else {
                                         if (isFormValid("formRouteStop")) {
                                             addRouteStops();
                                             // clearDriverNEquipment();
@@ -1575,14 +2007,12 @@ var btnAddRouteStop = function () {
                                     }
 
 
-                                }
-                                else {
+                                } else {
                                     if ($("#tblRouteStope").attr("data-row-no") > 0) {
                                         addRouteStops();
                                         //clearDriverNEquipment();
                                         GetEquipmentList();
-                                    }
-                                    else {
+                                    } else {
                                         //commented  by sudhansu on 8Dec2020
                                         //Uncommented  by sudhansu on 10Dec2020
                                         $.confirm({
@@ -1593,7 +2023,7 @@ var btnAddRouteStop = function () {
                                             buttons: {
                                                 continue: {
                                                     btnClass: 'btn-blue',
-                                                    action: function () {
+                                                    action: function() {
                                                         if ($("#hdnShipmentId").val() > 0) {
                                                             $.confirm({
                                                                 title: 'Confirmation!',
@@ -1603,7 +2033,7 @@ var btnAddRouteStop = function () {
                                                                 buttons: {
                                                                     confirm: {
                                                                         btnClass: 'btn-blue',
-                                                                        action: function () {
+                                                                        action: function() {
                                                                             addRouteStops();
                                                                             clearDriverNEquipment();
                                                                             GetEquipmentList();
@@ -1614,8 +2044,7 @@ var btnAddRouteStop = function () {
                                                                     }
                                                                 }
                                                             })
-                                                        }
-                                                        else {
+                                                        } else {
                                                             if (isFormValid("formRouteStop")) {
                                                                 addRouteStops();
                                                                 // clearDriverNEquipment();
@@ -1632,24 +2061,20 @@ var btnAddRouteStop = function () {
                                         })
                                     }
                                 }
-                            }
-                            else {
+                            } else {
                                 AlertPopup("Please select a Delivery Location.")
                             }
-                        }
-                        else {
+                        } else {
                             AlertPopup("Please select a Pickup Location.")
                         }
 
                     }
-                }
-                else {
+                } else {
 
                     AlertPopup(msgMissingContactInfo);
                 }
             }
-        }
-        else {
+        } else {
             AlertPopup('Please select a customer..');
         }
 
@@ -1658,8 +2083,8 @@ var btnAddRouteStop = function () {
 //#endregion
 
 //#region add route stopes
-var btnAddRoundTrip = function () {
-    $("#btnRoundTrip").on("click", function () {
+var btnAddRoundTrip = function() {
+    $("#btnRoundTrip").on("click", function() {
 
         if ($("#ddlCustomer").val() > 0) {
             if (validateLocation()) {
@@ -1679,7 +2104,7 @@ var btnAddRoundTrip = function () {
                                             buttons: {
                                                 confirm: {
                                                     btnClass: 'btn-blue',
-                                                    action: function () {
+                                                    action: function() {
                                                         AddRoundTrip();
                                                         clearDriverNEquipment();
                                                         GetEquipmentList();
@@ -1691,8 +2116,7 @@ var btnAddRoundTrip = function () {
                                             }
                                         })
 
-                                    }
-                                    else {
+                                    } else {
                                         if (isFormValid("formRouteStop")) {
                                             AddRoundTrip();
                                             clearDriverNEquipment();
@@ -1700,8 +2124,7 @@ var btnAddRoundTrip = function () {
                                         }
                                     }
 
-                                }
-                                else {
+                                } else {
 
                                     $.confirm({
                                         title: 'Confirmation!',
@@ -1711,7 +2134,7 @@ var btnAddRoundTrip = function () {
                                         buttons: {
                                             continue: {
                                                 btnClass: 'btn-blue',
-                                                action: function () {
+                                                action: function() {
                                                     if ($("#hdnShipmentId").val() > 0) {
 
                                                         $.confirm({
@@ -1722,7 +2145,7 @@ var btnAddRoundTrip = function () {
                                                             buttons: {
                                                                 confirm: {
                                                                     btnClass: 'btn-blue',
-                                                                    action: function () {
+                                                                    action: function() {
                                                                         AddRoundTrip();
                                                                         clearDriverNEquipment();
                                                                         GetEquipmentList();
@@ -1733,8 +2156,7 @@ var btnAddRoundTrip = function () {
                                                                 }
                                                             }
                                                         })
-                                                    }
-                                                    else {
+                                                    } else {
                                                         if (isFormValid("formRouteStop")) {
                                                             AddRoundTrip();
                                                             clearDriverNEquipment();
@@ -1751,26 +2173,22 @@ var btnAddRoundTrip = function () {
                                     })
 
                                 }
-                            }
-                            else {
+                            } else {
 
                                 AlertPopup("Please select a Delivery Location.")
                             }
-                        }
-                        else {
+                        } else {
 
                             AlertPopup("Please select a Pickup Location.")
                         }
 
                     }
-                }
-                else {
+                } else {
                     AlertPopup(msgMissingContactInfo)
                 }
 
             }
-        }
-        else {
+        } else {
             AlertPopup("Please select a customer.")
         }
 
@@ -1795,20 +2213,19 @@ function addRouteStops() {
             buttons: {
                 Schedule: {
                     btnClass: 'btn-blue',
-                    action: function () {
+                    action: function() {
                         addRouteStop(false);
                     }
                 },
                 'Appointment Confirm': {
                     btnClass: 'btn-blue',
-                    action: function () {
+                    action: function() {
                         addRouteStop(true);
                     }
                 }
             }
         })
-    }
-    else {
+    } else {
         addRouteStop(false)
     }
 
@@ -1856,15 +2273,13 @@ function addRouteStop(isAppointmentRequireds) {
     var tblRowsCount = 0;
     if (shipmentId > 0) {
         tblRowsCount = GetMaxRouteNo(shipmentId) + 1;
-    }
-    else {
+    } else {
         if (glbRouteStops.length > 0) {
-            var max = glbRouteStops.reduce(function (prev, current) {
+            var max = glbRouteStops.reduce(function(prev, current) {
                 return (prev.RouteNo > current.RouteNo) ? prev : current
             });
             tblRowsCount = max.RouteNo + 1;
-        }
-        else {
+        } else {
             tblRowsCount = 1;
         }
     }
@@ -1893,8 +2308,8 @@ function addRouteStop(isAppointmentRequireds) {
         }
         routedetail.Website = website;
         routedetail.Phone = phone;
-         /*Dart changes for AirwayBill*/
-       // routedetail.AirWayBill = AirWayBill;
+        /*Dart changes for AirwayBill*/
+        // routedetail.AirWayBill = AirWayBill;
 
         routedetail.IsWaitingTimeNeeded = JSON.parse(IsWaitingTimeNeeded);
         routedetail.IsPickUpWaitingTimeRequired = JSON.parse(isPickUpWaitingTimeRequired);
@@ -1906,8 +2321,7 @@ function addRouteStop(isAppointmentRequireds) {
         $("#btnRoundTrip").show();
         //bind route table
         bindRoutetable();
-    }
-    else {
+    } else {
 
         var objRouteStops = {};
         objRouteStops.ShipmentId = $("#hdnShipmentId").val();
@@ -1933,8 +2347,8 @@ function addRouteStop(isAppointmentRequireds) {
         objRouteStops.IsAppointmentRequired = JSON.parse(isAppointmentRequired);
         objRouteStops.Website = website;
         objRouteStops.Phone = phone;
-         /*Dart changes for AirwayBill*/
-       // objRouteStops.AirWayBill = AirWayBill;
+        /*Dart changes for AirwayBill*/
+        // objRouteStops.AirWayBill = AirWayBill;
 
         objRouteStops.IsWaitingTimeNeeded = JSON.parse(IsWaitingTimeNeeded);
         objRouteStops.IsPickUpWaitingTimeRequired = JSON.parse(isPickUpWaitingTimeRequired);
@@ -1952,7 +2366,7 @@ function addRouteStop(isAppointmentRequireds) {
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
 
-                success: function (data) {
+                success: function(data) {
 
 
                     if (data > 0) {
@@ -1962,8 +2376,7 @@ function addRouteStop(isAppointmentRequireds) {
                 }
             });
 
-        }
-        else {
+        } else {
             glbRouteStops.push(objRouteStops);
         }
 
@@ -1983,8 +2396,7 @@ function addRouteStop(isAppointmentRequireds) {
                 if (glbRouteStops[i].IsAppointmentRequired == false) {
                     //10=>appointement pending
                     $("#ddlStatus").val(10);
-                }
-                else {
+                } else {
                     //1=>Dispetched
                     $("#ddlStatus").val(1);
                 }
@@ -2002,7 +2414,7 @@ function addRouteStop(isAppointmentRequireds) {
 
 
 //#region add round trip in table
-var AddRoundTrip = function () {
+var AddRoundTrip = function() {
     var shipmentId = $("#hdnShipmentId").val();
     var pickupLocationId = $.trim($("#ddlPickupLocation").val());
     var pickupLocationText = $.trim($("#ddlPickupLocation").find('option:selected').text());
@@ -2026,15 +2438,13 @@ var AddRoundTrip = function () {
     var tblRowsCount = 0;
     if (shipmentId > 0) {
         tblRowsCount = GetMaxRouteNo(shipmentId) + 1;
-    }
-    else {
+    } else {
         if (glbRouteStops.length > 0) {
-            var max = glbRouteStops.reduce(function (prev, current) {
+            var max = glbRouteStops.reduce(function(prev, current) {
                 return (prev.RouteNo > current.RouteNo) ? prev : current
             });
             tblRowsCount = max.RouteNo + 1;
-        }
-        else {
+        } else {
             tblRowsCount = 1;
         }
     }
@@ -2052,8 +2462,8 @@ var AddRoundTrip = function () {
     objRouteStops.PickDateTimeTo = dtPickUpToDate;
     objRouteStops.DeliveryDateTime = dtDelivery;
     objRouteStops.DeliveryDateTimeTo = dtDeliveryToDate;
-     /*Dart changes for AirwayBill*/
-  //  objRouteStops.AirWayBill = AirWayBill;
+    /*Dart changes for AirwayBill*/
+    //  objRouteStops.AirWayBill = AirWayBill;
     //objRouteStops.Comment = comment;
     objRouteStops.IsDeleted = false;
     objRouteStops.ActPickupArrival = "";
@@ -2075,7 +2485,7 @@ var AddRoundTrip = function () {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
 
-            success: function (data) {
+            success: function(data) {
 
 
                 if (data > 0) {
@@ -2085,8 +2495,7 @@ var AddRoundTrip = function () {
             }
         });
 
-    }
-    else {
+    } else {
         glbRouteStops.push(objRouteStops);
     }
 
@@ -2107,8 +2516,8 @@ var AddRoundTrip = function () {
     objRoundTrip.PickDateTimeTo = dtPickUpToDate;
     objRoundTrip.DeliveryDateTime = dtDelivery;
     objRoundTrip.DeliveryDateTimeTo = dtDeliveryToDate;
-     /*Dart changes for AirwayBill*/
-   // objRoundTrip.AirWayBill = AirWayBill;
+    /*Dart changes for AirwayBill*/
+    // objRoundTrip.AirWayBill = AirWayBill;
     //objRoundTrip.Comment = comment;
     objRoundTrip.ActPickupArrival = "";
     objRoundTrip.ActPickupDeparture = "";
@@ -2131,7 +2540,7 @@ var AddRoundTrip = function () {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
 
-            success: function (data) {
+            success: function(data) {
 
                 if (data > 0) {
                     objRoundTrip.ShipmentRouteStopId = data;
@@ -2140,8 +2549,7 @@ var AddRoundTrip = function () {
             }
         });
 
-    }
-    else {
+    } else {
         glbRouteStops.push(objRoundTrip);
     }
 
@@ -2164,13 +2572,15 @@ function GetMaxRouteNo(shipmentId) {
     var maxRouteNo = 0;
     $.ajax({
         url: baseUrl + 'Shipment/Shipment/GetMaxRouteNo',
-        data: { "shipmentId": shipmentId },
+        data: {
+            "shipmentId": shipmentId
+        },
         type: "Get",
         async: false,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
 
-        success: function (data) {
+        success: function(data) {
 
             maxRouteNo = data;
         }
@@ -2191,8 +2601,7 @@ function ValidateRouteStops() {
         values.PickupLocation = currentRouteValue.PickupLocationId;
         values.DeliveryLocation = currentRouteValue.DeliveryLocationId;
         values.ArrivalDate = currentRouteValue.PickupArrivalDate;
-    }
-    else {
+    } else {
 
         values.CustomerId = $("#ddlCustomer").val();
         values.PickupLocation = $.trim($("#ddlPickupLocation").val());
@@ -2207,14 +2616,13 @@ function ValidateRouteStops() {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
 
-        success: function (data) {
+        success: function(data) {
 
 
             if (data == true) {
 
                 result = true;
-            }
-            else {
+            } else {
                 //toastr.warning("Quote not available for " + $("#ddlCustomer").text() + " / location.");
                 result = false;
             }
@@ -2234,6 +2642,7 @@ function ShowSignaturePopUp(index) {
     $("#modalSignature").modal("show");
     $('#modalSignature').draggable();
 }
+
 function replaceBR(string) {
 
     var str = string.replace("<br/>", "");
@@ -2258,7 +2667,7 @@ function edit_route_stops(index) {
 
     /*Dart changes for AirwayBill*/
     console.log("routedetail.AirWayBill: ", routedetail.AirWayBill);
-   // $("#txtAirWayBill").val(routedetail.AirWayBill);
+    // $("#txtAirWayBill").val(routedetail.AirWayBill);
     //$("#txtComment").val(routedetail.Comment);
 
 
@@ -2278,8 +2687,7 @@ function edit_route_stops(index) {
         $(".ddlDeliveryLocation").attr("data-IsAppointmentRequired", true);
         $(".ddlDeliveryLocation").attr("data-website", routedetail.Website);
         $(".ddlDeliveryLocation").attr("data-phone", routedetail.Phone);
-    }
-    else {
+    } else {
         $(".ddlDeliveryLocation").attr("data-IsAppointmentRequired", false);
         $(".ddlDeliveryLocation").attr("data-website", "");
         $(".ddlDeliveryLocation").attr("data-phone", "");
@@ -2321,7 +2729,7 @@ function remove_row_from_route(_this) {
         buttons: {
             delete: {
                 btnClass: 'btn-blue',
-                action: function () {
+                action: function() {
                     row = $(_this).closest("tr");
                     var deletedrow = $(row).find("input[name='rdSelectedRoute']").val();
 
@@ -2371,7 +2779,7 @@ function remove_row_from_route(_this) {
 //#endregion
 
 //#region clear route stops field
-clearRouteStops = function () {
+clearRouteStops = function() {
 
     var ddlpickup = "<option selected='selected' value='0'>SEARCH PICKUP LOCATION</option>";
     $("#ddlPickupLocation").empty();
@@ -2396,11 +2804,11 @@ clearRouteStops = function () {
 //#endregion
 
 //#region clear route stops
-btnClearRoute = function () {
+btnClearRoute = function() {
 
-    $("#btnClearRoute").on("click", function () {
+    $("#btnClearRoute").on("click", function() {
         clearRouteStops();
-      //  $("#btnAddRouteStop").text("Add Trip");
+        //  $("#btnAddRouteStop").text("Add Trip");
         $("#btnRoundTrip").show();
     })
 }
@@ -2408,10 +2816,10 @@ btnClearRoute = function () {
 //#endregion
 
 //#region manage route rows after deletion
-var manageRowsAfterDeletionfright = function () {
+var manageRowsAfterDeletionfright = function() {
 
     var srlno = 1;
-    $("#dtRouteBody tr").each(function () {
+    $("#dtRouteBody tr").each(function() {
         $(this).find("label[name=lblSrNo]").text(srlno);
         $(this).find("input[name=rdSelectedRoute]").val(srlno);
         srlno++;
@@ -2444,8 +2852,8 @@ function remove_shipment_row(_this) {
 //#endregion
 
 //#region add freight 
-var btnAddFreight = function () {
-    $("#btnAddFreight").on("click", function () {
+var btnAddFreight = function() {
+    $("#btnAddFreight").on("click", function() {
 
         if (isFormValid("formAddFreight")) {
             if ($("#ddlFreightType").val() > 0) {
@@ -2454,14 +2862,12 @@ var btnAddFreight = function () {
 
                     AddShipmentDetail();
                     checkFreightRadionButton();
-                }
-                else {
+                } else {
 
                     AlertPopup("Please select a Pricing Method.")
                 }
 
-            }
-            else {
+            } else {
                 AlertPopup("Please select a Freight Type.")
             }
         }
@@ -2512,18 +2918,17 @@ function AddShipmentDetail() {
 
 
 
-
             var isPartialShipment = 0;
             if ($("#chkPartialShipment").is(':checked')) {
-                
+
                 // alert('Partial')
                 isPartialShipment = 1;
             }
 
-          //  var partialPallet = $("#txtPartalPallet").val();
+            //  var partialPallet = $("#txtPartalPallet").val();
             var partialPallet = $("#txtQutVlmWgt").val();
             var partialBox = $("#txtPartialBox").val();
-            
+
             //alert('Partial2')
             var pcsType = "";
             var pcsTypeId = 0;
@@ -2578,8 +2983,7 @@ function AddShipmentDetail() {
                 $("#tblShipmentDetail").attr("data-row-no", 0);
                 $("#btnAddFreight").text("Add");
 
-            }
-            else {
+            } else {
                 //Add in array
                 var objFreightDetail = {};
                 objFreightDetail.ShipmentId = 0;
@@ -2634,7 +3038,7 @@ function AddShipmentDetail() {
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
 
-                        success: function (data) {
+                        success: function(data) {
 
 
                             if (data > 0) {
@@ -2644,8 +3048,7 @@ function AddShipmentDetail() {
                         }
                     });
 
-                }
-                else {
+                } else {
                     objFreightDetail.FreightDetailId = 0;
                     glbFreightDetail.push(objFreightDetail);
                 }
@@ -2662,12 +3065,10 @@ function AddShipmentDetail() {
             //calculate accessorial charges
             btnCalculatetotalFee();
 
-        }
-        else {
+        } else {
             AlertPopup("Please select at least one Route Stop.")
         }
-    }
-    else {
+    } else {
         AlertPopup("Please add at least one Pickup and Delivery location.")
     }
 }
@@ -2675,7 +3076,7 @@ function AddShipmentDetail() {
 
 //#region  freight clear
 function ClearAddFreightDetail() {
-    
+
     $("#formAddFreight input:text").val("");
     $("#ddlFreightType").val(0);
     $("#ddlPricingMethod").val(0);
@@ -2712,59 +3113,50 @@ function CalculateTotalPrice() {
             var totalprice = 0;
             if (Number(weight) <= Number(upto)) {
                 totalprice = minfee;
-            }
-            else {
+            } else {
                 totalprice = Number(minfee) + ((Number(weight) - Number(upto)) * (Number(addfee)));
 
             }
             $("#txtTotalPrice").val(ConvertStringToFloat(totalprice));
         }
-    }
-    else if ($.trim(selectedtext).toLowerCase() == $.trim("Per Box").toLowerCase()) {
+    } else if ($.trim(selectedtext).toLowerCase() == $.trim("Per Box").toLowerCase()) {
         if (noOfBox > 0) {
             var totalprice = 0;
             if (Number(noOfBox) <= Number(upto)) {
                 totalprice = minfee;
-            }
-            else {
+            } else {
                 totalprice = Number(minfee) + ((Number(noOfBox) - Number(upto)) * (Number(addfee)));
 
             }
             $("#txtTotalPrice").val(ConvertStringToFloat(totalprice));
         }
-    }
-    else if ($.trim(selectedtext).toLowerCase() == $.trim("Per Pallet").toLowerCase()) {
+    } else if ($.trim(selectedtext).toLowerCase() == $.trim("Per Pallet").toLowerCase()) {
         if (QutVlmWgt > 0) {
             var totalprice = 0;
             if (Number(QutVlmWgt) <= Number(upto)) {
                 totalprice = minfee;
-            }
-            else {
+            } else {
                 totalprice = Number(minfee) + ((Number(QutVlmWgt) - Number(upto)) * (Number(addfee)));
 
             }
             $("#txtTotalPrice").val(ConvertStringToFloat(totalprice));
         }
-    }
-    else if ($.trim(selectedtext).toLowerCase() == $.trim("Per Trip").toLowerCase() && $.trim(selectedfreight).toLowerCase() == $.trim("Trailer Move").toLowerCase()) {
+    } else if ($.trim(selectedtext).toLowerCase() == $.trim("Per Trip").toLowerCase() && $.trim(selectedfreight).toLowerCase() == $.trim("Trailer Move").toLowerCase()) {
         if (trailerCount > 0) {
             var totalprice = 0;
             if (Number(trailerCount) <= Number(upto)) {
                 totalprice = minfee;
-            }
-            else {
+            } else {
                 totalprice = Number(minfee) + ((Number(trailerCount) - Number(upto)) * (Number(addfee)));
             }
             $("#txtTotalPrice").val(ConvertStringToFloat(totalprice));
         }
-    }
-    else if ($.trim(selectedtext).toLowerCase() == $.trim("Per Trip").toLowerCase() && $.trim(selectedfreight).toLowerCase() != $.trim("Trailer Move").toLowerCase()) {
+    } else if ($.trim(selectedtext).toLowerCase() == $.trim("Per Trip").toLowerCase() && $.trim(selectedfreight).toLowerCase() != $.trim("Trailer Move").toLowerCase()) {
         if (minfee != "") {
             $("#txtTotalPrice").val(ConvertStringToFloat(minfee));
         }
 
-    }
-    else if ($.trim(selectedtext).toLowerCase() == $.trim("FIXED FEE").toLowerCase() || $.trim(selectedtext).toLowerCase() == $.trim("PER ROUND TRIP").toLowerCase() || $.trim(selectedtext).toLowerCase() == $.trim("PER DAY").toLowerCase()) {
+    } else if ($.trim(selectedtext).toLowerCase() == $.trim("FIXED FEE").toLowerCase() || $.trim(selectedtext).toLowerCase() == $.trim("PER ROUND TRIP").toLowerCase() || $.trim(selectedtext).toLowerCase() == $.trim("PER DAY").toLowerCase()) {
         if (minfee != "") {
             $("#txtTotalPrice").val(ConvertStringToFloat(minfee));
         }
@@ -2839,8 +3231,7 @@ function edit_from_shipment(index) {
         $("#chkPartialShipment").prop("checked", true);
         $("#txtPartialBox").val(freightdetail.PartialBox);
         $("#txtPartalPallet").val(freightdetail.PartialPallet);
-    }
-    else {
+    } else {
         $(".divPartial").hide();
     }
 
@@ -2860,7 +3251,7 @@ function remove_row_from_shipment(index) {
         buttons: {
             delete: {
                 btnClass: 'btn-blue',
-                action: function () {
+                action: function() {
                     //Remove freight detail by id 
 
                     glbFreightDetail[index].IsDeleted = true;
@@ -2881,8 +3272,8 @@ function remove_row_from_shipment(index) {
 
 //#region clear freight on button click
 
-btnClearFreight = function () {
-    $("#btnClearFreight").on("click", function () {
+btnClearFreight = function() {
+    $("#btnClearFreight").on("click", function() {
         ClearAddFreightDetail();
     });
 }
@@ -2910,7 +3301,7 @@ function GetJsonValue() {
 
     var equipmentdriver = $("#hdnEquipment").val();
     if (equipmentdriver != "") {
-        values.ShipmentEquipmentNdriver = equipment;//JSON.parse(equipmentdriver);
+        values.ShipmentEquipmentNdriver = equipment; //JSON.parse(equipmentdriver);
     }
 
     values.DriverInstruction = $("#txtDriverInstruction").val();
@@ -2918,8 +3309,7 @@ function GetJsonValue() {
     if (values.CustomerId > 0) {
 
         values.CustomerName = $("#ddlCustomer").text();
-    }
-    else {
+    } else {
         values.CustomerName = $("#ddlCustomer").val()
         values.CustomerId = 0;
     }
@@ -2945,7 +3335,7 @@ function GetJsonValue() {
             IsDeliveryWaitingTimeRequired: glbRouteStops[i].IsDeliveryWaitingTimeRequired,
 
             /*Dart changes for AirwayBill*/
-            
+
             AirWayBill: glbRouteStops[i].AirWayBill,
         });
 
@@ -3003,7 +3393,7 @@ function SendMessage() {
     values = GetJsonValue();
     prevalues = GetValues();
     console.log("values SendMessage: ", values);
-   // console.log("prevalues: ", prevalues);
+    // console.log("prevalues: ", prevalues);
     var comments = values.ShipmentFreightDetail[0].Comments;
     var PickupLocation = values.ShipmentRoutesStop[0].PickupLocation;
     var PicComp = PickupLocation.split(",");
@@ -3016,7 +3406,7 @@ function SendMessage() {
     var OrderNo = "";
     var CustomerRef = "";
     var PurchaseDoc = "";
-    
+
     //if (values.AirWayBill != "") {
     //    AWB += values.AirWayBill;
     //}
@@ -3035,7 +3425,7 @@ function SendMessage() {
     //else {
     //    AWB += values.PurchaseDoc;
     //}
-   // console.log("AWB: "+AWB);
+    // console.log("AWB: "+AWB);
     var Equipment = values.ShipmentEquipmentNdriver[0].EquipmentName;
     var pallets = values.ShipmentFreightDetail[0].PartialPallet;
     var boxes = values.ShipmentFreightDetail[0].NoOfBox;
@@ -3045,7 +3435,7 @@ function SendMessage() {
     //console.log("PickupLocation: "+PickupLocation);
     console.log("driverid: " + driverid);
     console.log("pallets: " + pallets);
-    var commonStr = "LARAS DISPATCH\n" + "SHIPMENT ORDER\n"+"\n";
+    var commonStr = "LARAS DISPATCH\n" + "SHIPMENT ORDER\n" + "\n";
     var finalSMSBodyStr = "";
     commonStr += "PU: " + PicComp[0] + "\n";
     if (values.AirWayBill != "") {
@@ -3055,26 +3445,26 @@ function SendMessage() {
         commonStr += "CONS: " + values.VendorNconsignee + "\n";
     }
     //if (values.ContainerNo != "") {
-        //commonStr += "CONT # "+values.ContainerNo+"\n";
+    //commonStr += "CONT # "+values.ContainerNo+"\n";
     //}
     if (values.CustomerPO != "") {
-        commonStr += "PO# "+values.CustomerPO+ "\n";
+        commonStr += "PO# " + values.CustomerPO + "\n";
     }
     if (values.OrderNo != "") {
-        commonStr += "ORD# "+values.OrderNo+ "\n";
+        commonStr += "ORD# " + values.OrderNo + "\n";
     }
     if (values.CustomerRef != "") {
-        commonStr += "REF# "+ values.CustomerRef+ "\n";
+        commonStr += "REF# " + values.CustomerRef + "\n";
     }
     if (values.PurchaseDoc != "") {
-        commonStr += "PUR# "+values.PurchaseDoc+ "\n";
+        commonStr += "PUR# " + values.PurchaseDoc + "\n";
     }
     commonStr += "TR# " + Equipment + "\n";
     commonStr += "PLTS: " + pallets + "\n";
     commonStr += "BXS: " + boxes + "\n" + "\n";
     commonStr += "DEL: " + DelComp[0] + "\n";
     commonStr += "CUENTA: " + customer + "\n";
-    if (comments!="") {
+    if (comments != "") {
         commonStr += "INSTRUCCIONES: " + comments;
     }
     finalSMSBodyStr = commonStr;
@@ -3083,50 +3473,52 @@ function SendMessage() {
         $.ajax({
             type: 'GET',
             url: baseUrl + "/Shipment/Shipment/DriverPhone",
-            data: { "driverid": driverid },
+            data: {
+                "driverid": driverid
+            },
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             async: false,
-            success: function (msg) {
+            success: function(msg) {
                 // Do something interesting here.
                 console.log("data sent", msg);
                 driverphone = msg;
             },
-            error: function (xhr, err) {
+            error: function(xhr, err) {
                 console.log("error : " + err);
             }
         })
 
-    ).then(function () {
-        
-            if (driverphone != "" || driverphone != "undefined") {
-                console.log("driverphone ", driverphone);
-                obj.picLoc = finalSMSBodyStr;
-                obj.phone = driverphone;
-                $.ajax({
-                    type: 'POST',
-                    url: baseUrl + "/CustomScript/SendSMS.aspx/SendMessage",
-                    data: JSON.stringify(obj),
-                    contentType: 'application/json',
-                    dataType: 'text',
-                    success: function (msg) {
-                        // Do something interesting here.
-                        console.log("Msg parsed: ",JSON.stringify(msg));
-                        console.log("message sent: ",msg.d);
-                    },
-                    error: function (xhr, err) {
-                        console.log("error : " + err);
-                    }
-                });
-            }
-        
-       
+    ).then(function() {
+
+        if (driverphone != "" || driverphone != "undefined") {
+            console.log("driverphone ", driverphone);
+            obj.picLoc = finalSMSBodyStr;
+            obj.phone = driverphone;
+            $.ajax({
+                type: 'POST',
+                url: baseUrl + "/CustomScript/SendSMS.aspx/SendMessage",
+                data: JSON.stringify(obj),
+                contentType: 'application/json',
+                dataType: 'text',
+                success: function(msg) {
+                    // Do something interesting here.
+                    console.log("Msg parsed: ", JSON.stringify(msg));
+                    console.log("message sent: ", msg.d);
+                },
+                error: function(xhr, err) {
+                    console.log("error : " + err);
+                }
+            });
+        }
+
+
     });
-    
+
 }
 
 //Go BACK -- ENTER KEYs... Added on 08-Feb-2023
-$("#btnGoBack").unbind().on("click", function () {
+$("#btnGoBack").unbind().on("click", function() {
     console.log("BACK BTN: " + document.getElementsByClassName("jconfirm").length + " : " + window.location.href.toLowerCase().indexOf("index") + " : " + window.location.href);
     //window.location.href = baseUrl + "Shipment/Shipment/ViewShipmentList";
     if (document.getElementsByClassName("jconfirm").length == 0 && window.location.href.toLowerCase().indexOf("index") >= 0) {
@@ -3135,7 +3527,7 @@ $("#btnGoBack").unbind().on("click", function () {
         window.close();
     }
 })
-$("html").unbind().keyup(function (e) {
+$("html").unbind().keyup(function(e) {
     console.log("Which Key: " + $(e.target) + " : " + document.getElementsByClassName("jconfirm").length + " : " + window.location.href.toLowerCase().indexOf("Index"));
     if (!$(e.target).is('input') && !$(e.target).is('textarea')) {
         console.log(e.which);
@@ -3168,23 +3560,23 @@ $("html").unbind().keyup(function (e) {
 //
 
 //#region save function for create Shipment
-var btnSave = function () {
+var btnSave = function() {
     //console.log("BTN SAVE...");
-    $("#btnSave").on("click", function () {
+    $("#btnSave").on("click", function() {
         var values = {};
         values = GetJsonValue();
         var prevalues = {};
         var DriverName = "";
         prevalues = GetValues();
         console.log("values btnsave: ", values);
-       // console.log("prevalues: ", prevalues);
+        // console.log("prevalues: ", prevalues);
         const ShipmentEquipmentNdriverCheck = "ShipmentEquipmentNdriver" in values;
         if (ShipmentEquipmentNdriverCheck != false) {
-             DriverName = values.ShipmentEquipmentNdriver[0].DriverName;
+            DriverName = values.ShipmentEquipmentNdriver[0].DriverName;
         }
         //console.log("DriverName: " + DriverName);
         var PickupLocation = values.ShipmentRoutesStop[0].PickupLocation;
-      
+
         var PicComp = PickupLocation.split(",");
         //console.log("PicComp: " + PicComp[0]);
         var DeliveryLocation = values.ShipmentRoutesStop[0].DeliveryLocation;
@@ -3192,15 +3584,13 @@ var btnSave = function () {
         var AWB = "";
         if (values.AirWayBill != "") {
             AWB = values.AirWayBill;
-        }
-        else if (values.ContainerNo != "") {
+        } else if (values.ContainerNo != "") {
             AWB = values.ContainerNo;
-        }
-        else {
+        } else {
             AWB = values.CustomerPO;
         }
         // console.log("AWB: "+AWB);
-       // var Equipment = values.ShipmentEquipmentNdriver[0].EquipmentName;
+        // var Equipment = values.ShipmentEquipmentNdriver[0].EquipmentName;
         var pallets = values.ShipmentFreightDetail[0].PartialPallet;
         var boxes = values.ShipmentFreightDetail[0].NoOfBox;
         var customer = values.CustomerName;
@@ -3257,15 +3647,15 @@ var btnSave = function () {
                     $.ajax({
                         url: baseUrl + "/Shipment/Shipment/EditShipment",
                         type: "POST",
-                        beforeSend: function () {
+                        beforeSend: function() {
                             const ShipmentEquipmentNdriver = "ShipmentEquipmentNdriver" in values;
                             console.log("key in: ", ShipmentEquipmentNdriver);
                             //console.log("Driver in: ", ShipmentEquipmentNdriver.DriverName);
                             const ddlstatus = $("#ddlStatus option:selected").text();
-                            
-                           // const Driver = values.ShipmentEquipmentNdriver[0].DriverName;
-                           // console.log("Driver: " + Driver);
-                            if (ShipmentEquipmentNdriver != false  && ShipmentEquipmentNdriver.DriverName != "" && ddlstatus == "DISPATCHED") {
+
+                            // const Driver = values.ShipmentEquipmentNdriver[0].DriverName;
+                            // console.log("Driver: " + Driver);
+                            if (ShipmentEquipmentNdriver != false && ShipmentEquipmentNdriver.DriverName != "" && ddlstatus == "DRIVER ASSIGNED") {
                                 if (DriverName != prevalues.DriverName) {
                                     SendMessage();
                                 }
@@ -3277,8 +3667,8 @@ var btnSave = function () {
                             else {
                                 console.log("Driver Not Assigned ");
                             }
-                            
-                            
+
+
                             showLoader();
 
                         },
@@ -3286,11 +3676,11 @@ var btnSave = function () {
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
 
-                        success: function (response) {
+                        success: function(response) {
                             isNeedToloaded = false;
                             hideLoader();
                             if (response.IsSuccess) {
-                                
+
                                 $.alert({
                                     title: 'Success!',
                                     content: "<b>" + response.Message + "</b>",
@@ -3299,26 +3689,24 @@ var btnSave = function () {
                                     buttons: {
                                         Ok: {
                                             btnClass: 'btn-green',
-                                            action: function () {
-                                              
+                                            action: function() {
+
                                                 window.location.href = baseUrl + "/Shipment/Shipment/ViewShipmentList";
                                             }
                                         },
                                     }
                                 });
-                            }
-                            else {
+                            } else {
                                 hideLoader();
                                 AlertPopup(response.Message);
                             }
                         },
-                        error: function () {
+                        error: function() {
                             hideLoader();
                             AlertPopup("Something went wrong.");
                         }
                     });
-                }
-                else {
+                } else {
 
                     if (glbFreightDetail.length > 0) {
                         $.ajax({
@@ -3327,11 +3715,11 @@ var btnSave = function () {
                             data: JSON.stringify(values),
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
-                            beforeSend: function () {
-                              
+                            beforeSend: function() {
+
                                 showLoader();
                             },
-                            success: function (response) {
+                            success: function(response) {
                                 isNeedToloaded = false;
                                 hideLoader();
                                 if (response.IsSuccess) {
@@ -3343,17 +3731,17 @@ var btnSave = function () {
                                         buttons: {
                                             Ok: {
                                                 btnClass: 'btn-green',
-                                                action: function () {
+                                                action: function() {
                                                     //var table = $('#userInventory').dataTable();
-                                                   // table.ajax.reload();
-                                                  //  window.close();
+                                                    // table.ajax.reload();
+                                                    //  window.close();
                                                     // get the previous tab
                                                     var prevTab = window.opener;
                                                     // close the previous tab
                                                     console.log("prev tab: ", prevTab);
 
                                                     prevTab.close();
-                                                    window.addEventListener('beforeunload', function () {
+                                                    window.addEventListener('beforeunload', function() {
                                                         // get a reference to the source tab
                                                         var sourceTab = window.opener;
                                                         // if the source tab is still open
@@ -3368,19 +3756,17 @@ var btnSave = function () {
                                             },
                                         }
                                     });
-                                }
-                                else {
+                                } else {
                                     hideLoader();
                                     AlertPopup(response.Message);
                                 }
                             },
-                            error: function () {
+                            error: function() {
                                 hideLoader();
                                 AlertPopup("Something went wrong.");
                             }
                         });
-                    }
-                    else {
+                    } else {
                         AlertPopup("Please add Freight Details to your shipment.");
                     }
                 }
@@ -3394,7 +3780,7 @@ function ConvertFloat(el) {
     el.value = parseFloat(el.value).toFixed(2);
 }
 //#region calculate per unit total fee
-var btnCalculatePerUnitFee = function (id) {
+var btnCalculatePerUnitFee = function(id) {
     var unit = $("#txtUnit_" + id + "").val();
     var amtperunit = $("#txtPerUnitAmount_" + id + "").val();
     var totalamount = 0;
@@ -3409,14 +3795,14 @@ var btnCalculatePerUnitFee = function (id) {
 
 //#region  add accessorial charges into array
 
-var btnCalculatetotalFee = function () {
+var btnCalculatetotalFee = function() {
     var radioValue = $("input[name='rdSelectedRoute']:checked").val();
 
     if (radioValue > 0) {
         // glbAccessorialFee = glbAccessorialFee.filter(x => x.RouteNo != radioValue && x.IsDeleted == false);
         //glbAccessorialFee = glbAccessorialFee.filter(x => x.RouteNo != radioValue && x.IsDeleted == false);
         //glbAccessorialFee = glbAccessorialFee.filter(x => x.ShipmentAccessorialPriceId != 0 && x.IsDeleted == false);
-        $("input[name=chkunitfee]:checked").each(function () {
+        $("input[name=chkunitfee]:checked").each(function() {
 
             var accessorialFeeTypeId = this.value;
 
@@ -3432,8 +3818,7 @@ var btnCalculatetotalFee = function () {
                 accessorialChargesDatabyRouteId[0].Unit = unit;
                 accessorialChargesDatabyRouteId[0].AmtPerUnit = amtperunit;
                 accessorialChargesDatabyRouteId[0].Amount = totalamount;
-            }
-            else {
+            } else {
                 if (totalamount != "" && totalamount > 0) {
                     glbAccessorialFee.push({
                         ShipmentAccessorialPriceId: 0,
@@ -3450,7 +3835,7 @@ var btnCalculatetotalFee = function () {
             }
         });
 
-        $("input[name=chkunitfee]:not(:checked)").each(function () {
+        $("input[name=chkunitfee]:not(:checked)").each(function() {
 
             var accessorialFeeTypeId = this.value;
             var accessorialChargesDatabyRouteId = glbAccessorialFee.filter(x => x.RouteNo == radioValue && x.AccessorialFeeTypeId == accessorialFeeTypeId && x.IsDeleted == false);
@@ -3461,7 +3846,7 @@ var btnCalculatetotalFee = function () {
             }
         });
 
-        $("input[name=chkfixedfee]:checked").each(function () {
+        $("input[name=chkfixedfee]:checked").each(function() {
 
             var accessorialFeeTypeId = this.value;
             var fixedAmount = $("#txt_" + accessorialFeeTypeId + "").val();
@@ -3469,8 +3854,7 @@ var btnCalculatetotalFee = function () {
 
             if (accessorialChargesDatabyRouteId.length > 0) {
                 accessorialChargesDatabyRouteId[0].Amount = fixedAmount;
-            }
-            else {
+            } else {
                 if (fixedAmount != "" && fixedAmount > 0) {
                     glbAccessorialFee.push({
                         ShipmentAccessorialPriceId: 0,
@@ -3487,7 +3871,7 @@ var btnCalculatetotalFee = function () {
             }
         });
 
-        $("input[name=chkfixedfee]:not(:checked)").each(function () {
+        $("input[name=chkfixedfee]:not(:checked)").each(function() {
             var accessorialFeeTypeId = this.value;
             var accessorialChargesDatabyRouteId = glbAccessorialFee.filter(x => x.RouteNo == radioValue && x.AccessorialFeeTypeId == accessorialFeeTypeId && x.IsDeleted == false);
 
@@ -3497,7 +3881,7 @@ var btnCalculatetotalFee = function () {
             }
         });
 
-        $("input[name=chkother]:checked").each(function () {
+        $("input[name=chkother]:checked").each(function() {
 
             var accessorialFeeTypeId = this.value;
             var otherAmount = $("#txtAmount_" + accessorialFeeTypeId + "").val();
@@ -3506,8 +3890,7 @@ var btnCalculatetotalFee = function () {
             if (accessorialChargesDatabyRouteId.length > 0) {
                 accessorialChargesDatabyRouteId[0].Amount = otherAmount;
                 accessorialChargesDatabyRouteId[0].Reason = reason;
-            }
-            else {
+            } else {
 
                 if (otherAmount != "" && otherAmount > 0) {
                     glbAccessorialFee.push({
@@ -3525,7 +3908,7 @@ var btnCalculatetotalFee = function () {
             }
         });
 
-        $("input[name=chkother]:not(:checked)").each(function () {
+        $("input[name=chkother]:not(:checked)").each(function() {
 
             var accessorialFeeTypeId = this.value;
             var accessorialChargesDatabyRouteId = glbAccessorialFee.filter(x => x.RouteNo == radioValue && x.AccessorialFeeTypeId == accessorialFeeTypeId && x.IsDeleted == false);
@@ -3548,7 +3931,7 @@ function calculateTotalAccessorialAmount() {
     var radioValue = $("input[name='rdSelectedRoute']:checked").val();
     var accessorialChargesDatabyRouteId = glbAccessorialFee.filter(x => x.RouteNo == radioValue && x.IsDeleted == false);
     var totalAccessorialFee = 0;
-    $.each(accessorialChargesDatabyRouteId, function (key, value) {
+    $.each(accessorialChargesDatabyRouteId, function(key, value) {
         totalAccessorialFee = Number(totalAccessorialFee) + Number(value.Amount);
     })
     $("#txtTotalAccessorialchargs").val(parseFloat(totalAccessorialFee).toFixed(2));
@@ -3560,8 +3943,7 @@ function alertMessage(_this) {
     var radioValue = $("input[name='rdSelectedRoute']:checked").val();
     if (radioValue > 0) {
         return true;
-    }
-    else {
+    } else {
         $(_this).prop("checked", false);
 
         AlertPopup("Please select at least one Route Stop.")
@@ -3571,9 +3953,9 @@ function alertMessage(_this) {
 //#endregion
 
 //#region calcultae accessorial price on checkbox check
-var chkAccessorialchargs = function () {
+var chkAccessorialchargs = function() {
 
-    $("#formAccessorialchargs").on("change", ".chkunitfee", function () {
+    $("#formAccessorialchargs").on("change", ".chkunitfee", function() {
         var accessorialFeeTypeId = this.value;
         if ($(this).is(':checked')) {
             if (alertMessage(this)) {
@@ -3595,7 +3977,7 @@ var chkAccessorialchargs = function () {
         }
     });
 
-    $("#formAccessorialchargs").on("change", ".chkfixedfee", function () {
+    $("#formAccessorialchargs").on("change", ".chkfixedfee", function() {
         var accessorialFeeTypeId = this.value;
 
         if ($(this).is(':checked')) {
@@ -3604,15 +3986,14 @@ var chkAccessorialchargs = function () {
                 btnCalculatetotalFee();
             }
 
-        }
-        else {
+        } else {
             $("#txt_" + accessorialFeeTypeId + "").val("");
             $("#txt_" + accessorialFeeTypeId + "").attr("readonly", true);
             btnCalculatetotalFee();
         }
     });
 
-    $("#formAccessorialchargs").on("change", ".chkOtherFee", function () {
+    $("#formAccessorialchargs").on("change", ".chkOtherFee", function() {
         var accessorialFeeTypeId = this.value;
 
         if ($(this).is(':checked')) {
@@ -3622,8 +4003,7 @@ var chkAccessorialchargs = function () {
 
                 btnCalculatetotalFee();
             }
-        }
-        else {
+        } else {
             $("#txtAmount_" + accessorialFeeTypeId + "").val("");
             $("#txtReason_" + accessorialFeeTypeId + "").val("");
             $("#txtAmount_" + accessorialFeeTypeId + "").attr("readonly", true);
@@ -3649,7 +4029,7 @@ function getAccessorialPrice() {
     if (glbAccessorialChargesByRouteId.length > 0) {
         ///var data = glbAccessorialChargesByRouteId[0];
 
-        $.each(glbAccessorialChargesByRouteId, function (key, value) {
+        $.each(glbAccessorialChargesByRouteId, function(key, value) {
 
             var accessorialFeeTypeId = value.AccessorialFeeTypeId;
             if (value.FeeType == "per unit") {
@@ -3662,13 +4042,11 @@ function getAccessorialPrice() {
                 $("#txtPerUnitAmount_" + accessorialFeeTypeId + "").val(value.AmtPerUnit);
                 $("#txtAmount_" + accessorialFeeTypeId + "").val(value.Amount);
                 $("#chkunitfee_" + accessorialFeeTypeId + "").prop("checked", true);
-            }
-            else if (value.FeeType == "fixed fee") {
+            } else if (value.FeeType == "fixed fee") {
                 $("#txt_" + accessorialFeeTypeId + "").attr("readonly", false);
                 $("#txt_" + accessorialFeeTypeId + "").val(value.Amount);
                 $("#chkfixedfee_" + accessorialFeeTypeId + "").prop("checked", true);
-            }
-            else if (value.FeeType == "other") {
+            } else if (value.FeeType == "other") {
                 $("#txtAmount_" + accessorialFeeTypeId + "").attr("readonly", false);
                 $("#txtReason_" + accessorialFeeTypeId + "").attr("readonly", false);
                 $("#txtAmount_" + accessorialFeeTypeId + "").val(value.Amount == 0 ? "" : value.Amount);
@@ -3687,7 +4065,7 @@ function getAccessorialPrice() {
 //#region clear accessorial charges
 function ClearAccessorialCharges() {
 
-    $("input[name=chkunitfee]").each(function () {
+    $("input[name=chkunitfee]").each(function() {
 
         var accessorialFeeTypeId = this.value;
         //.attr("readonly", true);
@@ -3703,7 +4081,7 @@ function ClearAccessorialCharges() {
 
     });
 
-    $("input[name=chkfixedfee]:checked").each(function () {
+    $("input[name=chkfixedfee]:checked").each(function() {
         var accessorialFeeTypeId = this.value;
         $("#txt_" + accessorialFeeTypeId + "").val("");
         $("#txt_" + accessorialFeeTypeId + "").attr("readonly", true);
@@ -3711,7 +4089,7 @@ function ClearAccessorialCharges() {
 
     });
 
-    $("input[name=chkother]:checked").each(function () {
+    $("input[name=chkother]:checked").each(function() {
         var accessorialFeeTypeId = this.value;
         $("#txtAmount_" + accessorialFeeTypeId + "").val("");
         $("#txtReason_" + accessorialFeeTypeId + "").val("");
@@ -3741,16 +4119,15 @@ function RemoveAccessorialPrice(routeno) {
 
 //#region temprature converter
 
-var convertTemp = function () {
+var convertTemp = function() {
     var actualTemp;
-    $("#ddlTemperatureUnit").on("change", function () {
+    $("#ddlTemperatureUnit").on("change", function() {
         var unit = $(this).val();
         var temp = $("#txtTemperature").val();
         if (temp != '') {
             if (unit == 'C') {
                 actualTemp = FahrenheitToCelsius(temp);
-            }
-            else {
+            } else {
                 actualTemp = CelsiusToFahrenheit(temp);
             }
 
@@ -3761,8 +4138,8 @@ var convertTemp = function () {
 //#endregion
 
 //#region Button Upload Damage Document
-var btnUpload = function () {
-    $(".btnDamageFile").on("click", function () {
+var btnUpload = function() {
+    $(".btnDamageFile").on("click", function() {
 
         if (isFormValid('divDamage')) {
             var fileUploader = $("#fuDamageFiles");
@@ -3802,17 +4179,16 @@ var btnUpload = function () {
                             processData: false,
                             data: data,
                             async: false,
-                            success: function (data, textStatus, jqXHR) {
+                            success: function(data, textStatus, jqXHR) {
                                 if (data.IsSuccess == true) {
                                     getShipmentDetailById();
 
-                                }
-                                else {
+                                } else {
                                     AlertPopup(data.Message);
                                 }
                                 getShipmentDetailById();
                             },
-                            error: function (xhr, status, p3, p4) {
+                            error: function(xhr, status, p3, p4) {
 
                                 var err = "Error " + " " + status + " " + p3 + " " + p4;
                                 if (xhr.responseText && xhr.responseText[0] == "{")
@@ -3820,8 +4196,7 @@ var btnUpload = function () {
                                 console.log(err);
                             }
                         });
-                    }
-                    else {
+                    } else {
                         AlertPopup("Please click on SUBMIT button to save this route into database.Then you can upload image for this route.");
                     }
                 }
@@ -3876,16 +4251,18 @@ function remove_damage_document_row(_this, damageId) {
         buttons: {
             delete: {
                 btnClass: 'btn-blue',
-                action: function () {
+                action: function() {
                     $.ajax({
                         url: baseUrl + 'Shipment/Shipment/DeleteDamageImage',
-                        data: { DamageId: damageId },
+                        data: {
+                            DamageId: damageId
+                        },
                         type: "GET",
                         async: false,
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
 
-                        success: function (data) {
+                        success: function(data) {
 
 
                             if (data.IsSuccess == true) {
@@ -3904,33 +4281,60 @@ function remove_damage_document_row(_this, damageId) {
     })
 
 }
+var copyData;
+var filesArray = [];
+document.onpaste = function(event) {
+	var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+	var fileNames = "";
+    console.log('items new : ', items);
+    console.log('items new : ', items.length);
+
+      for (var i = 0; i < items.length; i++) {
+      console.log('item', items[i]);	
+      var item = items[i];
+      if (item.kind === 'file') {
+        var blob = item.getAsFile();
+		fileNames += blob.name + "<br />";
+		var dataTransfer = new DataTransfer();
+			// Loop through the files array and add files to the DataTransfer object
+			//filesArray.forEach(function(file) {
+			  dataTransfer.items.add(blob);
+			  filesArray.push(blob);
+			copyData = filesArray;
+			 
+			console.log("copyData after file upload: ",copyData);
+		console.log("blob: ",blob);
+	  }
+	  }
+	  $("#fileBasket").html(fileNames);
+}
 
 var tempData;
 var filesUpload;
-$(document).ready(function () {
+$(document).ready(function() {
 
 
     //$("#progress").hide();
 
-    $("#fileBasket").on("dragenter", function (evt) {
+    $("#fileBasket").on("dragenter", function(evt) {
         evt.preventDefault();
         evt.stopPropagation();
         $("#fileBasket").css("border", "3px dashed #000");
 
     });
 
-    $("#fileBasket").on("dragover", function (evt) {
+    $("#fileBasket").on("dragover", function(evt) {
         evt.preventDefault();
         evt.stopPropagation();
 
     });
-    $("#fileBasket").on("dragleave", function (evt) {
+    $("#fileBasket").on("dragleave", function(evt) {
         evt.preventDefault();
         evt.stopPropagation();
         $("#fileBasket").css("border", "1px dashed #000");
     });
 
-    $("#fileBasket").on("drop", function (evt) {
+    $("#fileBasket").on("drop", function(evt) {
         evt.preventDefault();
         evt.stopPropagation();
         filesUpload = evt.originalEvent.dataTransfer.files;
@@ -3954,98 +4358,100 @@ $(document).ready(function () {
 });
 
 //#region Button Upload Proof of Temp
-var btnProofOfTemp = function () {
-    $(".btnProofOfTemp").on("click", function () {
+var btnProofOfTemp = function() {
+    $(".btnProofOfTemp").on("click", function() {
 
         SendTempReport();
 
-        setTimeout(function () {
-        if (isFormValid('divProofOfTemp')) {
-            var fileUploader = $("#fuProofOfTemperature");
-            var actualTemp = $("#txtActualTemp").val();
-            var url = window.location.pathname;
-            var shipmentId = url.substring(url.lastIndexOf('/') + 1);
-            var tempupload = filesUpload;
-            var unit = $("#ddlActualTemperatureUnit").val();
-            if (unit == 'C') {
-                actualTemp = CelsiusToFahrenheit(actualTemp);
-            }
-            // Date Time Format 
-            var d = new Date($.now());
-            date = (d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds());
-            //
-            var isValid = true;
-            var message = "";
-            if ((actualTemp == "")) {
-                message = "Please enter Loading Temp.";
-                isValid = false;
-                $.alert({
-                    title: 'Alert!',
-                    content: '<b>' + message + '</b>',
-                    type: 'red',
-                    typeAnimated: true,
-                });
+        setTimeout(function() {
+            if (isFormValid('divProofOfTemp')) {
+                var fileUploader = $("#fuProofOfTemperature");
+                var actualTemp = $("#txtActualTemp").val();
+                var url = window.location.pathname;
+                var shipmentId = url.substring(url.lastIndexOf('/') + 1);
+                var tempupload = filesUpload;
+				if(tempupload==undefined){
+					tempupload = copyData;
+				}
+                var unit = $("#ddlActualTemperatureUnit").val();
+                if (unit == 'C') {
+                    actualTemp = CelsiusToFahrenheit(actualTemp);
+                }
+                // Date Time Format 
+                var d = new Date($.now());
+                date = (d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds());
+                //
+                var isValid = true;
+				
+                var message = "";
+                if ((actualTemp == "")) {
+                    message = "Please enter Loading Temp.";
+                    isValid = false;
+                    $.alert({
+                        title: 'Alert!',
+                        content: '<b>' + message + '</b>',
+                        type: 'red',
+                        typeAnimated: true,
+                    });
 
-            }
-            else if ((tempupload == undefined)) {
-                message = "Please Drag & Drop Temperature Files.";
-                isValid = false;
-                $.alert({
-                    title: 'Alert!',
-                    content: '<b>' + message + '</b>',
-                    type: 'red',
-                    typeAnimated: true,
-                });
+                } else if ((tempupload == undefined)) {
+                    message = "Please Drag & Drop Temperature Files.";
+                    isValid = false;
+                    $.alert({
+                        title: 'Alert!',
+                        content: '<b>' + message + '</b>',
+                        type: 'red',
+                        typeAnimated: true,
+                    });
 
-            }
-            else {
-                isValid = true;
-            }
-            if (tempupload.length) {
+                } else {
+                    isValid = true;
+                }
+                if (tempupload.length) {
 
-                var filesUploaded = tempupload;
+                    var filesUploaded = tempupload;
 
-                var freightDetailId = $("input[name='rdSelectedFreight']:checked").val();
-                if (freightDetailId > 0) {
-
-
-                    var radioValue = $("input[name='rdSelectedRoute']:checked").val();
-                    if (radioValue > 0) {
-                        var data = new FormData();
+                    var freightDetailId = $("input[name='rdSelectedFreight']:checked").val();
+                    if (freightDetailId > 0) {
 
 
-                        if (filesUploaded.length) {
-                            for (let i = 0; i < filesUploaded.length; i++) {
-                                data.append("ProofOfTemprature", filesUploaded[i]);
+                        var radioValue = $("input[name='rdSelectedRoute']:checked").val();
+                        if (radioValue > 0) {
+                            var data = new FormData();
+
+
+                            if (filesUploaded.length) {
+                                for (let i = 0; i < filesUploaded.length; i++) {
+                                    data.append("ProofOfTemprature", filesUploaded[i]);
+                                }
                             }
-                        }
 
-                        if (filesUploaded.length) {
-                            var draggedFiles = [];
-                            console.info("filesUploaded: ");
-                            console.log(filesUploaded);
-                            for (let i = 0; i < filesUploaded.length; i++) {
-                                //data.append("ProofOfTemprature_"+(i+1), filesUploaded[i]);
-                                console.info("QQ: " + filesUploaded[i]);
-                                console.log(filesUploaded[i]);
-                                //draggedFiles.push(filesUploaded[i]);
-                                data.append("filesObj", filesUploaded[i]);
+                            if (filesUploaded.length) {
+                                var draggedFiles = [];
+                                console.info("filesUploaded: ");
+                                console.log(filesUploaded);
+                                for (let i = 0; i < filesUploaded.length; i++) {
+                                    //data.append("ProofOfTemprature_"+(i+1), filesUploaded[i]);
+                                    console.info("QQ: " + filesUploaded[i]);
+                                    console.log(filesUploaded[i]);
+                                    //draggedFiles.push(filesUploaded[i]);
+                                    data.append("filesObj", filesUploaded[i]);
+                                }
+                                //data.append("filesObj", JSON.stringify(draggedFiles));
                             }
-                            //data.append("filesObj", JSON.stringify(draggedFiles));
-                        }
-                        var routeStops = glbRouteStops.filter(x => x.RouteNo == radioValue);
+                            var routeStops = glbRouteStops.filter(x => x.RouteNo == radioValue);
 
-                        data.append("ActualTemperature", actualTemp);
-                        data.append("ShipmentRouteStopId", routeStops[0].ShipmentRouteStopId);
-                        data.append("FreightDetailId", freightDetailId);
-                        data.append("ShipmentId", shipmentId);
-                        showLoader();
-                        $.ajax({
-                            type: "POST",
-                            url: baseUrl + '/Shipment/Shipment/UploadProofofTemperature',
-                            contentType: false,
-                            processData: false,
-                             beforeSend: function () {
+                            data.append("ActualTemperature", actualTemp);
+                            data.append("ShipmentRouteStopId", routeStops[0].ShipmentRouteStopId);
+                            data.append("FreightDetailId", freightDetailId);
+                            data.append("ShipmentId", shipmentId);
+                            showLoader();
+                            $.ajax({
+                                type: "POST",
+                                url: baseUrl + '/Shipment/Shipment/UploadProofofTemperature',
+                                contentType: false,
+                                processData: false,
+                                beforeSend: function() {
 
                                     //$.alert({
                                     //    title: 'Mail Sent!',
@@ -4063,52 +4469,50 @@ var btnProofOfTemp = function () {
                                     //    }
                                     //});
                                 },
-                            data: data,
-                           // async: false,
-                            success: function (data, textStatus, jqXHR) {
-                                if (data.IsSuccess == true) {
-                                    $.alert({
-                                        title: 'Mail Sent!',
-                                        content: "<b>Email sent to Customer.</b>",
-                                        type: 'green',
-                                        typeAnimated: true,
-                                        buttons: {
-                                            Ok: {
-                                                btnClass: 'btn-green',
-                                                action: function () {
-                                                    hideLoader();
-                                                    getShipmentDetailById();
-                                                }
-                                            },
-                                        }
-                                    });
+                                data: data,
+                                // async: false,
+                                success: function(data, textStatus, jqXHR) {
+                                    if (data.IsSuccess == true) {
+                                        $.alert({
+                                            title: 'Mail Sent!',
+                                            content: "<b>Email sent to Customer.</b>",
+                                            type: 'green',
+                                            typeAnimated: true,
+                                            buttons: {
+                                                Ok: {
+                                                    btnClass: 'btn-green',
+                                                    action: function() {
+                                                        hideLoader();
+                                                        getShipmentDetailById();
+                                                    }
+                                                },
+                                            }
+                                        });
 
+                                    } else {
+                                        //toastr.warning(data.Message);
+                                        //AlertPopup(data.Message);
+                                        AlertPopup("EMAIL FAILURE....")
+                                    }
+                                },
+                                error: function(xhr, status, p3, p4) {
+
+                                    var err = "Error " + " " + status + " " + p3 + " " + p4;
+                                    if (xhr.responseText && xhr.responseText[0] == "{")
+                                        err = JSON.parse(xhr.responseText).Message;
+                                    console.log(err);
                                 }
-                                else {
-                                    //toastr.warning(data.Message);
-                                    //AlertPopup(data.Message);
-                                    AlertPopup("EMAIL FAILURE....")
-                                }
-                            },
-                            error: function (xhr, status, p3, p4) {
+                            });
 
-                                var err = "Error " + " " + status + " " + p3 + " " + p4;
-                                if (xhr.responseText && xhr.responseText[0] == "{")
-                                    err = JSON.parse(xhr.responseText).Message;
-                                console.log(err);
-                            }
-                        });
+                        }
 
+                    } else {
+                        AlertPopup("Please click on SUBMIT button to save this Freight detail into database.Then you can upload image for this route.");
                     }
-
+                    $("#txtActualTemp").val("");
+                    $("#fuProofOfTemperature").val(null);
+                    bindProofOfTempTbl();
                 }
-                else {
-                    AlertPopup("Please click on SUBMIT button to save this Freight detail into database.Then you can upload image for this route.");
-                }
-                $("#txtActualTemp").val("");
-                $("#fuProofOfTemperature").val(null);
-                bindProofOfTempTbl();
-            }
 
             }
         }, 1000);
@@ -4160,16 +4564,18 @@ function remove_proofOfTemp_row(_this, proofOfTemp) {
         buttons: {
             delete: {
                 btnClass: 'btn-blue',
-                action: function () {
+                action: function() {
                     $.ajax({
                         url: baseUrl + 'Shipment/Shipment/DeleteProofOfTemprature',
-                        data: { imageId: proofOfTemp },
+                        data: {
+                            imageId: proofOfTemp
+                        },
                         type: "GET",
                         async: false,
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
 
-                        success: function (data) {
+                        success: function(data) {
 
 
                             if (data.IsSuccess == true) {
@@ -4190,7 +4596,7 @@ function remove_proofOfTemp_row(_this, proofOfTemp) {
 }
 
 
-var SendTempReport = function () {
+var SendTempReport = function() {
 
 
     var values = {};
@@ -4220,11 +4626,9 @@ var SendTempReport = function () {
     var AWB = "";
     if (values.AirWayBill != "") {
         AWB = values.AirWayBill;
-    }
-    else if (values.ContainerNo != "") {
+    } else if (values.ContainerNo != "") {
         AWB = values.ContainerNo;
-    }
-    else {
+    } else {
         AWB = values.CustomerPO;
     }
 
@@ -4268,8 +4672,8 @@ var SendTempReport = function () {
                 $.ajax({
                     url: baseUrl + "/Shipment/Shipment/EditShipment",
                     type: "POST",
-                    beforeSend: function () {
-                        
+                    beforeSend: function() {
+
 
 
                         showLoader();
@@ -4279,7 +4683,7 @@ var SendTempReport = function () {
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
 
-                    success: function (response) {
+                    success: function(response) {
                         isNeedToloaded = false;
                         hideLoader();
                         if (response.IsSuccess) {
@@ -4298,19 +4702,17 @@ var SendTempReport = function () {
                             //        },
                             //    }
                             //});
-                        }
-                        else {
+                        } else {
                             hideLoader();
                             //AlertPopup(response.Message);
                         }
                     },
-                    error: function () {
+                    error: function() {
                         hideLoader();
                         //AlertPopup("Something went wrong.");
                     }
                 });
-            }
-            else {
+            } else {
 
                 if (glbFreightDetail.length > 0) {
                     $.ajax({
@@ -4319,11 +4721,11 @@ var SendTempReport = function () {
                         data: JSON.stringify(values),
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
-                        beforeSend: function () {
+                        beforeSend: function() {
 
                             showLoader();
                         },
-                        success: function (response) {
+                        success: function(response) {
                             isNeedToloaded = false;
                             hideLoader();
                             if (response.IsSuccess) {
@@ -4335,26 +4737,24 @@ var SendTempReport = function () {
                                     buttons: {
                                         Ok: {
                                             btnClass: 'btn-green',
-                                            action: function () {
+                                            action: function() {
                                                 window.close();
                                                 //window.location.href = baseUrl + "/Shipment/Shipment/ViewShipmentList";
                                             }
                                         },
                                     }
                                 });
-                            }
-                            else {
+                            } else {
                                 hideLoader();
                                 AlertPopup(response.Message);
                             }
                         },
-                        error: function () {
+                        error: function() {
                             hideLoader();
                             AlertPopup("Something went wrong.");
                         }
                     });
-                }
-                else {
+                } else {
                     AlertPopup("Please add Freight Details to your shipment.");
                 }
             }
@@ -4365,16 +4765,15 @@ var SendTempReport = function () {
 }
 
 //#region convert Temperture F to C
-var convertActualTemp = function () {
+var convertActualTemp = function() {
     var actualTemp;
-    $("#ddlActualTemperatureUnit").on("change", function () {
+    $("#ddlActualTemperatureUnit").on("change", function() {
         var unit = $(this).val();
         var temp = $("#txtActualTemp").val();
         if (temp != '') {
             if (unit == 'C') {
                 actualTemp = FahrenheitToCelsius(temp);
-            }
-            else {
+            } else {
                 actualTemp = CelsiusToFahrenheit(temp);
             }
 
@@ -4409,8 +4808,7 @@ function showhideFreightType(selectedtext) {
 
         $("#txtQutVlmWgt").val("");
         $("#ddlPricingMethod").val(5);
-    }
-    else {
+    } else {
         $(".divTrailer").hide();
         $(".divWeight").show();
         $(".divBox").show();
@@ -4424,7 +4822,7 @@ function showhideFreightType(selectedtext) {
 }
 
 function freighttypeOnchange() {
-    $("#ddlFreightType").change(function () {
+    $("#ddlFreightType").change(function() {
         var selectedtext = $.trim($("#ddlFreightType").find('option:selected').text());
         var selectedValue = $("#ddlFreightType").find('option:selected').val()
         showhideFreightType(selectedtext);
@@ -4442,8 +4840,8 @@ function HidePricingMethodField() {
 }
 
 //#region bindupto level on dropdown change
-var ddlPricingMethod = function () {
-    $("#ddlPricingMethod").change(function () {
+var ddlPricingMethod = function() {
+    $("#ddlPricingMethod").change(function() {
 
         var pricingMethod = $("#ddlPricingMethod").find('option:selected').text();
         var pricingMethodValue = $("#ddlPricingMethod").find('option:selected').val();
@@ -4474,7 +4872,7 @@ function BindUpTo() {
 
 
 //#region Redirect to shipment Details & GPS TRACKER 
-var fn_RedirectToGPSTrackerPage = function () {
+var fn_RedirectToGPSTrackerPage = function() {
 
     var shipmentId = $("#hdnShipmentId").val();
     //$("#btnGpsShipment").on("click", function () {
@@ -4491,7 +4889,7 @@ function CheckImageExtension(_this) {
     //var file = $('input[type="file"]').val();
     var file = _this.value;
     if (file != null && file != "") {
-        var exts = ['jpg', 'jpeg', 'JPG', 'JPEG', 'png', 'pdf', 'PDF', 'JFIF', 'jfif','xlsx','csv'];
+        var exts = ['jpg', 'jpeg', 'JPG', 'JPEG', 'png', 'pdf', 'PDF', 'JFIF', 'jfif', 'xlsx', 'csv'];
         // first check if file field has any value
         if (file) {
             // split file name at dot
@@ -4508,8 +4906,7 @@ function CheckImageExtension(_this) {
                 return Isvalid;
             }
         }
-    }
-    else {
+    } else {
         AlertPopup("Please Browse to select your Upload File.", "")
         return Isvalid;
     }
@@ -4557,12 +4954,11 @@ function OpenModel(_this) {
             var width;
             var widthAuto = '';
             $("<img/>", {
-                load: function () {
+                load: function() {
                     width = this.width;
                     if (width > 770) {
                         widthAuto = 'auto';
-                    }
-                    else {
+                    } else {
                         widthAuto = width + 'px';
                     }
                     //var imgTag = '<img src="' + fileUrl + '" style="width:' + widthAuto+ 'px;height:' + (h - 110) + 'px;" class="img-fluid" />';
@@ -4574,8 +4970,7 @@ function OpenModel(_this) {
 
 
 
-        }
-        else {
+        } else {
             $('.btnPrintImage').hide();
             $('.btnPrintPdf').show();
             var docHeight = $(document).height();
@@ -4591,9 +4986,9 @@ function OpenModel(_this) {
 
 
 //#region Approve damage document
-btnDamageDocument = function () {
+btnDamageDocument = function() {
 
-    $("#btnDamageDocument").on("click", function () {
+    $("#btnDamageDocument").on("click", function() {
         $.confirm({
             title: 'Confirmation!',
             content: '<b>Are you sure want to approve this image?</b> ',
@@ -4602,17 +4997,19 @@ btnDamageDocument = function () {
             buttons: {
                 confirm: {
                     btnClass: 'btn-blue',
-                    action: function () {
+                    action: function() {
 
                         var damageId = $("#damageDocumentId").val();
                         $.ajax({
                             url: baseUrl + '/Shipment/Shipment/ApprovedDamageImage',
-                            data: { damageId: damageId },
+                            data: {
+                                damageId: damageId
+                            },
                             type: "Get",
                             //async: false,
                             contentType: "application/json; charset=utf-8",
                             //dataType: "json",
-                            success: function (data) {
+                            success: function(data) {
                                 $("#modalDocument").modal("hide");
                                 //if (data == true) {
                                 //    setTimeout(function () {
@@ -4625,7 +5022,7 @@ btnDamageDocument = function () {
                                 //}
                                 getShipmentDetailById();
                             },
-                            error: function () {
+                            error: function() {
                                 getShipmentDetailById();
                             }
                         });
@@ -4642,9 +5039,9 @@ btnDamageDocument = function () {
 //#endregion
 
 //#region Approve Proof Of Temprature
-btnApprovedProofOfTemp = function () {
+btnApprovedProofOfTemp = function() {
 
-    $("#btnApprovedProofOfTemp").on("click", function () {
+    $("#btnApprovedProofOfTemp").on("click", function() {
         $.confirm({
             title: 'Confirmation!',
             content: '<b>Are you sure want to approve this image?</b> ',
@@ -4653,17 +5050,19 @@ btnApprovedProofOfTemp = function () {
             buttons: {
                 confirm: {
                     btnClass: 'btn-blue',
-                    action: function () {
-                        
+                    action: function() {
+
                         var tempId = $("#proofOfTempratureId").val();
                         $.ajax({
                             url: baseUrl + '/Shipment/Shipment/ApprovedProofOFTemp',
-                            data: { ProofOfTempratureId: tempId },
+                            data: {
+                                ProofOfTempratureId: tempId
+                            },
                             type: "Get",
                             //async: false,
                             contentType: "application/json; charset=utf-8",
                             //dataType: "json",
-                            success: function (data) {
+                            success: function(data) {
                                 $("#modalDocument").modal("hide");
                                 //if (data == true) {
 
@@ -4677,7 +5076,7 @@ btnApprovedProofOfTemp = function () {
                                 //}
                                 getShipmentDetailById();
                             },
-                            error: function () {
+                            error: function() {
                                 getShipmentDetailById();
                             }
                         });
@@ -4695,7 +5094,7 @@ btnApprovedProofOfTemp = function () {
 
 //#region CHECK EXTENSION
 var _imgExts = ["jpg", "jpeg", "png", "jfif"];
-var isExtension = function (ext, extnArray) {
+var isExtension = function(ext, extnArray) {
     var result = false;
     var i;
     if (ext) {
@@ -4712,16 +5111,16 @@ var isExtension = function (ext, extnArray) {
 //#endregion
 
 //#region print pdf
-var printPdf = function () {
-    $('.btnPrintPdf').on('click', function () {
+var printPdf = function() {
+    $('.btnPrintPdf').on('click', function() {
         $('#myiframe').get(0).contentWindow.print();
     })
 }
 //#endregion
 
 //#region print image
-var printImage = function () {
-    $('.btnPrintImage').on('click', function () {
+var printImage = function() {
+    $('.btnPrintImage').on('click', function() {
         var divToPrint = document.getElementById("divViewer");
         newWin = window.open("", "");
         newWin.document.write(divToPrint.outerHTML);
@@ -4731,7 +5130,7 @@ var printImage = function () {
     })
 }
 //#endregion
-$("table").on("mouseover", 'tr', function () {
+$("table").on("mouseover", 'tr', function() {
 
     $(this).find(".far").css('color', 'white');
     $(this).find(".fa-download").css('color', 'white');
@@ -4739,7 +5138,7 @@ $("table").on("mouseover", 'tr', function () {
 
 });
 
-$("table").on("mouseout", 'tr', function () {
+$("table").on("mouseout", 'tr', function() {
 
     $(this).find(".far").css('color', '#007bff');
     $(this).find(".fa-trash-alt").css('color', 'red');
@@ -4747,15 +5146,13 @@ $("table").on("mouseout", 'tr', function () {
     $(this).find(".fa-check").css('color', 'green');
 });
 
-$("#chkPartialShipment").click(function () {
+$("#chkPartialShipment").click(function() {
     var ischecked = $(this).is(':checked');
     if (!ischecked) {
         $(".divPartial").hide();
 
-    }
-    else {
+    } else {
         $(".divPartial").show();
     }
 
 });
-

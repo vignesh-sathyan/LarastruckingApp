@@ -1057,7 +1057,7 @@ function CalculateIncentive() {
 
             TotalValue += lastTDValue;
         }
-        console.log("last parseFloat(lastTD.text());: ", TotalValue);
+       // console.log("last parseFloat(lastTD.text());: ", TotalValue);
         $("#txtIncentive").val(TotalValue);
         //TotalValue =  lastTDValue;
         //console.log("last TotalValue: ",TotalValue);
@@ -1081,7 +1081,7 @@ function calculateTotal(rowName) {
     values = values.replace(/(\..*)\./g, '$1');
     // Format to two decimal places
     var formattedValue = parseFloat(values).toFixed(2);
-    console.log("formattedValue: ", formattedValue);
+    //console.log("formattedValue: ", formattedValue);
     // Update the input field with the formatted value
     //input.value = value;
     $(inputElements).attr('value', formattedValue);
@@ -1272,7 +1272,8 @@ function BindTimeCardList(_data) {
             // if (countKey <= shipCount) {
             //shipRate.push(rate);
             // shipTotal.push(total);
-            // console.log("shipCount: ", shipCount);
+             console.log("shipCount: ", countLocation);
+             console.log("fumCount: ", countFumLocation);
             // if (shipRate.length == shipCount) {
             //console.log("shipRate: ", shipRate);
 
@@ -1284,7 +1285,7 @@ function BindTimeCardList(_data) {
                     const keyRate = "shipment_" + key.toLowerCase()?.replaceAll(' ', '_');
                     //console.log("keyRate: ",keyRate);
                     const keyTotal = "shipment_" + key.toLowerCase() + ".Total";
-                    shipmentLoc += `<tr><td  style="color: #000;font-size: 15px;">Shipment ${key}</td><td style="color: #000;font-size: 15px;" id="ship${key}Value">${countLocation[key]}</td><td style="padding: 5px;position:relative;"><input type="text" oninput="calculateTotal('ship${key}')" id="ship${key}Input" onchange="(function(el){if(el.value!=''){el.value=parseFloat(el.value).toFixed(2);CalculateIncentive();}})(this)" min="0.00" max="1.00" step="0.05" onkeypress="return onlyNumeric(event)" style="height: 30px;padding-left: 20px;line-height: 1.5;border-radius: 0.25em;border: 1px solid #ced4da;color: #495057;" value="${GridData[keyRate].Rate ? GridData[keyRate].Rate : ""}"/><span class="inpt-dollar" style="position: absolute;left: 14px;top: 15px;font-weight: bold;color: #000;">$</span></td><td id="ship${key}Result">$ ${GridData[keyRate].Total}</td></tr>`;
+                    shipmentLoc += `<tr><td  style="color: #000;font-size: 15px;">Shipment ${key}</td><td style="color: #000;font-size: 15px;" id="ship${key}Value">${countLocation[key]}</td><td style="padding: 5px;position:relative;"><input type="text" oninput="calculateTotal('ship${key}')" id="ship${key}Input" onchange="(function(el){if(el.value!=''){el.value=parseFloat(el.value).toFixed(2);CalculateIncentive();}})(this)" min="0.00" max="1.00" step="0.05" onkeypress="return onlyNumeric(event)" style="height: 30px;padding-left: 20px;line-height: 1.5;border-radius: 0.25em;border: 1px solid #ced4da;color: #495057;" value="${GridData[keyRate].Rate ? GridData[keyRate].Rate : ""}"/><span class="inpt-dollar" style="position: absolute;left: 14px;top: 15px;font-weight: bold;color: #000;">$</span></td><td id="ship${key}Result">$ ${GridData[keyRate].Total ? GridData[keyRate].Total : ""}</td></tr>`;
                 }
             }
 
@@ -1297,7 +1298,7 @@ function BindTimeCardList(_data) {
                 if (countFumLocation.hasOwnProperty(key)) {
                     const keyRate = "fumigation_" + key.toLowerCase()?.replace(' ', '_');
 
-                    fumigationLoc += `<tr><td  style="color: #000;font-size: 15px;">Fumigation ${key}</td><td style="color: #000;font-size: 15px;" id="fum${key}Value">${countFumLocation[key]}</td><td style="padding: 5px;position:relative;"><input type="text" oninput="calculateTotal('fum${key}')" id="fum${key}Input" onchange="(function(el){if(el.value!=''){el.value=parseFloat(el.value).toFixed(2);CalculateIncentive();}})(this)" min="0.00" max="1.00" step="0.05" onkeypress="return onlyNumeric(event)" style="height: 30px;padding-left: 20px;line-height: 1.5;border-radius: 0.25em;border: 1px solid #ced4da;color: #495057;" value="${GridData[keyRate].Rate}"/><span class="inpt-dollar" style="position: absolute;left: 14px;top: 15px;font-weight: bold;color: #000;">$</span></td><td id="fum${key}Result">$ ${GridData[keyRate].Total}</td></tr>`;
+                    fumigationLoc += `<tr><td  style="color: #000;font-size: 15px;">Fumigation ${key}</td><td style="color: #000;font-size: 15px;" id="fum${key}Value">${countFumLocation[key]}</td><td style="padding: 5px;position:relative;"><input type="text" oninput="calculateTotal('fum${key}')" id="fum${key}Input" onchange="(function(el){if(el.value!=''){el.value=parseFloat(el.value).toFixed(2);CalculateIncentive();}})(this)" min="0.00" max="1.00" step="0.05" onkeypress="return onlyNumeric(event)" style="height: 30px;padding-left: 20px;line-height: 1.5;border-radius: 0.25em;border: 1px solid #ced4da;color: #495057;" value="${GridData[keyRate].Rate ? GridData[keyRate].Rate : ""}"/><span class="inpt-dollar" style="position: absolute;left: 14px;top: 15px;font-weight: bold;color: #000;">$</span></td><td id="fum${key}Result">$ ${GridData[keyRate].Total ? GridData[keyRate].Total : ""}</td></tr>`;
                 }
             }
             //}
@@ -1606,7 +1607,7 @@ function CalculateTotalPrice() {
     }
 
     //totalPay = totalPay + ((hourlyRate / 60) * grandTotal[1]);
-    console.log("grossPay: " + grossPay);
+    //console.log("grossPay: " + grossPay);
 
 
     if (grossPay > 0) {
@@ -1709,7 +1710,7 @@ function PrintDiv() {
     //});
     var printContents = document.getElementById(divName).innerHTML;
 
-    console.log("printContents: ", printContents);
+    //console.log("printContents: ", printContents);
     //  Restore button visibility
     btnClose.style.visibility = 'visible';
     hrfPrint.style.visibility = 'visible';
@@ -1719,7 +1720,7 @@ function PrintDiv() {
 
 
     var originalContents = document.body.outerHTML;
-    console.log("originalContents: ", originalContents);
+    //console.log("originalContents: ", originalContents);
 
     document.body.innerHTML = printContents;
     //logodiv.style.display = 'block';
@@ -1737,11 +1738,11 @@ if (window.matchMedia) {
     var mediaQueryList = window.matchMedia('print');
     mediaQueryList.addListener(function (mql) {
         if (mql.matches) {
-            console.log('mql matches');
+            //console.log('mql matches');
             //closePopup();
             //window.location.reload();
         } else {
-            console.log('mql did NOT match');
+          //  console.log('mql did NOT match');
             //closePopup();
             //$("body").removeClass("modal-open");
 

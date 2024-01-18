@@ -10,7 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace LarastruckingApp.Repository.Repository
 {
@@ -422,7 +424,7 @@ namespace LarastruckingApp.Repository.Repository
                 }
                 return dto;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 throw;
@@ -850,5 +852,27 @@ namespace LarastruckingApp.Repository.Repository
             }
         }
         #endregion
+
+        public static void ErrorLog(string sErrMsg)
+        {
+            string sLogFormat;
+            string sErrorTime;
+
+            sLogFormat = DateTime.Now.ToShortDateString().ToString() + " " + DateTime.Now.ToLongTimeString().ToString() + " ==> ";
+
+            //this variable used to create log filename format "
+            //for example filename : ErrorLogYYYYMMDD
+            string sYear = DateTime.Now.Year.ToString();
+            string sMonth = DateTime.Now.Month.ToString();
+            string sDay = DateTime.Now.Day.ToString();
+            sErrorTime = sYear + sMonth + sDay;
+            string path = System.Web.HttpContext.Current.Server.MapPath("../Assets/ErrorLog");
+            StreamWriter sw = new StreamWriter(path + sErrorTime, true);
+            sw.WriteLine(sLogFormat + sErrMsg);
+            sw.Flush();
+            sw.Close();
+        }
     }
+
+    
 }
