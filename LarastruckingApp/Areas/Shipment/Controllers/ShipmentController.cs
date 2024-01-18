@@ -1993,6 +1993,18 @@ namespace LarastruckingApp.Areas.Shipment.Controllers
         }
 
         #endregion
-    }
+
+
+        #region Update Status
+        [HttpPost]
+        public ActionResult UpdateStatus(int Shipmentid,int StatusId)
+        {
+            var customer = shipmentBAL.UpdateStatus(Shipmentid,StatusId);
+            return Json(customer, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+        }
 
 }

@@ -533,6 +533,13 @@ namespace LarastruckingApp.DAL
         }
 
         #endregion
+
+        #region Update Status
+        public bool UpdateStatus(int shipmentId, int StatusId)
+        {
+            return shipmentRepository.UpdateStatus(shipmentId,StatusId);
+        }
+        #endregion
     }
 }
 #endregion

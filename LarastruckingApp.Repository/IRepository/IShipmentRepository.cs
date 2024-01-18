@@ -58,5 +58,7 @@ namespace LarastruckingApp.Repository.IRepository
 
         List<ShipmentDriverDetailDTO> DriverDetail();
         CustomerDetailDTO CustomerDetail(int shipmentid);
+
+        bool UpdateStatus(int shipmentId, int StatusId);
     }
 }

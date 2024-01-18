@@ -3571,7 +3571,33 @@ namespace LarastruckingApp.Repository.Repository
         }
         #endregion
 
+        #region Update Status
+        public bool UpdateStatus(int shipmentId, int StatusId)
+        {
+            try
+            {
+                bool result = false;
+                var shipment = shipmentContext.tblShipments.FirstOrDefault(e => e.ShipmentId == shipmentId);
+                if (shipment != null)
+                {
+                    // Update the StatusId column
+                    shipment.StatusId = StatusId;
+
+                    // Save the changes to the database
+                    result = shipmentContext.SaveChanges() > 0;
+                }
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        #endregion
 
 
     }
+
+
 }

@@ -625,6 +625,14 @@ namespace LarastruckingApp.BusinessLayer
         }
 
         #endregion
+
+        #region Update Status
+        public bool UpdateStatus(int shipmentId, int StatusId)
+        {
+            return shipmentDAL.UpdateStatus(shipmentId, StatusId);
+        }
+
+        #endregion
     }
 
 }

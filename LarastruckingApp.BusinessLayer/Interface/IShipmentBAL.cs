@@ -56,5 +56,7 @@ namespace LarastruckingApp.BusinessLayer.Interface
        CustomerDetailDTO CustomerDetail(int shipmentid);
         List<ShipmentDriverDetailDTO> DriverDetail();
         TemperatureEmailSipmentDTO GetTemperatureEmailDetail(int shipmentId);
+
+        bool UpdateStatus(int shipmentId, int StatusId);
     }
 }

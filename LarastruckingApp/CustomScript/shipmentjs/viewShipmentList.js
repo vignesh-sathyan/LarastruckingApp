@@ -10,34 +10,9 @@
     btnViewShipment();
     btnViewShipment2();
     startEndDate();
-	ddlStatus();
     //GetFreightType();
     $('#tblShipmentDetails input').unbind();
 });
-
-//#region bindSubStatus
-function bindSubStauts() {
-    var statusid = $(".ddlStatus").val();
-    $.ajax({
-        url: baseUrl + 'Shipment/Shipment/GetShipmentSubStatus',
-        data: {
-            statusid: statusid
-        },
-        type: "GET",
-        async: false,
-        // cache: false,
-        success: function(data) {
-            var ddlValue = "";
-            $("#ddlSubStatus").empty();
-            ddlValue += '<option value="">SELECT SUB-STATUS</option>'
-            for (var i = 0; i < data.length; i++) {
-                ddlValue += '<option value="' + data[i].SubStatusId + '">' + $.trim(data[i].SubStatusName).toUpperCase() + '</option>';
-            }
-            $("#ddlSubStatus").append(ddlValue);
-
-        }
-    });
-}
 
 function shipmentStatus() {
     $.ajax({
@@ -58,162 +33,81 @@ function shipmentStatus() {
     });
 }
 //#endregion
+var isDropdownOpen = false;
+$('#tblShipmentDetails2').on('click', '.badge', function (e) {
+    var row = $(this).closest('tr');
 
-var GetJsonValue = function(shipmentId) {
-    var values = {};
-    var url = window.location.pathname;
-    //var shipmentId = url.substring(url.lastIndexOf('/') + 1);
-    var AWB = "";
-    var tempval;
-    $.ajax({
-        url: baseUrl + "/Shipment/Shipment/GetShipmentById",
-        type: "GET",
-        data: {
-            shipmentId: shipmentId
-        },
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function(response) {
-            //console.log("response: ", response);
-            values = response;
-        }
-    });
-
-    return values;
-}
-$('#tblShipmentDetails2').on('change', '.ddlStatus', function () {
-    var table = $('#tblShipmentDetails2').DataTable();
-    var data_row = table.row($(this).closest('tr')).data();
-   // window.location.href = baseUrl + '/Shipment/Shipment/Index/' + data_row.ShipmentId;
-   console.log("data_row: ",data_row);
+    // Find the dropdown within the same row
+    var dropdown = row.find('.ddlStatus');
+    var label = row.find('.badge');
+    $('.ddlStatus').not(dropdown).hide();
+    $('.badge').not(label).show();
+    // Toggle the visibility of the dropdown
+    dropdown.toggle();
+    $(this).toggle();
+    isDropdownOpen = dropdown.is(':visible');
+    
+    e.stopPropagation();
 });
 
-//#region shipment sub status
-ddlStatus = function() {
-    $(".ddlStatus").change(function() {
-		 var table = $('#tblShipmentDetails2').DataTable();
+//$(document).on('mousedown', function () {
+//    if (isDropdownOpen) {
+//        setTimeout(function () {
+//            // Hide all dropdowns and show the labels
+//            $('.ddlStatus').hide();
+//            $('.badge').show();
+//            isDropdownOpen = false;
+//        }, 100);
+//    }
+//});
+$('#tblShipmentDetails2').on('change', '.ddlStatus', function (e) {
+   // e.stopPropagation();
+    var table = $('#tblShipmentDetails2').DataTable();
     var data_row = table.row($(this).closest('tr')).data();
-    var valuess = GetJsonValue(data_row.ShipmentId);
-	console.log("valuess: ",valuess);
-
-        var statusid = $(".ddlStatus").val();
-		console.log("statusid: ",statusid);
-
-        
-        if (statusid == 7) {
-            var values = {};
-            values = valuess;
-            //var prevalues = GetValues();
-            const ShipmentEquipmentNdriverCheck = "ShipmentEquipmentNdriver" in values;
-            if (ShipmentEquipmentNdriverCheck != false) {
-                DriverName = values.ShipmentEquipmentNdriver[0].DriverName;
-            }
-            //console.log("DriverName: " + DriverName);
-            var PickupLocation = values.ShipmentRoutesStop[0].PickupLocation;
-
-            var PicComp = PickupLocation.split(",");
-            //console.log("PicComp: " + PicComp[0]);
-            var DeliveryLocation = values.ShipmentRoutesStop[0].DeliveryLocation;
-            var DelComp = DeliveryLocation.split(",");
-            var AWB = "";
-            if (values.AirWayBill != "") {
-                AWB = values.AirWayBill;
-            } else if (values.ContainerNo != "") {
-                AWB = values.ContainerNo;
-            } else {
-                AWB = values.CustomerPO;
-            }
-            // console.log("AWB: "+AWB);
-            // var Equipment = values.ShipmentEquipmentNdriver[0].EquipmentName;
-            var pallets = values.ShipmentFreightDetail[0].PartialPallet;
-            var boxes = values.ShipmentFreightDetail[0].NoOfBox;
-            var customer = values.CustomerName;
-            //console.log("values: ", values);
-            var data = new FormData();
-          
-            $.confirm({
-                title: 'Confirm!',
-                content: 'DO YOU WANT TO COMPLETE THIS SHIPMENT NOW?',
-                type: 'green',
-                typeAnimated: true,
-                buttons: {
-                    confirm: function() {
-                        //$.alert('Confirmed!');
-                        $(".ddlStatus").val(11);
-                        values.StatusId = 11;
-                        $.ajax({
-                            url: baseUrl + "/Shipment/Shipment/EditShipment",
-                            type: "POST",
-                            
-                            data: JSON.stringify(values),
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-
-                            success: function(response) {
-                                isNeedToloaded = false;
-                                hideLoader();
-                                if (response.IsSuccess) {
-
-                                    $.alert({
-                                        title: 'Success!',
-                                        content: "<b>" + response.Message + "</b>",
-                                        type: 'green',
-                                        typeAnimated: true,
-                                        buttons: {
-                                            Ok: {
-                                                btnClass: 'btn-green',
-                                                action: function() {
-
-                                                    window.location.href = baseUrl + "/Shipment/Shipment/ViewShipmentList";
-                                                }
-                                            },
-                                        }
-                                    });
-                                } else {
-                                    hideLoader();
-                                    AlertPopup(response.Message);
-                                }
-                            },
-                            error: function() {
-                                hideLoader();
-                                AlertPopup("Something went wrong.");
+    var selectedValue = $(this).val();
+   // window.location.href = baseUrl + '/Shipment/Shipment/Index/' + data_row.ShipmentId;
+    console.log("data_row: ", data_row);
+    console.log("selectedValue: ", selectedValue);
+    
+    $.ajax({
+        url: baseUrl + 'Shipment/Shipment/UpdateStatus',
+        type: "POST",
+        data: {
+            Shipmentid: data_row.ShipmentId,
+            StatusId: selectedValue
+        },
+       // async: false,
+       // dataType: "json",
+       // contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            if (data) {
+                // SuccessPopup("Extended Waiting Time advised to Customer!")
+                $.alert({
+                    title: 'Success!',
+                    content: "<b>Status Updated.</b>",
+                    type: 'green',
+                    typeAnimated: true,
+                    buttons: {
+                        Ok: {
+                            btnClass: 'btn-green',
+                            action: function () {
+                                table.draw(false);
                             }
-                        });
-
-                    },
-                    cancel: function() {
-                        /// $.alert('Canceled!');
-
-                    },
-
-                }
-            });
+                        },
+                    }
+                });
+            }
+            
+        },
+        error: function (error) {
+            //hideLoader();
+            console.log("error updating shipment status: ", error.responseText);
+            AlertPopup("Something went wrong.");
         }
-     /*    if (statusid == 11) {
-            if (isApproveDamageDocument) {
-                shipmentStatus();
-                $.alert({
-                    title: 'Alert!',
-                    content: '<b>Please approve shipment file.</b>',
-                    type: 'red',
-                    typeAnimated: true,
-                });
-            }
-            if (isApproveProofofTemp) {
-                shipmentStatus();
-                $.alert({
-                    title: 'Alert!',
-                    content: '<b>Please approve proof of temperature document.</b>',
-                    type: 'red',
-                    typeAnimated: true,
-                });
-            }
-        } */
-       // bindSubStauts();
-
     });
-}
+});
+
+
 
 //#region change color on hover
 $("table").on("mouseover", 'tr', function () {
@@ -1074,8 +968,8 @@ function GetOtherStatusShipmentList() {
                 "targets": 1,
               //  "orderable": false,
                 "render": function (data, type, row, meta) {
-					var dropdown = "<select class='ddlStatus' id='ddlStatus'></select>";
-                    return dropdown + "</br>" + StatusCheckForShipment(row.StatusName)
+					var dropdown = "<select class='ddlStatus' id='ddlStatus' style='display:none;'></select>";
+                    return dropdown + StatusCheckForShipment(row.StatusName)
                 }
             },
             {
