@@ -73,7 +73,6 @@ $('#tblShipmentDetails2').on('click', '.badge', function (e) {
     dropdown.val(shipmentDetails.StatusId);
     $('.ddlStatus').not(dropdown).hide();
     $('.badge').not(label).show();
-    // Toggle the visibility of the dropdown
     dropdown.toggle();
     $(this).toggle();
     isDropdownOpen = dropdown.is(':visible');
@@ -81,26 +80,13 @@ $('#tblShipmentDetails2').on('click', '.badge', function (e) {
     e.stopPropagation();
 });
 
-//$(document).on('mousedown', function () {
-//    if (isDropdownOpen) {
-//        setTimeout(function () {
-//            // Hide all dropdowns and show the labels
-//            $('.ddlStatus').hide();
-//            $('.badge').show();
-//            isDropdownOpen = false;
-//        }, 100);
-//    }
-//});
 $('#tblShipmentDetails2').on('change', '.ddlStatus', function (e) {
    // e.stopPropagation();
     var table = $('#tblShipmentDetails2').DataTable();
     var data_row = table.row($(this).closest('tr')).data();
     var selectedValue = $(this).val();
     var shipmentDetails = getShipmentById(data_row.ShipmentId);
-   // window.location.href = baseUrl + '/Shipment/Shipment/Index/' + data_row.ShipmentId;
-    console.log("data_row: ", data_row);
-    console.log("selectedValue: ", selectedValue);
-    console.log("shipmentDetails: ", shipmentDetails);
+
     var customerId = shipmentDetails.CustomerId;
     
     $.ajax({
@@ -114,13 +100,9 @@ $('#tblShipmentDetails2').on('change', '.ddlStatus', function (e) {
         beforeSend: function () {
             showLoader();
         },
-       // async: false,
-       // dataType: "json",
-       // contentType: "application/json; charset=utf-8",
         success: function (data) {
             hideLoader();
             if (data) {
-                // SuccessPopup("Extended Waiting Time advised to Customer!")
                 $.alert({
                     title: 'Success!',
                     content: "<b>Status has been updated successfully.</b>",

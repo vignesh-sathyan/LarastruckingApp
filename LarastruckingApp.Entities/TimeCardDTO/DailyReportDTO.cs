@@ -13,6 +13,7 @@ namespace LarastruckingApp.Entities.TimeCardDTO
         public DateTime? OutDateTime { get; set; }
         public string Day { get; set; }
         public TimeSpan InOutDiff { get; set; }
+        public int UserId { get; set; } 
     }
 
     public class DailyReportDTOList

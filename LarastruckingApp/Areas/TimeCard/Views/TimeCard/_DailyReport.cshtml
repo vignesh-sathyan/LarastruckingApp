@@ -94,6 +94,7 @@
             </tr>
             @foreach (var item in Model)
             {
+                var UserId = item.DailyReportDTOs[0].UserId;
                 var thursdayData = @item.DailyReportDTOs.Find(x => x.Day == "Thursday");
                 var fridayData = @item.DailyReportDTOs.Find(x => x.Day == "Friday");
                 var saturdayData = @item.DailyReportDTOs.Find(x => x.Day == "Saturday");
@@ -289,7 +290,7 @@
                     }
 
 
-                    <td rowspan="2" >@item.UserName</td>
+                    <td rowspan="2" ><a href="#" onclick="ShowTimeCard(@UserId)">@item.UserName</a></td>
 
                     @if (thursdayData != null && thursdayData.InDateTime != null)
                     {

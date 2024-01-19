@@ -772,6 +772,7 @@ namespace LarastruckingApp.Repository.Repository.TimeCard
                                        InDateTime = TC.InDateTime,
                                        OutDateTime = TC.OutDateTime,
                                        Day = TC.Day,
+                                       UserId = tuser.Userid,
 
                                    }
                               ).OrderBy(x => x.UserName).ToList();
@@ -811,6 +812,7 @@ namespace LarastruckingApp.Repository.Repository.TimeCard
                         }
                     }
                     dailyReport.InDateTime = dayItem.FirstOrDefault().InDateTime;
+                    dailyReport.UserId = dayItem.FirstOrDefault().UserId;
                     dailyReport.OutDateTime = dayItem.OrderByDescending(x => x.OutDateTime).FirstOrDefault().OutDateTime;
                     dailyReport.InOutDiff = timeSpan;
                     lstDailyReportDTOs.Add(dailyReport);

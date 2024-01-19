@@ -29,6 +29,146 @@
 
 });
 
+var showLoader = function () {
+    
+    $(".dvloader").show();
+}
+//#endregion
+
+//#region HIDE LOADER
+var hideLoader = function () {
+    $(".dvloader").hide();
+}
+function getShipmentById(shipmentId) {
+
+    var result;
+    $.ajax({
+        url: baseUrl + "/Shipment/Shipment/GetShipmentById",
+        type: "GET",
+        data: {
+            shipmentId: shipmentId
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (response) {
+
+            if (response != null) {
+                result =  response;
+            }
+        },
+        error: function (error) {
+            //hideLoader();
+            console.log("shipment Details: ", error.responseText);
+           
+        }
+    });
+    return result;
+}
+function shipmentStatus() {
+    $.ajax({
+        url: baseUrl + 'Shipment/Shipment/GetShipmentStatus',
+        data: {},
+        type: "GET",
+        async: false,
+        success: function(data) {
+			console.log("shipmentStatus: ",data);
+            var ddlValue = "";
+            $("#ddlStatus").empty();
+            for (var i = 0; i < data.length; i++) {
+                ddlValue += '<option value="' + data[i].StatusId + '">' + $.trim(data[i].StatusName).toUpperCase() + '</option>';
+            }
+            $(".ddlStatus").append(ddlValue);
+
+        }
+    });
+}
+//#endregion
+var isDropdownOpen = false;
+$('#tblShipmentDetails2').on('click', '.badge', function (e) {
+    var row = $(this).closest('tr');
+
+    // Find the dropdown within the same row
+    var dropdown = row.find('.ddlStatus');
+    var label = row.find('.badge');
+    var table = $('#tblShipmentDetails2').DataTable();
+    var data_row = table.row($(this).closest('tr')).data();
+    var shipmentDetails = getShipmentById(data_row.ShipmentId);
+    dropdown.val(shipmentDetails.StatusId);
+    $('.ddlStatus').not(dropdown).hide();
+    $('.badge').not(label).show();
+    // Toggle the visibility of the dropdown
+    dropdown.toggle();
+    $(this).toggle();
+    isDropdownOpen = dropdown.is(':visible');
+    
+    e.stopPropagation();
+});
+
+//$(document).on('mousedown', function () {
+//    if (isDropdownOpen) {
+//        setTimeout(function () {
+//            // Hide all dropdowns and show the labels
+//            $('.ddlStatus').hide();
+//            $('.badge').show();
+//            isDropdownOpen = false;
+//        }, 100);
+//    }
+//});
+$('#tblShipmentDetails2').on('change', '.ddlStatus', function (e) {
+   // e.stopPropagation();
+    var table = $('#tblShipmentDetails2').DataTable();
+    var data_row = table.row($(this).closest('tr')).data();
+    var selectedValue = $(this).val();
+    var shipmentDetails = getShipmentById(data_row.ShipmentId);
+   // window.location.href = baseUrl + '/Shipment/Shipment/Index/' + data_row.ShipmentId;
+    console.log("data_row: ", data_row);
+    console.log("selectedValue: ", selectedValue);
+    console.log("shipmentDetails: ", shipmentDetails);
+    var customerId = shipmentDetails.CustomerId;
+    
+    $.ajax({
+        url: baseUrl + 'Shipment/Shipment/UpdateStatus',
+        type: "POST",
+        data: {
+            Shipmentid: data_row.ShipmentId,
+            StatusId: selectedValue,
+            CustomerId: customerId
+        },
+        beforeSend: function () {
+            showLoader();
+        },
+       // async: false,
+       // dataType: "json",
+       // contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            hideLoader();
+            if (data) {
+                // SuccessPopup("Extended Waiting Time advised to Customer!")
+                $.alert({
+                    title: 'Success!',
+                    content: "<b>Status Updated.</b>",
+                    type: 'green',
+                    typeAnimated: true,
+                    buttons: {
+                        Ok: {
+                            btnClass: 'btn-green',
+                            action: function () {
+                                table.draw(false);
+                            }
+                        },
+                    }
+                });
+            }
+            
+        },
+        error: function (error) {
+            //hideLoader();
+            console.log("error updating shipment status: ", error.responseText);
+            AlertPopup("Something went wrong.");
+        }
+    });
+});
 // Function to get coordinates (latitude and longitude) of a city using Google Maps Geocoding API
 async function getCoordinates(cityName) {
   const apiKey = 'AIzaSyDXBtkoqacvZToBGD9TCaiZ9qUTrAJDJN4'; // Replace with your Google Maps API key
@@ -1240,11 +1380,11 @@ function GetOtherStatusShipmentList() {
         "columns": [
             { "data": "ShipmentId", "name": "ShipmentId", "autoWidth": true },
             { "data": "StatusName", "name": "StatusName", "autoWidth": true },
+			{ "data": "CustomerName", "name": "CustomerName", "autoWidth": true } ,  
+			{ "data": "PickupLocation", "name": "PickupLocation", "autoWidth": true },			
             { "data": "PickupDate", "name": "PickupDate", "autoWidth": true },
-            { "data": "PickupLocation", "name": "PickupLocation", "autoWidth": true },
-            { "data": "DeliveryDate", "name": "DeliveryDate", "autoWidth": true },
-            { "data": "DeliveryLocation", "name": "DeliveryLocation", "autoWidth": true },
-            { "data": "CustomerName", "name": "CustomerName", "autoWidth": true } ,                           
+			{ "data": "DeliveryLocation", "name": "DeliveryLocation", "autoWidth": true },
+            { "data": "DeliveryDate", "name": "DeliveryDate", "autoWidth": true },                            
             { "data": "AirWayBill", "name": "AirWayBill", "autoWidth": true  },
             { "data": "Quantity", "name": "Quantity", "autoWidth": true },
             //{ "data": "CustomerPO", "name": "CustomerPO", "autoWidth": true },
@@ -1263,11 +1403,12 @@ function GetOtherStatusShipmentList() {
                 "targets": 1,
               //  "orderable": false,
                 "render": function (data, type, row, meta) {
-                    return StatusCheckForShipment(row.StatusName)
+                    var dropdown = "<select class='ddlStatus' id='ddlStatus' style='display:none;'></select>";
+                    return dropdown + StatusCheckForShipment(row.StatusName)
                 }
             },
             {
-                "targets": 2,
+                "targets": 4,
               //  "orderable": false,
                 "width": "8%",
                 "render": function (data, type, row, meta) {
@@ -1313,7 +1454,7 @@ function GetOtherStatusShipmentList() {
                 },
             },
             {
-                "targets": 4,
+                "targets": 6,
               //  "orderable": false,
                 "width": "8%",
                 "render": function (data, type, row, meta) {
@@ -1455,7 +1596,14 @@ function GetOtherStatusShipmentList() {
                 "targets": 0,
                 "visible": false,
             }
-        ]
+        ],
+		
+		  "drawCallback": function(settings) {
+            // Your custom initialization code goes here
+            console.log('DataTable initialized!');
+				shipmentStatus();
+				//ddlStatus();
+        }
     });
 
     var search_thread_tblShipmentDetails2 = null;
