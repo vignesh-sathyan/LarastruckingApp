@@ -582,7 +582,7 @@ function StatusCheckForShipment(status) {
         PreStatus = '<span class="badge" style="background-color:#ff4300;color:#fff">' + status + '</span>'
     }
     if ($.trim(status).toLowerCase() == $.trim("APPT PENDING").toLowerCase()) {
-        PreStatus = '<span class="badge" style="background-color:#fdf82b;color:#fff">' + status + '</span>'
+        PreStatus = '<span class="badge" style="background-color:#fdf82b;color:#000">' + status + '</span>'
     }
     if ($.trim(status).toLowerCase() == $.trim("IMMED ATTENTION").toLowerCase()) {
         PreStatus = '<span class="badge" style="background-color:#e6061b;color:white">' + status + '</span>'
@@ -598,7 +598,7 @@ function StatusCheckForShipment(status) {
         PreStatus = '<span class="badge" style="background-color:#f8468a;color:#fff">' + status + '</span>'
     }
     if ($.trim(status).toLowerCase() == $.trim("IN STORAGE").toLowerCase()) {
-        PreStatus = '<span class="badge" style="background-color:#fdf82b;color:#fff">' + status + '</span>'
+        PreStatus = '<span class="badge" style="background-color:#fdf82b;color:#000">' + status + '</span>'
     }
     if ($.trim(status).toLowerCase() == $.trim("DRIVER ASSIGNED").toLowerCase()) {
         PreStatus = '<span class="badge" style="background-color:#1c2b85;color:#fff">' + status + '</span>'

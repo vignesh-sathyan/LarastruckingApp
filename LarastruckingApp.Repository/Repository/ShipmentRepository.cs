@@ -20,6 +20,7 @@ using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace LarastruckingApp.Repository.Repository
 {
     public class ShipmentRepository : IShipmentRepository
@@ -3572,19 +3573,32 @@ namespace LarastruckingApp.Repository.Repository
         #endregion
 
         #region Update Status
-        public bool UpdateStatus(int shipmentId, int StatusId)
+        public bool UpdateStatus(int shipmentId, int StatusId,int CustomerId,int UserId)
         {
             try
             {
+              
+
                 bool result = false;
                 var shipment = shipmentContext.tblShipments.FirstOrDefault(e => e.ShipmentId == shipmentId);
                 if (shipment != null)
                 {
                     // Update the StatusId column
                     shipment.StatusId = StatusId;
-
-                    // Save the changes to the database
-                    result = shipmentContext.SaveChanges() > 0;
+                    var statusHistory = shipmentContext.tblShipmentStatusHistories.Where(x => x.ShipmentId == shipmentId).OrderByDescending(x => x.ShipmentStatusHistoryId).FirstOrDefault();
+                    if (statusHistory != null && statusHistory.StatusId != StatusId)
+                    {
+                        tblShipmentStatusHistory shipmentStatusHistory = new tblShipmentStatusHistory();
+                        shipmentStatusHistory.ShipmentId = shipmentId;
+                        shipmentStatusHistory.StatusId = Convert.ToInt32(StatusId);
+                        //shipmentStatusHistory.SubStatusId = entity.SubStatusId;
+                        //shipmentStatusHistory.Reason = entity.Reason;
+                        shipmentStatusHistory.CreatedBy = UserId;
+                        shipmentStatusHistory.CreatedOn = Configurations.TodayDateTime;
+                        shipmentContext.tblShipmentStatusHistories.Add(shipmentStatusHistory);
+                    }
+                        // Save the changes to the database
+                        result = shipmentContext.SaveChanges() > 0;
                 }
                 return result;
             }

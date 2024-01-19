@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Configuration;
+using LarastruckingApp.DAL;
 
 namespace LarastruckingApp.Areas.Shipment.Controllers
 {
@@ -1997,9 +1998,26 @@ namespace LarastruckingApp.Areas.Shipment.Controllers
 
         #region Update Status
         [HttpPost]
-        public ActionResult UpdateStatus(int Shipmentid,int StatusId)
+        public ActionResult UpdateStatus(int Shipmentid,int StatusId,int CustomerId)
         {
-            var customer = shipmentBAL.UpdateStatus(Shipmentid,StatusId);
+            MemberProfile objMemberProfile = new MemberProfile();
+            var customer = shipmentBAL.UpdateStatus(Shipmentid,StatusId, CustomerId, objMemberProfile.UserId);
+            bool IsMailNeedToSend = false;
+            if (customer)
+            {
+                ShipmentEmailDTO customerShipmentDTO = new ShipmentEmailDTO();
+                customerShipmentDTO.CustomerId = Convert.ToInt32(CustomerId);
+                customerShipmentDTO.ShipmentId = Shipmentid;
+                if (StatusId != 11 && StatusId != 15 && StatusId != 16 && StatusId != 17)
+                {
+                    IsMailNeedToSend = true;
+                }
+                if (IsMailNeedToSend)
+                {
+                    SendMail(customerShipmentDTO);
+                }
+                
+            }
             return Json(customer, JsonRequestBehavior.AllowGet);
         }
 

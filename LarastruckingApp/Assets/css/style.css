@@ -2879,3 +2879,6 @@ div.ui-dialog-titlebar {
         padding:0 15px !important;
     }
 }
+#tblShipmentDetails2 .badge:hover{
+    cursor:pointer;
+}

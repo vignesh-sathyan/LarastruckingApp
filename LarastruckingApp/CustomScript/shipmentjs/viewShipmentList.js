@@ -14,6 +14,33 @@
     $('#tblShipmentDetails input').unbind();
 });
 
+
+function getShipmentById(shipmentId) {
+
+    var result;
+    $.ajax({
+        url: baseUrl + "/Shipment/Shipment/GetShipmentById",
+        type: "GET",
+        data: {
+            shipmentId: shipmentId
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (response) {
+
+            if (response != null) {
+                result =  response;
+            }
+        },
+        error: function (error) {
+            //hideLoader();
+            console.log("shipment Details: ", error.responseText);
+           
+        }
+    });
+    return result;
+}
 function shipmentStatus() {
     $.ajax({
         url: baseUrl + 'Shipment/Shipment/GetShipmentStatus',
@@ -40,6 +67,10 @@ $('#tblShipmentDetails2').on('click', '.badge', function (e) {
     // Find the dropdown within the same row
     var dropdown = row.find('.ddlStatus');
     var label = row.find('.badge');
+    var table = $('#tblShipmentDetails2').DataTable();
+    var data_row = table.row($(this).closest('tr')).data();
+    var shipmentDetails = getShipmentById(data_row.ShipmentId);
+    dropdown.val(shipmentDetails.StatusId);
     $('.ddlStatus').not(dropdown).hide();
     $('.badge').not(label).show();
     // Toggle the visibility of the dropdown
@@ -65,26 +96,34 @@ $('#tblShipmentDetails2').on('change', '.ddlStatus', function (e) {
     var table = $('#tblShipmentDetails2').DataTable();
     var data_row = table.row($(this).closest('tr')).data();
     var selectedValue = $(this).val();
+    var shipmentDetails = getShipmentById(data_row.ShipmentId);
    // window.location.href = baseUrl + '/Shipment/Shipment/Index/' + data_row.ShipmentId;
     console.log("data_row: ", data_row);
     console.log("selectedValue: ", selectedValue);
+    console.log("shipmentDetails: ", shipmentDetails);
+    var customerId = shipmentDetails.CustomerId;
     
     $.ajax({
         url: baseUrl + 'Shipment/Shipment/UpdateStatus',
         type: "POST",
         data: {
             Shipmentid: data_row.ShipmentId,
-            StatusId: selectedValue
+            StatusId: selectedValue,
+            CustomerId: customerId
+        },
+        beforeSend: function () {
+            showLoader();
         },
        // async: false,
        // dataType: "json",
        // contentType: "application/json; charset=utf-8",
         success: function (data) {
+            hideLoader();
             if (data) {
                 // SuccessPopup("Extended Waiting Time advised to Customer!")
                 $.alert({
                     title: 'Success!',
-                    content: "<b>Status Updated.</b>",
+                    content: "<b>Status has been updated successfully.</b>",
                     type: 'green',
                     typeAnimated: true,
                     buttons: {

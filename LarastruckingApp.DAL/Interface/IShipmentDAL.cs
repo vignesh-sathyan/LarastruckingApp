@@ -59,6 +59,6 @@ namespace LarastruckingApp.DAL.Interface
 
         List<ShipmentDriverDetailDTO> DriverDetail();
         TemperatureEmailSipmentDTO GetTemperatureEmailDetail(int shipmentId);
-        bool UpdateStatus(int shipmentId, int StatusId);
+        bool UpdateStatus(int shipmentId, int StatusId, int CustomerId, int UserId);
     }
 }
