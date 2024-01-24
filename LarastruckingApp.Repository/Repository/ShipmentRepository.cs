@@ -8,14 +8,18 @@ using LarastruckingApp.Repository.EF;
 using LarastruckingApp.Repository.IRepository;
 using LarastruckingApp.Resource;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.SqlServer;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace LarastruckingApp.Repository.Repository
 {
@@ -385,7 +389,7 @@ namespace LarastruckingApp.Repository.Repository
 
                     if (shipmentdata != null)
                     {
-                        if (shipmentdata.StatusId != entity.StatusId && entity.StatusId != 11)
+                        if (shipmentdata.StatusId != entity.StatusId && entity.StatusId != 11 && entity.StatusId != 15 && entity.StatusId != 16 && entity.StatusId != 17)
                         {
                             shipment.IsMailNeedToSend = true;
                         }
@@ -3351,7 +3355,8 @@ namespace LarastruckingApp.Repository.Repository
                                          DeliveryArrival = shipmentRouteStop.DeliveryDateTime,
                                          DeliveryDeparture = shipmentRouteStop.DeliveryDateTimeTo,
                                          AirWayBill = shipments.AirWayBill,
-                                         OrderNo = shipments.ContainerNo,
+                                         OrderNo = shipments.OrderNo,
+                                         ContainerNo = shipments.ContainerNo,
                                          CustomerPO = shipments.CustomerPO,
                                          LogoURL = (LarastruckingApp.Entities.Common.Configurations.ImageURL + LarastruckingApp.Entities.Common.Configurations.LarasLogo),
                                          ActTemp = "",
@@ -3437,5 +3442,176 @@ namespace LarastruckingApp.Repository.Repository
             sw.Flush();
             sw.Close();
         }
+
+        #region Get OrderTaken
+        public int GetOrderTaken()
+        {
+            try
+            {
+                //int result = 0;
+                int records = shipmentContext.tblShipments.Count(x => x.StatusId==1 && x.IsDeleted==false); 
+                //var count = records.Count();
+                
+                return records;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        #endregion
+
+        #region Get ShipmentInProgress
+        public int GetShipmentInProgress()
+        {
+            try
+            {
+                //int result = 0;
+                int records = shipmentContext.tblShipments.Count(x => x.StatusId != 1 && x.StatusId != 8 && x.StatusId != 11 && x.IsDeleted == false);
+                //var count = records.Count();
+
+                return records;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        #endregion
+
+        #region Get CustomerDetail
+        public CustomerDetailDTO CustomerDetail(int shipmentid)
+        {
+            try
+            {
+                //int result = 0;
+                CustomerDetailDTO shipmentDetail = new CustomerDetailDTO();
+                shipmentDetail = (from shipment in shipmentContext.tblShipments
+                                  join customer in shipmentContext.tblCustomerRegistrations on shipment.CustomerId equals customer.CustomerID                                  
+                                  join Address in shipmentContext.tblCustomerContacts on shipment.CustomerId equals Address.CustomerId                                  
+                                  join BaseAddress in shipmentContext.tblBaseAddresses on shipment.CustomerId equals BaseAddress.CustomerId                                  
+                                  join State in shipmentContext.tblStates on BaseAddress.BillingStateId equals State.ID                                  
+                                  join Country in shipmentContext.tblCountries on BaseAddress.BillingCountryId equals Country.ID                                  
+                                  where shipment.ShipmentId == shipmentid 
+                                  select new CustomerDetailDTO
+                                  {
+                                      CustomerName = customer.CustomerName,
+                                      Address = BaseAddress.BillingAddress1 + " , "+ BaseAddress.BillingCity + " , "  + State.Name + " , " + Country.Name,
+                                      Contact = Address.ContactFirstName + " " +Address.ContactLastName,
+                                      Phone= Address.ContactPhone,
+                                      Email = Address.ContactEmail,
+                                      //EstDeliveryArrival = routes.DeliveryDateTime,
+                                      //CustomerId = shipment.CustomerId,
+                                      //CustomerName = customer.CustomerName,
+                                      //AWB = shipment.AirWayBill,
+                                  }
+                                  ).FirstOrDefault();
+                int records = shipmentContext.tblShipments.Count(x => x.StatusId != 1 && x.StatusId != 8 && x.StatusId != 11 && x.IsDeleted == false);
+                //var count = records.Count();
+
+                return shipmentDetail;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        #endregion
+
+
+        #region Get DriverDetail
+        public List<ShipmentDriverDetailDTO> DriverDetail()
+        {
+            try
+            {
+                //int result = 0;
+                List<ShipmentDriverDetailDTO> shipmentDetail = new List<ShipmentDriverDetailDTO>();
+                List<ShipmentDriverDetailDTO> FumDetails = new List<ShipmentDriverDetailDTO>();
+                shipmentDetail = (from shipment in shipmentContext.tblShipments
+                                  join status in shipmentContext.tblShipmentStatus on shipment.StatusId equals status.StatusId
+                                  join shipmntRoute in shipmentContext.tblShipmentRoutesStops on shipment.ShipmentId equals shipmntRoute.ShippingId
+                                  join Address in shipmentContext.tblAddresses on shipmntRoute.DeliveryLocationId equals Address.AddressId
+                                  join Equipment in shipmentContext.tblShipmentEquipmentNdrivers on shipment.ShipmentId equals Equipment.ShipmentId
+                                  join EquipmentNo in shipmentContext.tblEquipmentDetails on Equipment.EquipmentId equals EquipmentNo.EDID
+                                  join Driver in shipmentContext.tblDrivers on Equipment.DriverId equals Driver.DriverID
+                                  join State in shipmentContext.tblStates on Address.State equals State.ID
+                                  //join Country in shipmentContext.tblCountries on Address.Country equals Country.ID
+                                  where shipment.IsDeleted == false && shipment.StatusId!=1 && shipment.StatusId != 8 && shipment.StatusId != 11 orderby status.FumigationDisplayOrderCustomer
+                                   select new ShipmentDriverDetailDTO
+                                  {
+
+                                      DriverName = Driver.FirstName +  " "+ Driver.LastName,
+                                       ShipmentId = status.FumigationDisplayOrderCustomer,
+                                      Status = status.StatusAbbreviation,
+                                      DeliveryLocation = Address.CompanyName + ", " + Address.Address1 + ", " + Address.City + ", " + State.Name,
+                                      Equipment = EquipmentNo.EquipmentNo,
+                                      DashboardName = "Shipment$"+SqlFunctions.StringConvert((double)shipment.ShipmentId).Trim(),
+                                      //EstDeliveryArrival = routes.DeliveryDateTime,
+                                      //CustomerId = shipment.CustomerId,
+                                      //CustomerName = customer.CustomerName,
+                                      //AWB = shipment.AirWayBill,
+                                  }
+                                  ).OrderBy(e => e.ShipmentId).ToList();
+                //shipmentDetail = shipmentDetail.ToList();
+                //int records = shipmentContext.tblShipments.Count(x => x.StatusId != 1 && x.StatusId != 8 && x.StatusId != 11 && x.IsDeleted == false);
+                //var count = records.Count();
+                
+                FumDetails =  sp_dbContext.Database.SqlQuery<ShipmentDriverDetailDTO>("usp_GetFumigationDriverList").ToList();
+                shipmentDetail = shipmentDetail.Concat(FumDetails).OrderByDescending(e=>e.ShipmentId).ToList();
+                var shipementDt = shipmentDetail;
+                return shipmentDetail;
+            }
+            catch (Exception ex)
+            {
+                ErrorLog(ex.Message.ToString());
+                throw;
+            }
+        }
+        #endregion
+
+        #region Update Status
+        public bool UpdateStatus(int shipmentId, int StatusId,int CustomerId,int UserId)
+        {
+            try
+            {
+              
+
+                bool result = false;
+                var shipment = shipmentContext.tblShipments.FirstOrDefault(e => e.ShipmentId == shipmentId);
+                if (shipment != null)
+                {
+                    // Update the StatusId column
+                    shipment.StatusId = StatusId;
+                    var statusHistory = shipmentContext.tblShipmentStatusHistories.Where(x => x.ShipmentId == shipmentId).OrderByDescending(x => x.ShipmentStatusHistoryId).FirstOrDefault();
+                    if (statusHistory != null && statusHistory.StatusId != StatusId)
+                    {
+                        tblShipmentStatusHistory shipmentStatusHistory = new tblShipmentStatusHistory();
+                        shipmentStatusHistory.ShipmentId = shipmentId;
+                        shipmentStatusHistory.StatusId = Convert.ToInt32(StatusId);
+                        //shipmentStatusHistory.SubStatusId = entity.SubStatusId;
+                        //shipmentStatusHistory.Reason = entity.Reason;
+                        shipmentStatusHistory.CreatedBy = UserId;
+                        shipmentStatusHistory.CreatedOn = Configurations.TodayDateTime;
+                        shipmentContext.tblShipmentStatusHistories.Add(shipmentStatusHistory);
+                    }
+                        // Save the changes to the database
+                        result = shipmentContext.SaveChanges() > 0;
+                }
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        #endregion
+
+
     }
+
+
 }

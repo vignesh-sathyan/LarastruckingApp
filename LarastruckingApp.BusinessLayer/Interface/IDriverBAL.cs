@@ -16,6 +16,7 @@ namespace LarastruckingApp.BusinessLayer.Interface
         /// Geting driver records list 
         /// </summary>
         IEnumerable<DriverListDto> DriverList();
+        IEnumerable<DriverListDto> DriverInactiveList(int spType, int isActive);
         #endregion
 
         #region Driver Info By user id: for Leave Module

@@ -175,6 +175,51 @@ namespace LarastruckingApp.Repository.Repository
         }
         #endregion
 
+        #region Driver Inactive List
+        /// <summary>
+        /// Geting driver records list 
+        /// </summary>
+        public IEnumerable<DriverListDto> DriverInactiveList(int spType, int isActive)
+        {
+            try
+            {
+
+
+                List<SqlParameter> sqlParameters = new List<SqlParameter>
+                    {
+                        new SqlParameter("@SpType", spType),
+                        new SqlParameter("@Active", isActive)
+                    };
+
+                var result = dbContext.ExecuteStoredProcedure<DriverListDto>("usp_LeaveManage", sqlParameters);
+                result = result.Count > 0 ? result : null;
+
+                if (result.Count > 0)
+                {
+                    foreach (var item in result)
+                    {
+                        if (item.TakenFrom != null)
+                        {
+                            item.TakenFrom = Configurations.ConvertDateTime(Convert.ToDateTime(item.TakenFrom));
+                        }
+                        if (item.TakenTo != null)
+                        {
+                            item.TakenTo = Configurations.ConvertDateTime(Convert.ToDateTime(item.TakenTo));
+                        }
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+        #endregion
+
         #region Add
         /// <summary>
         /// Add Driver Record

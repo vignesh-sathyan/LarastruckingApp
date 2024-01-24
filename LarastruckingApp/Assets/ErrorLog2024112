@@ -1,0 +1,18 @@
+1/12/2024 4:57:04 AM ==> Success in Fumigation: True
+1/12/2024 4:57:05 AM ==> For loop in imgFiles: System.String[]
+1/12/2024 4:57:05 AM ==> For loop in ext: png
+1/12/2024 4:57:05 AM ==> For loop in path: https://appdev.larastrucking.com/Images/ProofFiles/Temperature/proof_of_Temp_1_2024-01-12-04-57-04.png
+1/12/2024 4:57:05 AM ==> For loop in bytes: System.Byte[]
+1/12/2024 4:57:05 AM ==> fileAttach : System.Collections.Generic.Dictionary`2[System.Byte[],System.String]
+1/12/2024 4:57:05 AM ==> fileAttach : System.Collections.Generic.Dictionary`2[System.Byte[],System.String]
+1/12/2024 4:57:05 AM ==> Mail Response : Sent: LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | @AWB/PO/ORD | ACCEPTABLE TEMPERATURE : "noreply@larastrucking.com" <noreply@larastrucking.com> : "noreply@larastrucking.com" <noreply@larastrucking.com> : INTERFACEADMIN@DARTINNOVATIONS.NET,VIGNESHS@DARTINNOVATIONS.NET,GANESH@DARTINNOVATIONS.COM,KARTHIK@DARTINNOVATIONS.COM,DART.KARTHIK@GMAIL.COM,DART.GANESH@GMAIL.COM,VENKATESHKUMAR@DARTINNOVATIONS.NET,GOPI@DARTINNOVATIONS.NET : info@dartinnovations.com : noreply@larastrucking.com : Ru89MiK!y#90 : smtp.gmail.com : 587
+1/12/2024 4:57:05 AM ==> isEmail Success: 1751Img URL: Images/ProofFiles/Temperature\proof_of_Temp_1_2024-01-12-04-57-04.png
+1/12/2024 4:59:31 AM ==> Success in Fumigation: True
+1/12/2024 4:59:32 AM ==> For loop in imgFiles: System.String[]
+1/12/2024 4:59:32 AM ==> For loop in ext: png
+1/12/2024 4:59:32 AM ==> For loop in path: https://appdev.larastrucking.com/Images/ProofFiles/Temperature/proof_of_Temp_1_2024-01-12-04-59-32.png
+1/12/2024 4:59:32 AM ==> For loop in bytes: System.Byte[]
+1/12/2024 4:59:32 AM ==> fileAttach : System.Collections.Generic.Dictionary`2[System.Byte[],System.String]
+1/12/2024 4:59:32 AM ==> fileAttach : System.Collections.Generic.Dictionary`2[System.Byte[],System.String]
+1/12/2024 4:59:32 AM ==> Mail Response : Sent: LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | 222-2222-2222 | IMMEDIATE ATTENTION HIGH TEMPERATURE : "noreply@larastrucking.com" <noreply@larastrucking.com> : "noreply@larastrucking.com" <noreply@larastrucking.com> : INTERFACEADMIN@DARTINNOVATIONS.NET,VIGNESHS@DARTINNOVATIONS.NET,GANESH@DARTINNOVATIONS.COM,KARTHIK@DARTINNOVATIONS.COM,DART.KARTHIK@GMAIL.COM,DART.GANESH@GMAIL.COM,VENKATESHKUMAR@DARTINNOVATIONS.NET,GOPI@DARTINNOVATIONS.NET : info@dartinnovations.com : noreply@larastrucking.com : Ru89MiK!y#90 : smtp.gmail.com : 587
+1/12/2024 4:59:32 AM ==> isEmail Success: 1752Img URL: Images/ProofFiles/Temperature\proof_of_Temp_1_2024-01-12-04-59-32.png

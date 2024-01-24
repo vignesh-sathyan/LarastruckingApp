@@ -1,0 +1,453 @@
+body {
+    width: auto;
+    height: 800px;
+    overflow-x: hidden;
+    margin: auto;
+}
+/*.removeBoby .logo {
+    display: none;
+}*/
+.menu-items {
+    display: flex;
+    justify-content: space-between;
+    height: 60px;
+    width: 100%;
+    background-color: #85ae3c;
+    align-items: center;
+    list-style-type: none;
+    margin-right: 100px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.my-marker-label {
+  margin-top: 10px; /* Adjust the value to move the label down */
+}
+#gpsTracking{
+    min-height:300px;
+}
+#ShipmentRequest:hover,#ShipmentInProgress:hover,#FumigationRequest:hover,#FumigationInProgress:hover{
+	cursor:pointer;
+}
+.leftAsideBar{
+    display:none;
+}
+#myPipeLineBar {
+    background-color: #fe9900 !important;
+}
+a {
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.menu-items li a:active,
+.menu-items li a:hover {
+    color: #000000;
+    text-decoration: none;
+}
+
+a:any-link {
+    cursor: pointer;
+}
+.DriverDashboard:hover{
+    color:#fff !important;
+    background:none;
+}
+.header {
+    height: 40px;
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    z-index:9999;
+}
+
+span.leftIc {
+    margin-right: 5px;
+}
+
+.menu-toggle {
+    margin-right: 15px;
+    display: none;
+}
+.multi-column tr:last-child td{
+	border-bottom: 0;
+}
+.multi-column tr td{
+	border-bottom: 1px solid #dee2e6;
+	border-bottom-width: 1px !important;
+}
+.menu-icon {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    position: absolute;
+    top: -43px;
+    height: 20px;
+}
+
+    .menu-icon span {
+        background-color: #333;
+        height: 2px;
+    }
+
+.menu-items li:last-child {
+    border-right: none;
+}
+
+.menu-items li {
+    font-weight: 400;
+    border-right: 1px solid rgba(211, 228, 180, 0.34);
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 8%;
+    justify-content: center;
+}
+#myProgress, #myShipProgress, #myFumOrder, #myFumProgress {
+    position: relative;
+    width: 70px;
+    height: 20px;
+    background-color: #375b93;
+    display: none;
+}
+.progressBar{
+    display:none;
+}
+.Master #tblShipmentDetails_length, .Master #tblShipmentDetails2_length, .Master #tblOtherFumigation_length, .Master #tblOrderTakenFumigation_length {
+    margin-top: 0;
+}
+.Master div.dt-buttons {
+    right: 277px;
+}
+.Master #tblShipmentDetails_filter, .Master #tblShipmentDetails2_filter, .Master #tblOtherFumigation_filter, .Master #tblOrderTakenFumigation_filter {
+    margin-top: 12px;
+}
+#myBar, #myPipeLineBar, #myFumOrderLineBar, #myFumProgressLineBar {
+    /*position: absolute;*/
+    width: 0%;
+    height: 100%;
+    background-color: #7ba63c;
+    align-items: center;
+}
+#totalCount, #ShipmenttotalCount, #FumigationtotalCount, #FumigationProgresstotalCount {
+    color: #fff;
+    font-size: 10px;
+}
+#total, #totalPipe, #FumOrdertotalPipe, #FumProgresstotalPipe {
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    float: left;
+    display: none;
+}
+
+#label {
+    text-align: center;
+    line-height: 30px;
+    color: #000;
+    font-size: 10px;
+    align-items: center;
+}
+    .menu-items li a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: 400;
+        font-size: 11px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        font-family: 'Nunito Sans', sans-serif;
+        display: flex;
+        align-items: center;
+        height: 100%;
+        padding: 0 9.99px 0 8.19px;
+        margin-left: -1px;
+        margin-right: -1px;
+        white-space: nowrap;
+        width: 100%;
+        justify-content: center;
+    }
+
+a:hover {
+    background: #D3E3B4;
+}
+
+/* Media Query for Responsive Menu */
+/*
+@media (max-width: 768px) {
+    .menu-items {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+        .menu-toggle:checked ~ .menu-items {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 10px;
+        }
+}
+
+@media (max-width: 680px) {
+    .menu-items {
+        flex-wrap: wrap;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+    }
+
+    .menu-toggle:checked ~ .menu-items {
+        max-height: 200px; 
+    }
+    i{
+        margin-right:2px;
+    }
+
+    .menu-items li {
+        flex: 0 0 100%;
+        margin-bottom: 10px;
+    }
+
+        .menu-items li:last-child {
+            margin-bottom: 0;
+        }
+    .showmenu
+    {
+    display:block;
+    }
+}
+*/
+@media (max-width: 640px) {
+    .menu-items {
+        flex-direction: column;
+        padding: 0;
+    }
+
+        .menu-items li {
+            display: inline-block;
+            font-weight: 400;
+            align-items: center;
+            width: 100%;
+        }
+
+    .menu-toggle {
+        display: block;
+    }
+
+        .menu-toggle:checked ~ .menu-items {
+            display: flex;
+            position: absolute;
+            top: 10px;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 10px;
+        }
+
+    .menu {
+        margin: 1px 0 0;
+        display: none;
+        align-items: flex-start;
+        position: fixed;
+    }
+
+        .menu > ul {
+            margin: 0;
+            padding: 0;
+        }
+
+            .menu > ul > li > a {
+                display: block;
+                color: #fff;
+                padding: 0px;
+                font-size: 14px;
+                padding: 5px 5px;
+                white-space: nowrap;
+                font-weight: 400;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+                transition: all 0.3s ease-in-out;
+                border-bottom: 1px solid rgba(211, 228, 180, 0.34);
+            }
+
+    .menu {
+        margin: 60px 0 0 0;
+        position: fixed;
+        top: 0;
+        z-index: 3;
+        background: #85ae3c;
+        width: 220px;
+        padding: 0;
+        height: 100vh;
+        transition: all 0.3s ease-in-out;
+        -webkit-transition: all 0.3s ease-in-out;
+    }
+}
+#CustomerProfile td:hover, #CustomerProfile tr:hover td{
+    background: none;
+    color: #000;
+}
+
+.section {
+    margin-top: 20px;
+    display: flex;
+    /*height: 300px;*/
+    grid-template-columns: 2fr 1.5fr 1.5fr 2fr;
+   
+}
+
+    .section div {
+        display: flex;
+        width: 100%;
+        /*min-width: 350px;*/
+        overflow: hidden;
+        white-space: normal;
+        text-overflow: ellipsis;
+        /*border: 1px solid black;*/
+        font-size: 11px;
+        font-weight: 600;
+        justify-content: center;
+        position: relative;
+        font-family: 'Nunito Sans', sans-serif;
+    }
+.sticky-header {
+    background-color: #f2f2f2; /* desired background color */
+    /* any other styles you want to apply to the sticky header */
+}
+#DeliveryDet th{
+    position:sticky;
+    top:0;
+}
+.article-items {
+    list-style: none;
+    font-size: 12px;
+    padding: 0;
+}
+.article
+{
+    overflow-y:auto;
+}
+.section .article .article-items {
+    position: absolute;
+    left: 10px;
+    top: 12%;
+    font-weight: normal;
+}
+
+.section .article .article-items1 {
+    position: absolute;
+    left: 120px;
+    top: 12%;
+    list-style: none;
+    font-size: 12px;
+    font-weight: normal;
+}
+        .section .aside {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    grid-template-areas: "h h1" "m m" "v v";
+}
+
+    .section .aside .sprogress {
+        grid-area: h;
+        justify-content: start;
+        
+    }
+
+    .section .aside .fprogress {
+        grid-area: h1;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .section .aside .driver {
+        grid-area: m;padding-left:20px;
+        justify-content: start;
+        align-items: center;
+        font-weight: 400;
+    }
+
+            .section .aside .driver-list {
+                display: grid;
+                font-size: 11px;
+                padding-left:15px;
+                font-weight: 400;
+                grid-template-columns: 1fr 1fr 1fr;
+                grid-area: v;
+                font-weight: normal;
+                overflow-y:auto;
+                align-items: start;
+            }
+
+        .section .aside .driver-list .list-items {
+            list-style-type: none;
+            display: flex;
+            grid-template-columns: 1fr 1fr 1fr;
+         
+            font-weight: normal;
+        }
+
+            .section .aside .driver-list .list-items li {
+                margin: 0 40px 0 20px;
+            }
+@media (max-width: 1200px) {
+    .section {
+        flex-wrap: wrap;
+    }
+    .statusTab{
+        padding:0 !important;
+        text-align:center;
+    }
+    #DeliveryDet{
+        width:100%;
+    }
+}
+
+@media (max-width: 1528px) {
+    .menu-items {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+        .menu-items li {
+            height: 0;
+            width:auto;
+        }
+}
+
+@media (max-width: 796px) {
+    .menu-items li {
+        width: 20%;
+    }
+}
+
+@media (max-width: 640px) {
+    #menutab {
+        display: none;
+    }
+
+    .menu-toggle {
+        z-index: 2;
+        display: flex;
+        position: absolute;
+        top: 65px;
+        left: 25px;
+    }
+
+    .top-right-panel ul > li:last-child > a {
+        margin-left: 20px;
+    }
+
+    .section {
+        margin-top: -40px;
+    }
+}

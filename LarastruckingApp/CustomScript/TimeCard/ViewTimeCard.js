@@ -123,7 +123,7 @@ function GetTimeCardList() {
                     $(win.document.body)
                         .css('font-size', '10pt')
                         .prepend(
-                            "<table id='checkheader'><tr><td width='80%' ><h3 style='font-size: 20px;'>REQUESTED FUMIGATION</h3></td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
+                            "<table id='checkheader'><tr><td width='80%' ><h3 style='font-size: 20px;'>TIMECARD REPORT</h3></td><td width='20%'><div><img src='"+baseUrl+"/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
                         );
                 }
             }
@@ -161,6 +161,7 @@ function GetTimeCardList() {
                 "name": "InDateTime",
                 "autoWidth": true,
                 "render": function (data, type, row, meta) {
+					 console.log("data TblTimeCard: ", row);
                     if (row.InDateTime != null && row.InDateTime != undefined) {
                         return '<label>' + ConvertDate(row.InDateTime, true) + '</label><br/>'
                     }
@@ -174,7 +175,7 @@ function GetTimeCardList() {
                 "name": "OutDateTime",
                 "autoWidth": true,
                 "render": function (data, type, row, meta) {
-                    if (row.InDateTime != null && row.OutDateTime != undefined) {
+                    if (row.OutDateTime != null && row.OutDateTime != undefined) {
                         return '<label>' + ConvertDate(row.OutDateTime, true) + '</label><br/>'
                     }
                     else {
@@ -183,7 +184,40 @@ function GetTimeCardList() {
 
                 }
             },
-            { "data": "TotalHours", "name": "TotalHours", "autoWidth": true },
+			  {
+                "name": "TotalHours",
+                "autoWidth": true,
+                "render": function (data, type, row, meta) {
+					
+                    if (row.TotalHours != null && row.TotalHours != undefined) {
+						var totalHour = row.TotalHours.split(":")[0];
+						var totalMinute = row.TotalHours.split(":")[1];
+						if(totalHour<10 && totalHour>0){
+							totalHour = "0"+totalHour;
+						}
+						else if(totalHour==0){
+							totalHour = "00";
+						}
+						else{
+							totalHour = totalHour;
+						}
+						if(totalMinute>0 && totalMinute<10){
+							totalMinute = "0"+totalMinute;
+						}
+						else if(totalMinute==0){
+							totalMinute = "00";
+						}
+						else{
+							totalMinute = totalMinute;
+						}
+                        return '<label>' + totalHour + ':'+totalMinute+'</label><br/>'
+                    }
+                    else {
+                        return '<label></label><br/>'
+                    }
+
+                }
+            },
           
 
         ],
@@ -273,7 +307,7 @@ function GetLaborReport() {
                     $(win.document.body)
                         .css('font-size', '10pt')
                         .prepend(
-                            "<table id='9'><tr><td width='80%' ></td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
+                            "<table id='9'><tr><td width='80%' ></td><td width='20%'><div><img src='"+baseUrl+"/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
                         );
 
 
@@ -351,6 +385,8 @@ function GetDailyRepot() {
     var values = {};
     
     var weekdate = $('#ddlWeekDate :selected').text();
+	var printWeek = weekdate;
+	console.log("weekdate: ",weekdate);
     weekdate = weekdate.split("TO");
     values.StartDate = $.trim(weekdate[0]);
     values.EndDate = $.trim(weekdate[1]);
@@ -367,8 +403,9 @@ function GetDailyRepot() {
         success: function (data) {
             $("#divDailyReport").empty();
             $("#divDailyReport").html(data);
-            //$("#divDailyReport").prepend("<table id='9'><tr><td width='80%' ></td><h3>Weekly Report</h3><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>");
+            //$("#divDailyReport").prepend("<table id='9'><tr><td width='80%' ></td><h3>Weekly Report</h3><td width='20%'><div><img src='"+baseUrl+"/Images/Laraslogo.png' height='100px'/></div></td></tr></table>");
             
+            $("#divDailyReport #printWeek").text(printWeek);
             $("#divDailyReport #selectedweek").text(weekdate);
             //console.log("dailyData: ",data);
         }
@@ -599,7 +636,7 @@ function GetWeeklyReport() {
                     $(win.document.body)
                         .css('font-size', '10pt')
                         .prepend(
-                            "<table id='9'><tr><td width='80%' ></td><h3>Weekly Report</h3><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
+                            "<table id='9'><tr><td width='80%' ></td><h3>Weekly Report</h3><td width='20%'><div><img src='"+baseUrl+"/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
                         );
                 }
 

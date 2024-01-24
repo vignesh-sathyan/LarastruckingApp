@@ -21,7 +21,7 @@
             var IsPricingMethod =  @permissions.IsPricingMethod.ToString().ToLower();
         </script>
     }
-
+  <link href="~/Assets/css/Main.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
@@ -40,10 +40,10 @@
     <script src="~/Assets/js/jquery.mask.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDME32UFDEYyS_KwgS3WJRqPY5cpbtKH0A&libraries=places&SameSite=None&sensor=false"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCc5vVFw9rNMBRTazypkoydHGXB2LrlRv8&libraries=places&SameSite=None&sensor=false"></script>
 
     @*<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCc5vVFw9rNMBRTazypkoydHGXB2LrlRv8&callback=initMap&libraries=places&SameSite=None&sensor=false"></script>*@
-    <script src="https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyDME32UFDEYyS_KwgS3WJRqPY5cpbtKH0A"></script>
+    <script src="https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyCc5vVFw9rNMBRTazypkoydHGXB2LrlRv8"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.print.min.js"></script>
     <script src="~/Assets/js/pdfmake.min.js"></script>
@@ -84,7 +84,7 @@
         }*/
         /*//CSS Static Live Shipment for customer*/
 
-        .default > a, .asc > a, .desc > a {
+       /* .default > a, .asc > a, .desc > a {
             text-decoration: none;
             color: black
         }
@@ -158,12 +158,14 @@
                     color: #000;
                     text-decoration: none;
                     background: #f7f7f7;
-                }
+                }*/
+                
+}
         /*// commnet*/
 
 
 
-
+     
         .invalid {
             border: #FF0000 1px solid;
         }
@@ -183,6 +185,44 @@
         .TimeBorder label {
             border: 1px solid #ced4da;
         }
+        .topBar {
+            display: flex;
+            position: fixed;
+            height: 60px;
+            box-shadow: unset;
+            width: 100%;
+            margin-left: 0;
+            top: 0;
+        }
+
+        .top-right-panel {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header {
+            height: 100px;
+        }
+
+        .dropdown-menu {
+            z-index: 9999;
+        }
+
+        .menu {
+            display: flex;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            z-index: 2;
+            top: 60px;
+        }
+
+       /* #menuBtn {
+            display: none;
+        }*/
     </style>
 
 </head>
@@ -198,7 +238,156 @@
         <!-- Top Bar start -->
         <div class="topBar">
             <button id="menuBtn" type="button" class="fas fa-bars"> </button>
+            <!-- LeftAsideBar panel start -->
+            <div class="leftAsideBar">
+                <a href="" class="logo">
+                    <img src="~/images/sparrow-logo.png">
+
+                </a>
+
+                <div class="sidenavBar" style="overflow-y: auto;overflow-x:hidden;">
+                    <ul>
+                        @{
+                            MemberProfile mps = new MemberProfile();
+                            var controllerNames = ViewContext.RouteData.Values["Controller"].ToString();
+                            var actionNames = ViewContext.RouteData.Values["Action"].ToString();
+                            var areaNames = Convert.ToString(ViewContext.RouteData.DataTokens["area"]);
+                            areaNames = (areaNames == null) ? "" : areaNames.ToString();
+
+                            var ids = Convert.ToString(ViewContext.RouteData.Values["id"]);
+
+                            <li>
+                                <a class=""
+                                   href="/Main/Index">
+                                    <span title="dashboard" class="leftIc">
+                                        <i class="far fa-file-alt"></i>
+                                    </span>
+                                    <span class="leftText">
+                                        DASHBOARD
+                                    </span>
+                                </a>
+                            </li>
+
+                            if (mps.Permissions != null)
+                            {
+                                if (mps.UserRole == "Customer")
+                                {
+                                    <li class="sidenavsubBar">
+
+                                        <div>
+                                            <span class="leftIc">
+                                                <i class="fas fa-tachometer-alt"></i>
+                                            </span>
+                                            <span class="leftText">Live Shipment</span>
+                                        </div>
+                                        <ul class="sub">
+                                            <li>
+                                                <a href="javascript:void(0)">
+                                                    @*<span class="leftIc">
+                                                            <i class="fas fa-tachometer-alt"></i>
+                                                        </span>*@
+                                                    @*<span class="leftText"> Shipment</span>*@
+                                                </a>
+                                            </li>
+                                        </ul>
+
+                                    </li>
+                                }
+                                foreach (var data in mps.Permissions)
+                                {
+                                    if (data.IsMenu)
+                                    {
+                                        if (data.CanView)
+                                        {
+                                            if (data.ControllerName == "Shipment" || data.ControllerName == "Fumigation" || data.ControllerName == "TrailerRental" || data.ControllerName == "Driver" || data.ControllerName == "Customer")
+                                            {
+                                                if ((data.ControllerName == "Driver" && actionNames == "FumigationDetails") || (data.ControllerName == "Driver" && actionNames == "Detail"))
+                                                {
+                                                    actionNames = "Dashboard";
+                                                }
+
+                                                <li>
+                                                    <a class="@(controllerNames == data.ControllerName && actionNames == data.ActionName && areaNames == data.AreaName ? "active" : "")"
+                                                       @*<a class="@(controllerName == data.ControllerName && actionName== data.ActionName ? "active" : "")"*@
+                                                       href="@Url.Action(data.ActionName, data.ControllerName, new { area = data.AreaName })">
+                                                        <span title="@data.PageName.ToUpper()" class="leftIc">
+                                                            <i class="@data.DisplayIcon"></i>
+                                                        </span>
+                                                        <span class="leftText">
+                                                            @data.PageName
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                if (data.ActionName != "ViewTimeCard")
+                                                {
+                                                    <li>
+                                                        @*<a class="@(controllerName == data.ControllerName && actionName== data.ActionName && areaName == data.AreaName ? "active" : "")"*@
+                                                        <a class="@(controllerNames == data.ControllerName && actionNames == data.ActionName ? "active" : "")"
+                                                           href="@Url.Action(data.ActionName, data.ControllerName, new { area = data.AreaName })">
+                                                            <span title="@data.PageName.ToUpper()" class="leftIc">
+                                                                <i class="@data.DisplayIcon"></i>
+                                                            </span>
+                                                            <span class="leftText">
+                                                                @data.PageName
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                <li class="dropdown">
+                                    <span class="leftText">
+                                        <i class="far fa-file-alt"></i>
+                                        Reports
+                                    </span>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <a class="@(controllerNames == "TimeCard" && actionNames== "ViewTimeCard" ? "active" : "")"
+                                               href="@Url.Action("ViewTimeCard","TimeCard", new { area = "TimeCard" })">
+                                                <span title="TIMECARD" class="leftIc">
+                                                    <i class="far fa-file-alt"></i>
+                                                </span>
+                                                <span class="leftText">
+                                                    TimeCard
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="@(controllerNames == "Driver" && actionNames== "DriverIncentive" ? "active" : "")"
+                                               href="@Url.Action("DriverIncentive","Driver",new { area = "" })">
+                                                <span title="INCENTIVE" class="leftIc">
+                                                    <i class="far fa-file-alt"></i>
+                                                </span>
+                                                <span class="leftText">
+                                                    INCENTIVE
+                                                </span>
+                                            </a>
+
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                        }
+
+                    </ul>
+                </div>
+
+            </div>
+            <!-- LeftAsideBar panel end -->
             <div class="top-right-panel">
+                <ul>
+                    <li>
+                        <a href="/Main/Index" class="logo">
+                            <img src="/images/sparrow-logo.png">
+
+                        </a>
+                    </li>
+                </ul>
                 <ul>
                     @*<li>
                             <a href="javascript:void(0)">
@@ -232,14 +421,17 @@
         </div>
         <!-- Top Bar end -->
         <!-- LeftAsideBar panel start -->
-        <div class="leftAsideBar">
-            <a href="" class="logo">
-                <img src="~/images/sparrow-logo.png">
 
-            </a>
-
-            <div class="sidenavBar" style="overflow-y: auto;overflow-x:hidden;">
-                <ul>
+        <div class="header">
+            <nav class="menu" id="menutab">
+                <div class="menu-toggle">
+                    <label class="menu-icon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </label>
+                </div>
+                <ul class="menu-items">
                     @{
                         MemberProfile mp = new MemberProfile();
                         var controllerName = ViewContext.RouteData.Values["Controller"].ToString();
@@ -249,11 +441,23 @@
 
                         var id = Convert.ToString(ViewContext.RouteData.Values["id"]);
 
+                        <li>
+                            <a class=""
+                               href="/Main/Index">
+                                <span title="dashboard" class="leftIc">
+                                    <i class="far fa-file-alt"></i>
+                                </span>
+                                <span class="leftText">
+                                    DASHBOARD
+                                </span>
+                            </a>
+                        </li>
+
                         if (mp.Permissions != null)
                         {
                             if (mp.UserRole == "Customer")
                             {
-                                <li class="sidenavsubBar">
+                                <li>
 
                                     <div>
                                         <span class="leftIc">
@@ -261,7 +465,7 @@
                                         </span>
                                         <span class="leftText">Live Shipment</span>
                                     </div>
-                                    <ul class="sub">
+                                    <ul>
                                         <li>
                                             <a href="javascript:void(0)">
                                                 @*<span class="leftIc">
@@ -280,9 +484,9 @@
                                 {
                                     if (data.CanView)
                                     {
-                                        if (data.ControllerName == "Shipment" || data.ControllerName == "Fumigation" || data.ControllerName == "TrailerRental" || data.ControllerName == "Driver" || data.ControllerName == "Customer")
+                                        if (data.ControllerName == "Shipment" || data.ControllerName == "Fumigation" || data.ControllerName == "TrailerRental" || data.ControllerName == "Customer")
                                         {
-                                            if ((data.ControllerName == "Driver" && actionName == "FumigationDetails") || (data.ControllerName == "Driver" && actionName == "Detail"))
+                                            if (actionName == "FumigationDetails" || actionName == "Detail")
                                             {
                                                 actionName = "Dashboard";
                                             }
@@ -302,29 +506,106 @@
                                         }
                                         else
                                         {
-                                            <li>
-                                                @*<a class="@(controllerName == data.ControllerName && actionName== data.ActionName && areaName == data.AreaName ? "active" : "")"*@
-                                                <a class="@(controllerName == data.ControllerName && actionName==data.ActionName ? "active" : "")"
-                                                   href="@Url.Action(data.ActionName, data.ControllerName, new { area = data.AreaName })">
-                                                    <span title="@data.PageName.ToUpper()" class="leftIc">
-                                                        <i class="@data.DisplayIcon"></i>
-                                                    </span>
-                                                    <span class="leftText">
-                                                        @data.PageName
-                                                    </span>
-                                                </a>
-                                            </li>
+                                            if (data.ActionName == "ViewDriver")
+                                            {
+                                                <li class="driverDropdown" id="driverDropdown">
+                                                    <a class="@(controllerNames == "Driver" && actionNames== "ViewDriver" ? "active" : "")"
+                                                       href="@Url.Action("ViewDriver","Driver", new { area = "" })" id="allDrivers" onclick="AllDriver();">
+                                                        <span title="DRIVER" class="leftIc">
+                                                            <i class="far fa-file-alt"></i>
+                                                        </span>
+                                                        <span class="leftText">
+                                                            DRIVER
+                                                        </span>
+                                                    </a>
+                                                    <ul class="driverSub-menu">
+
+                                                        <li>
+                                                            <a class="@(controllerNames == "Driver" && actionNames== "ViewDriver" ? "active" : "")"
+                                                               href="@Url.Action("ViewDriver","Driver", new { area = "" })" id="activeDriver" data-row-no="0" onclick="ActiveDriver();">
+                                                                <span title="ACTIVE DRIVERS" class="leftIc">
+                                                                    <i class="far fa-file-alt"></i>
+                                                                </span>
+                                                                <span class="leftText">
+                                                                    ACTIVE
+                                                                </span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="@(controllerNames == "Driver" && actionNames== "DriverIncentive" ? "active" : "")"
+                                                               href="@Url.Action("ViewDriver","Driver",new { area = "" })" id="inactiveDriver" data-row-no="0" onclick="InActiveDriver();">
+                                                                <span title="INACTIVE DRIVERS" class="leftIc">
+                                                                    <i class="far fa-file-alt"></i>
+                                                                </span>
+                                                                <span class="leftText">
+                                                                    INACTIVE
+                                                                </span>
+                                                            </a>
+
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            }
+                                            if (data.ActionName != "ViewTimeCard" && data.ActionName != "ViewDriver")
+                                            {
+                                                <li>
+                                                    @*<a class="@(controllerName == data.ControllerName && actionName== data.ActionName && areaName == data.AreaName ? "active" : "")"*@
+                                                    <a class="@(controllerNames == data.ControllerName && actionNames==data.ActionName ? "active" : "")"
+                                                       href="@Url.Action(data.ActionName, data.ControllerName, new { area = data.AreaName })">
+                                                        <span title="@data.PageName.ToUpper()" class="leftIc">
+                                                            <i class="@data.DisplayIcon"></i>
+                                                        </span>
+                                                        <span class="leftText">
+                                                            @data.PageName
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            }
                                         }
                                     }
                                 }
                             }
+
+
+                            <li class="dropdown">
+                                <span class="leftText">
+                                    <i class="far fa-file-alt"></i>
+                                    Reports
+                                </span>
+                                <ul class="sub-menu">
+                                    <li>
+                                        <a class="@(controllerNames == "TimeCard" && actionNames== "ViewTimeCard" ? "active" : "")"
+                                           href="@Url.Action("ViewTimeCard","TimeCard", new { area = "TimeCard" })">
+                                            <span title="TIMECARD" class="leftIc">
+                                                <i class="far fa-file-alt"></i>
+                                            </span>
+                                            <span class="leftText">
+                                                TimeCard
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="@(controllerNames == "Driver" && actionNames== "DriverIncentive" ? "active" : "")"
+                                           href="@Url.Action("DriverIncentive","Driver",new { area = "" })">
+                                            <span title="INCENTIVE" class="leftIc">
+                                                <i class="far fa-file-alt"></i>
+                                            </span>
+                                            <span class="leftText">
+                                                INCENTIVE
+                                            </span>
+                                        </a>
+
+                                    </li>
+                                </ul>
+                            </li>
                         }
                     }
 
                 </ul>
-            </div>
+            </nav>
 
         </div>
+
         <!-- LeftAsideBar panel end -->
         <!-- right Body Start -->
         <div class="rightBody">
@@ -356,18 +637,18 @@
             <div class="modal-content">
                 <div class="modal-header prelative">
 
-                <div class="text-center"> <img src="~/Images/logo-350.png" /></div>
-                    <div class="modal-title text-center fs-18">Session Expired</div>
+                    <div class="text-center"> <img src="~/Images/logo-350.png" /></div>
+                    <div class="modal-title text-center fs-18">SESSION EXPIRED</div>
                     <button type="button" class="close setCorner" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <p id="session_msg"></p>
+                <div class="modal-body" style="justify-content: center; align-items: center; display: flex;">
+                    <p id="session_msg" style="margin-bottom: 0;"></p>
                 </div>
                 <div class="modal-footer row m-0">
                     <div class="col-md-12 text-center">
-                    <button type="button" id="btnOk" class="btn btn-primary" data-dismiss="modal">Sign In </button>
+                        <button type="button" id="btnOk" class="btn btn-primary" data-dismiss="modal">Sign In </button>
                     </div>
                 </div>
             </div>
@@ -376,17 +657,42 @@
 
 
     @RenderSection("scripts", required: false)
-
+    
 
 </body>
 </html>
 <script>
-
+function AllDriver() {
+    localStorage.setItem("isActive", "2");
+    $("#tblDriverall").css("display", "none");
+}
+function ActiveDriver() {
+    localStorage.setItem("isActive", "1");
+    $("#tblDriverall").css("display","none");
+}
+function InActiveDriver() {
+    localStorage.setItem("isActive", "0");
+    $("#tblDriverall").css("display", "none");
+   
+}
     var WindowsSize = function () {
         var h = $(window).height();
         $(".sidenavBar").css("height", (h - 55));
     };
     $(document).ready(WindowsSize);
     $(window).resize(WindowsSize);
+    $("#dropdownMenuLink").click(function () {
+        console.log("clicked");
+        $("#menutab").css("z-index", "0");
+    });
 
+    $(window).scroll(function () {
+        var scrollTop = $(this).scrollTop();
+        //console.log("scrolling: ", scrollTop);
+        if (scrollTop > 10) {
+            $("#menutab").css("z-index", "2");
+        } else {
+            //$("#menutab").css("z-index", "0");
+        }
+    });
 </script>

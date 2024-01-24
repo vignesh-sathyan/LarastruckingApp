@@ -272,6 +272,52 @@ namespace LarastruckingApp.Areas.TimeCard.Controllers
         }
         #endregion
 
+        #region Get Incentive Card data by dispetcher
+        /// <summary>
+        /// Save Time Card data by dispetcher
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult GetIncentiveCardData(TimeCardDTO entity)
+        {
+            try
+            {
+                var timeCardData = timeCardBAL.GetIncentiveCardData(entity);
+                return Json(timeCardData, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+        #endregion
+
+        #region Get Incentive Card Grid Data
+        /// <summary>
+        /// Save Time Card data by dispetcher
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult GetIncentiveGridData(TimeCardDTO entity)
+        {
+            try
+            {
+                var timeCardData = timeCardBAL.GetIncentiveGridData(entity);
+                return Json(timeCardData, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+        #endregion
+
         #region Get Driver Time Card Detail
         /// <summary>
         /// Get Driver TimeCard Detail
@@ -309,6 +355,23 @@ namespace LarastruckingApp.Areas.TimeCard.Controllers
         {
             MemberProfile mp = new MemberProfile();
             var result = timeCardBAL.SaveTimeCardAmount(entity);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+
+        #region Save Incentive Card Amount
+        /// <summary>
+        /// Save Time Card Amount
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+
+        [HttpPost]
+        public ActionResult SaveIncentiveCardAmount(IncentiveCardCalculation entity)
+        {
+            MemberProfile mp = new MemberProfile();
+            var result = timeCardBAL.SaveIncentiveCardAmount(entity);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         #endregion
@@ -458,6 +521,21 @@ namespace LarastruckingApp.Areas.TimeCard.Controllers
             }
         }
         #endregion
+
+        [HttpPost]
+        public ActionResult GetDailyHourReport(SearchTimeCardDTO modal)
+        {
+            try
+            {
+                var result = timeCardBAL.GetDailyReport(modal);
+                return Json(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         public string GetIPAddress()
         {
             String address = "";

@@ -35,7 +35,9 @@
                     </div>
                 </div>
                 <div id="customTableWrapper">
+				
                     <table class="table-bordered table-striped cf w-100 collapsed" id="tblOrderTakenFumigation">
+					
                         <thead>
                             <tr><td colspan="22"><b>REQUESTED FUMIGATION</b></td></tr>
                             <tr>
@@ -77,6 +79,7 @@
 
                 <div id="customTableWrapper">
                     <table class="table-bordered table-striped cf w-100" id="tblOtherFumigation">
+					
                         <thead>
                             <tr><td colspan="22"><b>FUMIGATION IN PROGRESS</b></td></tr>
                             <tr>
@@ -84,30 +87,30 @@
                                 <th>Status</th>
                                 <th>Fum Release</th>
 
-                                <th>Fum Type</th>
+                                <th style="width: 100px !important; max-width: 90px; padding-right: 8px;">Fum Type</th>
                                 <th>Customer</th>
                                 <th>Pickup Location</th>
-                                <th>AWB/PO/Container</th>
-                                <th>Consignee</th>
+                                <th style=" max-width: 115px; padding-right: 20px;">AWB/PO/Container</th>
+                                <th style="min-width:120px;">Consignee</th>
 
-                                <th>Box Count</th>
-                                <th>Pallet Count</th>
-                                <th>Position</th>
-                                <th>Fumigation Site</th>
-                                <th>Pickup Equipment</th>
+                                <th style=" max-width: 60px; padding-right: 20px;">Box Count</th>
+                                <th style=" max-width: 70px; padding-right: 20px;">Pallet Count</th>
+                                <th style=" max-width: 60px; padding-right: 25px;">Position</th>
+                                <th style="max-width: 100px;">Fumigation Site</th>
+                                <th style=" max-width: 60px; padding-right: 25px;">Pickup Equipment</th>
                                 <th>Pickup Driver</th>
                                
-                                <th>Actual Start</th>
-                                <th>Actual Finish</th>
-                                <th>Temp F</th>
+                                <th style=" max-width: 50px; padding-right: 25px;">Actual Start</th>
+                                <th style=" max-width: 50px; padding-right: 25px;">Actual Finish</th>
+                                <th style=" max-width: 40px; padding-right: 25px;">Temp F</th>
 
 
                                 @*<th>Actual Fum In</th>
 
                                 <th>Act. Fum Departure</th>*@
-                                <th>Equipment</th>
-                                <th>Delivery Driver</th>
-                                <th>Delivery Location</th>
+                                <th style=" max-width: 60px; padding-right: 25px;">Equipment</th>
+                                <th style="min-width:120px;">Delivery Driver</th>
+                                <th style="min-width:120px;">Delivery Location</th>
                                  <th>WT</th>
                                  <th>ST</th>
                                 @*<th>Actual Arrival</th>
@@ -127,7 +130,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header popup">
-                <h6 class="modal-title">Copy Fumigation</h6>
+                <h6 class="modal-title" style="text-transform: uppercase;">Copy Fumigation</h6>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -224,12 +227,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12 text-right" style="flex: unset;width:auto;">
-                                <button type="button" id="btnCopy" class="btn green-Btn">Copy Fumigation</button>
+                            <div class="col-md-12 text-right" style="display: flex; width: 100%;justify-content: flex-end;padding: 0;margin-left: -23px;margin-top: 10px;">
+                                <button type="button" id="btnCopy" class="btn green-Btn" style="height: 30px;">Copy Fumigation</button>
+								<button type="button" id="btnCancel" class="btn green-Btn" style="height: 30px;">Cancel</button>
                             </div>
-                            <div class="col-md-12 text-right" style="flex: unset; width: auto;">
-                                <button type="button" id="btnCancel" class="btn green-Btn">Cancel</button>
-                            </div>
+                            
                         </div>
 
                     </div>

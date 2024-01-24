@@ -129,10 +129,31 @@ var clearShipping = function () {
 
 //#endregion
 
+function validateEmail() {
+      // Get the input value
+      var emailInput = document.getElementById('txtEmail').value;
+
+      // Regular expression for email validation
+      var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      // Test the input value against the pattern
+      if (emailPattern.test(emailInput)) {
+       // AlertPopup('Valid email format');
+      } else {
+        AlertPopup('Invalid email format');
+      }
+    }
+
 //#region BUTTON MULTIPLE CONTACT
 var btnMultipleContact = function () {
     $("#btnMultipleContact").on("click", function () {
-        if (isFormValid("customerContactForm")) {
+       if($.trim($('#txtFirstName').val())!="" && $.trim($('#txtLastName').val())!="" && $.trim($('#txtPhone').val()) && $.trim($('#txtEmail').val())){
+			if(!$("#txtPhone").val().match(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/)){
+				AlertPopup("Enter valid Phone number");
+			}
+			validateEmail();
+				
+			 if (isFormValid("customerContactForm")) {
             var fName = $.trim($('#txtFirstName').val());
             var lName = $.trim($('#txtLastName').val());
             var phone = $.trim($('#txtPhone').val());
@@ -152,6 +173,10 @@ var btnMultipleContact = function () {
             $('#tblMultipleContacts tbody').append(tr(params));
             clearMultipleContactInputs();
         }
+		}
+		else{
+			AlertPopup("Please fill all required fields");
+		}
         
     })
 }
@@ -385,6 +410,7 @@ var addCustomerAjax = function () {
         },
         success: function (data, textStatus, jqXHR) {
             if (data.IsSuccess == true) {
+                console.log("data.IsSuccess: ", data);
                // toastr.success(data.Message);
                 //setInterval(function () {
                 //    window.location = baseUrl + "Customer/ViewCustomer";
@@ -410,7 +436,7 @@ var addCustomerAjax = function () {
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-
+            console.log("error customer: ", errorThrown);
         },
         complete: function () {
             hideLoader();
@@ -425,7 +451,7 @@ var editCustomerAjax = function (params) {
     
     if (params != null) {
         $("#btnSave").val("Update");
-
+        $("#btnSave label").text("UPDATE");
         $('#hdnCustomerId').val(params.CustomerId);
         $('#txtCustomerName').val(params.CustomerName);
         $('#txtWebsite').val(params.Website);
@@ -477,7 +503,7 @@ var editCustomerAjax = function (params) {
         $('#txtShippingFax').val(params.ShippingFax);
         $('#txtShippingEmail').val(params.ShippingEmail);
         $('#txtShippingExtension').val(params.ShippingExtension);
-       
+        console.log("update customer: ");
 
     }
 }

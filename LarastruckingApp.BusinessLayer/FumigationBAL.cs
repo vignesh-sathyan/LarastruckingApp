@@ -1,4 +1,5 @@
 ﻿using LarastruckingApp.BusinessLayer.Interface;
+using LarastruckingApp.DAL;
 using LarastruckingApp.DAL.Interface;
 using LarastruckingApp.Entities.Common;
 using LarastruckingApp.Entities.Fumigation;
@@ -61,6 +62,14 @@ namespace LarastruckingApp.BusinessLayer
                 route.FumigationArrival = Configurations.ConvertLocalToUTC(Convert.ToDateTime(route.FumigationArrival));
                 route.ReleaseDate = (route.ReleaseDate == null ? route.ReleaseDate : Configurations.ConvertLocalToUTC(Convert.ToDateTime(route.ReleaseDate)));
                 route.DepartureDate = (route.DepartureDate == null ? route.DepartureDate : Configurations.ConvertLocalToUTC(Convert.ToDateTime(route.DepartureDate)));
+                route.DriverDeliveryArrival = (route.DriverDeliveryArrival == null ? route.DriverDeliveryArrival : Configurations.ConvertLocalToUTC(Convert.ToDateTime(route.DriverDeliveryArrival)));
+                route.DriverFumigationIn = (route.DriverFumigationIn == null ? route.DriverFumigationIn : Configurations.ConvertLocalToUTC(Convert.ToDateTime(route.DriverFumigationIn)));
+                route.DriverDeliveryDeparture = (route.DriverDeliveryDeparture == null ? route.DriverDeliveryDeparture : Configurations.ConvertLocalToUTC(Convert.ToDateTime(route.DriverDeliveryDeparture)));
+                route.DriverPickupArrival = (route.DriverPickupArrival == null ? route.DriverPickupArrival : Configurations.ConvertLocalToUTC(Convert.ToDateTime(route.DriverPickupArrival)));
+                route.DriverPickupDeparture = (route.DriverPickupDeparture == null ? route.DriverPickupDeparture : Configurations.ConvertLocalToUTC(Convert.ToDateTime(route.DriverPickupDeparture)));
+                route.DriverFumigationRelease = (route.DriverFumigationRelease == null ? route.DriverFumigationRelease : Configurations.ConvertLocalToUTC(Convert.ToDateTime(route.DriverFumigationRelease)));
+                route.DriverLoadingStartTime = (route.DriverLoadingStartTime == null ? route.DriverLoadingStartTime : Configurations.ConvertLocalToUTC(Convert.ToDateTime(route.DriverLoadingStartTime)));
+                route.DriverLoadingFinishTime = (route.DriverLoadingFinishTime == null ? route.DriverLoadingFinishTime : Configurations.ConvertLocalToUTC(Convert.ToDateTime(route.DriverLoadingFinishTime)));
                 if (route.TemperatureType == "C" && route.Temperature != null)
                 {
                     route.Temperature = ConversionFormula.NullCelsiusToFahrenheit(route.Temperature);
@@ -315,6 +324,20 @@ namespace LarastruckingApp.BusinessLayer
 
         #endregion
 
+        #region fumigation Driver status list
+        /// <summary>
+        /// get status list
+        /// </summary>
+        /// <returns></returns>
+
+        public ShipmentStatusDTO GetDriverStatusList()
+        {
+            return iFumigationDAL.GetDriverStatusList();
+        }
+
+
+        #endregion
+
         #region Approve Proof Of Temprature
         /// <summary>
         /// Approve Proof Of Temprature
@@ -407,6 +430,32 @@ namespace LarastruckingApp.BusinessLayer
             return iFumigationDAL.DeleteComments(entity);
         }
 
+
+        #endregion
+
+        #region Get OrderTaken
+        public int GetOrderTaken()
+        {
+            return iFumigationDAL.GetOrderTaken();
+        }
+
+        #endregion
+
+        #region Get FumigationInProgress
+        public int GetFumigationInProgress()
+        {
+            return iFumigationDAL.GetFumigationInProgress();
+        }
+
+        #endregion
+
+
+
+        #region Get CustomerDetail
+        public CustomerDetailDTO CustomerDetail(int fumigationid)
+        {
+            return iFumigationDAL.CustomerDetail(fumigationid);
+        }
 
         #endregion
     }

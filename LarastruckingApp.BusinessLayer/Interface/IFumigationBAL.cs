@@ -28,6 +28,7 @@ namespace LarastruckingApp.BusinessLayer.Interface
         TemperatureEmailDTO GetTemperatureEmailDetail(int fumigationId);
         List<GetFumigationRouteDTO> FumigationProofOfDelivery(string fumigationId);
         List<ShipmentStatusDTO> GetStatusList();
+        ShipmentStatusDTO GetDriverStatusList();
         bool ApprovedProofOFTemp(ProofOfTemperatureDTO entity);
         bool ApprovedDamageImage(FumigationDamageImages entity);
 
@@ -63,5 +64,10 @@ namespace LarastruckingApp.BusinessLayer.Interface
         #endregion
         IList<FumigationViewAllListDTO> ViewAllFumigation(AllShipmentDTO entity);
         IList<FumigationOtherList> GetOtherFumigationList(DataTableFilterDto entity);
+
+        int GetOrderTaken();
+        int GetFumigationInProgress();
+
+        CustomerDetailDTO CustomerDetail(int fumigationid);
     }
 }

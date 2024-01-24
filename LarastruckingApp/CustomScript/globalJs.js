@@ -62,7 +62,8 @@ var timeToWarn = addMinutes(new Date(), sessionTimeout - minutesForWarning);
 var timeToEnd = addMinutes(new Date(), sessionTimeout);
 
 function CheckTime() {
-   // console.log("timeToEnd: ", timeToEnd);
+    //console.log("timeToEnd: ", timeToEnd);
+    //console.log("timeToWarn: ", timeToWarn);
     if (showWarning && new Date() > timeToWarn && new Date() < timeToEnd) {
         showRedirect = false;
         showWarning = false;
@@ -73,7 +74,7 @@ function CheckTime() {
         if (showRedirect)
 
             // $("#session_msg").text("Session expired. You will be redirected to login page ");
-            $("#session_msg").text("You will be redirected to login page ");
+            $("#session_msg").text("Your session has expired. Please login again to continue working. ");
         $('#modalSession').modal('show');
     }
     if (showRedirect == false)
@@ -157,10 +158,10 @@ function ConvertDateEdit(jsondate, time = false) {
         hr = hr < 10 ? '0' + hr : hr;
 
         if (time) {
-            return mnt + '-' + dt + '-' + yr + ' ' + hr + ':' + min;
+            return mnt + '/' + dt + '/' + yr + ' ' + hr + ':' + min;
         }
         else {
-            return mnt + '-' + dt + '-' + yr;
+            return mnt + '/' + dt + '/' + yr;
         }
     }
 }
@@ -262,7 +263,6 @@ function addZero(val){
 	}
 	
 }
-
 
 //#endregion
 function parseDate(input) {
@@ -455,9 +455,9 @@ var dateTimeActivate = function () {
     var defaultDate = now - 1000 * 60 * 60 * 24 * 1;
 
     var options = {
-        format: 'm-d-Y H:i',
+        format: 'm/d/Y H:i',
         formatTime: 'H:i',
-        formatDate: 'm-d-Y',
+        formatDate: 'm/d/Y',
         startDate: new Date(),
         minDate: false,
         minTime: false,
@@ -563,42 +563,54 @@ function StatusCheckForShipment(status) {
         PreStatus = '<span style=""">' + status + '</span>'
     }
     if ($.trim(status).toLowerCase() == $.trim("DISPATCHED").toLowerCase()) {
-        PreStatus = '<span class="badge" style="background-color:#bdd7ee;color:black">' + status + '</span>'
+        PreStatus = '<span class="badge" style="background-color:#0095f9;color:#fff">' + status + '</span>'
     }
     if ($.trim(status).toLowerCase() == $.trim("LOADING").toLowerCase()) {
-        PreStatus = '<span class="badge" style="background-color:#4774c9;color:white">' + status + '</span>'
+        PreStatus = '<span class="badge" style="background-color:#ff9400;color:white">' + status + '</span>'
     }
     if ($.trim(status).toLowerCase() == $.trim("IN-ROUTE").toLowerCase()) {
-        PreStatus = '<span class="badge" style="background-color:#fffd01;color:black">' + status + '</span>'
+        PreStatus = '<span class="badge" style="background-color:#71d637;color:#fff">' + status + '</span>'
     }
 
     if ($.trim(status).toLowerCase() == $.trim("IN-FUMIGATION").toLowerCase()) {
-        PreStatus = '<span class="badge" style="background-color:#fe9900;color:white">' + status + '</span>'
+        PreStatus = '<span class="badge" style="background-color:#ff4300;color:white">' + status + '</span>'
     }
     if ($.trim(status).toLowerCase() == $.trim("DELIVERED").toLowerCase()) {
-        PreStatus = '<span class="badge" style="background-color:#92d14f;color:black">' + status + '</span>'
+        PreStatus = '<span class="badge" style="background-color:#017301;color:#fff">' + status + '</span>'
     }
     if ($.trim(status).toLowerCase() == $.trim("ON HOLD").toLowerCase()) {
-        PreStatus = '<span class="badge" style="background-color:#ffbf00;color:black">' + status + '</span>'
+        PreStatus = '<span class="badge" style="background-color:#ff4300;color:#fff">' + status + '</span>'
     }
     if ($.trim(status).toLowerCase() == $.trim("APPT PENDING").toLowerCase()) {
-        PreStatus = '<span class="badge" style="background-color:#ff9a32;color:black">' + status + '</span>'
+        PreStatus = '<span class="badge" style="background-color:#fdf82b;color:#000">' + status + '</span>'
     }
     if ($.trim(status).toLowerCase() == $.trim("IMMED ATTENTION").toLowerCase()) {
-        PreStatus = '<span class="badge" style="background-color:#fe0000;color:white">' + status + '</span>'
+        PreStatus = '<span class="badge" style="background-color:#e6061b;color:white">' + status + '</span>'
     }
     if ($.trim(status).toLowerCase() == $.trim("CANCELLED").toLowerCase()) {
-        PreStatus = '<span class="badge" style="background-color:#fe0000;color:white">' + status + '</span>'
+        PreStatus = '<span class="badge" style="background-color:#e6061b;color:white">' + status + '</span>'
     }
     if ($.trim(status).toLowerCase() == $.trim("COMPLETED").toLowerCase()) {
         PreStatus = '<span class="badge" style="background-color:#00af50;color:white">' + status + '</span>'
     }
 
     if ($.trim(status).toLowerCase() == $.trim("IN QUEUE").toLowerCase()) {
-        PreStatus = '<span class="badge" style="background-color:#fe9900;color:black">' + status + '</span>'
+        PreStatus = '<span class="badge" style="background-color:#f8468a;color:#fff">' + status + '</span>'
     }
     if ($.trim(status).toLowerCase() == $.trim("IN STORAGE").toLowerCase()) {
-        PreStatus = '<span class="badge" style="background-color:#fe9900;color:black">' + status + '</span>'
+        PreStatus = '<span class="badge" style="background-color:#fdf82b;color:#000">' + status + '</span>'
+    }
+    if ($.trim(status).toLowerCase() == $.trim("DRIVER ASSIGNED").toLowerCase()) {
+        PreStatus = '<span class="badge" style="background-color:#1c2b85;color:#fff">' + status + '</span>'
+    }
+	if ($.trim(status).toLowerCase() == $.trim("ARRIVED AT PICK UP LOCATION").toLowerCase()) {
+        PreStatus = '<span class="badge" style="background-color:#ffc000;color:#fff">ARRIVED PU</span>'
+    }
+	if ($.trim(status).toLowerCase() == $.trim("ARRIVED AT DELIVERY LOCATION").toLowerCase()) {
+        PreStatus = '<span class="badge" style="background-color:#019f3d;color:#fff">ARRIVED DELIVERY</span>'
+    }
+	if ($.trim(status).toLowerCase() == $.trim("UNLOADING AT DELIVERY LOCATION").toLowerCase()) {
+        PreStatus = '<span class="badge" style="background-color:#017301;color:#fff">UNLOADING</span>'
     }
     return PreStatus;
 }

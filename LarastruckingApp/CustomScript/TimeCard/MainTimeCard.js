@@ -920,7 +920,7 @@ function GetTimeCardData() {
 }
 var removeIcon = "";
 function BindTimeCardList(_data) {
-    //console.log("BIND DATA: ");
+    console.log("BIND DATA: ",_data);
     //console.log(_data);
     if (_data != null) {
         //$("#txtHourlyRate").attr('value', _data.HourlyRate);
@@ -1196,7 +1196,7 @@ function BindTimeCardList(_data) {
     }
 
     $("#timeCard tbody").append(timeCard);
-    $("#tblTimeCardPrint tbody").append(timCardPrint);
+    //$("#tblIncentiveCardPrint tbody").append(timCardPrint);
     if ($.trim(userRole).toLowerCase() == "Management".toLocaleLowerCase()) {
         CalculateTotalPrice();
     }

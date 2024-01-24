@@ -79,7 +79,7 @@ function GetReportAccidentList() {
                     $(win.document.body)
                         .css('font-size', '10pt')
                         .prepend(
-                            "<table id='9'><tr><td width='80%' ></td><td width='20%'><div><img src='http://larastruckinglogistics-app.azurewebsites.net/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
+                            "<table id='9'><tr><td width='80%' ></td><td width='20%'><div><img src='"+baseUrl+"/Images/Laraslogo.png' height='100px'/></div></td></tr></table>"
                         );
 
 

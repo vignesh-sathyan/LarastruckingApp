@@ -1,0 +1,28 @@
+11/15/2023 6:58:26 AM ==> Success in Fumigation: True
+11/15/2023 7:01:09 AM ==> Success in Fumigation: True
+11/15/2023 7:03:42 AM ==> Success in Fumigation: True
+11/15/2023 7:04:28 AM ==> Success in Fumigation: True
+11/15/2023 7:07:55 AM ==> PickupArrival: 10/29/2023 8:30:00 AM
+11/15/2023 7:07:55 AM ==> DriverLoadingFinishTime: 10/29/2023 9:30:00 AM
+11/15/2023 7:07:55 AM ==> DriverLoadingFinishTime: 10/29/2023 10:00:00 AM
+11/15/2023 7:07:55 AM ==> FumigationArrival: 10/29/2023 11:00:00 AM
+11/15/2023 7:07:55 AM ==> ReleaseDate: 10/29/2023 12:00:00 PM
+11/15/2023 7:07:55 AM ==> DepartureDate: 10/29/2023 1:00:00 PM
+11/15/2023 7:07:55 AM ==> DeliveryArrival: 10/29/2023 1:30:00 PM
+11/15/2023 7:07:55 AM ==> DriverPickupDeparture: 10/29/2023 10:30:00 AM
+11/15/2023 7:07:55 AM ==> DriverFumigationIn: 10/29/2023 11:30:00 AM
+11/15/2023 7:07:55 AM ==> DriverFumigationRelease: 10/29/2023 12:30:00 PM
+11/15/2023 7:07:55 AM ==> DriverDeliveryArrival: 10/29/2023 2:00:00 PM
+11/15/2023 7:07:55 AM ==> DriverDeliveryDeparture: 10/29/2023 2:30:00 PM
+11/15/2023 7:09:41 AM ==> Success in Fumigation: True
+11/15/2023 7:10:30 AM ==> Success in Fumigation: True
+11/15/2023 7:11:52 AM ==> Success in Fumigation: True
+11/15/2023 7:11:54 AM ==> For loop in imgFiles: System.String[]
+11/15/2023 7:11:54 AM ==> For loop in ext: png
+11/15/2023 7:11:54 AM ==> For loop in path: https://appdev.larastrucking.com/Images/ProofFiles/Temperature/proof_of_Temp_1_2023-11-15-07-11-53.png
+11/15/2023 7:11:54 AM ==> For loop in bytes: System.Byte[]
+11/15/2023 7:11:54 AM ==> fileAttach : System.Collections.Generic.Dictionary`2[System.Byte[],System.String]
+11/15/2023 7:11:54 AM ==> fileAttach : System.Collections.Generic.Dictionary`2[System.Byte[],System.String]
+11/15/2023 7:11:54 AM ==> Mail Response : Sent: LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | 666-6666-6666 | ACCEPTABLE TEMPERATURE : "noreply@larastrucking.com" <noreply@larastrucking.com> : "noreply@larastrucking.com" <noreply@larastrucking.com> : INTERFACEADMIN@DARTINNOVATIONS.NET,KKARTHICK@DARTINNOVATIONS.NET,VIGNESHS@DARTINNOVATIONS.NET,GANESH@DARTINNOVATIONS.COM,KARTHIK@DARTINNOVATIONS.COM,DART.KARTHIK@GMAIL.COM,DART.GANESH@GMAIL.COM : noreply@larastrucking.com : noreply@larastrucking.com : Lar@s2020#! : smtp-legacy.office365.com : 587
+11/15/2023 7:11:54 AM ==> isEmail Success: 1744Img URL: Images/ProofFiles/Temperature\proof_of_Temp_1_2023-11-15-07-11-53.png
+11/15/2023 7:50:26 AM ==> Success in Fumigation: True

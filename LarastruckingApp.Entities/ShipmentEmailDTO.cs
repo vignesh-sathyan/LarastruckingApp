@@ -73,6 +73,7 @@ namespace LarastruckingApp.Entities
         //public DateTime? DriverFumigationIn { get; set; }
         public string AirWayBill { get; set; }
         public string OrderNo { get; set; }
+        public string ContainerNo { get; set; }
         public string CustomerPO { get; set; }
         public string LogoURL { get; set; }
         public string ActTemp { get; set; }

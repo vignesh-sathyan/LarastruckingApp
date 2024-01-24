@@ -51,6 +51,12 @@ namespace LarastruckingApp.BusinessLayer.Interface
         DateTime? GetCheckInTime(int driverId);
         string DriverPhone(int driverId);
         string CustomerName(int CustomerID);
+        int GetOrderTaken();
+        int GetShipmentInProgress();
+       CustomerDetailDTO CustomerDetail(int shipmentid);
+        List<ShipmentDriverDetailDTO> DriverDetail();
         TemperatureEmailSipmentDTO GetTemperatureEmailDetail(int shipmentId);
+
+        bool UpdateStatus(int shipmentId, int StatusId,int CustomerId, int UserId);
     }
 }

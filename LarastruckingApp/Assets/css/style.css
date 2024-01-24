@@ -24,16 +24,21 @@ body {
     body.bodyBg {
         background: #f7f7f7;
     }
+    body.Master {
+        background: #fff;
+    }
 
-button {
-    background: transparent;
-    border: 0;
-}
+        button {
+            background: transparent;
+            border: 0;
+        }
 
 a:hover {
     text-decoration: none;
 }
-
+#menuBtn,.leftAsideBar{
+    display:none;
+}
 ul {
     list-style: none;
     margin: 0;
@@ -49,6 +54,9 @@ ul {
 .modal-dialog.cascading-modal .modal-header .social-buttons {
     margin-top: 1rem;
 }
+.Master div.dataTables_wrapper div.dataTables_processing{
+	display:none !important;
+}
 
 .overLay {
     height: 100%;
@@ -57,7 +65,7 @@ ul {
     background: rgba(0, 0, 0, 0.7);
     top: 0;
     left: 0;
-    z-index: 100;
+    z-index: 0;
     display: none;
 }
 
@@ -106,7 +114,7 @@ h6 {
     width: calc(100% - 220px);
     padding: 10px 20px;
     margin-left: 220px;
-    display: flex;
+    display: none;
     justify-content: space-between;
     -webkit-box-shadow: 0px 1px 14px 0px rgba(207, 207, 207, 1);
     -moz-box-shadow: 0px 1px 14px 0px rgba(207, 207, 207, 1);
@@ -179,6 +187,7 @@ h6 {
 .leftAsideBar {
     position: fixed;
     top: 0;
+    /*display:none;*/
     z-index: 3;
     background: #85ae3c;
     width: 220px;
@@ -351,7 +360,7 @@ body.removeBoby a.logo {
     /*text-align:center;*/
 }
 
-span.leftIc {
+/*span.leftIc {
     width: 20px;
     height: 25px;
     text-align: center;
@@ -361,13 +370,21 @@ span.leftIc {
     color: #fff;
     margin-right: 0px;
     transition: all 0.3s ease-in-out;
+}*/
+#ShipmetAdvice td:hover{
+    background:none;
+    color:#000;
 }
-
+#ShipmentNotify {
+    height: 250px;
+}
 .rightBody {
     display: block;
-    padding: 60px 15px 15px 20px;
-    width: calc(100% - 220px);
-    margin-left: 220px;
+    padding: 40px 15px 15px 20px;
+    /*  width: calc(100% - 220px);
+      margin-left: 220px;*/
+    width: calc(100% - 0);
+    margin-left: 0px;
     min-height: 100vh;
     transition: all 0.3s ease-in-out;
     -webkit-transition: all 0.3s ease-in-out;
@@ -2599,11 +2616,165 @@ div#modalSession .modal-content .modal-header img {
         position: absolute;
         right: 0px;
     }
-
-.dataTables_scrollHeadInner {
-    min-width: 100%;
-  
+.FumOrder tr:last-child{
+    display:none;
 }
+.FumOrder hr {
+    border-top: 1px solid #dee2e6;
+}
+.multi-column tr:last-child td{
+	border-bottom: 0;
+}
+.multi-column tr td{
+	border-bottom: 1px solid #dee2e6;
+	border-bottom-width: 1px !important;
+}
+.FumOrder td{
+border:none;
+}
+.dropdown:hover .sub-menu {
+    display: block;
+}
+/*#activeDriver, #inactiveDriver{
+    display:none;
+}*/
+.driverDropdown:hover .driverSub-menu {
+    display: block;
+}
+.sub-menu {
+    display: none;
+    position: absolute;
+    top: 60px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    list-style: none;
+    /* width: 100%; */
+    right: 0;
+	width:100px;
+    background-color: #85ae3c;
+}
+ .driverSub-menu {
+    display: none;
+    position: absolute;
+    top: 60px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    list-style: none;
+    /* width: 100%; */
+    /*right: 0;*/
+    background-color: #85ae3c;
+}
+li.dropdown {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color:#fff;
+	min-width:100px;
+	max-width:100px;
+}
+li.dropdown:hover {
+	cursor:pointer;
+	background: #D3E3B4;
+    color: #000;
+}
+.sub-menu li, .driverSub-menu li {
+    background-color: #85ae3c;
+    width: 100%;
+    color: #fff;
+    height: 100%;
+    text-align: center;
+}
+    .sub-menu li a, .driverSub-menu li a {
+        color: #fff;
+        padding: 8px;
+        justify-content: flex-start;
+    }
+
+#IncentiveCard tr:not(:first-child):last-child {
+    /* border-bottom: 30px solid #7ca337; */
+}
+#driverDropdown{
+	min-width: 85px;
+    max-width: 85px;
+}
+.driverSub-menu{
+width: 85px;
+}
+
+#divTimeCard .dt-buttons{
+	position:relative !important;
+	top: -60px;
+	right:unset;
+}
+#divWeeklyReport .dt-buttons,#tblLaborReport_wrapper .dt-buttons{
+	position:relative !important;
+	top: -78px;
+	right:unset;
+}
+#tblTimeCard_filter,#tblWeeklyReport_filter,#tblLaborReport_filter{
+	position: absolute;
+    right: 25px;
+}
+div.ui-dialog-titlebar {
+   padding: 0;
+    padding-left: 0px;
+  border: 0;
+  background: #fe9b00 !important;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  color:#fff;
+  font-family:'Nunito Sans', sans-serif;
+}
+.ui-dialog-titlebar-close{
+    display:none;
+}
+.ui-dialog.ui-corner-all.ui-widget {
+    border-radius: 5px;
+    border: 0 !important;
+    height: 420px !important;
+    top:180px !important;
+	width:350px !important;
+	padding: 0 !important;
+}
+.ui-dialog-buttonpane {
+    border: none;
+}
+.cancelButton,.okButton {
+    background: linear-gradient(0deg, rgba(43,60,103,1) 0%, rgba(77,128,189,1) 100%) !important;
+    color: #fff !important;
+    border: 1px solid rgb(43,60,103) !important;
+    border-radius: 3px !important;
+	font-size: 0.75rem !important;
+  letter-spacing: 1px;
+}
+    .cancelButton:hover,.okButton:hover {
+        background: #2c416d !important;
+    }
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset{
+    /* float:left;float:left; */
+    padding-left:8px;
+}
+#arrivedPUDialog,#arrivedDeliveryDialog,#UnloadingDialog,#arrivedFumPUDialog,#arrivedFumDeliveryDialog,#UnloadingFumDialog{
+	display:none;
+}
+#displayDateTimePU,#displayDateTimeDL,#displayDateTimeUL{
+	margin-bottom:20px !important;
+}
+
+@media print {
+    input [type="text"], input[type="password"], input[type="number"] {
+        /* Override styles for print */
+        -webkit-print-color-adjust: exact; /* For Chrome */
+        color: #000 !important; /* Ensure text color is black */
+        display: inline !important;
+    }
+    table tbody tr:hover td {
+        color: #000;
+    }
+}
+
 @media screen and (max-width: 992px) {
     #timeCard tbody {
             display: flex;
@@ -2692,3 +2863,22 @@ div#modalSession .modal-content .modal-header img {
             margin-top: 15px !important;
         }
     }
+@media screen and (max-width: 640px) {
+    #menuBtn {
+        display: block;
+        float:left;
+    }
+    .top-right-panel{
+        width:95% !important;
+    }
+  /*  .header {
+        height: 35px !important;
+        
+    }*/
+    body.removeBoby .leftAsideBar .sidenavBar{
+        padding:0 15px !important;
+    }
+}
+#tblShipmentDetails2 .badge:hover{
+    cursor:pointer;
+}

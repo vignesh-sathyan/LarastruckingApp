@@ -10,6 +10,9 @@ using System.Text;
 using System.Threading.Tasks;
 using LarastruckingApp.Entities.ShipmentDTO;
 using System.Data.Entity;
+using System.Data;
+using System.IO;
+using System.Web;
 
 namespace LarastruckingApp.Repository.Repository.TimeCard
 {
@@ -407,6 +410,117 @@ namespace LarastruckingApp.Repository.Repository.TimeCard
         }
         #endregion
 
+        #region Get Incentive Card Details
+        public GetIncentiveCardCalculationDTO GetIncentiveCardData(TimeCardDTO entity)
+        {
+            GetIncentiveCardCalculationDTO getTimeCardList = new GetIncentiveCardCalculationDTO();
+            var timeCardCalculation = (from TC in timeCardContext.tblIncentiveCardCalculations
+                                       where TC.UserId == entity.UserId && DbFunctions.TruncateTime(TC.WeekStartDay) >= DbFunctions.TruncateTime(entity.InDateTime)
+                                       && DbFunctions.TruncateTime(TC.WeekEndDay) <= DbFunctions.TruncateTime(entity.OutDateTime)
+                                       select new GetIncentiveCardCalculationDTO
+                                       {
+                                           HourlyRate = TC.HourlyRate ?? 0,
+                                           TotalPay = TC.TotalPay ?? 0,
+                                           Deduction = TC.Deduction ?? 0,
+                                           TotalCheck = TC.TotalCheck ?? 0,
+                                           GrossPay = TC.GrossPay ?? 0,
+                                           DailyRate = TC.DailyRate ?? 0,
+                                           Incentive = TC.Incentive ?? 0,
+                                           //Reimbursement = TC.Reimbursement ?? 0,
+                                           Loan = TC.Remaining,// TC.Loan ?? 0,
+                                           Description = TC.Description ?? string.Empty,
+                                           //  Remaining=string.Empty
+                                       }
+                              ).FirstOrDefault();
+            if (timeCardCalculation != null)
+            {
+
+                getTimeCardList.HourlyRate = timeCardCalculation.HourlyRate;
+                getTimeCardList.TotalPay = timeCardCalculation.TotalPay;
+                getTimeCardList.Deduction = timeCardCalculation.Deduction;
+                getTimeCardList.DailyRate = timeCardCalculation.DailyRate;
+                getTimeCardList.TotalCheck = timeCardCalculation.TotalCheck;
+                getTimeCardList.GrossPay = timeCardCalculation.GrossPay;
+                getTimeCardList.Incentive = timeCardCalculation.Incentive;
+                //getTimeCardList.Reimbursement = timeCardCalculation.Reimbursement;
+                getTimeCardList.Loan = timeCardCalculation.Loan + getTimeCardList.Deduction;
+                getTimeCardList.Description = timeCardCalculation.Description;
+                //getTimeCardList.Remaining = timeCardCalculation.Remaining;
+            }
+            var tblUser = timeCardContext.tblUsers.Where(x => x.Userid == entity.UserId && x.IsDeleted == false).FirstOrDefault();
+            getTimeCardList.UsernName = tblUser == null ? "" : (tblUser.FirstName.ToUpper() + " " + tblUser.LastName.ToUpper() ?? string.Empty);
+            if (getTimeCardList.Loan == null || getTimeCardList.Loan == 0)
+            {
+                getTimeCardList.Loan = timeCardContext.tblTimeCardCalculations.Where(x => x.UserId == entity.UserId).OrderByDescending(x => x.ID).Skip(1).Select(x => x.Remaining).FirstOrDefault();
+            }
+            var startDate = entity.InDateTime.Value.AddHours(1);
+            entity.InDateTime = Configurations.ConvertLocalToUTC(startDate);
+
+            var endDate = entity.OutDateTime.Value.AddHours(23);
+            entity.OutDateTime = Configurations.ConvertLocalToUTC(endDate);
+
+            getTimeCardList.TimeCardList = (from TC in timeCardContext.tblTimeCards
+                                            where TC.UserId == entity.UserId && TC.InDateTime >= entity.InDateTime
+                                            && (TC.InDateTime <= entity.OutDateTime)
+                                            && TC.Day != null
+                                            select new TimeCardDTO
+                                           {
+                                                Id = TC.Id,
+                                                InDateTime = TC.InDateTime,
+                                                OutDateTime = TC.OutDateTime,
+                                                Day = TC.Day
+                                            }
+                              ).OrderBy(x => x.Id).ToList();
+
+            if (getTimeCardList.TimeCardList.Count() > 0)
+            {
+                foreach (var timeCard in getTimeCardList.TimeCardList)
+                {
+                    timeCard.InDateTime = (timeCard.InDateTime == null ? timeCard.InDateTime : Configurations.ConvertDateTime(Convert.ToDateTime(timeCard.InDateTime)));
+                    timeCard.OutDateTime = (timeCard.OutDateTime == null ? timeCard.OutDateTime : Configurations.ConvertDateTime(Convert.ToDateTime(timeCard.OutDateTime)));
+                }
+            }
+            return getTimeCardList;
+
+        }
+        #endregion
+
+        #region Get Driver Incentive Grid Data
+        public IList<GetIncentiveGridDTO> GetIncentiveGridData(TimeCardDTO entity)
+        {
+            try
+            {
+
+
+                var totalCount = new SqlParameter
+                {
+                    ParameterName = "@TotalCount",
+                    Value = 0,
+                    Direction = ParameterDirection.Output
+                };
+
+                List<SqlParameter> sqlParameters = new List<SqlParameter>
+                    {
+                        
+                        new SqlParameter("@StartDate", entity.InDateTime),
+                        new SqlParameter("@EndDate", entity.OutDateTime),
+                        new SqlParameter("@UserId", entity.UserId),
+                       // new SqlParameter("@StatusId", entity.StatusId),
+                         //   new SqlParameter("@DriverName", entity.DriverName),
+                                            };
+
+                var result = sp_dbContext.ExecuteStoredProcedure<GetIncentiveGridDTO>("usp_GetIncentiveDetails", sqlParameters);
+                //entity.TotalCount = result.Count > 0 ? Convert.ToInt32(result.Select(x => x.TotalCount).FirstOrDefault()) : 0;
+                return result != null && result.Count > 0 ? result : new List<GetIncentiveGridDTO>();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        #endregion
+
         #region Get Driver Time Card Detail
         /// <summary>
         /// Get Driver TimeCard Detail
@@ -508,6 +622,75 @@ namespace LarastruckingApp.Repository.Repository.TimeCard
         }
         #endregion
 
+        #region Save Incentive Card Amount
+        /// <summary>
+        /// Save Time Card Amount
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public bool SaveIncentiveCardAmount(IncentiveCardCalculation entity)
+        {
+            try
+            {
+                //var IncentiveCardCalculationnData = timeCardContext.tblIncentiveCardCalculations.Where(x => DbFunctions.TruncateTime(x.WeekStartDay) == DbFunctions.TruncateTime(entity.WeekStartDay) && x.UserId == entity.UserId).FirstOrDefault();
+                var IncentiveCardCalculationnData = timeCardContext.tblIncentiveCardCalculations.Where(x => DbFunctions.TruncateTime(x.WeekStartDay) == DbFunctions.TruncateTime(entity.WeekStartDay) && x.UserId == entity.UserId).FirstOrDefault();
+                if (IncentiveCardCalculationnData != null)
+                {
+                    IncentiveCardCalculationnData.HourlyRate = entity.HourlyRate;
+                    IncentiveCardCalculationnData.TotalPay = entity.TotalPay;
+                    IncentiveCardCalculationnData.Loan = entity.Loan;
+                    IncentiveCardCalculationnData.Deduction = entity.Deduction;
+                    IncentiveCardCalculationnData.Description = entity.Description;
+                    IncentiveCardCalculationnData.Remaining = entity.Remaining;
+                    IncentiveCardCalculationnData.Reimbursement = entity.Reimbursement;
+                    IncentiveCardCalculationnData.DailyRate = entity.DailyRate;
+                    IncentiveCardCalculationnData.GrossPay = entity.GrossPay;
+                    IncentiveCardCalculationnData.TotalCheck = entity.TotalCheck;
+                    IncentiveCardCalculationnData.Incentive = entity.Incentive;
+                    IncentiveCardCalculationnData.GridData = entity.GridData;
+                    timeCardContext.Entry(IncentiveCardCalculationnData).State = EntityState.Modified;
+                    return timeCardContext.SaveChanges() > 0;
+
+                }
+                else
+                {
+
+                    tblIncentiveCardCalculation tblIncentiveCardCalculation = new tblIncentiveCardCalculation();
+                    tblIncentiveCardCalculation.UserId = entity.UserId;
+                    tblIncentiveCardCalculation.WeekStartDay = entity.WeekStartDay;
+                    tblIncentiveCardCalculation.WeekEndDay = entity.WeekEndDay;
+                    tblIncentiveCardCalculation.HourlyRate = entity.HourlyRate;
+                    tblIncentiveCardCalculation.DailyRate = entity.DailyRate;
+                    tblIncentiveCardCalculation.TotalPay = entity.TotalPay;
+                    tblIncentiveCardCalculation.Incentive = entity.Incentive;
+                    tblIncentiveCardCalculation.TotalCheck = entity.TotalCheck;
+                    tblIncentiveCardCalculation.GrossPay = entity.GrossPay;
+                    tblIncentiveCardCalculation.Loan = entity.Loan;
+                    tblIncentiveCardCalculation.Deduction = entity.Deduction;
+                    tblIncentiveCardCalculation.Reimbursement = entity.Reimbursement;
+                    tblIncentiveCardCalculation.Description = entity.Description;
+                    tblIncentiveCardCalculation.Remaining = entity.Remaining;
+                    tblIncentiveCardCalculation.CreatedOn = Configurations.TodayDateTime;
+                    tblIncentiveCardCalculation.GridData = entity.GridData;
+                    tblIncentiveCardCalculation.CreatedBy = entity.UserId;
+                    timeCardContext.tblIncentiveCardCalculations.Add(tblIncentiveCardCalculation);
+                    ErrorLog("Success Saving Incentive: ");
+                    ErrorLog("Time start: "+ entity.WeekEndDay);
+                    return timeCardContext.SaveChanges() > 0;
+
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                ErrorLog("Error Saving Incentive: "+ ex.InnerException.ToString());
+                return false;
+            }
+            
+
+        }
+        #endregion
+
         #region get week dates
         /// <summary>
         /// GetWeekDates
@@ -589,6 +772,7 @@ namespace LarastruckingApp.Repository.Repository.TimeCard
                                        InDateTime = TC.InDateTime,
                                        OutDateTime = TC.OutDateTime,
                                        Day = TC.Day,
+                                       UserId = tuser.Userid,
 
                                    }
                               ).OrderBy(x => x.UserName).ToList();
@@ -628,6 +812,7 @@ namespace LarastruckingApp.Repository.Repository.TimeCard
                         }
                     }
                     dailyReport.InDateTime = dayItem.FirstOrDefault().InDateTime;
+                    dailyReport.UserId = dayItem.FirstOrDefault().UserId;
                     dailyReport.OutDateTime = dayItem.OrderByDescending(x => x.OutDateTime).FirstOrDefault().OutDateTime;
                     dailyReport.InOutDiff = timeSpan;
                     lstDailyReportDTOs.Add(dailyReport);
@@ -665,6 +850,26 @@ namespace LarastruckingApp.Repository.Repository.TimeCard
             return result;
         }
         #endregion
+
+        public static void ErrorLog(string sErrMsg)
+        {
+            string sLogFormat;
+            string sErrorTime;
+
+            sLogFormat = DateTime.Now.ToShortDateString().ToString() + " " + DateTime.Now.ToLongTimeString().ToString() + " ==> ";
+
+            //this variable used to create log filename format "
+            //for example filename : ErrorLogYYYYMMDD
+            string sYear = DateTime.Now.Year.ToString();
+            string sMonth = DateTime.Now.Month.ToString();
+            string sDay = DateTime.Now.Day.ToString();
+            sErrorTime = sYear + sMonth + sDay;
+
+            StreamWriter sw = new StreamWriter(HttpContext.Current.Server.MapPath("../../Assets/ErrorLog") + sErrorTime, true);
+            sw.WriteLine(sLogFormat + sErrMsg);
+            sw.Flush();
+            sw.Close();
+        }
     }
 }
 

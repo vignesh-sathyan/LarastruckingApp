@@ -1,0 +1,58 @@
+﻿@model LarastruckingApp.ViewModel.GpsTracker.ShipmentGpsDetailsViewModal
+@{
+    ViewBag.Title = "Index";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<html>
+<head>
+    <meta name="baseUrl" content="@(Request.Url.Scheme + "://" + Request.Url.Authority + VirtualPathUtility.ToAbsolute("~/"))" />
+    <script src="~/Assets/js/jquery.min.js"></script>
+    <script src="~/Assets/js/jquery.mask.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+    <script src="~/CustomScript/globalJs.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXBtkoqacvZToBGD9TCaiZ9qUTrAJDJN4&libraries=places&SameSite=None&sensor=false"></script>
+    <script src="https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyDXBtkoqacvZToBGD9TCaiZ9qUTrAJDJN4"></script>
+    <style>
+        #dvMap {
+         /*   width: 340px;
+            height: 250px;*/
+            margin: 0 auto;
+        }
+        body{
+            height:100%;
+        }
+        .col-md-12, .customFormWrap {
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div style="height:100%;">
+        <div class="" style="width:100%;">
+            <div class="white-bg customFormWrap" style="height:100%;">
+                <input type="hidden" id="hdnShipmentId" name="hdnShipmentId" value="@ViewBag.ShipmentId" />
+                
+
+
+                <div class="col-md-12" style="height:100%;">
+                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                        <label id="ErrorMsgGPS" style="display: none; color: #375b93; font-weight: bold;font-size:13px; "></label>
+                        <div id="dvMap" class="gpsMap">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+<script src="~/CustomScript/GpsTracker/MainGpsTracker.js"></script>
+@Styles.Render("~/bundles/styles")
+@*<script src="~/CustomScript/GpsTracker/GpsTracker.js"></script>*@
+@*<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCc5vVFw9rNMBRTazypkoydHGXB2LrlRv8&sensor=false"></script>*@
+
+

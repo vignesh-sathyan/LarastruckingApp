@@ -11,6 +11,7 @@ namespace LarastruckingApp.Entities.ShipmentDTO
         public int ShipmentId { get; set; }
         public string StatusName { get; set; }
         public string CustomerName { get; set; }
+        //public int CustomerID { get; set; }
         public string PickupLocation { get; set; }
         public string PickupDate { get; set; }
         public string DeliveryLocation { get; set; }

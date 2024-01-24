@@ -1,0 +1,44 @@
+﻿@using LarastruckingApp.Entities.Permission
+@using LarastruckingApp.Infrastructure
+
+@{
+    //Layout = null;
+    MemberProfile memberProfile = new MemberProfile();
+    PermissionsDto permissions = IsPermited.HasPermission();
+}
+
+<input type="hidden" value="@memberProfile.UserId" id="hdnUserId" />
+<input type="hidden" value="@memberProfile.UserRole" id="hdnUserRole" />
+<div class="TimeCardEmail" style="display: flex;justify-content: space-between;">
+    <h5 class="mb-1 btnColor" style="display:flex;justify-content:space-between;"><span id="spnDriverName"></span><span>&nbsp;| INCENTIVE CARD </span><span id="spnWeekNo">&nbsp;</span><span>[</span> <span id="spnStartDate"></span><span>&nbsp;To&nbsp;</span> <span id="spnEndtDate"></span><span>]</span></h5>
+    <div>
+        <button id="btnPrevious" onclick="previous()"><i class="fas fa-arrow-circle-left"></i></button> <button id="btnNext" onclick="next()"><i class="fas fa-arrow-circle-right"></i></button>
+    </div>
+
+</div>
+
+<table style="width: 100% !important;" id="IncentiveCard" class="table table-striped mb-0">
+    <thead>
+        @*<tr style=" width:100%; background:#7ca337 !important">
+
+                <th style="background:#7ca337 !important" class="text-center">PRODUCTIVITY RECORD</th>
+                <th style="background:#7ca337 !important" class="text-center">QUANTITY</th>
+                <th style="background:#7ca337 !important" class="text-center">RATE</th>
+                <th style="background:#7ca337 !important">TOTAL</th>
+            </tr>*@
+    </thead>
+    <tbody>
+    </tbody>
+    <tfoot id="incentiveFoote" style="display:none;">
+        <tr>
+            <td style="background:#7ca337 !important;height:30px;"></td>
+                <td style="background:#7ca337 !important;height:30px;"></td>
+                <td style="background:#7ca337 !important;height:30px;"></td>
+                <td style="background:#7ca337 !important;height:30px;"></td>
+                
+            
+            <span id="spnGrandTotal" hidden></span>
+        </tr>
+
+    </tfoot>
+</table>

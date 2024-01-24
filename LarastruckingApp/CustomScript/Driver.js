@@ -494,6 +494,20 @@ $("html").unbind().keyup(function (e) {
     }
 });
 //
+function validateEmail() {
+      // Get the input value
+      var emailInput = document.getElementById('txtEmailId').value;
+
+      // Regular expression for email validation
+      var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      // Test the input value against the pattern
+      if (emailPattern.test(emailInput)) {
+       // AlertPopup('Valid email format');
+      } else {
+        AlertPopup('Invalid email format');
+      }
+    }
 
 function SaveDrierDetail() {
     
@@ -535,9 +549,17 @@ function SaveDrierDetail() {
     }
     //if ($("form").valid()) {
     var urlpath = baseUrl + "/Driver/Index"
+	var message = "Success! Your data has been saved successfully!";
     if (values.DriverId > 0) {
-        urlpath = baseUrl + "/Driver/UpdateDriver"
+        urlpath = baseUrl + "/Driver/UpdateDriver";
+		message = "Success! Your data has been updated!";
     }
+	if($.trim($('#txtFirstName').val())!="" && $.trim($("#txtLastName").val())!=""  && $.trim($("#txtCitizenShip").val())!="" && $.trim($("#txtAddress1").val())!="" && $.trim($("#txtCity").val())!=""  && $.trim($("#txtZipCode").val())!=""  && $.trim($("#txtPhone").val())!=""  && $.trim($("#txtEmailId").val())!="" && $.trim($("#txtMedicalConditions").val())!="" && $.trim($("#txtEmergencyContactOne").val())!="" && $.trim($("#txtEmergencyPhoneNoOne").val())!="" && $.trim($("#RelationshipStatus1").val())!=""){
+		/* if(!$("#txtPhone").val().match(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/)){
+				AlertPopup("Enter valid Phone number");
+			} */
+			validateEmail();
+	
     if (validateContact()) {
 
         $.ajax({
@@ -554,11 +576,24 @@ function SaveDrierDetail() {
                 if (response.IsSuccess) {
                     hideLoader();
                 
-
+					 $.alert({
+                    title: 'Success!',
+                    content: "<b>"+message+"</b>",
+                    type: 'green',
+                    typeAnimated: true,
+                    buttons: {
+                        Ok: {
+                            btnClass: 'btn-green',
+                            action: function () {
+                                window.location = baseUrl + "/Driver/ViewDriver";
+                            }
+                        },
+                    }
+                });
                     $("#hdfDriverId").val(response.Data);
                     //toastr.success(response.Message);
                     //window.location.href = baseUrl + "/Driver/Index/" + response.Data;
-                    window.location.href = baseUrl + "/Driver/ViewDriver";
+                    //window.location.href = baseUrl + "/Driver/ViewDriver";
                 }
                 else {
                     hideLoader();
@@ -571,6 +606,10 @@ function SaveDrierDetail() {
         });
 
     }
+	}
+	else{
+		AlertPopup("Please fill all required fields.");
+	}
 
 }
 

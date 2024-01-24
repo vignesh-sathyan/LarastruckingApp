@@ -540,20 +540,22 @@
                 <div class="col-md-12 text-right mb-2" style="display: flex;justify-content: flex-end;">
                     @if (permissions.IsInsert || permissions.IsUpdate)
                     {
-                    <i class="fa fa-save" style="color: #fff;margin-right: -25px;position: relative;margin-top: 4px;"></i>
-                        <input type="button" id="btnSave" value="SAVE" class="btn green-Btn" style="padding-right: 0; justify-content: center;"/>
-                    }
+                        <button type="button" id="btnSave" value="Save" class="btn green-Btn" style="padding-right: 30px; position: relative;">
+                            <i class="fa fa-save" style="color: #fff; position: absolute; top: 50%; transform: translateY(-50%);"></i>
+                            <label style="margin-bottom: 0; position: absolute; left: 32px;">SAVE</label>
+                        </button>
+                     }
                     else
                     {
                         <span class="text-danger">You don't have permission to add</span>
                     }
 
-                <a id="loginLink" class="btn green-Btn" href="@Url.Action("ViewCustomer", "Customer")" style="display:inline-block; align-items: center;justify-content: space-between;padding: 2px 8px 2px 4px;">
-                    <i class="fa fa-times" aria-hidden="true" style="margin-right: -5px;"></i>
+                    <a id="loginLink" class="btn green-Btn" href="@Url.Action("ViewCustomer", "Customer")" style="display:inline-block; align-items: center;justify-content: space-between;padding: 2px 8px 2px 4px;">
+                        <i class="fa fa-times" aria-hidden="true" style="margin-right: -5px;"></i>
 
-                    &nbsp;Cancel
+                        &nbsp;Cancel
 
-                </a>
+                    </a>
                 </div>
             </div>
         </div>

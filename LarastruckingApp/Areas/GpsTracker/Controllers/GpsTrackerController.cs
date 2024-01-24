@@ -49,6 +49,16 @@ namespace LarastruckingApp.Areas.GpsTracker.Controllers
         }
         #endregion
 
+        #region MainGpsTracker: Get
+        [HttpGet]
+       // [CustomAuthorize]
+        public ActionResult MainGpsTracker(int id = 0)
+        {
+            ViewBag.ShipmentId = id;
+            return View();
+        }
+        #endregion
+
         #region Index: Get
         // GET: GPS Tracker/GpsTracker
 

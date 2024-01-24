@@ -50,6 +50,16 @@ namespace LarastruckingApp.BusinessLayer
         }
         #endregion
 
+        #region Driver Inactive List
+        /// <summary>
+        /// Geting driver records list 
+        /// </summary>
+        public IEnumerable<DriverListDto> DriverInactiveList(int spType, int isActive)
+        {
+            return iDriverRepo.DriverInactiveList(spType, isActive);
+        }
+        #endregion
+
         #region List
         /// <summary>
         /// Geting Driver list

@@ -116,6 +116,28 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
         }
         #endregion
 
+        #region Driver Shipment Status
+        /// <summary>
+        /// shipment status
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult GetDriverFumStatus()
+        {
+            try
+            {
+                var statusList = fumigationBAL.GetDriverStatusList();
+                return Json(statusList, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+        #endregion
+
         #region Shipment Substatus
         /// <summary>
         /// Shipment Sub Status
@@ -709,7 +731,8 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
             }
             catch (Exception exs)
             {
-                ErrorLog("Model State IsValid: "+exs.Message);
+                
+                ErrorLog("Model State IsValid: "+exs.Message.ToString());
                 throw;
             }
 
@@ -1060,8 +1083,9 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
 
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ErrorLog("Mail Response Error : " + ex.Message.ToString());
                 throw;
             }
             finally
@@ -1218,8 +1242,8 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
         }
         #endregion
 
-        
-        public bool SendTemperatureMail(FumigationEmailDTO model,TemperatureEmailDTO model1, double ActualTemp,string tempURL)
+
+        public bool SendTemperatureMail(FumigationEmailDTO model, TemperatureEmailDTO model1, double ActualTemp, string tempURL)
         {
             StringReader sr = null;
             Document pdfDoc = null;
@@ -1240,12 +1264,12 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
                     string to = customerDetail.AllContactPerson;
                     string subject = string.Empty;
                     subject = LarastruckingResource.LarasFumigationAdvice;
-                    if (ActualTemp>40 && ActualTemp<=50)
+                    if (ActualTemp > 40 && ActualTemp <= 50)
                     {
                         messageTemp = "IMMEDIATE ATTENTION HIGH TEMPERATURE";
                         subject = "LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | @AWB/PO/ORD | " + messageTemp;
                     }
-                    else if (ActualTemp>50)
+                    else if (ActualTemp > 50)
                     {
                         messageTemp = "IMMEDIATE ATTENTION EXTREMELY HIGH TEMPERATURE";
                         subject = "LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | @AWB/PO/ORD | " + messageTemp;
@@ -1254,7 +1278,7 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
                     else
                     {
                         messageTemp = "ACCEPTABLE TEMPERATURE";
-                        subject = "LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | @AWB/PO/ORD | "+ messageTemp;
+                        subject = "LARA'S FUMIGATION LOADING & TEMPERATURE REPORT | @AWB/PO/ORD | " + messageTemp;
 
                     }
                     if (!string.IsNullOrEmpty(temperatureDetail.AirWayBill))
@@ -1294,8 +1318,8 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
                     string bodywithsignature = this.RenderViewToStringAsync<TemperatureEmailDTO>("_TemperatureEmail", temperatureDetail);
                     sr = new StringReader(bodywithsignature);
                     pdfDoc = new Document(PageSize.A4, 10f, 10f, 10f, 0f);
+                   // ErrorLog("bodywithsignature : " + bodywithsignature);
 
-                   
                     using (MemoryStream stream = new System.IO.MemoryStream())
                     {
 
@@ -1304,20 +1328,27 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
                         var imgFiles = tempURL.Split('|');
                         for (int i = 0; i < imgFiles.Length; i++)
                         {
+                            ErrorLog("For loop in imgFiles: " + imgFiles);
                             var tempImg = imgFiles[i];
                             string pathURL = tempImg.Replace("\\", "/");
                             string[] extUrl = pathURL.Split('.');
                             ext = extUrl[1];
+                            ErrorLog("For loop in ext: " + ext);
                             string path = ImgURL + pathURL;
+                            //ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+                            System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
                             using (var webClient = new WebClient())
                             {
+                                ErrorLog("For loop in path: " + path);
                                 bytes = webClient.DownloadData(path);
                             }
-                            string fileName = "proofoftemp_" + (i+1) + "." + ext;
+                            ErrorLog("For loop in bytes: " + bytes);
+                            string fileName = "proofoftemp_" + (i + 1) + "." + ext;
 
 
                             fileAttach.Add(bytes, fileName);
                         }
+                        ErrorLog("fileAttach : " + fileAttach.ToString());
                         string mailSentResponse = string.Empty;
                         MailWithCCAttachDTO mailData = new MailWithCCAttachDTO();
                         mailData.FileByte = bytes;
@@ -1333,12 +1364,13 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
                         var deliveryStatus = customerDetail.FumigationStatusHistory.Where(x => x.StatusId == 7).FirstOrDefault();
                         if (deliveryStatus == null && customerDetail.StatusId != 3)
                         {
-                           // fileAttach = null;
+                            // fileAttach = null;
                         }
                         //mailData.MailSubject = "LARA Test";
                         //mailData.MailBody = "Temperature report delivered";
                         //ErrorLog("Mail DATA : " + mailData.MailBody);
                         ErrorLog("fileAttach : " + fileAttach.ToString());
+                      //  ErrorLog("mailData.MailBody : " + mailData.MailBody);
                         if (mailData.MailBody != "")
                         {
                             //IsValid = true;
@@ -1359,7 +1391,8 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
             catch (Exception ex)
             {
                 // throw;
-                ErrorLog("Mail error : "+ex.Message);
+                ErrorLog("Mail error SendTemperatureMail: " + ex.Message.ToString());
+                ErrorLog("Mail error SendTemperatureMail: " + ex.InnerException.ToString());
                 return isEmail;
             }
             finally
@@ -1451,6 +1484,57 @@ namespace LarastruckingApp.Areas.Fumigation.Controllers
                 throw;
             }
         }
+        #endregion
+
+        #region Get GetOrderTaken
+        public ActionResult GetOrderTaken()
+        {
+            try
+            {
+                var IsSuccess = fumigationBAL.GetOrderTaken();
+                return Json(IsSuccess, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region Get ShipmentInProgress
+        public ActionResult GetFumigationInProgress()
+        {
+            try
+            {
+                var IsSuccess = fumigationBAL.GetFumigationInProgress();
+                return Json(IsSuccess, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region Get CustomerDetail
+        public ActionResult CustomerDetail(int fumigationid)
+        {
+            try
+            {
+                var IsSuccess = fumigationBAL.CustomerDetail(fumigationid);
+                return Json(IsSuccess, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         #endregion
 
     }

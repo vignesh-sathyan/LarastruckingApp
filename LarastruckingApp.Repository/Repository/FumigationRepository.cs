@@ -11,9 +11,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace LarastruckingApp.Repository.Repository
 {
@@ -70,6 +73,42 @@ namespace LarastruckingApp.Repository.Repository
 
                 var statuslist = fumigationContext.tblShipmentStatus.Where(x => x.IsActive && x.IsDeleted == false && x.IsFumigation == true).OrderBy(x => x.FumigationDisplayOrder);
                 return AutoMapperServices<tblShipmentStatu, ShipmentStatusDTO>.ReturnObjectList(statuslist.ToList());
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        #endregion
+
+        #region Driver Delivery fumigation status list
+        /// <summary>
+        /// get status list
+        /// </summary>
+        /// <returns></returns>
+        public ShipmentStatusDTO GetDriverStatusList()
+        {
+            try
+            {
+
+                ShipmentStatusDTO statuslist = new ShipmentStatusDTO();
+
+                statuslist = ((ShipmentStatusDTO)(from shipment in fumigationContext.tblShipmentStatus
+                              where shipment.IsActive==true && shipment.IsDeleted == false
+                              select new ShipmentStatusDTO
+                              {
+                                  StatusId = shipment.StatusId,
+                                  StatusAbbreviation = shipment.StatusAbbreviation,
+                                  StatusName = shipment.StatusName,
+                                  //DriverAssignOrder = shipment.DriverAssignOrder,
+                              })
+                   );
+                    //fumigationContext.tblShipmentStatus.Where(x => x.IsActive && x.IsDeleted == false ).OrderBy(x => x.DriverAssignOrder).ToList();
+
+
+                return statuslist;
 
             }
             catch (Exception)
@@ -215,7 +254,7 @@ namespace LarastruckingApp.Repository.Repository
                 if (fumigation != null)
                 {
 
-                    if (fumigation.StatusId != entity.StatusId && entity.StatusId != 11)
+                    if (fumigation.StatusId != entity.StatusId && entity.StatusId != 11 && entity.StatusId != 15 && entity.StatusId != 16 && entity.StatusId != 17)
                     {
                         entity.IsMailNeedToSend = true;
                     }
@@ -256,6 +295,7 @@ namespace LarastruckingApp.Repository.Repository
                     foreach (var fumigationRoute in entity.FumigationRouteDetail)
                     {
                         var fumigationRouteData = fumigationContext.tblFumigationRouts.Where(x => x.FumigationRoutsId == fumigationRoute.FumigationRoutsId).FirstOrDefault();
+                        
                         if (fumigationRouteData != null)
                         {
                             if (fumigationRoute.IsDeleted)
@@ -263,7 +303,11 @@ namespace LarastruckingApp.Repository.Repository
                                 fumigationRouteData.IsDeleted = true;
                                 fumigationRouteData.DeletedBy = entity.ModifiedBy;
                                 fumigationRouteData.DeletedOn = entity.DeletedOn;
+                                fumigationContext.tblFumigationEquipmentNDrivers.RemoveRange(fumigationContext.tblFumigationEquipmentNDrivers.Where(x => x.FumigationRoutsId == fumigationRoute.FumigationRoutsId));
+                                var fumigationEquipmentData = fumigationContext.tblFumigationEquipmentNDrivers.Where(x => x.FumigationRoutsId == fumigationRoute.FumigationRoutsId);
+                               
                                 fumigationContext.Entry(fumigationRouteData).State = EntityState.Modified;
+                                fumigationContext.SaveChanges();
                             }
                             else
                             {
@@ -396,10 +440,11 @@ namespace LarastruckingApp.Repository.Repository
 
                 }
                 entity.IsSuccess = fumigationContext.SaveChanges() > 0;
-
+                ErrorLog("Success in Fumigation: " + entity.IsSuccess);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                ErrorLog("Error in Fumigation: "+ ex.Message.ToString());
                 throw;
             }
 
@@ -525,7 +570,7 @@ namespace LarastruckingApp.Repository.Repository
                         new SqlParameter("@EndDate", entity.EndDate),
                         new SqlParameter("@CustomerId", entity.CustomerId),
                         new SqlParameter("@StatusId", entity.StatusId),
-                            new SqlParameter("@DriverName", entity.DriverName),
+                        new SqlParameter("@DriverName", entity.DriverName),
                                             };
 
                 var result = sp_dbContext.ExecuteStoredProcedure<FumigationViewAllListDTO>("usp_GetCompletedNcancelFumList", sqlParameters);
@@ -1006,33 +1051,66 @@ namespace LarastruckingApp.Repository.Repository
                     if (model.PickUpArrival != null)
                     {
                         objFumigationRoute.PickUpArrival = Configurations.ConvertLocalToUTC(Convert.ToDateTime(model.PickUpArrival));
+                        ErrorLog("PickupArrival: "+ objFumigationRoute.PickUpArrival);
                     }
-                    /*if (model.DriverLoadingStartTime != null)
+                    if (model.DriverLoadingStartTime != null)
                     {
                         objFumigationRoute.DriverLoadingFinishTime = Configurations.ConvertLocalToUTC(Convert.ToDateTime(model.DriverLoadingStartTime));
+                        ErrorLog("DriverLoadingFinishTime: " + objFumigationRoute.DriverLoadingFinishTime);
                     }
                     if (model.DriverLoadingFinishTime != null)
                     {
                         objFumigationRoute.DriverLoadingFinishTime = Configurations.ConvertLocalToUTC(Convert.ToDateTime(model.DriverLoadingFinishTime));
-                    }*/
+                        ErrorLog("DriverLoadingFinishTime: " + objFumigationRoute.DriverLoadingFinishTime);
+                    }
 
                     objFumigationRoute.FumigationSite = model.FumigationSite;
                     if (model.FumigationArrival != null)
                     {
                         objFumigationRoute.FumigationArrival = Configurations.ConvertLocalToUTC(Convert.ToDateTime(model.FumigationArrival));
+                        ErrorLog("FumigationArrival: " + objFumigationRoute.FumigationArrival);
                     }
                     if (model.ReleaseDate != null)
                     {
                         objFumigationRoute.ReleaseDate = Configurations.ConvertLocalToUTC(Convert.ToDateTime(model.ReleaseDate));
+                        ErrorLog("ReleaseDate: " + objFumigationRoute.ReleaseDate);
                     }
                     if (model.DepartureDate != null)
                     {
                         objFumigationRoute.DepartureDate = Configurations.ConvertLocalToUTC(Convert.ToDateTime(model.DepartureDate));
+                        ErrorLog("DepartureDate: " + objFumigationRoute.DepartureDate);
                     }
                     objFumigationRoute.DeliveryLocation = model.DeliveryLocation;
                     if (model.DeliveryArrival != null)
                     {
                         objFumigationRoute.DeliveryArrival = Configurations.ConvertLocalToUTC(Convert.ToDateTime(model.DeliveryArrival));
+                        ErrorLog("DeliveryArrival: " + objFumigationRoute.DeliveryArrival);
+                    }
+                    if (model.DriverPickupDeparture != null)
+                    {
+                        objFumigationRoute.DriverPickupDeparture = Configurations.ConvertLocalToUTC(Convert.ToDateTime(model.DriverPickupDeparture));
+                        ErrorLog("DriverPickupDeparture: " + objFumigationRoute.DriverPickupDeparture);
+                    }
+                 
+                    if (model.DriverFumigationIn != null)
+                    {
+                        objFumigationRoute.DriverFumigationIn = Configurations.ConvertLocalToUTC(Convert.ToDateTime(model.DriverFumigationIn));
+                        ErrorLog("DriverFumigationIn: " + objFumigationRoute.DriverFumigationIn);
+                    }
+                    if (model.DriverFumigationRelease != null)
+                    {
+                        objFumigationRoute.DriverFumigationRelease = Configurations.ConvertLocalToUTC(Convert.ToDateTime(model.DriverFumigationRelease));
+                        ErrorLog("DriverFumigationRelease: " + objFumigationRoute.DriverFumigationRelease);
+                    }
+                    if (model.DriverDeliveryArrival != null)
+                    {
+                        objFumigationRoute.DriverDeliveryArrival = Configurations.ConvertLocalToUTC(Convert.ToDateTime(model.DriverDeliveryArrival));
+                        ErrorLog("DriverDeliveryArrival: " + objFumigationRoute.DriverDeliveryArrival);
+                    }
+                    if (model.DriverDeliveryDeparture != null)
+                    {
+                        objFumigationRoute.DriverDeliveryDeparture = Configurations.ConvertLocalToUTC(Convert.ToDateTime(model.DriverDeliveryDeparture));
+                        ErrorLog("DriverDeliveryDeparture: " + objFumigationRoute.DriverDeliveryDeparture);
                     }
                     objFumigationRoute.Commodity = model.Commodity;
                     objFumigationRoute.PalletCount = model.PalletCount;
@@ -1811,6 +1889,102 @@ namespace LarastruckingApp.Repository.Repository
         }
         #endregion
 
+        #region Get OrderTaken
+        public int GetOrderTaken()
+        {
+            try
+            {
+                //int result = 0;
+                int records = fumigationContext.tblFumigations.Count(x => x.StatusId == 1 && x.IsDeleted == false);
+                //var count = records.Count();
 
+                return records;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        #endregion
+
+        #region Get FumigationInProgress
+        public int GetFumigationInProgress()
+        {
+            try
+            {
+                //int result = 0;
+                int records = fumigationContext.tblFumigations.Count(x => x.StatusId != 1 && x.StatusId != 8 && x.StatusId != 11 && x.IsDeleted == false);
+                //var count = records.Count();
+
+                return records;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        #endregion
+
+        #region Get CustomerDetail
+        public CustomerDetailDTO CustomerDetail(int fumigationid)
+        {
+            try
+            {
+                //int result = 0;
+                CustomerDetailDTO shipmentDetail = new CustomerDetailDTO();
+                shipmentDetail = (from shipment in fumigationContext.tblFumigations
+                                  join customer in fumigationContext.tblCustomerRegistrations on shipment.CustomerId equals customer.CustomerID
+                                  join Address in fumigationContext.tblCustomerContacts on shipment.CustomerId equals Address.CustomerId
+                                  join BaseAddress in fumigationContext.tblBaseAddresses on shipment.CustomerId equals BaseAddress.CustomerId
+                                  join State in fumigationContext.tblStates on BaseAddress.BillingStateId equals State.ID
+                                  join Country in fumigationContext.tblCountries on BaseAddress.BillingCountryId equals Country.ID
+                                  where shipment.FumigationId == fumigationid
+                                  select new CustomerDetailDTO
+                                  {
+                                      CustomerName = customer.CustomerName,
+                                      Address = BaseAddress.BillingAddress1 + " , " + BaseAddress.BillingCity + " , " + State.Name + " , " + Country.Name,
+                                      Contact = Address.ContactFirstName + " " + Address.ContactLastName,
+                                      Phone = Address.ContactPhone,
+                                      Email = Address.ContactEmail,
+                                      //EstDeliveryArrival = routes.DeliveryDateTime,
+                                      //CustomerId = shipment.CustomerId,
+                                      //CustomerName = customer.CustomerName,
+                                      //AWB = shipment.AirWayBill,
+                                  }
+                                  ).FirstOrDefault();
+                //int records = shipmentContext.tblShipments.Count(x => x.StatusId != 1 && x.StatusId != 8 && x.StatusId != 11 && x.IsDeleted == false);
+                //var count = records.Count();
+
+                return shipmentDetail;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        #endregion
+
+        public static void ErrorLog(string sErrMsg)
+        {
+            string sLogFormat;
+            string sErrorTime;
+
+            sLogFormat = DateTime.Now.ToShortDateString().ToString() + " " + DateTime.Now.ToLongTimeString().ToString() + " ==> ";
+
+            //this variable used to create log filename format "
+            //for example filename : ErrorLogYYYYMMDD
+            string sYear = DateTime.Now.Year.ToString();
+            string sMonth = DateTime.Now.Month.ToString();
+            string sDay = DateTime.Now.Day.ToString();
+            sErrorTime = sYear + sMonth + sDay;
+
+            StreamWriter sw = new StreamWriter(HttpContext.Current.Server.MapPath("../../Assets/ErrorLog") + sErrorTime, true);
+            sw.WriteLine(sLogFormat + sErrMsg);
+            sw.Flush();
+            sw.Close();
+        }
     }
 }

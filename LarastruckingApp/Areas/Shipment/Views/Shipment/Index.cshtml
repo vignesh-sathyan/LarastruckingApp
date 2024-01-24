@@ -40,6 +40,32 @@
                         <div class="col-sm-4">
                             <select class="form-control" id="ddlStatus"></select>
                         </div>
+                        <div id="arrivedPUDialog" title="ARRIVED AT PICK UP LOCATION">
+
+                            <label class="col-sm-12 col-form-label" for="datetimepickerPU" style="padding-left: 0; padding-bottom: 15px;font-size:12px;font-family: 'Nunito Sans', sans-serif;font-weight: bolder;">Please enter arrival date and time</label>
+                            <input type="text" id="displayDateTimePU"  style="width: 75%; height: 25px; border: 1px solid #cccc; border-radius: 2px;padding:5px;">
+                            <div id="datetimepickerPU" class="datetimepicker" style="width: 75%; height: 25px; border: 1px solid #cccc; border-radius: 2px;padding:5px;"></div>
+
+                        </div>
+                        <div id="loadingPUDialog" title="LOADING AT PICK UP LOCATION">
+
+                            <label class="col-sm-12 col-form-label" for="datetimepickerLoadingPU" style="padding-left: 0; padding-bottom: 15px;font-size:12px;font-family: 'Nunito Sans', sans-serif;font-weight: bolder;">Please enter loading date and time</label>
+                            <input type="text" id="displayDateTimeLoadingPU"  style="width: 75%; height: 25px; border: 1px solid #cccc; border-radius: 2px;padding:5px;">
+                            <div id="datetimepickerLoadingPU" class="datetimepicker" style="width: 75%; height: 25px; border: 1px solid #cccc; border-radius: 2px;padding:5px;"></div>
+
+                        </div>
+                        <div id="arrivedDeliveryDialog" title="ARRIVED AT DELIVERY LOCATION">
+
+                            <label class="col-sm-12 col-form-label" for="datetimepickerDL" style="padding-left: 0; padding-bottom: 15px;font-size:12px;font-family: 'Nunito Sans', sans-serif;font-weight: bolder;">Please enter arrival date and time</label>
+                            <input type="text" id="displayDateTimeDL"  style="width: 75%; height: 25px; border: 1px solid #cccc; border-radius: 2px;padding: 5px;">
+                            <div id="datetimepickerDL" class="datetimepicker" style="width: 75%; height: 25px; border: 1px solid #cccc; border-radius: 2px;padding:5px;"></div>
+                        </div>
+                        <div id="UnloadingDialog" title="UNLOADING AT DELIVERY LOCATION">
+
+                            <label class="col-sm-12 col-form-label" for="datetimepickerUL" style="padding-left: 0; padding-bottom: 15px;font-size:12px;font-family: 'Nunito Sans', sans-serif;font-weight: bolder;">Please enter unloading date and time</label>
+                            <input type="text" id="displayDateTimeUL"  style="width: 75%; height: 25px; border: 1px solid #cccc; border-radius: 2px;padding: 5px;">
+                            <div id="datetimepickerUL" style="width: 75%; height: 25px; border: 1px solid #cccc; border-radius: 2px;padding:5px;"></div>
+                        </div>
                         <div class="col-sm-4">
                             <select class="form-control" id="ddlSubStatus">
                                 <option value="">SELECT SUB-STATUS</option>
@@ -804,7 +830,8 @@
                             @if (permissions.IsInsert)
                             {
                                 <button type="button" id="btnGoBack" class="btn green-Btn" style="display: flex; justify-content: space-evenly; padding-right: 0; padding-left: 0; height: 26px;">
-                                    <label style="margin-bottom:0;">GO BACK</label>
+                                   <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+									<label style="margin-bottom:0;">GO BACK</label>
                                 </button>
                                 <button type="button" id="btnSave" class="btn green-Btn" style="display: flex; justify-content: space-evenly; padding-right: 0; padding-left: 0; height: 26px;">
                                     <i class="fa fa-check" aria-hidden="true"></i>

@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Configuration;
+using LarastruckingApp.DAL;
 
 namespace LarastruckingApp.Areas.Shipment.Controllers
 {
@@ -309,6 +310,55 @@ namespace LarastruckingApp.Areas.Shipment.Controllers
                     data = data.Skip(skip).Take(pageSize).ToList();
                 }
                 return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        #endregion
+
+        #region LoadData
+        /// <summary>
+        /// Load J query Data Grid
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult LoadAllData(ValidateDriverNEquipmentDTO model)
+        {
+            try
+            {
+                string search = "";
+                var draw = 1;
+               // var start = Request.Form.GetValues("start").FirstOrDefault();
+                //var length = Request.Form.GetValues("length").FirstOrDefault();
+
+                // Find Order Column
+                var sortColumn = "";
+                var sortColumnDir = "asc";
+                //int pageSize = length != null ? Convert.ToInt32(length) : 0;
+                //int skip = start != null ? Convert.ToInt32(start) : 0;
+                int recordsTotal = 0;
+                var lstEquipmentDTO = shipmentBAL.EquipmnetList(model);
+                if (!string.IsNullOrEmpty(search))
+                {
+                    lstEquipmentDTO = lstEquipmentDTO.Where(x => x.VehicleType.ToUpper().Contains(search.ToUpper()) ||
+                                                                    x.EquipmentNo.Contains(search.ToUpper()) ||
+                                                                    x.EquipmentNo.ToUpper().Contains(search.ToUpper()) ||
+                                                                    x.MaxLoad.ToUpper().Contains(search.ToUpper()) ||
+                                                                    x.Bed.ToUpper().Contains(search.ToUpper())).ToList();
+                }
+                recordsTotal = lstEquipmentDTO.Count();
+                var data = lstEquipmentDTO.ToList();
+                List<ShipmentEquipmentDTO> shipmentEquipmentList = new List<ShipmentEquipmentDTO>();
+                
+                if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+                {
+                    //data = sortColumnDir == "asc" ? data.OrderBy(x => x.GetType().GetProperty(sortColumn).GetValue(x, null)).ToList() : data.OrderByDescending(x => x.GetType().GetProperty(sortColumn).GetValue(x, null)).ToList();
+                    data = data.Skip(0).Take(lstEquipmentDTO.Count).ToList();
+                    shipmentEquipmentList = data;
+                }
+                return Json(shipmentEquipmentList, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
@@ -976,10 +1026,12 @@ namespace LarastruckingApp.Areas.Shipment.Controllers
                             var temperatureEmailDetail = shipmentBAL.GetTemperatureEmailDetail(model.ShipmentId);
                             if (shipmentEmailDetail != null)
                             {
+                               
                                 // fumigationEmailDetail.PickUpArrival = PickUpArrival;
                                 //string[] tempval = model.ActualTemperature.Split('.');
                                 ActualTemp = Convert.ToDouble(model.ActualTemperature);
                                 isEmail = SendTemperatureMail(shipmentEmailDetail, temperatureEmailDetail, ActualTemp, TempimgUrl);
+                                     ErrorLog("isEmail Shipment: "+ isEmail);
                             }
                             objJsonResponse.Data = result;
                             objJsonResponse.IsSuccess = true;
@@ -1576,6 +1628,43 @@ namespace LarastruckingApp.Areas.Shipment.Controllers
         }
         #endregion
 
+
+        #region view shipment notification
+        /// <summary>
+        /// view shipment notification
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult ShipmentNotificationMaster(int id)
+        {
+            ShipmentEmailDTO model = new ShipmentEmailDTO();
+            model.ShipmentId = id;
+
+            var customerDetail = shipmentBAL.GetCustomerDetail(model);
+            bool IsValid = true;
+            if (!string.IsNullOrEmpty(customerDetail.AirWayBill))
+            {
+
+                customerDetail.AWBPoOrderNO = " AWB # " + customerDetail.AirWayBill;
+                IsValid = false;
+            }
+            if (IsValid && !string.IsNullOrEmpty(customerDetail.CustomerPO))
+            {
+
+                customerDetail.AWBPoOrderNO = " PO # " + customerDetail.CustomerPO;
+                IsValid = false;
+            }
+            if (IsValid && !string.IsNullOrEmpty(customerDetail.OrderNo))
+            {
+
+                customerDetail.AWBPoOrderNO = " Order # " + customerDetail.OrderNo;
+                IsValid = false;
+            }
+
+            return View(customerDetail);
+        }
+        #endregion
+
         #region Get max route no.
         /// <summary>
         /// Get max route no.
@@ -1673,6 +1762,12 @@ namespace LarastruckingApp.Areas.Shipment.Controllers
                         temperatureDetail.CustomerPO = " PO # " + temperatureDetail.CustomerPO;
                         IsValid = false;
                     }
+                    if (IsValid && !string.IsNullOrEmpty(temperatureDetail.ContainerNo))
+                    {
+                        subject = subject.Replace("@AWB/PO/ORD", temperatureDetail.ContainerNo);
+                        temperatureDetail.ContainerNo = " Container # " + temperatureDetail.ContainerNo;
+                        IsValid = false;
+                    }
                     if (IsValid && !string.IsNullOrEmpty(temperatureDetail.OrderNo))
                     {
                         subject = subject.Replace("@AWB/PO/ORD", temperatureDetail.OrderNo);
@@ -1689,16 +1784,16 @@ namespace LarastruckingApp.Areas.Shipment.Controllers
                     temperatureDetail.PickUpDeparture = Configurations.ConvertUTCtoLocalTime(Convert.ToDateTime(temperatureDetail.PickUpDeparture));
                     temperatureDetail.DeliveryArrival = Configurations.ConvertUTCtoLocalTime(Convert.ToDateTime(temperatureDetail.DeliveryArrival));
                     temperatureDetail.DeliveryDeparture = Configurations.ConvertUTCtoLocalTime(Convert.ToDateTime(temperatureDetail.DeliveryDeparture));
-                   // temperatureDetail.DriverFumigationIn = Configurations.ConvertUTCtoLocalTime(Convert.ToDateTime(temperatureDetail.DriverFumigationIn));
+                    // temperatureDetail.DriverFumigationIn = Configurations.ConvertUTCtoLocalTime(Convert.ToDateTime(temperatureDetail.DriverFumigationIn));
 
                     //subject = subject.Replace("@TRLR", customerDetail.Trailer);
                     //subject = subject.Replace("@STATUS", customerDetail.Status);
-
+                   
 
                     string bodywithsignature = this.RenderViewToStringAsync<TemperatureEmailSipmentDTO>("_ShipmentTemperature", temperatureDetail);
                     sr = new StringReader(bodywithsignature);
                     pdfDoc = new Document(PageSize.A4, 10f, 10f, 10f, 0f);
-
+                    ErrorLog("bodywithsignature: " + bodywithsignature);
 
                     using (MemoryStream stream = new System.IO.MemoryStream())
                     {
@@ -1708,20 +1803,26 @@ namespace LarastruckingApp.Areas.Shipment.Controllers
                         var imgFiles = tempURL.Split('|');
                         for (int i = 0; i < imgFiles.Length; i++)
                         {
+                            ErrorLog("For loop in imgFiles: " + imgFiles);
                             var tempImg = imgFiles[i];
                             string pathURL = tempImg.Replace("\\", "/");
                             string[] extUrl = pathURL.Split('.');
                             ext = extUrl[1];
+                            ErrorLog("For loop in ext: " + ext);
                             string path = ImgURL + pathURL;
+                            System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
                             using (var webClient = new WebClient())
                             {
+                                ErrorLog("For loop in path: " + path);
                                 bytes = webClient.DownloadData(path);
                             }
+                            ErrorLog("For loop in bytes: " + bytes);
                             string fileName = "proofoftemp_" + (i + 1) + "." + ext;
 
 
                             fileAttach.Add(bytes, fileName);
                         }
+                        ErrorLog("fileAttach : " + fileAttach.ToString());
                         string mailSentResponse = string.Empty;
                         MailWithCCAttachDTO mailData = new MailWithCCAttachDTO();
                         mailData.FileByte = bytes;
@@ -1763,7 +1864,8 @@ namespace LarastruckingApp.Areas.Shipment.Controllers
             catch (Exception ex)
             {
                 // throw;
-                ErrorLog("Mail error : " + ex.Message);
+                  ErrorLog("Mail error SendTemperatureMail: " + ex.Message.ToString());
+                ErrorLog("Mail error SendTemperatureMail: " + ex.InnerException.ToString());
                 return isEmail;
             }
             finally
@@ -1824,6 +1926,103 @@ namespace LarastruckingApp.Areas.Shipment.Controllers
             sw.Flush();
             sw.Close();
         }
-    }
+
+        #region Get GetOrderTaken
+        public ActionResult GetOrderTaken()
+        {
+            try
+            {
+                var IsSuccess = shipmentBAL.GetOrderTaken();
+                return Json(IsSuccess, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region Get ShipmentInProgress
+        public ActionResult GetShipmentInProgress()
+        {
+            try
+            {
+                var IsSuccess = shipmentBAL.GetShipmentInProgress();
+                return Json(IsSuccess, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region Get CustomerDetail
+        public ActionResult CustomerDetail(int shipmentid)
+        {
+            try
+            {
+                var IsSuccess = shipmentBAL.CustomerDetail(shipmentid);
+                return Json(IsSuccess, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region Get DriverDetails
+        public ActionResult DriverDetail()
+        {
+            try
+            {
+                var IsSuccess = shipmentBAL.DriverDetail();
+                return Json(IsSuccess, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        #endregion
+
+
+        #region Update Status
+        [HttpPost]
+        public ActionResult UpdateStatus(int Shipmentid,int StatusId,int CustomerId)
+        {
+            MemberProfile objMemberProfile = new MemberProfile();
+            var customer = shipmentBAL.UpdateStatus(Shipmentid,StatusId, CustomerId, objMemberProfile.UserId);
+            bool IsMailNeedToSend = false;
+            if (customer)
+            {
+                ShipmentEmailDTO customerShipmentDTO = new ShipmentEmailDTO();
+                customerShipmentDTO.CustomerId = Convert.ToInt32(CustomerId);
+                customerShipmentDTO.ShipmentId = Shipmentid;
+                if (StatusId != 11 && StatusId != 15 && StatusId != 16 && StatusId != 17)
+                {
+                    IsMailNeedToSend = true;
+                }
+                if (IsMailNeedToSend)
+                {
+                    SendMail(customerShipmentDTO);
+                }
+                
+            }
+            return Json(customer, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+        }
 
 }

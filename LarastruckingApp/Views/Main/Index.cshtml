@@ -1,0 +1,1086 @@
+﻿@using LarastruckingApp.Entities.Permission
+@using LarastruckingApp.Infrastructure
+@{
+    Layout = null;
+    PermissionsDto permissions = IsPermited.HasPermission();
+    MemberProfile memberProfile = new MemberProfile();
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="~/Assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Assets/css/Main.css" rel="stylesheet" />
+    <link rel="icon" href="~/Images/favicon.ico" sizes="16x16">
+    <title>Main Dashboard</title>
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" />
+    @Styles.Render("~/bundles/styles")
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css">
+
+    <meta name="baseURL" content="@(Request.Url.Scheme + "://" + Request.Url.Authority + VirtualPathUtility.ToAbsolute("~/"))" />
+    @Scripts.Render("~/bundles/scripts")
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+    <script src="~/Assets/js/jquery.mask.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXBtkoqacvZToBGD9TCaiZ9qUTrAJDJN4&libraries=places&SameSite=None&sensor=false"></script>
+
+    @*<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXBtkoqacvZToBGD9TCaiZ9qUTrAJDJN4&callback=initMap&libraries=places&SameSite=None&sensor=false"></script>*@
+    <script src="https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyDXBtkoqacvZToBGD9TCaiZ9qUTrAJDJN4"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.print.min.js"></script>
+    <script src="~/Assets/js/pdfmake.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.colVis.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"></script>
+    <script type="text/javascript">
+            var isInsert =  @permissions.IsInsert.ToString().ToLower();
+            var isView =true;
+            var isUpdate = true;
+            var isDelete = true;
+        var IsPricingMethod =  @permissions.IsPricingMethod.ToString().ToLower();
+
+
+    </script>
+    <style>
+        .articleTable tbody .cDetails {
+            padding: 0 0 0 10px;
+        }
+
+        .sprogressTable, .sprogressTable tr, .sprogressTable th, .sprogressTable td {
+            padding: 10px 5px 10px 5px;
+        }
+
+            .pipeline tr:hover, .pipeline td:hover, .pipeline:hover, .pipeline tbody:hover, .sprogressTable td:hover, .pipeline tr:hover td, .sprogressTable tr:hover td {
+                background: none;
+                color: #000;
+            }
+
+        .driver-listTable tr, .driver-listTable th, .driver-listTable td {
+            padding: 0 10px 10px 20px;
+        }
+
+        .sprogressTable tr .box {
+            /*border-right: 1px solid black;*/
+        }
+
+        .topBar {
+            display: flex;
+            position: fixed;
+            height: 60px;
+            box-shadow: unset;
+            width: 100%;
+            margin-left: 0;
+            top: 0;
+        }
+
+        .top-right-panel {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header {
+            height: 100px;
+        }
+
+        .dropdown-menu {
+            z-index: 9999;
+        }
+
+        .menu {
+            display: flex;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            z-index: 2;
+            top: 60px;
+        }
+
+        #menuBtn {
+            /*display: none;*/
+        }
+
+        .driver-list table {
+            width: 100%;
+            /*margin-top: 8px;*/
+        }
+    </style>
+</head>
+<body class="bodyBg Master">
+  <div class="dvloader">
+        <div class="lds-ring">
+            <div></div><div></div><div></div><div></div>
+            <p>Loading...</p>
+        </div>
+
+    </div>
+    <div class="topBar">
+        <button id="menuBtn" type="button" class="fas fa-bars"> </button>
+        <!-- LeftAsideBar panel start -->
+        <div class="leftAsideBar">
+            <a href="" class="logo">
+                <img src="~/images/sparrow-logo.png">
+
+            </a>
+
+            <div class="sidenavBar" style="overflow-y: auto;overflow-x:hidden;">
+                <ul>
+                    @{
+                        MemberProfile mps = new MemberProfile();
+                        var controllerNames = ViewContext.RouteData.Values["Controller"].ToString();
+                        var actionNames = ViewContext.RouteData.Values["Action"].ToString();
+                        var areaNames = Convert.ToString(ViewContext.RouteData.DataTokens["area"]);
+                        areaNames = (areaNames == null) ? "" : areaNames.ToString();
+
+                        var ids = Convert.ToString(ViewContext.RouteData.Values["id"]);
+                        <li>
+                            <a class=""
+                               href="/Main/Index">
+                                <span title="dashboard" class="leftIc">
+                                    <i class="far fa-file-alt"></i>
+                                </span>
+                                <span class="leftText">
+                                    DASHBOARD
+                                </span>
+                            </a>
+                        </li>
+
+                        if (mps.Permissions != null)
+                        {
+                            if (mps.UserRole == "Customer")
+                            {
+                                <li class="sidenavsubBar">
+
+                                    <div>
+                                        <span class="leftIc">
+                                            <i class="fas fa-tachometer-alt"></i>
+                                        </span>
+                                        <span class="leftText">Live Shipment</span>
+                                    </div>
+                                    <ul class="sub">
+                                        <li>
+                                            <a href="javascript:void(0)">
+                                                @*<span class="leftIc">
+                                        <i class="fas fa-tachometer-alt"></i>
+                                    </span>*@
+                                                @*<span class="leftText"> Shipment</span>*@
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                </li>
+                            }
+                            foreach (var data in mps.Permissions)
+                            {
+                                if (data.IsMenu)
+                                {
+                                    if (data.CanView)
+                                    {
+                                        if (data.ControllerName == "Shipment" || data.ControllerName == "Fumigation" || data.ControllerName == "TrailerRental" || data.ControllerName == "Customer")
+                                        {
+                                            if (actionNames == "FumigationDetails" || actionNames == "Detail")
+                                            {
+                                                actionNames = "Dashboard";
+                                            }
+
+
+                                            <li>
+                                                <a class="@(controllerNames == data.ControllerName && actionNames == data.ActionName && areaNames == data.AreaName ? "active" : "")"
+                                                   @*<a class="@(controllerName == data.ControllerName && actionName== data.ActionName ? "active" : "")"*@
+                                                   href="@Url.Action(data.ActionName, data.ControllerName, new { area = data.AreaName })">
+                                                    <span title="@data.PageName.ToUpper()" class="leftIc">
+                                                        <i class="@data.DisplayIcon"></i>
+                                                    </span>
+                                                    <span class="leftText">
+                                                        @data.PageName
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            if (data.ActionName == "ViewDriver")
+                                            {
+                                                <li class="driverDropdown" id="driverDropdown">
+                                                    <a class="@(controllerNames == "Driver" && actionNames== "ViewDriver" ? "active" : "")"
+                                                       href="@Url.Action("ViewDriver","Driver", new { area = "" })">
+                                                        <span title="DRIVER" class="leftIc">
+                                                            <i class="far fa-file-alt"></i>
+                                                        </span>
+                                                        <span class="leftText">
+                                                            DRIVER
+                                                        </span>
+                                                    </a>
+                                                    <ul class="driverSub-menu">
+
+                                                        <li>
+                                                            <a class="@(controllerNames == "Driver" && actionNames== "ViewDriver" ? "active" : "")"
+                                                               href="@Url.Action("ViewDriver","Driver", new { area = "" })">
+                                                                <span title="ACTIVE DRIVERS" class="leftIc">
+                                                                    <i class="far fa-file-alt"></i>
+                                                                </span>
+                                                                <span class="leftText">
+                                                                    ACTIVE
+                                                                </span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="@(controllerNames == "Driver" && actionNames== "DriverIncentive" ? "active" : "")"
+                                                               href="@Url.Action("ViewDriver","Driver",new { area = "" })">
+                                                                <span title="INACTIVE DRIVERS" class="leftIc">
+                                                                    <i class="far fa-file-alt"></i>
+                                                                </span>
+                                                                <span class="leftText">
+                                                                    INACTIVE
+                                                                </span>
+                                                            </a>
+
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            }
+                                            if (data.ActionName != "ViewTimeCard" && data.ActionName != "ViewDriver")
+                                            {
+                                                <li>
+                                                    @*<a class="@(controllerName == data.ControllerName && actionName== data.ActionName && areaName == data.AreaName ? "active" : "")"*@
+                                                    <a class="@(controllerNames == data.ControllerName && actionNames==data.ActionName ? "active" : "")"
+                                                       href="@Url.Action(data.ActionName, data.ControllerName, new { area = data.AreaName })">
+                                                        <span title="@data.PageName.ToUpper()" class="leftIc">
+                                                            <i class="@data.DisplayIcon"></i>
+                                                        </span>
+                                                        <span class="leftText">
+                                                            @data.PageName
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            }
+
+
+                                        }
+                                    }
+                                }
+                            }
+
+                            <li class="dropdown">
+                                <span class="leftText">
+                                    <i class="far fa-file-alt"></i>
+                                    Reports
+                                </span>
+                                <ul class="sub-menu">
+                                    <li>
+                                        <a class="@(controllerNames == "TimeCard" && actionNames== "ViewTimeCard" ? "active" : "")"
+                                           href="@Url.Action("ViewTimeCard","TimeCard", new { area = "TimeCard" })">
+                                            <span title="TIMECARD" class="leftIc">
+                                                <i class="far fa-file-alt"></i>
+                                            </span>
+                                            <span class="leftText">
+                                                TimeCard
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="@(controllerNames == "Driver" && actionNames== "DriverIncentive" ? "active" : "")"
+                                           href="@Url.Action("DriverIncentive","Driver")">
+                                            <span title="INCENTIVE" class="leftIc">
+                                                <i class="far fa-file-alt"></i>
+                                            </span>
+                                            <span class="leftText">
+                                                INCENTIVE
+                                            </span>
+                                        </a>
+
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                    }
+
+                </ul>
+            </div>
+
+        </div>
+        <!-- LeftAsideBar panel end -->
+        <div class="top-right-panel">
+            <ul>
+                <li>
+                    <a href="/Main/Index" class="logo" id="mainLogo">
+                        <img src="/images/sparrow-logo.png">
+
+                    </a>
+                </li>
+            </ul>
+            <ul>
+                @*<li>
+                        <a href="javascript:void(0)">
+                            <span>
+                                <i class="far fa-bell"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)">
+                            <span>
+                                <i class="far fa-envelope"></i>
+                            </span>
+                        </a>
+                    </li>*@
+                <li class="profile">
+                    <div class="dropdown">
+                        <b> <lable>Hello @memberProfile.FullName </lable></b>
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="~/images/porfile-img.png" style="height:28px; width: 28px;" />
+
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="@Url.Action("Logout", "User", new { area = "" })"><span><i class="fas fa-sign-out-alt"></i></span>Logout</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+    <div class="header">
+        @*<div class="menu-toggle">
+            <label class="menu-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+        </div>*@
+        <nav class="menu" id="menutab">
+
+            <ul class="menu-items">
+                @{
+                    MemberProfile mp = new MemberProfile();
+                    var controllerName = ViewContext.RouteData.Values["Controller"].ToString();
+                    var actionName = ViewContext.RouteData.Values["Action"].ToString();
+                    var areaName = Convert.ToString(ViewContext.RouteData.DataTokens["area"]);
+                    areaName = (areaName == null) ? "" : areaName.ToString();
+
+                    var id = Convert.ToString(ViewContext.RouteData.Values["id"]);
+                    <li>
+                        <a class=""
+                           href="/Main/Index">
+                            <span title="dashboard" class="leftIc">
+                                <i class="far fa-file-alt"></i>
+                            </span>
+                            <span class="leftText">
+                                DASHBOARD
+                            </span>
+                        </a>
+                    </li>
+
+                    if (mp.Permissions != null)
+                    {
+                        if (mp.UserRole == "Customer")
+                        {
+                            <li>
+
+                                <div>
+                                    <span class="leftIc">
+                                        <i class="fas fa-tachometer-alt"></i>
+                                    </span>
+                                    <span class="leftText">Live Shipment</span>
+                                </div>
+                                <ul>
+                                    <li>
+                                        <a href="javascript:void(0)">
+                                            @*<span class="leftIc">
+                                        <i class="fas fa-tachometer-alt"></i>
+                                    </span>*@
+                                            @*<span class="leftText"> Shipment</span>*@
+                                        </a>
+                                    </li>
+                                </ul>
+
+                            </li>
+
+                        }
+                        foreach (var data in mp.Permissions)
+                        {
+
+                            if (data.IsMenu)
+                            {
+                                if (data.CanView)
+
+                                {
+
+                                    if (data.ControllerName == "Shipment" || data.ControllerName == "Fumigation" || data.ControllerName == "TrailerRental" || data.ControllerName == "Customer")
+                                    {
+                                        if (actionName == "FumigationDetails" || actionName == "Detail")
+                                        {
+                                            actionName = "Dashboard";
+                                        }
+
+                                        <li>
+                                            <a class="@(controllerName == data.ControllerName && actionName == data.ActionName && areaName == data.AreaName ? "active" : "")"
+                                               @*<a class="@(controllerName == data.ControllerName && actionName== data.ActionName ? "active" : "")"*@
+                                               href="@Url.Action(data.ActionName, data.ControllerName, new { area = data.AreaName })">
+                                                <span title="@data.PageName.ToUpper()" class="leftIc">
+                                                    <i class="@data.DisplayIcon"></i>
+                                                </span>
+                                                <span class="leftText">
+                                                    @data.PageName
+                                                </span>
+                                            </a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        if (data.ActionName == "ViewDriver")
+                                        {
+                                            <li class="driverDropdown" id="driverDropdown">
+                                                <a class="@(controllerNames == "Driver" && actionNames== "ViewDriver" ? "active" : "")"
+                                                   href="@Url.Action("ViewDriver","Driver", new { area = "" })" id="allDrivers" onclick="AllDriver();">
+                                                    <span title="DRIVER" class="leftIc">
+                                                        <i class="far fa-file-alt"></i>
+                                                    </span>
+                                                    <span class="leftText">
+                                                        DRIVER
+                                                    </span>
+                                                </a>
+                                                <ul class="driverSub-menu">
+
+                                                    <li>
+                                                        <a class="@(controllerNames == "Driver" && actionNames== "ViewDriver" ? "active" : "")"
+                                                           href="@Url.Action("ViewDriver","Driver", new { area = "" })" id="activeDriver" data-row-no="0" onclick="ActiveDriver();">
+                                                            <span title="ACTIVE DRIVERS" class="leftIc">
+                                                                <i class="far fa-file-alt"></i>
+                                                            </span>
+                                                            <span class="leftText">
+                                                                ACTIVE
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="@(controllerNames == "Driver" && actionNames== "DriverIncentive" ? "active" : "")"
+                                                           href="@Url.Action("ViewDriver","Driver",new { area = "" })" id="inactiveDriver" data-row-no="0" onclick="InActiveDriver();">
+                                                            <span title="INACTIVE DRIVERS" class="leftIc">
+                                                                <i class="far fa-file-alt"></i>
+                                                            </span>
+                                                            <span class="leftText">
+                                                                INACTIVE
+                                                            </span>
+                                                        </a>
+
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        }
+                                        if (data.ActionName != "ViewTimeCard" && data.ActionName != "ViewDriver")
+                                        {
+                                            <li>
+                                                @*<a class="@(controllerName == data.ControllerName && actionName== data.ActionName && areaName == data.AreaName ? "active" : "")"*@
+                                                <a class="@(controllerNames == data.ControllerName && actionNames==data.ActionName ? "active" : "")"
+                                                   href="@Url.Action(data.ActionName, data.ControllerName, new { area = data.AreaName })">
+                                                    <span title="@data.PageName.ToUpper()" class="leftIc">
+                                                        <i class="@data.DisplayIcon"></i>
+                                                    </span>
+                                                    <span class="leftText">
+                                                        @data.PageName
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                       
+                        <li class="dropdown">
+                            <span class="leftText">
+                                <i class="far fa-file-alt"></i>
+                                Reports
+                            </span>
+                            <ul class="sub-menu">
+                                <li>
+                                    <a class="@(controllerNames == "TimeCard" && actionNames== "ViewTimeCard" ? "active" : "")"
+                                       href="@Url.Action("ViewTimeCard","TimeCard", new { area = "TimeCard" })">
+                                        <span title="TIMECARD" class="leftIc">
+                                            <i class="far fa-file-alt"></i>
+                                        </span>
+                                        <span class="leftText">
+                                            TimeCard
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="@(controllerNames == "Driver" && actionNames== "DriverIncentive" ? "active" : "")"
+                                       href="@Url.Action("DriverIncentive","Driver")">
+                                        <span title="INCENTIVE" class="leftIc">
+                                            <i class="far fa-file-alt"></i>
+                                        </span>
+                                        <span class="leftText">
+                                            INCENTIVE
+                                        </span>
+                                    </a>
+
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                }
+
+            </ul>
+        </nav>
+
+    </div>
+    <div class="section">
+        <div class="aside" style="display: block; box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;  margin: 15px; border-radius: 10px; height: 300px;">
+            <table class="sprogressTable " style="width: 100%;">
+                <tr>
+                    <td style="padding: 0;">
+                        <table style="float: left;width: 50%;" class="pipeline">
+                            <tr style="background: #7ba63c; ">
+                                <th colspan="3" style="color: #fff; padding: 6px; text-align: center;">Shipments</th>
+
+                            </tr>
+                            <tr style="border-right: 1px solid #000;">
+                                <td>PROGRESS</td>
+                                <td class="progressBar">
+                                    <div id="myProgress">
+
+                                        <div id="myBar">
+                                            <div id="label"></div>
+
+                                        </div>
+                                        <div id="total">
+                                            <label id="totalCount"></label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td scope="col" class="box" id="shipmentOrder"></td>
+
+                            </tr>
+
+                            <tr style="border-right: 1px solid #000;">
+                                <td>PIPELINE</td>
+                                <td class="progressBar">
+                                    <div id="myShipProgress">
+
+                                        <div id="myPipeLineBar">
+                                            <div id="Pipelabel"></div>
+
+                                        </div>
+                                        <div id="totalPipe">
+                                            <label id="ShipmenttotalCount"></label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="box" id="shipmentProgress">
+                                </td>
+                            </tr>
+                        </table>
+                        <table style="float: left;width: 50%;" class="pipeline">
+                            <tr style="background: #7ba63c; ">
+
+                                <th colspan="3" style="color: #fff; padding: 6px; text-align: center;">FUMIGATIONS</th>
+                            </tr>
+                            <tr>
+                                <td>LOADING</td>
+                                <td class="progressBar">
+                                    <div id="myFumOrder">
+
+                                        <div id="myFumOrderLineBar">
+                                            <div id="FumOrderPipelabel"></div>
+
+                                        </div>
+                                        <div id="FumOrdertotalPipe">
+                                            <label id="FumigationtotalCount"></label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td scope="col" class="box" id="fumigationOrder"></td>
+
+                            </tr>
+                            <tr>
+                                <td>DELIVERY</td>
+                                <td class="progressBar">
+                                    <div id="myFumProgress">
+
+                                        <div id="myFumProgressLineBar">
+                                            <div id="FumProgressPipelabel"></div>
+
+                                        </div>
+                                        <div id="FumProgresstotalPipe">
+                                            <label id="FumigationProgresstotalCount"></label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="box" id="fumigationProgress">
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+            </table>
+            <div class="driver" style="width: 100%; display: block; text-align: center; padding: 6px; background: #7ba63c; color: #fff; border: none; font-weight: bold; ">
+                CUSTOMER PROFILE
+            </div>
+            <div class="driver-list" style="padding: 0; height:170px;display:block;" id="driver-list">
+                <table class="articleTable" id="CustomerProfile" style="width: 100%;  height: 95%; margin: 0 auto;">
+
+                    <tbody>
+
+                        <tr>
+                            <td scope="row" style="width: 20%;padding-left:10px;font-weight:bold;">Name:</td>
+                            <td id="cName" style="width: 80%;" class="cDetails"></td>
+                        </tr>
+                        <tr>
+                            <td scope="row" style="width: 20%; padding-left: 10px; font-weight: bold;">Address:</td>
+                            <td id="cAddress" style="width: 80%;" class="cDetails"></td>
+                        </tr>
+                        <tr>
+                            <td scope="row" style="width: 20%; padding-left: 10px; font-weight: bold;">Contact:</td>
+                            <td id="cContact" style="width: 80%;" class="cDetails"></td>
+                        </tr>
+                        <tr>
+                            <td scope="row" style="width: 20%; padding-left: 10px; font-weight: bold;">Phone:</td>
+                            <td id="cPhone" style="width: 80%;" class="cDetails"></td>
+                        </tr>
+                        <tr>
+                            <td scope="row" style="width: 20%; padding-left: 10px; font-weight: bold;">E-Mail:</td>
+                            <td id="cEmail" style="width: 80%;" class="cDetails"></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <div class="article" style="display: block; box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px; margin: 15px; border-radius: 10px;">
+            <div class="headingtab" style="width: 100%; display: block; text-align: center; padding: 6px; background: #7ba63c; color: #fff; letter-spacing: 1px; border: none; font-weight: bold;">DRIVER WAITING ROOM</div>
+            <div class="driver-list1" style="padding: 0; height:260px;display: block; overflow: auto;" id="driver-list1">
+                <table class="driver-listTable  table-bordered" id="DeliveryDet" width="100%">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="padding: 0; text-align: center; height: 30px;">Name</th>
+                            <th scope="col" style="padding: 0; text-align: center; height: 30px;">Status</th>
+                            <th scope="col" style="padding: 0; text-align: center; height: 30px;"> DeliveryLocation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+        <div id="ShipmetAdvice" style="display: block; box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px; margin: 15px; border-radius: 10px;">
+            <div class="headingtab" style="width: 100%; display: block; text-align: center; padding: 6px; background: #7ba63c; color: #fff; letter-spacing: 1px; border: none; font-weight: bold;">SHIPMENT ADVICE</div>
+            <table width="100%">
+
+                <tr>
+                    <td>
+                        <iframe id="ShipmentNotify" src="" style="width:100%;border:none;"></iframe>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+        <div id="gpsTracking" style="display: block; box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px; margin: 15px; border-radius: 10px;">
+            <div style="width: 100%; display: block; text-align: center; padding: 6px; background: #7ba63c; color: #fff; letter-spacing: 1px; border: none; font-weight: bold;">GPS LIVE TRACKING</div>
+            <div  style="width:100%;height:100%;"><iframe id="gpsLive" src="" style="width: 100%; border: none; height: 275px;"></iframe></div>
+        </div>
+    </div>
+    <div class="customTableWrapper" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px; margin: 15px; border-radius: 10px; padding: 10px;">
+        <div id="ShipmentRequest" class="row" style=" background: rgb(30,185,127); background: #375b93; color: #fff; padding: 10px; text-align: center; display: flex; justify-content: center; margin: 0;">
+          <b style="font-size: 11px;letter-spacing: 1px;">REQUESTED SHIPMENTS</b>
+        </div>
+        <table class="table-bordered table-striped cf w-100 dataTable no-footer dtr-inline" id="tblShipmentDetails" style="margin-top:0 !important;">
+		
+            <thead>
+
+                <tr>
+                    <th hidden="hidden">ShipmentId</th>
+                    <th>Customer Name</th>
+                    <th>Pickup</th>
+                    <th>Pickup Date</th>
+                    <th>Delivery</th>
+                    <th>Delivery Date</th>
+                    <th>AWB / PO / ORD</th>
+                    <th>Quantity</th>
+                    <th>Created By</th>
+                    <th>Ready</th>
+                    <th style="max-width:250px;width:100%;">Comments</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <div class="overLay"></div>
+
+    @*<hr class="hr_add" />*@
+    <div class="customTableWrapper table-spacing" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px; margin: 15px; border-radius: 10px; padding: 10px;">
+        <div id="ShipmentInProgress" class="row" style="background: rgb(30,185,127); background: #375b93; color: #fff; padding: 10px; text-align: center; display: flex; justify-content: center; margin: 0; ">
+            <b style="font-size: 11px;letter-spacing: 1px;">SHIPMENTS IN PROGRESS</b>
+        </div>
+        <table class="table-bordered table-striped cf w-100 dataTable no-footer dtr-inline" id="tblShipmentDetails2" style="margin-top:0 !important;">
+		
+            <thead>
+
+                <tr>
+                    <th hidden="hidden">ShipmentId</th>
+                    <th>STATUS</th>
+                    <th>Customer Name</th>
+							 <th>Pickup</th>
+                            <th>ARRIVED PICKUP</th>
+                           <th>Delivery</th>
+                            <th>ARRIVED DELIVERY</th>
+                            <th>AWB / PO / ORD</th>
+                            @*<th>Cust. PO</th>*@
+                            <th>Quantity</th>
+
+                    <th>Commodity</th>
+                    <th>TEMP(F)</th>
+                    <th>DRIVER</th>
+                    <th>Equipment</th>
+                    <th>WT</th>
+                    <th>ST</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+    </div>
+
+
+
+    <div class="modal" role="dialog" id="shipmentModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header popup">
+                    <h6 class="modal-title">Copy Shipment</h6>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-body">
+                        <div class="white-bg customFormWrap">
+                            <input type="hidden" id="ShipmentId" value="" />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group required row">
+                                        <label class="col-sm-4 col-form-label" for="ddlCustomerCopy">Customer</label>
+                                        <div class="col-sm-8">
+                                            <select id="ddlCustomerCopy"
+                                                    class="form-control">
+                                                <option>SEARCH CUSTOMER</option>
+                                            </select>
+
+                                            <input type="hidden" id="hdnShipmentId" name="hdnShipmentId" value="0" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="txtAirWayBill">Air Waybill</label>
+                                            <div class="col-sm-8">
+                                                <input type="text"
+                                                       name="txtAirWayBill"
+                                                       onkeypress="return onlyAlphanumeric(event)"
+                                                       id="txtAirWayBill"
+                                                       class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="12">
+                                        <div class="form-group row required">
+                                            <label class="col-sm-4 col-form-label" for="ddlPickupDate">Est. Pickup Arrival</label>
+                                            <div class="col-sm-8">
+                                                <input type="text"
+                                                       autocomplete="off"
+                                                       data-required="required"
+                                                       placeholder="MM-DD-YYYY"
+                                                       onkeypress="return onlyNumericOrcolon(event)"
+                                                       id="ddlPickupDate"
+                                                       class="form-control dtTimer" />
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <div class="form-group row required">
+                                            <label class="col-sm-4 col-form-label" for="ddlDeliveryDate">Est. Delivery Arrival</label>
+                                            <div class="col-sm-8">
+
+                                                <input type="text"
+                                                       autocomplete="off"
+                                                       data-required="required"
+                                                       placeholder="MM-DD-YYYY"
+                                                       onkeypress="return onlyNumericOrcolon(event)"
+                                                       id="ddlDeliveryDate"
+                                                       class="form-control dtTimer" />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 text-right" style="display: flex; width: 100%;justify-content: flex-end;padding: 0;margin-left: -23px;margin-top: 10px;">
+                                    <button type="button" id="btnCopyShip" class="btn green-Btn" style="height: 30px;">Copy Shipment</button>
+									<button type="button" id="btnCancelShip" class="btn green-Btn" style="height: 30px;">Cancel</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="customTableWrapper" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px; margin: 15px; border-radius: 10px; padding: 10px;">
+        <div id="FumigationRequest" class="row" style="background: rgb(121,9,103); background: #375b93; color: #fff; padding: 10px; text-align: center; display: flex; justify-content: center; margin: 0;">
+            <b style="font-size: 11px;letter-spacing: 1px;">REQUESTED FUMIGATION</b>
+        </div>
+        <table class="table-bordered table-striped cf w-100 collapsed" id="tblOrderTakenFumigation" style="margin-top:0 !important;">
+		
+            <thead>
+
+                <tr>
+                    <th hidden="hidden"></th>
+                    <th>Status</th>
+                    <th style="width: 72px !important;padding-right: 12px;">Req Loading</th>
+                    <th>Fum Type</th>
+                    <th>Customer</th>
+                    <th>Pickup Location</th>
+                    <th style="width: 106px !important; padding-right:22px !important;">AWB/PO/Container</th>
+                    <th>Consignee</th>
+                    <th>Box Count</th>
+                    <th>Pallet Count</th>
+                    <th>Position</th>
+                    <th>Temp F</th>
+                    <th>Fumigation Site</th>
+                    <th style="width: 28px !important;padding-right: 8px;">Pickup Equ</th>
+                    <th>Pickup Driver</th>
+                    <th>Delivery Location</th>
+                    <th>Comments</th>
+                    @*<th>Delivery Driver</th>
+                        <th>Delivery Equipment</th>
+                        <th>Delivery Arrival</th>*@
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+
+
+    <div id="customTableWrapper" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px; margin: 15px; border-radius: 10px; padding: 10px;">
+        <div id="FumigationInProgress" class="row" style="background: rgb(121,9,103); background: #375b93; color: #fff; padding: 10px; text-align: center; display: flex; justify-content: center; margin: 0;">
+            <b style="font-size: 11px;letter-spacing: 1px;">FUMIGATION IN PROGRESS</b>
+        </div>
+        <table class="table-bordered table-striped cf w-100" id="tblOtherFumigation">
+		
+            <thead>
+
+                <tr>
+                    <th hidden="hidden"></th>
+                    <th>Status</th>
+                    <th>Fum Release</th>
+
+                    <th style="width: 100px !important; max-width: 90px; padding-right: 8px;">Fum Type</th>
+                    <th>Customer</th>
+                    <th>Pickup Location</th>
+                    <th style=" max-width: 115px; padding-right: 20px;">AWB/PO/Container</th>
+                    <th style="min-width:120px;">Consignee</th>
+
+                    <th style=" max-width: 60px; padding-right: 20px;">Box Count</th>
+                    <th style=" max-width: 70px; padding-right: 20px;">Pallet Count</th>
+                    <th style=" max-width: 60px; padding-right: 25px;">Position</th>
+                    <th style="max-width: 100px;">Fumigation Site</th>
+                    <th style=" max-width: 60px; padding-right: 25px;">Pickup Equipment</th>
+                    <th>Pickup Driver</th>
+
+                    <th style=" max-width: 50px; padding-right: 25px;">Actual Start</th>
+                    <th style=" max-width: 50px; padding-right: 25px;">Actual Finish</th>
+                    <th style=" max-width: 40px; padding-right: 25px;">Temp F</th>
+
+
+                    @*<th>Actual Fum In</th>
+
+        <th>Act. Fum Departure</th>*@
+                    <th style=" max-width: 60px; padding-right: 25px;">Equipment</th>
+                    <th style="min-width:120px;">Delivery Driver</th>
+                    <th style="min-width:120px;">Delivery Location</th>
+                    <th>WT</th>
+                    <th>ST</th>
+                    @*<th>Actual Arrival</th>
+        <th>Actual Departure</th>*@
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+
+    <div class="modal" role="dialog" id="fumigationModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header popup">
+                    <h6 class="modal-title">Copy Fumigation</h6>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-body">
+                        <div class="white-bg customFormWrap">
+                            <input type="hidden" id="FumigationId" value="" />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group required row">
+                                        <label class="col-sm-4 col-form-label" for="ddlCustomerCopy">Customer</label>
+                                        <div class="col-sm-8">
+                                            <select id="ddlCustomerCopy"
+                                                    class="form-control">
+                                                <option>SEARCH CUSTOMER</option>
+                                            </select>
+
+                                            <input type="hidden" id="hdnFumigationId" name="hdnFumigationId" value="0" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label" for="txtAirWayBill">Air Waybill</label>
+                                            <div class="col-sm-8">
+                                                <input type="text"
+                                                       name="txtAirWayBill"
+                                                       onkeypress="return onlyAlphanumeric(event)"
+                                                       id="txtAirWayBill"
+                                                       class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="12">
+                                        <div class="form-group row required">
+                                            <label class="col-sm-4 col-form-label" for="dtReqLoading">Req. Loading</label>
+                                            <div class="col-sm-8">
+                                                <input type="text"
+                                                       autocomplete="off"
+                                                       data-required="required"
+                                                       placeholder="MM-DD-YYYY"
+                                                       onkeypress="return onlyNumericOrcolon(event)"
+                                                       id="dtReqLoading"
+                                                       class="form-control dtTimer" />
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <div class="form-group row required">
+                                            <label class="col-sm-4 col-form-label" for="dtEstFumIn">Est. Fum. In</label>
+                                            <div class="col-sm-8">
+                                                <input type="text"
+                                                       autocomplete="off"
+                                                       data-required="required"
+                                                       placeholder="MM-DD-YYYY"
+                                                       onkeypress="return onlyNumericOrcolon(event)"
+                                                       id="dtEstFumIn"
+                                                       class="form-control dtTimer" />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <div class="form-group row required">
+                                            <label class="col-sm-4 col-form-label" for="dtRelease">Est. Fum. Release</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" autocomplete="off" data-required="required" placeholder="MM-DD-YYYY" onkeypress="return onlyNumericOrcolon(event)" id="dtRelease" class="form-control dtTimer" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <div class="form-group row required">
+                                            <label class="col-sm-4 col-form-label" for="dtDelEstArrival">Del. Est. Arrival</label>
+                                            <div class="col-sm-8">
+                                                <input type="text"
+                                                       autocomplete="off"
+                                                       data-required="required"
+                                                       placeholder="MM-DD-YYYY"
+                                                       onkeypress="return onlyNumericOrcolon(event)"
+                                                       id="dtDelEstArrival"
+                                                       class="form-control dtTimer" />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 text-right" style="display: flex; width: 100%;justify-content: flex-end;padding: 0;margin-left: -23px;margin-top: 10px;">
+                                    <button type="button" id="btnCopyFum" class="btn green-Btn" style="height: 30px;">Copy Fumigation</button>
+									 <button type="button" id="btnCancelFum" class="btn green-Btn" style="height: 30px;">Cancel</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+	
+	 <div class="modal" role="dialog" id="modalSession">
+     <div class="modal-dialog" role="document">
+         <div class="modal-content">
+             <div class="modal-header prelative">
+
+                 <div class="text-center"> <img src="~/Images/logo-350.png" /></div>
+                 <div class="modal-title text-center fs-18">SESSION EXPIRED</div>
+                 <button type="button" class="close setCorner" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                 </button>
+             </div>
+             <div class="modal-body" style="justify-content: center; align-items: center; display: flex;">
+                 <p id="session_msg" style="margin-bottom: 0;"></p>
+             </div>
+             <div class="modal-footer row m-0">
+                 <div class="col-md-12 text-center">
+                     <button type="button" id="btnOk" class="btn btn-primary" data-dismiss="modal">Sign In </button>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
+
+    @Scripts.Render("~/bundles/MainShipment")
+    @Scripts.Render("~/bundles/MainFumigation")
+</body>
+</html>

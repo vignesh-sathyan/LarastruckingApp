@@ -27,6 +27,7 @@ namespace LarastruckingApp.Repository.IRepository
         FumigationEmailDTO GetCustomerDetail(FumigationEmailDTO fumigationEmailDTO);
         List<GetFumigationRouteDTO> FumigationProofOfDelivery(string fumigationId);
         List<ShipmentStatusDTO> GetStatusList();
+       ShipmentStatusDTO GetDriverStatusList();
         bool ApprovedProofOFTemp(ProofOfTemperatureDTO entity);
         bool ApprovedDamageImage(FumigationDamageImages entity);
 
@@ -66,5 +67,10 @@ namespace LarastruckingApp.Repository.IRepository
         bool FumigationWTReady(int fumigationId, bool ready);
         bool FumigationSTReady(int fumigationId, bool ready);
         bool DeleteComments(FumigationDTO entity);
+
+        int GetOrderTaken();
+        int GetFumigationInProgress();
+
+        CustomerDetailDTO CustomerDetail(int fumigationId);
     }
 }

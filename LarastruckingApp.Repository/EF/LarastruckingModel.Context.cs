@@ -105,6 +105,7 @@ namespace LarastruckingApp.Repository.EF
         public virtual DbSet<tblTermAndCondition> tblTermAndConditions { get; set; }
         public virtual DbSet<tblTimeCard> tblTimeCards { get; set; }
         public virtual DbSet<tblTimeCardCalculation> tblTimeCardCalculations { get; set; }
+        public virtual DbSet<tblIncentiveCardCalculation> tblIncentiveCardCalculations { get; set; }
         public virtual DbSet<tblTimeCardLoan> tblTimeCardLoans { get; set; }
         public virtual DbSet<tblTimeCardlog> tblTimeCardlogs { get; set; }
         public virtual DbSet<tblTrailerRental> tblTrailerRentals { get; set; }

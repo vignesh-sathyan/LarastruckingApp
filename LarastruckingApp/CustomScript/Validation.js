@@ -123,7 +123,7 @@ function validateContact() {
         var $label = $("label[for='" + $element.attr('id') + "']").text();
 
         if (!$.trim($(this).val())) {
-
+			
             $(this).addClass('invalid');
             if ($label != "") {
                 $(this).attr('title', '' + $label + ' is required');

@@ -26,6 +26,7 @@ namespace LarastruckingApp.DAL.Interface
         FumigationEmailDTO GetCustomerDetail(FumigationEmailDTO fumigationEmailDTO);
         List<GetFumigationRouteDTO> FumigationProofOfDelivery(string fumigationId);
         List<ShipmentStatusDTO> GetStatusList();
+       ShipmentStatusDTO GetDriverStatusList();
         bool ApprovedProofOFTemp(ProofOfTemperatureDTO entity);
         bool ApprovedDamageImage(FumigationDamageImages entity);
 
@@ -64,5 +65,9 @@ namespace LarastruckingApp.DAL.Interface
         bool FumigationWTReady(int shipmentId, bool ready);
         bool FumigationSTReady(int shipmentId, bool ready);
         bool DeleteComments(FumigationDTO entity);
+
+        int GetOrderTaken();
+        int GetFumigationInProgress();
+        CustomerDetailDTO CustomerDetail(int fumigationid);
     }
 }
