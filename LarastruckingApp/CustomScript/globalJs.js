@@ -607,10 +607,10 @@ function StatusCheckForShipment(status) {
         PreStatus = '<span class="badge" style="background-color:#ffc000;color:#fff">ARRIVED PU</span>'
     }
 	if ($.trim(status).toLowerCase() == $.trim("ARRIVED AT DELIVERY LOCATION").toLowerCase()) {
-        PreStatus = '<span class="badge" style="background-color:#71d637;color:#fff">ARRIVED DELIVERY</span>'
+        PreStatus = '<span class="badge" style="background-color:#019f3d;color:#fff">ARRIVED DELIVERY</span>'
     }
 	if ($.trim(status).toLowerCase() == $.trim("UNLOADING AT DELIVERY LOCATION").toLowerCase()) {
-        PreStatus = '<span class="badge" style="background-color:#019f3d;color:#fff">UNLOADING</span>'
+        PreStatus = '<span class="badge" style="background-color:#017301;color:#fff">UNLOADING</span>'
     }
     return PreStatus;
 }

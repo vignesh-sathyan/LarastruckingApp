@@ -366,38 +366,38 @@ function GetDriverShipment() {
                     //console.log("DeliveryLocation: ", DeliveryLocation.length);
                     for (let v = 0; v < DeliveryLocation.length; v++) {
                         if (msg[x].Status == "DISPATCHED") {
-                            colorbg = "#bdd7ee";
-                            fontcolor = "#000";
+                            colorbg = "#0095f9";
+                            fontcolor = "#fff";
                         }
                         else if (msg[x].Status =="IN-FUMIGATION") {
-                            colorbg = "#fe9900";
+                            colorbg = "#ff4300";
                             fontcolor = "#fff";
                         }
                         else if (msg[x].Status == "DELIVERED") {
-                            colorbg = "#92d14f";
-                            fontcolor = "#000";
+                            colorbg = "#017301";
+                            fontcolor = "#fff";
                         }
                         else if (msg[x].Status == "IN-ROUTE") {
-                            colorbg = "#fffd01";
+                            colorbg = "#71d637";
                             fontcolor = "#000";
                         }
                         else if (msg[x].Status == "DRIVER ASSIGNED") {
-                            colorbg = "#385687";
+                            colorbg = "#1c2b85";
                             fontcolor = "#fff";
                         }
 						 else if (msg[x].Status == "ARRIVED AT PICK UP LOCATION") {
 							 msg[x].Status = "ARRIVED AT PU";
-                            colorbg = "#fe9900";
+                            colorbg = "#ffc000";
                             fontcolor = "#fff";
                         }
 						 else if (msg[x].Status == "ARRIVED AT DELIVERY LOCATION") {
 							 msg[x].Status = "ARRIVED AT DEL";
-                            colorbg = "#fe9900";
+                            colorbg = "#019f3d";
                             fontcolor = "#fff";
                         }
 						else if (msg[x].Status == "UNLOADING AT DELIVERY LOCATION") {
 							 msg[x].Status = "UNLOADING";
-                            colorbg = "#fe9900";
+                            colorbg = "#017301";
                             fontcolor = "#fff";
                         }
                         else {
