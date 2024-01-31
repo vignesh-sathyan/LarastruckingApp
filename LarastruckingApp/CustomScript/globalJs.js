@@ -74,8 +74,9 @@ function CheckTime() {
         if (showRedirect)
 
             // $("#session_msg").text("Session expired. You will be redirected to login page ");
-            $("#session_msg").text("Your session has expired. Please login again to continue working. ");
-        $('#modalSession').modal('show');
+            $("#session_msg1").text("Your session has expired. Please login again to continue working. ");
+        $('#modalSession1').modal('show');
+        $('#modalSession').modal('hide');
     }
     if (showRedirect == false)
         showRedirect = true;
@@ -881,6 +882,12 @@ function SuccessPopup(message) {
         content: "<b>" + message + "</b>",
         type: 'green',
         typeAnimated: true,
+        buttons: {
+            ok: {
+                text: 'OK',
+                btnClass: 'btn-green',             
+            }
+        },
     });
 }
 

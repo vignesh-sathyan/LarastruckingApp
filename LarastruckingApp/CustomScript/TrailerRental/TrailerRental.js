@@ -586,7 +586,7 @@ function remove_row(index) {
         typeAnimated: true,
         buttons: {
             delete: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function () {
 
                     var trailerDetail = glbTrailerRentalDetail[index];
@@ -597,7 +597,7 @@ function remove_row(index) {
                 }
             },
             cancel: {
-                //btnClass: 'btn-red',
+                btnClass: 'btn-red',
             }
         }
     })
@@ -714,7 +714,7 @@ $("html").unbind().keyup(function (e) {
                             //    window.location.href = baseUrl + "/TrailerRental/TrailerRental/ViewTrailerRental";
                             //}, 1500)
                             $.alert({
-                                title: 'Success!',
+                                title: 'Succes!',
                                 content: "<b>" + response.Message + "</b>",
                                 type: 'green',
                                 typeAnimated: true,
@@ -912,12 +912,13 @@ function ValidateEquipment() {
                     typeAnimated: true,
                     buttons: {
                         confirm: {
-                            btnClass: 'btn-blue',
+                            btnClass: 'btn-green',
                             action: function () {
 
                             }
                         },
                         cancel: {
+                            btnClass: 'btn-red',
                             action: function () {
                                 $("#ddlEquipment").val("");
                             }
@@ -982,12 +983,13 @@ function ValidateDriver(_this) {
                     typeAnimated: true,
                     buttons: {
                         confirm: {
-                            btnClass: 'btn-blue',
+                            btnClass: 'btn-green',
                             action: function () {
 
                             }
                         },
                         cancel: {
+                            btnClass: 'btn-red',
                             action: function () {
                                 $(_this).val("0");
                             }

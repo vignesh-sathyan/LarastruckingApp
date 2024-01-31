@@ -2401,7 +2401,9 @@ div#modalSession .modal-content .modal-header {
 div#modalSession .modal-content p#session_msg {
     font-size: 1rem;
 }
-
+div#modalSession1 .modal-content p#session_msg1 {
+    font-size: 1rem;
+}
 
 @media screen and (max-width: 600px) {
     table#tblPreTripDetails > tbody > tr.child ul.dtr-details > li:last-child {

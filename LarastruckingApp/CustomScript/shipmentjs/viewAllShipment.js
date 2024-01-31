@@ -818,7 +818,7 @@ function DeleteShipment(listId) {
         typeAnimated: true,
         buttons: {
             delete: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function () {
                     $.ajax({
                         url: baseUrl + '/Shipment/Shipment/DeleteShipment',
@@ -854,7 +854,7 @@ function DeleteShipment(listId) {
             },
             cancel: {
 
-                // btnClass: 'btn-red',
+                btnClass: 'btn-red',
             }
         }
     })

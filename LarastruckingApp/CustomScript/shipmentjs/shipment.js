@@ -700,81 +700,87 @@ ddlStatus = function() {
             }
             $.confirm({
                 title: 'Confirm!',
-                content: 'DO YOU WANT TO COMPLETE THIS SHIPMENT NOW?',
-                type: 'green',
+                content: 'Do you want to complete this shipment now?',
+                type: 'blue',
                 typeAnimated: true,
                 buttons: {
-                    confirm: function() {
-                        //$.alert('Confirmed!');
-                        $("#ddlStatus").val(11);
-                        values.StatusId = 11;
-                        $.ajax({
-                            url: baseUrl + "/Shipment/Shipment/EditShipment",
-                            type: "POST",
-                            beforeSend: function() {
-                                const ShipmentEquipmentNdriver = "ShipmentEquipmentNdriver" in values;
-                                console.log("key in: ", ShipmentEquipmentNdriver);
-                                //console.log("Driver in: ", ShipmentEquipmentNdriver.DriverName);
-                                const ddlstatus = $("#ddlStatus option:selected").text();
+                    confirm: {
+                        text: 'Confirm',
+                        btnClass: 'btn-green', 
+                        action: function () {
+                            //$.alert('Confirmed!');
+                            $("#ddlStatus").val(11);
+                            values.StatusId = 11;
+                            $.ajax({
+                                url: baseUrl + "/Shipment/Shipment/EditShipment",
+                                type: "POST",
+                                beforeSend: function () {
+                                    const ShipmentEquipmentNdriver = "ShipmentEquipmentNdriver" in values;
+                                    console.log("key in: ", ShipmentEquipmentNdriver);
+                                    //console.log("Driver in: ", ShipmentEquipmentNdriver.DriverName);
+                                    const ddlstatus = $("#ddlStatus option:selected").text();
 
-                                // const Driver = values.ShipmentEquipmentNdriver[0].DriverName;
-                                // console.log("Driver: " + Driver);
-                                if (ShipmentEquipmentNdriver != false && ShipmentEquipmentNdriver.DriverName != "" && ddlstatus == "DRIVER ASSIGNED") {
-                                    if (DriverName != prevalues.DriverName) {
-                                        SendMessage();
-                                    }
-                                }
-                                //else if (ShipmentEquipmentNdriver != false && prevalues.EquipmentName == "null" && ddlstatus =="DISPATCHED") {
-                                //    SendMessage();
-                                //    console.log("Driver Assigned");
-                                //}
-                                else {
-                                    //console.log("Driver Not Assigned ");
-                                }
-
-
-                                showLoader();
-
-                            },
-                            data: JSON.stringify(values),
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-
-                            success: function(response) {
-                                isNeedToloaded = false;
-                                hideLoader();
-                                if (response.IsSuccess) {
-
-                                    $.alert({
-                                        title: 'Success!',
-                                        content: "<b>" + response.Message + "</b>",
-                                        type: 'green',
-                                        typeAnimated: true,
-                                        buttons: {
-                                            Ok: {
-                                                btnClass: 'btn-green',
-                                                action: function() {
-
-                                                    window.location.href = baseUrl + "/Shipment/Shipment/ViewShipmentList";
-                                                }
-                                            },
+                                    // const Driver = values.ShipmentEquipmentNdriver[0].DriverName;
+                                    // console.log("Driver: " + Driver);
+                                    if (ShipmentEquipmentNdriver != false && ShipmentEquipmentNdriver.DriverName != "" && ddlstatus == "DRIVER ASSIGNED") {
+                                        if (DriverName != prevalues.DriverName) {
+                                            SendMessage();
                                         }
-                                    });
-                                } else {
+                                    }
+                                    //else if (ShipmentEquipmentNdriver != false && prevalues.EquipmentName == "null" && ddlstatus =="DISPATCHED") {
+                                    //    SendMessage();
+                                    //    console.log("Driver Assigned");
+                                    //}
+                                    else {
+                                        //console.log("Driver Not Assigned ");
+                                    }
+
+
+                                    showLoader();
+
+                                },
+                                data: JSON.stringify(values),
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+
+                                success: function (response) {
+                                    isNeedToloaded = false;
                                     hideLoader();
-                                    AlertPopup(response.Message);
+                                    if (response.IsSuccess) {
+
+                                        $.alert({
+                                            title: 'Success!',
+                                            content: "<b>" + response.Message + "</b>",
+                                            type: 'green',
+                                            typeAnimated: true,
+                                            buttons: {
+                                                Ok: {
+                                                    btnClass: 'btn-green',
+                                                    action: function () {
+
+                                                        window.location.href = baseUrl + "/Shipment/Shipment/ViewShipmentList";
+                                                    }
+                                                },
+                                            }
+                                        });
+                                    } else {
+                                        hideLoader();
+                                        AlertPopup(response.Message);
+                                    }
+                                },
+                                error: function () {
+                                    hideLoader();
+                                    AlertPopup("Something went wrong.");
                                 }
-                            },
-                            error: function() {
-                                hideLoader();
-                                AlertPopup("Something went wrong.");
-                            }
-                        });
-
+                            });
+                        }
                     },
-                    cancel: function() {
-                        /// $.alert('Canceled!');
-
+                    cancel: {
+                        text: 'Cancel',
+                        btnClass: 'btn-red',
+                        action: function () {
+                            /// $.alert('Canceled!');
+                        }
                     },
 
                 }
@@ -1460,11 +1466,11 @@ btnApprovedShipment = function() {
             $.confirm({
                 title: 'Confirmation!',
                 content: '<b>Are you sure you want to approve?</b> ',
-                type: 'red',
+                type: 'blue',
                 typeAnimated: true,
                 buttons: {
                     confirm: {
-                        btnClass: 'btn-blue',
+                        btnClass: 'btn-green',
                         action: function() {
                             var values = {};
                             values.ShipmentId = $("#hdnShipmentId").val();
@@ -1511,7 +1517,7 @@ btnApprovedShipment = function() {
                         }
                     },
                     cancel: {
-                        //btnClass: 'btn-red',
+                        btnClass: 'btn-red',
                     }
                 }
             })
@@ -1981,11 +1987,11 @@ var btnAddRouteStop = function() {
                                             $.confirm({
                                                 title: 'Confirmation!',
                                                 content: '<b>Driver and equipment selections will be lost if you add route details to this shipment.</b> ',
-                                                type: 'red',
+                                                type: 'blue',
                                                 typeAnimated: true,
                                                 buttons: {
                                                     confirm: {
-                                                        btnClass: 'btn-blue',
+                                                        btnClass: 'btn-green',
                                                         action: function() {
                                                             addRouteStops();
                                                             clearDriverNEquipment();
@@ -1993,7 +1999,7 @@ var btnAddRouteStop = function() {
                                                         }
                                                     },
                                                     cancel: {
-                                                        //btnClass: 'btn-red',
+                                                        btnClass: 'btn-red',
                                                     }
                                                 }
                                             })
@@ -2018,17 +2024,17 @@ var btnAddRouteStop = function() {
                                         $.confirm({
                                             title: 'Confirmation!',
                                             content: '<b>Quote not available for ' + $("#ddlCustomer").text() + ' / location. Do you want to continue?</b> ',
-                                            type: 'red',
+                                            type: 'blue',
                                             typeAnimated: true,
                                             buttons: {
                                                 continue: {
-                                                    btnClass: 'btn-blue',
+                                                    btnClass: 'btn-green',
                                                     action: function() {
                                                         if ($("#hdnShipmentId").val() > 0) {
                                                             $.confirm({
                                                                 title: 'Confirmation!',
                                                                 content: '<b>Driver and equipment selections will be lost if you add route details to this shipment.</b> ',
-                                                                type: 'red',
+                                                                type: 'blue',
                                                                 typeAnimated: true,
                                                                 buttons: {
                                                                     confirm: {
@@ -2040,7 +2046,7 @@ var btnAddRouteStop = function() {
                                                                         }
                                                                     },
                                                                     cancel: {
-                                                                        //btnClass: 'btn-red',
+                                                                        btnClass: 'btn-red',
                                                                     }
                                                                 }
                                                             })
@@ -2055,7 +2061,7 @@ var btnAddRouteStop = function() {
                                                     }
                                                 },
                                                 cancel: {
-                                                    //btnClass: 'btn-red',
+                                                    btnClass: 'btn-red',
                                                 }
                                             }
                                         })
@@ -2065,7 +2071,7 @@ var btnAddRouteStop = function() {
                                 AlertPopup("Please select a Delivery Location.")
                             }
                         } else {
-                            AlertPopup("Please select a Pickup Location.")
+                            AlertPopup("Please select a Pick Up Location.")
                         }
 
                     }
@@ -2099,11 +2105,11 @@ var btnAddRoundTrip = function() {
                                         $.confirm({
                                             title: 'Confirmation!',
                                             content: '<b>Driver and equipment selections will be lost if you add route details to this shipment.</b> ',
-                                            type: 'red',
+                                            type: 'blue',
                                             typeAnimated: true,
                                             buttons: {
                                                 confirm: {
-                                                    btnClass: 'btn-blue',
+                                                    btnClass: 'btn-green',
                                                     action: function() {
                                                         AddRoundTrip();
                                                         clearDriverNEquipment();
@@ -2129,22 +2135,22 @@ var btnAddRoundTrip = function() {
                                     $.confirm({
                                         title: 'Confirmation!',
                                         content: '<b>Quote not available for ' + $("#ddlCustomer").text() + ' / location. Do you want to continue?</b> ',
-                                        type: 'red',
+                                        type: 'blue',
                                         typeAnimated: true,
                                         buttons: {
                                             continue: {
-                                                btnClass: 'btn-blue',
+                                                btnClass: 'btn-green',
                                                 action: function() {
                                                     if ($("#hdnShipmentId").val() > 0) {
 
                                                         $.confirm({
                                                             title: 'Confirmation!',
                                                             content: '<b>Driver and equipment selections will be lost if you add route details to this shipment.</b> ',
-                                                            type: 'red',
+                                                            type: 'blue',
                                                             typeAnimated: true,
                                                             buttons: {
                                                                 confirm: {
-                                                                    btnClass: 'btn-blue',
+                                                                    btnClass: 'btn-green',
                                                                     action: function() {
                                                                         AddRoundTrip();
                                                                         clearDriverNEquipment();
@@ -2152,7 +2158,7 @@ var btnAddRoundTrip = function() {
                                                                     }
                                                                 },
                                                                 cancel: {
-                                                                    //btnClass: 'btn-red',
+                                                                    btnClass: 'btn-red',
                                                                 }
                                                             }
                                                         })
@@ -2167,7 +2173,7 @@ var btnAddRoundTrip = function() {
                                                 }
                                             },
                                             cancel: {
-                                                //btnClass: 'btn-red',
+                                                btnClass: 'btn-red',
                                             }
                                         }
                                     })
@@ -2728,7 +2734,7 @@ function remove_row_from_route(_this) {
         typeAnimated: true,
         buttons: {
             delete: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function() {
                     row = $(_this).closest("tr");
                     var deletedrow = $(row).find("input[name='rdSelectedRoute']").val();
@@ -2769,7 +2775,7 @@ function remove_row_from_route(_this) {
                 }
             },
             cancel: {
-                //btnClass: 'btn-red',
+                btnClass: 'btn-red',
             }
         }
     })
@@ -3250,7 +3256,7 @@ function remove_row_from_shipment(index) {
         typeAnimated: true,
         buttons: {
             delete: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function() {
                     //Remove freight detail by id 
 
@@ -3260,7 +3266,7 @@ function remove_row_from_shipment(index) {
                 }
             },
             cancel: {
-                //btnClass: 'btn-red',
+                btnClass: 'btn-red',
             }
         }
     })
@@ -4250,7 +4256,7 @@ function remove_damage_document_row(_this, damageId) {
         typeAnimated: true,
         buttons: {
             delete: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function() {
                     $.ajax({
                         url: baseUrl + 'Shipment/Shipment/DeleteDamageImage',
@@ -4275,7 +4281,7 @@ function remove_damage_document_row(_this, damageId) {
                 }
             },
             cancel: {
-                //btnClass: 'btn-red',
+                btnClass: 'btn-red',
             }
         }
     })
@@ -4474,8 +4480,8 @@ var btnProofOfTemp = function() {
                                 success: function(data, textStatus, jqXHR) {
                                     if (data.IsSuccess == true) {
                                         $.alert({
-                                            title: 'Mail Sent!',
-                                            content: "<b>Email sent to Customer.</b>",
+                                            title: 'Success!',
+                                            content: "<b>Email has been sent to the customer.</b>",
                                             type: 'green',
                                             typeAnimated: true,
                                             buttons: {
@@ -4563,7 +4569,7 @@ function remove_proofOfTemp_row(_this, proofOfTemp) {
         typeAnimated: true,
         buttons: {
             delete: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function() {
                     $.ajax({
                         url: baseUrl + 'Shipment/Shipment/DeleteProofOfTemprature',
@@ -4588,7 +4594,7 @@ function remove_proofOfTemp_row(_this, proofOfTemp) {
                 }
             },
             cancel: {
-                //btnClass: 'btn-red',
+                btnClass: 'btn-red',
             }
         }
     })
@@ -4992,11 +4998,11 @@ btnDamageDocument = function() {
         $.confirm({
             title: 'Confirmation!',
             content: '<b>Are you sure want to approve this image?</b> ',
-            type: 'red',
+            type: 'blue',
             typeAnimated: true,
             buttons: {
                 confirm: {
-                    btnClass: 'btn-blue',
+                    btnClass: 'btn-green',
                     action: function() {
 
                         var damageId = $("#damageDocumentId").val();
@@ -5029,7 +5035,7 @@ btnDamageDocument = function() {
                     }
                 },
                 cancel: {
-                    //btnClass: 'btn-red',
+                    btnClass: 'btn-red',
                 }
             }
         })
@@ -5045,11 +5051,11 @@ btnApprovedProofOfTemp = function() {
         $.confirm({
             title: 'Confirmation!',
             content: '<b>Are you sure want to approve this image?</b> ',
-            type: 'red',
+            type: 'blue',
             typeAnimated: true,
             buttons: {
                 confirm: {
-                    btnClass: 'btn-blue',
+                    btnClass: 'btn-green',
                     action: function() {
 
                         var tempId = $("#proofOfTempratureId").val();
@@ -5083,7 +5089,7 @@ btnApprovedProofOfTemp = function() {
                     }
                 },
                 cancel: {
-                    //btnClass: 'btn-red',
+                    btnClass: 'btn-red',
                 }
             }
         })

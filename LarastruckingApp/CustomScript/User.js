@@ -255,7 +255,7 @@ function UserDelete(listId) {
         typeAnimated: true,
         buttons: {
             confirm: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function () {
                     $.ajax({
                         url: baseUrl + '/User/Delete',
@@ -279,7 +279,7 @@ function UserDelete(listId) {
                 }
             },
             cancel: {
-                //btnClass: 'btn-red',
+                btnClass: 'btn-red',
             }
         }
     })

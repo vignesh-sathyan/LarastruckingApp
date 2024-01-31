@@ -175,7 +175,7 @@ function DeleteVendor(listId) {
                 }
             },
             cancel: {
-                //btnClass: 'btn-red',
+                btnClass: 'btn-red',
             }
         }
     })

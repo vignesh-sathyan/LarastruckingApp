@@ -151,10 +151,10 @@
     <value>Username already exists!</value>
   </data>
   <data name="DataSaveSuccessfully" xml:space="preserve">
-    <value>Success! Your data has been saved!</value>
+    <value>Your data has been saved!</value>
   </data>
   <data name="DataUpdateSuccessfully" xml:space="preserve">
-    <value>Success! Your data has been updated!</value>
+    <value>Your data has been updated!</value>
   </data>
   <data name="msgAddDriver" xml:space="preserve">
     <value>Driver Successfully Added.</value>
@@ -199,7 +199,7 @@
     <value>Error Occured</value>
   </data>
   <data name="DataDeleteSuccessfully" xml:space="preserve">
-    <value>Success! Your data has been deleted!</value>
+    <value>Your data has been deleted!</value>
   </data>
   <data name="EnterRegisteredUserName" xml:space="preserve">
     <value>Please enter a registered email.</value>

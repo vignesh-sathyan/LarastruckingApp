@@ -629,7 +629,7 @@ function CopyShipment(ShipmentId) {
         typeAnimated: true,
         buttons: {
             Copy: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function () {
 
                     // bindCustomerDropdownCopy();
@@ -674,7 +674,7 @@ function CopyShipment(ShipmentId) {
                 }
             },
             cancel: {
-                //btnClass: 'btn-red',
+                btnClass: 'btn-red',
             }
         }
     })
@@ -1534,7 +1534,7 @@ function DeleteShipment(listId) {
         typeAnimated: true,
         buttons: {
             delete: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function () {
                     $.ajax({
                         url: baseUrl + '/Shipment/Shipment/DeleteShipment',
@@ -1573,7 +1573,7 @@ function DeleteShipment(listId) {
             },
             cancel: {
 
-                // btnClass: 'btn-red',
+                btnClass: 'btn-red',
             }
         }
     })
@@ -1606,7 +1606,7 @@ function DeleteComments(listId,news) {
         typeAnimated: true,
         buttons: {
             delete: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function () {
 
                     var $parent = $(this).parent();
@@ -1651,7 +1651,7 @@ function DeleteComments(listId,news) {
             },
             cancel: {
 
-                // btnClass: 'btn-red',
+                 btnClass: 'btn-red',
             }
         }
     })
@@ -1864,7 +1864,7 @@ function ShipmenetIsReady(shipmentId, event) {
         contentType: "application/json; charset=utf-8",
         success: function (data) {
             if (data && isReady) {
-                SuccessPopup("Shipment is now ready state.")
+                SuccessPopup("Shipment is now flagged as ready")
             }
             else {
                 SuccessPopup("Shipment is now not ready state.")
@@ -1892,7 +1892,7 @@ function ShipmenetWTReady(shipmentId, event) {
                // SuccessPopup("Extended Waiting Time advised to Customer!")
                 $.alert({
                     title: 'Success!',
-                    content: "<b>Extended Waiting Time advised to Customer!</b>",
+                    content: "<b>Extended Waiting Time advised to Customer</b>",
                     type: 'green',
                     typeAnimated: true,
                     buttons: {
@@ -1909,7 +1909,7 @@ function ShipmenetWTReady(shipmentId, event) {
                 //SuccessPopup("Extended Waiting Time not advised to Customer!")
                 $.alert({
                     title: 'Success!',
-                    content: "<b>Extended Waiting Time not advised to Customer!</b>",
+                    content: "<b>Extended Waiting Time not advised to Customer</b>",
                     type: 'green',
                     typeAnimated: true,
                     buttons: {

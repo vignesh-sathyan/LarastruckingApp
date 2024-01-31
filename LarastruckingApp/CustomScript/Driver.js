@@ -60,16 +60,17 @@ $("#chkIsActive").on('change', function () {
            $.confirm({
             title: 'Confirmation!',
                content: '<b>Are you sure you want to make this driver active?</b> ',
-            type: 'red',
+            type: 'blue',
             typeAnimated: true,
             buttons: {
                 Active: {
-                    btnClass: 'btn-blue',
+                    btnClass: 'btn-green',
                     action: function () {
                         $("#chkIsActive").prop("checked", true);
                     }
                 },
                 cancel: {
+                    btnClass: 'btn-red',
                     action: function () {
                         $("#chkIsActive").prop("checked", false);
                     }
@@ -82,16 +83,17 @@ $("#chkIsActive").on('change', function () {
         $.confirm({
             title: 'Confirmation!',
             content: '<b>Are you sure you want to make this driver inactive?</b> ',
-            type: 'red',
+            type: 'blue',
             typeAnimated: true,
             buttons: {
                 InActive: {
-                    btnClass: 'btn-blue',
+                    btnClass: 'btn-green',
                     action: function () {
                         $("#chkIsActive").prop("checked", false);
                     }
                 },
                 cancel: {
+                    btnClass: 'btn-red',
                     action: function () {
                         $("#chkIsActive").prop("checked", true);
                     }
@@ -392,7 +394,7 @@ function remove_row(_this, documentId) {
         typeAnimated: true,
         buttons: {
             delete: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function () {
                     $.ajax({
                         url: baseUrl + 'Driver/DeletetDriverDocument',
@@ -434,7 +436,7 @@ function remove_row(_this, documentId) {
                 }
             },
             cancel: {
-                //btnClass: 'btn-red',
+                btnClass: 'btn-red',
             }
         }
     })
@@ -549,10 +551,10 @@ function SaveDrierDetail() {
     }
     //if ($("form").valid()) {
     var urlpath = baseUrl + "/Driver/Index"
-	var message = "Success! Your data has been saved successfully!";
+	var message = "Your data has been saved successfully!";
     if (values.DriverId > 0) {
         urlpath = baseUrl + "/Driver/UpdateDriver";
-		message = "Success! Your data has been updated!";
+		message = "Your data has been updated.";
     }
 	if($.trim($('#txtFirstName').val())!="" && $.trim($("#txtLastName").val())!=""  && $.trim($("#txtCitizenShip").val())!="" && $.trim($("#txtAddress1").val())!="" && $.trim($("#txtCity").val())!=""  && $.trim($("#txtZipCode").val())!=""  && $.trim($("#txtPhone").val())!=""  && $.trim($("#txtEmailId").val())!="" && $.trim($("#txtMedicalConditions").val())!="" && $.trim($("#txtEmergencyContactOne").val())!="" && $.trim($("#txtEmergencyPhoneNoOne").val())!="" && $.trim($("#RelationshipStatus1").val())!=""){
 		/* if(!$("#txtPhone").val().match(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/)){
@@ -678,7 +680,7 @@ function CheckImageExtension() {
 
         $.alert({
             title: 'Alert!',
-            content: '<b>Please click on Save button to save this Driver detail into database.Then you can upload file!</b>',
+            content: '<b>Please click on Save button to save this Driver detail into database.Then you can upload file.</b>',
             type: 'blue',
             typeAnimated: true,
         });

@@ -205,7 +205,7 @@ function DeleteTrailerRental(listId) {
         typeAnimated: true,
         buttons: {
             delete: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function () {
                     $.ajax({
                         url: baseUrl + '/TrailerRental/TrailerRental/DeleteTrailerRental',
@@ -229,7 +229,7 @@ function DeleteTrailerRental(listId) {
             },
             cancel: {
 
-                // btnClass: 'btn-red',
+                btnClass: 'btn-red',
             }
         }
     })
