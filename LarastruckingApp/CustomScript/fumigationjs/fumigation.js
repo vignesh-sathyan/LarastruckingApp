@@ -876,11 +876,14 @@ ddlStatus = function () {
             var prevalues = GetValues();
             $.confirm({
                 title: 'Confirm!',
-                content: 'DO YOU WANT TO COMPLETE THIS FUMIGATION NOW?',
-                type: 'green',
+                content: 'Do you want to complete this fumication now?',
+                type: 'blue',
                 typeAnimated: true,
                 buttons: {
-                    confirm: function () {
+                    confirm: {
+                      text: 'Confirm',
+                      btnClass: 'btn-green', 
+                      action: function () {
                         //$.alert('Confirmed!');
                         $("#ddlStatus").val(11);
                         values.StatusId = 11;
@@ -961,13 +964,16 @@ ddlStatus = function () {
 
                             }
                         });
-
+                      }
                     },
-                    cancel: function () {
-                        /// $.alert('Canceled!');
+                    cancel: {
+                        text: 'Cancel',
+                        btnClass: 'btn-red',
+                        cancel: function () {
+                            /// $.alert('Canceled!');
 
-                    },
-
+                        },
+                    }
                 }
             });
         }
@@ -2295,6 +2301,12 @@ function AddRouteStops() {
             content: "<b>Your data has successfully been added to your shipment.<br/>  Don't forget to click on the Submit button to save all changes.</b>",
             type: 'green',
             typeAnimated: true,
+            buttons: {
+                ok: {
+                    text: 'OK',
+                    btnClass: 'btn-success',
+                }
+            },
         });
     }
     bindLocation();
@@ -2588,7 +2600,7 @@ function remove_row_from_route(_this) {
         typeAnimated: true,
         buttons: {
             delete: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function () {
                     row = $(_this).closest("tr");
                     var deletedrow = $(row).find("input[name='rdSelectedRoute']").val();// $(row).find("label[name='rdSelectedRoute']").text();
@@ -2599,7 +2611,7 @@ function remove_row_from_route(_this) {
                 }
             },
             cancel: {
-                //btnClass: 'btn-red',
+                btnClass: 'btn-red',
             }
         }
     })
@@ -4753,8 +4765,8 @@ var btnProofOfTemp = function () {
 
                                             $.alert({
 
-                                                title: 'Mail Sent!',
-                                                content: "<b>Email sent to Customer.</b>",
+                                                title: 'Success!',
+                                                content: "<b>Email has been sent to the customer.</b>",
                                                 type: 'green',
                                                 typeAnimated: true,
                                                 buttons: {
@@ -4853,7 +4865,7 @@ function remove_proofOfTemp_row(_this, proofOfTemp) {
         typeAnimated: true,
         buttons: {
             delete: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function () {
                     $.ajax({
                         url: baseUrl + 'Fumigation/Fumigation/DeleteProofOfTemprature',
@@ -4876,7 +4888,7 @@ function remove_proofOfTemp_row(_this, proofOfTemp) {
                 }
             },
             cancel: {
-                //btnClass: 'btn-red',
+                btnClass: 'btn-red',
             }
         }
     })
@@ -5005,7 +5017,7 @@ function remove_damage_document_row(_this, damageId) {
         typeAnimated: true,
         buttons: {
             delete: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function () {
                     $.ajax({
                         url: baseUrl + 'Fumigation/Fumigation/DeleteDamageImage',
@@ -5028,7 +5040,7 @@ function remove_damage_document_row(_this, damageId) {
                 }
             },
             cancel: {
-                //btnClass: 'btn-red',
+                btnClass: 'btn-red',
             }
         }
     })
@@ -5196,11 +5208,11 @@ btnApprovedFumigation = function () {
                 $.confirm({
                     title: 'Confirmation!',
                     content: '<b>Are you sure you want to approve?</b> ',
-                    type: 'red',
+                    type: 'blue',
                     typeAnimated: true,
                     buttons: {
                         confirm: {
-                            btnClass: 'btn-blue',
+                            btnClass: 'btn-green',
                             action: function () {
                                 var values = {};
                                 values.FumigationId = $("#hdnfumigationId").val();
@@ -5255,7 +5267,7 @@ btnApprovedFumigation = function () {
                             }
                         },
                         cancel: {
-                            //btnClass: 'btn-red',
+                            btnClass: 'btn-red',
                         }
                     }
                 })
@@ -5275,11 +5287,11 @@ btnDamageDocument = function () {
         $.confirm({
             title: 'Confirmation!',
             content: '<b>Are you sure want to approve this image?</b> ',
-            type: 'red',
+            type: 'blue',
             typeAnimated: true,
             buttons: {
                 confirm: {
-                    btnClass: 'btn-blue',
+                    btnClass: 'btn-green',
                     action: function () {
 
                         var damageId = $("#damageDocumentId").val();
@@ -5311,7 +5323,7 @@ btnDamageDocument = function () {
                     }
                 },
                 cancel: {
-                    //btnClass: 'btn-red',
+                    btnClass: 'btn-red',
                 }
             }
         })
@@ -5327,11 +5339,11 @@ btnApprovedProofOfTemp = function () {
         $.confirm({
             title: 'Confirmation!',
             content: '<b>Are you sure want to approve this image?</b> ',
-            type: 'red',
+            type: 'blue',
             typeAnimated: true,
             buttons: {
                 confirm: {
-                    btnClass: 'btn-blue',
+                    btnClass: 'btn-green',
                     action: function () {
 
                         var tempId = $("#proofOfTempratureId").val();
@@ -5380,7 +5392,7 @@ btnApprovedProofOfTemp = function () {
                     }
                 },
                 cancel: {
-                    //btnClass: 'btn-red',
+                    btnClass: 'btn-red',
                 }
             }
         })

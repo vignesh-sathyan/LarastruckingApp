@@ -490,7 +490,7 @@ function remove_row_from_route(_this) {
         typeAnimated: true,
         buttons: {
             delete: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function () {
                     
                     row = $(_this).closest("tr");
@@ -534,7 +534,7 @@ function remove_row_from_route(_this) {
                 }
             },
             cancel: {
-                //btnClass: 'btn-red',
+                btnClass: 'btn-red',
             }
         }
     })
@@ -900,7 +900,7 @@ function remove_row_from_shipment(index) {
         typeAnimated: true,
         buttons: {
             delete: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function () {
                     //Remove freight detail by id 
                     glbFreightDetail.splice(index, 1);
@@ -918,7 +918,7 @@ function remove_row_from_shipment(index) {
                 }
             },
             cancel: {
-                //btnClass: 'btn-red',
+                btnClass: 'btn-red',
             }
         }
     })

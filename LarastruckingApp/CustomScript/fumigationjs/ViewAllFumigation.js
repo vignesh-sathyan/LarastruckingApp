@@ -1402,7 +1402,7 @@ function CopyFumigation(FumigationId) {
         typeAnimated: true,
         buttons: {
             Copy: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function () {
                     $("#fumigationModal").modal("show");
                     $('#fumigationModal').draggable();
@@ -1447,7 +1447,7 @@ function CopyFumigation(FumigationId) {
             },
             cancel: {
 
-                // btnClass: 'btn-red',
+                 btnClass: 'btn-red',
             }
         }
     })
@@ -1663,7 +1663,7 @@ function DeleteFumigation(listId) {
         typeAnimated: true,
         buttons: {
             delete: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function () {
                     $.ajax({
                         url: baseUrl + '/Fumigation/Fumigation/DeleteFumigation',
@@ -1687,7 +1687,7 @@ function DeleteFumigation(listId) {
             },
             cancel: {
 
-                // btnClass: 'btn-red',
+                 btnClass: 'btn-red',
             }
         }
     })

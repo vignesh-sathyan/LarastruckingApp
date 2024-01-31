@@ -1234,7 +1234,7 @@ function btnCaculate() {
         typeAnimated: true,
         buttons: {
             OK: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function () {
                     saveAllTime();
                     SaveTimeCardAmount();
@@ -1279,7 +1279,7 @@ function SaveTimeCardAmount() {
         success: function (data) {
             if (data == true) {
                 //console.log("data: ", JSON.stringify(values));
-                SuccessPopup("Success! Your data has been saved!");
+                SuccessPopup("Your data has been saved!");
             }
         }
     });
@@ -1632,7 +1632,7 @@ function btnSendEmail() {
                 dataType: 'json',
                 success: function (data) {
                     // $("#btnClose").click();
-                    SuccessPopup("Success! Your data has been sent!");
+                    SuccessPopup("Your data has been sent!");
                     $('.modal-backdrop').hide();
                     $('#modalEmail').hide();
                     $(".dvloader").css("display", "none");

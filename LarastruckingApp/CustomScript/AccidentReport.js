@@ -540,7 +540,7 @@ function remove_row(_this, documentId) {
         typeAnimated: true,
         buttons: {
             delete: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function () {
                     $.ajax({
                         url: baseUrl + 'AccidentReport/DeleteAccidentDocument',
@@ -569,7 +569,7 @@ function remove_row(_this, documentId) {
                 }
             },
             cancel: {
-                //btnClass: 'btn-red',
+                btnClass: 'btn-red',
             }
         }
     })

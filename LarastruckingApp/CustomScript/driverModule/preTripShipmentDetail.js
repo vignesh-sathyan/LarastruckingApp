@@ -150,12 +150,12 @@ var btnSave = function () {
                     if ($("#txtActualPickupDepart").val() != "" && $("#txtActualPickupDepart").val() != undefined) {
                         $.confirm({
                             title: 'Confirmation!',
-                            content: 'Remember to attach the appropriate seals to your equipment before leaving!',
+                            content: 'Remember to attach the appropriate seals to your equipment before leaving',
                             type: 'blue',
                             typeAnimated: true,
                             buttons: {
                                 OK: {
-                                    btnClass: 'btn-blue',
+                                    btnClass: 'btn-green',
                                     action: function () {
                                         saveShipmentDetail();
                                     }

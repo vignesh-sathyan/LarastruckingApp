@@ -332,7 +332,7 @@ function deleteRow(index) {
         typeAnimated: true,
         buttons: {
             delete: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function () {
                     
                     glbShipmentData.splice(index, 1);
@@ -342,7 +342,7 @@ function deleteRow(index) {
             },
             cancel: {
 
-                // btnClass: 'btn-red',
+                 btnClass: 'btn-red',
             }
         }
     })}
@@ -808,11 +808,11 @@ $("#btnUpdate").click(function () {
 $("#btnClear").click(function () {    $.confirm({
         title: 'Confirmation!',
         content: '<b>Do you want to clear grid.</b> ',
-        type: 'red',
+        type: 'blue',
         typeAnimated: true,
         buttons: {
             clear: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function () {
                     isNeedToloaded = false;
                     window.location.href = baseUrl + 'Shipment/UploadShipment/Index';
@@ -821,7 +821,7 @@ $("#btnClear").click(function () {    $.confirm({
             },
             cancel: {
 
-                // btnClass: 'btn-red',
+                 btnClass: 'btn-red',
             }
         }
 })    
@@ -980,11 +980,11 @@ function CheckFileName(_this) {
                 $.confirm({
                     title: 'Confirmation!',
                     content: '<b>Your file name already exists in the database. Are you sure you want to continue?</b> ',
-                    type: 'red',
+                    type: 'blue',
                     typeAnimated: true,
                     buttons: {
                         Continue: {
-                            btnClass: 'btn-blue',
+                            btnClass: 'btn-green',
                             action: function () {
                                 
 
@@ -996,7 +996,7 @@ function CheckFileName(_this) {
                                 
                                 $("#flUploadShipment").val("");
                             }
-                            // btnClass: 'btn-red',
+                             btnClass: 'btn-red',
                         }
                     }
                 })

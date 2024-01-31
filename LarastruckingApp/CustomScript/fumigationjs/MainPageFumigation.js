@@ -2486,7 +2486,7 @@ function CopyFumigation(FumigationId) {
         typeAnimated: true,
         buttons: {
             Copy: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function () {
                     $("#fumigationModal").modal("show");
                     $('#fumigationModal').draggable();
@@ -2532,7 +2532,7 @@ function CopyFumigation(FumigationId) {
             },
             cancel: {
 
-                // btnClass: 'btn-red',
+                btnClass: 'btn-red',
             }
         }
     })
@@ -2760,7 +2760,7 @@ function DeleteFumigation(listId) {
         typeAnimated: true,
         buttons: {
             delete: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function () {
                     $.ajax({
                         url: baseUrl + '/Fumigation/Fumigation/DeleteFumigation',
@@ -2784,7 +2784,7 @@ function DeleteFumigation(listId) {
             },
             cancel: {
 
-                // btnClass: 'btn-red',
+                btnClass: 'btn-red',
             }
         }
     })
@@ -2810,7 +2810,7 @@ function FumigationWTReady(fumigationId, event) {
                 //SuccessPopup("Extended Waiting Time advised to Customer!")
                 $.alert({
                     title: 'Success!',
-                    content: "<b>Extended Waiting Time advised to Customer!</b>",
+                    content: "<b>Extended Waiting Time advised to Customer.</b>",
                     type: 'green',
                     typeAnimated: true,
                     buttons: {
@@ -2827,7 +2827,7 @@ function FumigationWTReady(fumigationId, event) {
                 //SuccessPopup("Extended Waiting Time not advised to Customer!")
                 $.alert({
                     title: 'Success!',
-                    content: "<b>Extended Waiting Time not advised to Customer!</b>",
+                    content: "<b>Extended Waiting Time not advised to Customer.</b>",
                     type: 'green',
                     typeAnimated: true,
                     buttons: {
@@ -2867,7 +2867,7 @@ function FumigationSTReady(fumigationId, event) {
                 //SuccessPopup("Fumigation in Storage!")
                 $.alert({
                     title: 'Success!',
-                    content: "<b>Fumigation in Storage!</b>",
+                    content: "<b>Fumigation in Storage.</b>",
                     type: 'green',
                     typeAnimated: true,
                     buttons: {
@@ -2884,7 +2884,7 @@ function FumigationSTReady(fumigationId, event) {
                 //SuccessPopup("Fumigation is not in Storage!")
                 $.alert({
                     title: 'Success!',
-                    content: "<b>Fumigation is not in Storage!</b>",
+                    content: "<b>Fumigation is not in Storage.</b>",
                     type: 'green',
                     typeAnimated: true,
                     buttons: {
@@ -2914,7 +2914,7 @@ function DeleteComments(listId,news) {
         typeAnimated: true,
         buttons: {
             delete: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function () {
 
                     var $parent = $(this).parent();
@@ -2958,7 +2958,7 @@ function DeleteComments(listId,news) {
             },
             cancel: {
 
-                // btnClass: 'btn-red',
+                btnClass: 'btn-red',
             }
         }
     })

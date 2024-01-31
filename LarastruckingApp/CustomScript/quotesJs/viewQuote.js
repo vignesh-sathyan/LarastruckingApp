@@ -137,11 +137,11 @@ function QuoteDelete(listId) {
     $.confirm({
         title: 'Confirmation!',
         content: "<b>Are you sure you want to Delete ?</b> ",
-        type: 'red',
+        type: 'blue',
         typeAnimated: true,
         buttons: {
             delete: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function () {
                     $.ajax({
                         url: baseUrl + '/Quote/Quote/DeleteQuote',
@@ -167,7 +167,7 @@ function QuoteDelete(listId) {
                 }
             },
             cancel: {
-                //btnClass: 'btn-red',
+                btnClass: 'btn-red',
             }
         }
     })
@@ -179,11 +179,11 @@ function SendMail(quoteid) {
     $.confirm({
         title: 'Confirmation!',
         content: "<b>Please preview the Quote before sending it.</b> ",
-        type: 'dark',
+        type: 'blue',
         typeAnimated: true,
         buttons: {
             Continue: {
-                btnClass: 'btn-blue',
+                btnClass: 'btn-green',
                 action: function () {
 
                     $.ajax({
@@ -214,7 +214,7 @@ function SendMail(quoteid) {
                 }
             },
             cancel: {
-                //btnClass: 'btn-red',
+                btnClass: 'btn-red',
             }
         }
     })
